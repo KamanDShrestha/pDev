@@ -17,6 +17,7 @@ import { Input } from '../components/ui/input';
 import InputFieldLabel from '../components/InputFieldLabel';
 import { Button } from '../components/ui/button';
 import ErrorMessage from '../components/ErrorMessage';
+import { NavLink } from 'react-router-dom';
 
 const Login = () => {
   const {
@@ -104,7 +105,17 @@ const Login = () => {
             </div>
           </form>
         </CardContent>
-        <CardFooter></CardFooter>
+        <CardFooter>
+          <span className='text-xs'>
+            Don't have an account?{' '}
+            <NavLink
+              to={'/register'}
+              className='text-slate-500 hover:text-slate-700'
+            >
+              Register
+            </NavLink>
+          </span>
+        </CardFooter>
       </Card>
     </div>
   );
