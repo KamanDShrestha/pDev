@@ -53,15 +53,24 @@ const Login = () => {
             Login to your account to get started
           </CardDescription>
         </CardHeader>
-        <CardContent className='space-y-3'>
-          <GoogleLogin
-            onSuccess={handleGoogleAuthSuccess}
-            onError={() => {
-              console.log('Login Failed');
-            }}
-          />
+        <CardContent>
+          <div className='flex flex-col items-center gap-2'>
+            <p className='m-auto font-semibold text-bg text-slate-700'>
+              Sign in using Google
+            </p>
+            <GoogleLogin
+              onSuccess={handleGoogleAuthSuccess}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
+          </div>
+          <hr className='w-[100%] h-[0.5px] bg-slate-100 mt-6 mb-6' />
           <form onSubmit={handleSubmit(handleLogin)} autoComplete='off'>
             <div className='flex flex-col gap-3'>
+              <p className='m-auto font-semibold text-bg text-slate-700'>
+                Sign in with your email
+              </p>
               <div className='relative group'>
                 <InputFieldLabel
                   htmlFor='email'
