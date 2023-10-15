@@ -2,6 +2,9 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../schema/authSchema';
+
+import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 import {
   Card,
   CardContent,
@@ -33,6 +36,14 @@ const Login = () => {
   function handleLogin(values: z.infer<typeof loginSchema>) {
     console.log(values);
   }
+
+  function handleGoogleAuthSuccess(credentialResponse: CredentialResponse) {
+    console.log(credentialResponse);
+
+    const decrypted = jwt_decode(credentialResponse.credential!);
+    console.log(decrypted);
+  }
+
   return (
     <div className='flex items-center justify-center w-screen h-screen'>
       <Card className='w-[400px]'>
@@ -42,14 +53,20 @@ const Login = () => {
             Login to your account to get started
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className='space-y-3'>
+          <GoogleLogin
+            onSuccess={handleGoogleAuthSuccess}
+            onError={() => {
+              console.log('Login Failed');
+            }}
+          />
           <form onSubmit={handleSubmit(handleLogin)} autoComplete='off'>
             <div className='flex flex-col gap-3'>
               <div className='relative group'>
                 <InputFieldLabel
                   htmlFor='email'
                   hasContent={
-                    providedEmail !== '' && providedEmail.length !== 0
+                    providedEmail !== '' && providedEmail?.length !== 0
                   }
                 >
                   Email
@@ -64,7 +81,7 @@ const Login = () => {
                 <InputFieldLabel
                   htmlFor='password'
                   hasContent={
-                    providedPassword !== '' && providedPassword.length !== 0
+                    providedPassword !== '' && providedPassword?.length !== 0
                   }
                 >
                   Password
