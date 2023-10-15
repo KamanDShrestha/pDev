@@ -1,3 +1,7 @@
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema } from '../schema/authSchema';
 import {
   Card,
   CardContent,
@@ -6,19 +10,28 @@ import {
   CardHeader,
   CardTitle,
 } from '../components/ui/card';
-import { useForm } from 'react-hook-form';
 import { Input } from '../components/ui/input';
 import InputFieldLabel from '../components/InputFieldLabel';
 import { Button } from '../components/ui/button';
+import ErrorMessage from '../components/ErrorMessage';
+
 const Login = () => {
-  const { register, watch, getValues, formState, handleSubmit } = useForm();
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const providedEmail = watch('email');
   const providedPassword = watch('password');
 
-  console.log(formState.errors);
-  function handleLogin() {
-    console.log(getValues());
+  console.log(errors);
+
+  function handleLogin(values: z.infer<typeof loginSchema>) {
+    console.log(values);
   }
   return (
     <div className='flex items-center justify-center w-screen h-screen'>
@@ -30,26 +43,36 @@ const Login = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(handleLogin)}>
+          <form onSubmit={handleSubmit(handleLogin)} autoComplete='off'>
             <div className='flex flex-col gap-3'>
               <div className='relative group'>
                 <InputFieldLabel
                   htmlFor='email'
-                  hasContent={providedEmail && providedEmail.length !== 0}
+                  hasContent={
+                    providedEmail !== '' && providedEmail.length !== 0
+                  }
                 >
                   Email
                 </InputFieldLabel>
                 <Input {...register('email')} type='email' />
+                {errors.email && (
+                  <ErrorMessage>{errors.email.message}</ErrorMessage>
+                )}
               </div>
 
               <div className='relative group'>
                 <InputFieldLabel
                   htmlFor='password'
-                  hasContent={providedPassword && providedPassword.length !== 0}
+                  hasContent={
+                    providedPassword !== '' && providedPassword.length !== 0
+                  }
                 >
                   Password
                 </InputFieldLabel>
                 <Input {...register('password')} type='password' />
+                {errors.password && (
+                  <ErrorMessage>{errors.password.message}</ErrorMessage>
+                )}
               </div>
               <Button>Login</Button>
             </div>
