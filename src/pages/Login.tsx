@@ -18,6 +18,7 @@ import InputFieldLabel from '../components/InputFieldLabel';
 import { Button } from '../components/ui/button';
 import ErrorMessage from '../components/ErrorMessage';
 import { NavLink } from 'react-router-dom';
+import { useLoginUser } from '../services/userAuth/loginUser';
 
 const Login = () => {
   const {
@@ -33,9 +34,11 @@ const Login = () => {
   const providedPassword = watch('password');
 
   console.log(errors);
+  const { mutate } = useLoginUser();
 
   function handleLogin(values: z.infer<typeof loginSchema>) {
     console.log(values);
+    mutate(values);
   }
 
   function handleGoogleAuthSuccess(credentialResponse: CredentialResponse) {

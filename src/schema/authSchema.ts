@@ -28,7 +28,7 @@ export const registerSchema = z
     confirmPassword: z
       .string({ required_error: 'Confirm Password is required' })
       .min(7, { message: 'The password must be at least 7 characters.' }),
-    dob: z.coerce.date(),
+    dateOfBirth: z.coerce.date(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',

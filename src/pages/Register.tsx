@@ -17,6 +17,7 @@ import { Input } from '../components/ui/input';
 import InputFieldLabel from '../components/InputFieldLabel';
 import { Button } from '../components/ui/button';
 import ErrorMessage from '../components/ErrorMessage';
+import { useRegisterUser } from '../services/userAuth/registerUser';
 
 const Register = () => {
   const {
@@ -34,10 +35,11 @@ const Register = () => {
   const providedFName = watch('firstName');
   const providedLName = watch('lastName');
 
-  console.log(errors);
+  const { mutate } = useRegisterUser();
 
-  function handleRegister(values: z.infer<typeof registerSchema>) {
+  async function handleRegister(values: z.infer<typeof registerSchema>) {
     console.log(values);
+    mutate(values);
   }
 
   function handleGoogleAuthSuccess(credentialResponse: CredentialResponse) {
@@ -148,16 +150,16 @@ const Register = () => {
               </div>
               <div className='relative group'>
                 <InputFieldLabel
-                  htmlFor='dob'
+                  htmlFor='dateOfBirth'
                   hasContent={
                     providedPassword !== '' && providedPassword?.length !== 0
                   }
                 >
                   Date of Birth
                 </InputFieldLabel>
-                <Input {...register('dob')} type='date' />
-                {errors.dob && (
-                  <ErrorMessage>{errors.dob.message}</ErrorMessage>
+                <Input {...register('dateOfBirth')} type='date' />
+                {errors.dateOfBirth && (
+                  <ErrorMessage>{errors.dateOfBirth.message}</ErrorMessage>
                 )}
               </div>
               <Button>Register</Button>
