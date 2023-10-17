@@ -14,6 +14,8 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@react-oauth/google": "^0.11.1",
     "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query-devtools": "^4.36.1",
+    "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "google": "link:@types/react-oauth/google",

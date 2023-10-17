@@ -1,1 +1,8 @@
-export const BACKEND_URL = 'http://localhost:3000/';
+import axios from 'axios';
+
+export const BACKEND_URL = 'http://localhost:3000';
+
+export const axiosInstance = axios.create({
+  baseURL: BACKEND_URL,
+  withCredentials: true,
+});
