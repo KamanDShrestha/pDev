@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@react-oauth/google": "^0.11.1",
+    "@tanstack/react-query": "^4.36.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "google": "link:@types/react-oauth/google",
@@ -27,6 +28,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.36.1",
     "@types/node": "^20.8.6",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

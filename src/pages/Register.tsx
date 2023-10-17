@@ -30,6 +30,7 @@ const Register = () => {
 
   const providedEmail = watch('email');
   const providedPassword = watch('password');
+  const providedConfirmPassword = watch('confirmPassword');
   const providedFName = watch('firstName');
   const providedLName = watch('lastName');
 
@@ -128,6 +129,21 @@ const Register = () => {
                 <Input {...register('password')} type='password' />
                 {errors.password && (
                   <ErrorMessage>{errors.password.message}</ErrorMessage>
+                )}
+              </div>
+              <div className='relative group'>
+                <InputFieldLabel
+                  htmlFor='confirmPassword'
+                  hasContent={
+                    providedConfirmPassword !== '' &&
+                    providedConfirmPassword?.length !== 0
+                  }
+                >
+                  Confirm Password
+                </InputFieldLabel>
+                <Input {...register('confirmPassword')} type='password' />
+                {errors.confirmPassword && (
+                  <ErrorMessage>{errors.confirmPassword.message}</ErrorMessage>
                 )}
               </div>
               <div className='relative group'>
