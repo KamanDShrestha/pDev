@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 import getFromLocalStorage from '../services/localStorage/getFromLocalStorage';
 
-type AuthContextType = {
+export type AuthContextType = {
   firstName: string;
   lastName: string;
   email: string;

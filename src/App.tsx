@@ -11,28 +11,33 @@ import Payment from './pages/Payment';
 import NewUser from './pages/NewUser';
 
 import AuthRequire from './pages/AuthRequire';
+import AuthProvider from './context/AuthProvider';
 
 function App() {
   return (
     <>
       <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
-        <BrowserRouter>
-          <Routes>
-            <Route index element={<GettingStarted />} />
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route index element={<GettingStarted />} />
+              <Route path={'/login'} element={<Login />} />
+              <Route path={'/register'} element={<Register />} />
 
-            <Route path={'/login'} element={<Login />} />
-            <Route path={'/register'} element={<Register />} />
-
-            <Route element={<AuthRequire />}>
-              <Route path={'/home'} element={<Home />} />
-              <Route path={'/dashboard'} element={<Dashboard />} />
-              <Route path={'/journey'} element={<Journey />} />
-              <Route path={'/journey'} element={<Payment />} />
-            </Route>
-
-            <Route path={'/newUser'} element={<NewUser />} />
-          </Routes>
-        </BrowserRouter>
+              <Route
+                element={
+                  <AuthRequire allowedRoles={['user', 'admin', 'qha']} />
+                }
+              >
+                <Route path={'/home'} element={<Home />} />
+                <Route path={'/dashboard'} element={<Dashboard />} />
+                <Route path={'/journey'} element={<Journey />} />
+                <Route path={'/journey'} element={<Payment />} />
+                <Route path={'/newUser'} element={<NewUser />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </ThemeProvider>
     </>
   );

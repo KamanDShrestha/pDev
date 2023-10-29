@@ -1,8 +1,14 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthProvider';
 
-const AuthRequire = () => {
-  return <Outlet />;
+const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
+  const { user } = useAuthContext();
+
+  return allowedRoles.find((role: string) => role === user?.role) ? (
+    <Outlet />
+  ) : (
+    <Navigate to='/login' />
+  );
 };
 
 export default AuthRequire;
