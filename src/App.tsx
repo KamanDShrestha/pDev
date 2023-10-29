@@ -10,6 +10,8 @@ import Journey from './pages/Journey';
 import Payment from './pages/Payment';
 import NewUser from './pages/NewUser';
 
+import AuthRequire from './pages/AuthRequire';
+
 function App() {
   return (
     <>
@@ -17,12 +19,16 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index element={<GettingStarted />} />
+
             <Route path={'/login'} element={<Login />} />
             <Route path={'/register'} element={<Register />} />
-            <Route path={'/home'} element={<Home />} />
-            <Route path={'/dashboard'} element={<Dashboard />} />
-            <Route path={'/journey'} element={<Journey />} />
-            <Route path={'/journey'} element={<Payment />} />
+
+            <Route element={<AuthRequire />}>
+              <Route path={'/home'} element={<Home />} />
+              <Route path={'/dashboard'} element={<Dashboard />} />
+              <Route path={'/journey'} element={<Journey />} />
+              <Route path={'/journey'} element={<Payment />} />
+            </Route>
 
             <Route path={'/newUser'} element={<NewUser />} />
           </Routes>

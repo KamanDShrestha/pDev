@@ -1,0 +1,46 @@
+import { ReactNode, createContext, useContext, useState } from 'react';
+import getFromLocalStorage from '../services/localStorage/getFromLocalStorage';
+
+type AuthContextType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  accessToken: string;
+};
+
+const AuthContext = createContext(
+  {} as {
+    user?: AuthContextType;
+    setUser?: React.Dispatch<React.SetStateAction<AuthContextType | undefined>>;
+  }
+);
+
+const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<AuthContextType>(
+    getFromLocalStorage('authentication')
+  );
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser: setUser as React.Dispatch<
+          React.SetStateAction<AuthContextType | undefined>
+        >,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export function useAuthContext() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuthContext must be used within an AuthProvider');
+  }
+  return context;
+}
+
+export default AuthProvider;
