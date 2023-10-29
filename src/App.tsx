@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Journey from './pages/Journey';
 import Payment from './pages/Payment';
+import NewUser from './pages/NewUser';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
             <Route path={'/dashboard'} element={<Dashboard />} />
             <Route path={'/journey'} element={<Journey />} />
             <Route path={'/journey'} element={<Payment />} />
+
+            <Route path={'/newUser'} element={<NewUser />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

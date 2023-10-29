@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../../constants';
 import { ErrorResponse, useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+
 interface RegisterData {
   firstName: string;
   lastName: string;
@@ -18,8 +19,9 @@ export function useRegisterUser() {
       axiosInstance
         .post('/auth/register', data)
         .then((response) => response.data),
-    onSuccess: () => {
-      navigate('/');
+    onSuccess: (response) => {
+      console.log(response);
+      navigate('/newUser');
     },
     onError: (error: AxiosError<ErrorResponse>) =>
       console.log(error.response?.data),

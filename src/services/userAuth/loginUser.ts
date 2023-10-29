@@ -13,8 +13,11 @@ export function useLoginUser() {
   const response = useMutation({
     mutationFn: (data: LoginData) =>
       axiosInstance.post('/auth/login', data).then((response) => response.data),
-    onSuccess: () => {
-      navigate('/');
+    onSuccess: (response) => {
+      console.log(response);
+
+      if (response.user.isNewUser) navigate('/newUser');
+      else navigate('/home');
     },
     onError: (error: AxiosError<ErrorResponse>) =>
       console.log(error.response?.data),
