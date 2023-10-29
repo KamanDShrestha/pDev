@@ -15,10 +15,12 @@ import {
 } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import InputFieldLabel from '../components/InputFieldLabel';
+
 import { Button } from '../components/ui/button';
 import ErrorMessage from '../components/ErrorMessage';
 import { NavLink } from 'react-router-dom';
 import { useLoginUser } from '../services/userAuth/loginUser';
+import { ModeToggle } from '../components/ThemeToggleButton';
 
 const Login = () => {
   const {
@@ -50,6 +52,9 @@ const Login = () => {
 
   return (
     <div className='flex items-center justify-center w-screen h-screen'>
+      <div className='absolute top-5 right-5'>
+        <ModeToggle />
+      </div>
       <Card className='w-[400px]'>
         <CardHeader>
           <CardTitle>Login</CardTitle>
@@ -79,7 +84,7 @@ const Login = () => {
                 <InputFieldLabel
                   htmlFor='email'
                   hasContent={
-                    providedEmail !== '' && providedEmail?.length !== 0
+                    providedEmail !== undefined && providedEmail?.length !== 0
                   }
                 >
                   Email
@@ -94,7 +99,8 @@ const Login = () => {
                 <InputFieldLabel
                   htmlFor='password'
                   hasContent={
-                    providedPassword !== '' && providedPassword?.length !== 0
+                    providedPassword !== undefined &&
+                    providedPassword?.length !== 0
                   }
                 >
                   Password

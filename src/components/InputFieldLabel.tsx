@@ -20,7 +20,7 @@ const InputFieldLabel: FC<InputFieldLabelProps> = ({
     'mx-2 px-2 absolute duration-300 bg-white left-0 transition-all text-gray-500';
   const hasContentClasses = 'text-sm -top-2';
   const noContentClasses =
-    'ext-base top-2 group-focus-within:-top-2 group-focus-within:text-sm';
+    'text-base top-2 group-focus-within:-top-2 group-focus-within:text-sm';
   return (
     <label
       htmlFor={htmlFor}

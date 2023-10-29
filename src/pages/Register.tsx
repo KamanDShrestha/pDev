@@ -18,6 +18,8 @@ import InputFieldLabel from '../components/InputFieldLabel';
 import { Button } from '../components/ui/button';
 import ErrorMessage from '../components/ErrorMessage';
 import { useRegisterUser } from '../services/userAuth/registerUser';
+import { ModeToggle } from '../components/ThemeToggleButton';
+import { NavLink } from 'react-router-dom';
 
 const Register = () => {
   const {
@@ -30,10 +32,12 @@ const Register = () => {
   });
 
   const providedEmail = watch('email');
+
   const providedPassword = watch('password');
   const providedConfirmPassword = watch('confirmPassword');
   const providedFName = watch('firstName');
   const providedLName = watch('lastName');
+  const providedDOB = watch('dateOfBirth');
 
   const { mutate } = useRegisterUser();
 
@@ -51,6 +55,9 @@ const Register = () => {
 
   return (
     <div className='flex items-center justify-center w-screen h-screen'>
+      <div className='absolute top-5 right-5'>
+        <ModeToggle />
+      </div>
       <Card className='w-[400px]'>
         <CardHeader>
           <CardTitle>Register</CardTitle>
@@ -81,7 +88,7 @@ const Register = () => {
                 <InputFieldLabel
                   htmlFor='firstName'
                   hasContent={
-                    providedFName !== '' && providedFName?.length !== 0
+                    providedFName !== undefined && providedFName?.length !== 0
                   }
                 >
                   First Name
@@ -93,9 +100,9 @@ const Register = () => {
               </div>
               <div className='relative group'>
                 <InputFieldLabel
-                  htmlFor='firstName'
+                  htmlFor='lastName'
                   hasContent={
-                    providedLName !== '' && providedLName?.length !== 0
+                    providedFName !== undefined && providedLName?.length !== 0
                   }
                 >
                   Last Name
@@ -109,7 +116,7 @@ const Register = () => {
                 <InputFieldLabel
                   htmlFor='email'
                   hasContent={
-                    providedEmail !== '' && providedEmail?.length !== 0
+                    providedEmail !== undefined && providedEmail?.length !== 0
                   }
                 >
                   Email
@@ -123,7 +130,8 @@ const Register = () => {
                 <InputFieldLabel
                   htmlFor='password'
                   hasContent={
-                    providedPassword !== '' && providedPassword?.length !== 0
+                    providedPassword !== undefined &&
+                    providedPassword?.length !== 0
                   }
                 >
                   Password
@@ -137,7 +145,7 @@ const Register = () => {
                 <InputFieldLabel
                   htmlFor='confirmPassword'
                   hasContent={
-                    providedConfirmPassword !== '' &&
+                    providedConfirmPassword !== undefined &&
                     providedConfirmPassword?.length !== 0
                   }
                 >
@@ -151,9 +159,7 @@ const Register = () => {
               <div className='relative group'>
                 <InputFieldLabel
                   htmlFor='dateOfBirth'
-                  hasContent={
-                    providedPassword !== '' && providedPassword?.length !== 0
-                  }
+                  hasContent={providedDOB !== undefined}
                 >
                   Date of Birth
                 </InputFieldLabel>
@@ -166,7 +172,17 @@ const Register = () => {
             </div>
           </form>
         </CardContent>
-        <CardFooter></CardFooter>
+        <CardFooter>
+          <span className='text-xs'>
+            Already have an account?{' '}
+            <NavLink
+              to={'/login'}
+              className='text-slate-500 hover:text-slate-700'
+            >
+              Login
+            </NavLink>
+          </span>
+        </CardFooter>
       </Card>
     </div>
   );

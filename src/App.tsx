@@ -3,16 +3,28 @@ import GettingStarted from './pages/GettingStarted';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
+import { ThemeProvider } from './components/ThemeProvider';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import Journey from './pages/Journey';
+import Payment from './pages/Payment';
+
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<GettingStarted />} />
-          <Route path={'/login'} element={<Login />} />
-          <Route path={'/register'} element={<Register />} />
-        </Routes>
-      </BrowserRouter>
+      <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<GettingStarted />} />
+            <Route path={'/login'} element={<Login />} />
+            <Route path={'/register'} element={<Register />} />
+            <Route path={'/home'} element={<Home />} />
+            <Route path={'/dashboard'} element={<Dashboard />} />
+            <Route path={'/journey'} element={<Journey />} />
+            <Route path={'/journey'} element={<Payment />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </>
   );
 }
