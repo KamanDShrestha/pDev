@@ -12,6 +12,7 @@ import NewUser from './pages/NewUser';
 
 import AuthRequire from './pages/AuthRequire';
 import AuthProvider from './context/AuthProvider';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
   return (
@@ -32,9 +33,11 @@ function App() {
                 <Route path={'/home'} element={<Home />} />
                 <Route path={'/dashboard'} element={<Dashboard />} />
                 <Route path={'/journey'} element={<Journey />} />
-                <Route path={'/journey'} element={<Payment />} />
+                <Route path={'/payment'} element={<Payment />} />
                 <Route path={'/newUser'} element={<NewUser />} />
               </Route>
+
+              <Route path='*' element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
         </AuthProvider>
