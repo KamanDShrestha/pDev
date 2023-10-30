@@ -42,10 +42,8 @@ const Login = () => {
     console.log(values);
     mutate(values);
   }
-
   function handleGoogleAuthSuccess(credentialResponse: CredentialResponse) {
     console.log(credentialResponse);
-
     const decrypted = jwt_decode(credentialResponse.credential!);
     console.log(decrypted);
   }

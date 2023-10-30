@@ -1,13 +1,15 @@
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
 
 const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user } = useAuthContext();
-
+  const location = useLocation();
   return allowedRoles.find((role: string) => role === user?.role) ? (
     <Outlet />
+  ) : user?.email ? (
+    <Navigate to={'/unauthorized'} state={{ from: location }} replace />
   ) : (
-    <Navigate to='/login' />
+    <Navigate to='/login' state={{ from: location }} replace /> //with this the page is redirected to Login page and the location of the previous page is remembered in state in 'from' property with which from the login page, the previous page can be directed
   );
 };
 

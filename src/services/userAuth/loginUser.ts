@@ -1,4 +1,4 @@
-import { ErrorResponse, useNavigate } from 'react-router-dom';
+import { ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../constants';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -11,8 +11,12 @@ interface LoginData {
 }
 
 export function useLoginUser() {
-  const navigate = useNavigate();
   const { setUser } = useAuthContext();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from.pathname || '/'; // either navigating to previous page from which login is redirected or going to root page
+
   const response = useMutation({
     mutationFn: (data: LoginData) =>
       axiosInstance.post('/auth/login', data).then((response) => response.data),
@@ -34,7 +38,7 @@ export function useLoginUser() {
           accessToken: response?.token,
         } as AuthContextType);
         if (response.user.isNewUser) navigate('/newUser');
-        else navigate('/home');
+        else navigate(from, { replace: true });
       } else {
         console.log('User not found in response');
       }
