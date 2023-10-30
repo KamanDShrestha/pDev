@@ -1,5 +1,5 @@
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 
 const PageNotFound = () => {
