@@ -18,7 +18,7 @@ import InputFieldLabel from '../components/InputFieldLabel';
 import { Button } from '../components/ui/button';
 import ErrorMessage from '../components/ErrorMessage';
 import { useRegisterUser } from '../services/userAuth/registerUser';
-import { ModeToggle } from '../components/ThemeToggleButton';
+
 import { NavLink } from 'react-router-dom';
 
 const Register = () => {
@@ -55,9 +55,6 @@ const Register = () => {
 
   return (
     <div className='flex items-center justify-center w-screen h-screen'>
-      <div className='absolute top-5 right-5'>
-        <ModeToggle />
-      </div>
       <Card className='w-[400px]'>
         <CardHeader>
           <CardTitle>Register</CardTitle>

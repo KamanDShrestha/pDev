@@ -14,6 +14,7 @@ import AuthRequire from './pages/AuthRequire';
 import AuthProvider from './context/AuthProvider';
 import PageNotFound from './pages/PageNotFound';
 import TempPreference from './pages/TempPreference';
+import AuthLayout from './pages/AuthLayout';
 
 function App() {
   return (
@@ -22,9 +23,11 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <Routes>
-              <Route index element={<GettingStarted />} />
-              <Route path={'/login'} element={<Login />} />
-              <Route path={'/register'} element={<Register />} />
+              <Route element={<AuthLayout />}>
+                <Route index element={<GettingStarted />} />
+                <Route path={'/login'} element={<Login />} />
+                <Route path={'/register'} element={<Register />} />
+              </Route>
 
               <Route
                 element={
