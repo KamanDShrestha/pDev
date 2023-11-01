@@ -48,7 +48,7 @@ const Login = () => {
   }
 
   return (
-    <div className='flex items-center justify-center w-screen h-screen'>
+    <>
       <Card className='w-[400px]'>
         <CardHeader>
           <CardTitle>Login</CardTitle>
@@ -120,7 +120,7 @@ const Login = () => {
           </span>
         </CardFooter>
       </Card>
-    </div>
+    </>
   );
 };
 

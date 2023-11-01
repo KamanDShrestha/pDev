@@ -54,7 +54,7 @@ const Register = () => {
   }
 
   return (
-    <div className='flex items-center justify-center w-screen h-screen'>
+    <>
       <Card className='w-[400px]'>
         <CardHeader>
           <CardTitle>Register</CardTitle>
@@ -181,7 +181,7 @@ const Register = () => {
           </span>
         </CardFooter>
       </Card>
-    </div>
+    </>
   );
 };
 
