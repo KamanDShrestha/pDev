@@ -15,6 +15,10 @@ import AuthProvider from './context/AuthProvider';
 import PageNotFound from './pages/PageNotFound';
 import TempPreference from './pages/TempPreference';
 import AuthLayout from './pages/AuthLayout';
+import UserLayout from './pages/UserLayout';
+import WellBeing from './pages/WellBeing';
+import Community from './pages/Community';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -34,12 +38,17 @@ function App() {
                   <AuthRequire allowedRoles={['user', 'admin', 'qha']} />
                 }
               >
-                <Route path={'/home'} element={<Home />} />
-                <Route path={'/dashboard'} element={<Dashboard />} />
-                <Route path={'/journey'} element={<Journey />} />
-                <Route path={'/payment'} element={<Payment />} />
                 <Route path={'/newUser'} element={<NewUser />} />
                 <Route path={'/preference'} element={<TempPreference />} />
+                <Route element={<UserLayout />}>
+                  <Route path={'/home'} element={<Home />} />
+                  <Route path={'/dashboard'} element={<Dashboard />} />
+                  <Route path={'/community'} element={<Community />} />
+                  <Route path={'/journey'} element={<Journey />} />
+                  <Route path={'/payment'} element={<Payment />} />
+                  <Route path={'/wellbeing'} element={<WellBeing />} />
+                  <Route path={'/profile'} element={<Profile />} />
+                </Route>
               </Route>
 
               <Route path='*' element={<PageNotFound />} />

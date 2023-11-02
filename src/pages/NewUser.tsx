@@ -14,6 +14,8 @@ import profileCompletionSchema from '../schema/profileCompletionSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ErrorMessage from '../components/ErrorMessage';
 import { useProfileCompletion } from '../services/profileCompletion/useProfileCompletion';
+import { useAuthContext } from '../context/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 type ProfileCompletion = {
   question: string;
@@ -67,6 +69,8 @@ const reducer = (
 
 const NewUser = () => {
   const [personalProfile, dispatch] = useReducer(reducer, initialState);
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const {
     register,
@@ -80,6 +84,10 @@ const NewUser = () => {
   });
 
   const { mutate } = useProfileCompletion();
+
+  useEffect(() => {
+    if (!user?.isNewUser) navigate('/home');
+  }, [navigate, user?.isNewUser]);
 
   useEffect(() => {
     if (currentQuestion === questions.length) return;
