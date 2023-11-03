@@ -51,6 +51,10 @@ function App() {
                 </Route>
               </Route>
 
+              <Route element={<AuthRequire allowedRoles={['admin']} />}>
+                <Route />
+              </Route>
+
               <Route path='*' element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
