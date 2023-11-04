@@ -6,7 +6,7 @@ import Register from './pages/Register';
 import { ThemeProvider } from './components/ThemeProvider';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
-import Journey from './pages/Journey';
+import Journey from './pages/journey/Journey';
 import Payment from './pages/Payment';
 import NewUser from './pages/NewUser';
 
@@ -19,6 +19,7 @@ import UserLayout from './pages/UserLayout';
 import WellBeing from './pages/WellBeing';
 import Community from './pages/Community';
 import Profile from './pages/Profile';
+import AddJourneyPage from './pages/admin/AddJourneyPage';
 
 function App() {
   return (
@@ -52,7 +53,7 @@ function App() {
               </Route>
 
               <Route element={<AuthRequire allowedRoles={['admin']} />}>
-                <Route />
+                <Route path='/addJourney' element={<AddJourneyPage />} />
               </Route>
 
               <Route path='*' element={<PageNotFound />} />
