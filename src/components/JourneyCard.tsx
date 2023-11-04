@@ -54,7 +54,7 @@ const JourneyCard = ({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Card className='w-[350px]'>
+            <Card className='w-[350px] sm:w-[400px]'>
               <CardHeader>
                 <CardTitle>
                   <div className='flex items-center gap-10'>

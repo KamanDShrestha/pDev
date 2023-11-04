@@ -20,6 +20,9 @@ import WellBeing from './pages/WellBeing';
 import Community from './pages/Community';
 import Profile from './pages/Profile';
 import AddJourneyPage from './pages/admin/AddJourneyPage';
+import SpecificJourney from './pages/journey/SpecificJourney';
+import JourneyNotFound from './pages/JourneyNotFound';
+import UnauthorizedPage from './pages/UnauthorizedPage';
 
 function App() {
   return (
@@ -46,16 +49,22 @@ function App() {
                   <Route path={'/dashboard'} element={<Dashboard />} />
                   <Route path={'/community'} element={<Community />} />
                   <Route path={'/journey'} element={<Journey />} />
+                  <Route
+                    path={'/journey/:name'}
+                    element={<SpecificJourney />}
+                    errorElement={<JourneyNotFound />}
+                  />
                   <Route path={'/payment'} element={<Payment />} />
                   <Route path={'/wellbeing'} element={<WellBeing />} />
                   <Route path={'/profile'} element={<Profile />} />
                 </Route>
               </Route>
 
-              <Route element={<AuthRequire allowedRoles={['admin']} />}>
-                <Route path='/addJourney' element={<AddJourneyPage />} />
-              </Route>
+              <Route path='/addJourney' element={<AddJourneyPage />} />
+              <Route element={<AuthRequire allowedRoles={['admin']} />}></Route>
 
+              <Route path='/journeyNotFound' element={<JourneyNotFound />} />
+              <Route path='/unauthorized' element={<UnauthorizedPage />} />
               <Route path='*' element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
