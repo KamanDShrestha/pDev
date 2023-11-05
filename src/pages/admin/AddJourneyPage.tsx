@@ -45,12 +45,52 @@ const AddJourneyPage = () => {
   const actionStepsForm = useForm();
   const [numberOfActionSteps, setNumberOfActionSteps] = useState(10);
   const actionSteps: React.MutableRefObject<ActionSteps> = useRef({});
+  const journeyImportance: React.MutableRefObject<string[]> = useRef([]);
+  const journeyQuotes: React.MutableRefObject<string[]> = useRef([]);
+  const journeyUsages: React.MutableRefObject<string[]> = useRef([]);
 
   const providedName = watch('journeyName');
   const providedDescription = watch('journeyDescription');
   const providedDarkIconImage = watch('journeyIconImageDark');
   const providedLightIconImage = watch('journeyIconImageLight');
+
   function handleJourneySubmit(data: FieldValues) {
+    journeyImportance.current = [];
+    journeyQuotes.current = [];
+    journeyUsages.current = [];
+
+    Array.from(Array(3)).map((_, index) => {
+      if (
+        data[`journeyImportance${index + 1}`] !== undefined &&
+        data[`journeyImportance${index + 1}`] !== ''
+      ) {
+        journeyImportance.current = [
+          ...journeyImportance.current,
+          data[`journeyImportance${index + 1}`],
+        ];
+      }
+
+      if (
+        data[`journeyQuote${index + 1}`] !== undefined &&
+        data[`journeyQuote${index + 1}`] !== ''
+      ) {
+        journeyQuotes.current = [
+          ...journeyQuotes.current,
+          data[`journeyQuote${index + 1}`],
+        ];
+      }
+
+      if (
+        data[`journeyUsage${index + 1}`] !== undefined &&
+        data[`journeyUsage${index + 1}`] !== ''
+      ) {
+        journeyUsages.current = [
+          ...journeyUsages.current,
+          data[`journeyUsage${index + 1}`],
+        ];
+      }
+    });
+
     console.log('journey', data);
   }
 
@@ -63,7 +103,6 @@ const AddJourneyPage = () => {
           data[key] !== undefined &&
           data[key] !== ''
         ) {
-          console.log(key);
           if (key === `day${index + 1}actionStep`) {
             const actionStep = data[key];
             actionSteps.current = {
@@ -146,27 +185,30 @@ const AddJourneyPage = () => {
 
   return (
     <div className='flex flex-col items-center justify-center w-screen min-h-screen gap-10 overflow-scroll'>
-      <JourneyCard
-        journeyName={providedName}
-        journeyDescription={providedDescription}
-        journeyIcon={{
-          dark: providedDarkIconImage,
-          light: providedLightIconImage,
-        }}
-        journeyLength={numberOfActionSteps}
-        importance={[]}
-        usages={[]}
-      />
+      <div className='flex flex-col gap-2 mt-4'>
+        <h2 className='text-2xl font-semibold'>Preview</h2>
+        <JourneyCard
+          journeyName={providedName}
+          journeyDescription={providedDescription}
+          journeyIcon={{
+            dark: providedDarkIconImage,
+            light: providedLightIconImage,
+          }}
+          journeyLength={numberOfActionSteps}
+          importance={journeyImportance.current}
+          usages={journeyUsages.current}
+        />
+      </div>
       <div className='flex flex-wrap items-center justify-around gap-5'>
-        <Card className='overflow-scroll'>
-          <CardHeader>
-            <CardTitle>Add new journey for the users !</CardTitle>
-            <CardDescription>
-              Through this, add new journeys for the users
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit(handleJourneySubmit)}>
+        <form onSubmit={handleSubmit(handleJourneySubmit)}>
+          <Card className='overflow-scroll'>
+            <CardHeader>
+              <CardTitle>Add new journey for the users !</CardTitle>
+              <CardDescription>
+                Through this, add new journeys for the users
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
               <div className='flex flex-col gap-3'>
                 <div className='relative group'>
                   <InputFieldLabel
@@ -340,12 +382,12 @@ const AddJourneyPage = () => {
                   </Select>
                 </div>
               </div>
-            </form>
-          </CardContent>
-          <CardFooter>
-            <Button>Submit</Button>
-          </CardFooter>
-        </Card>
+            </CardContent>
+            <CardFooter>
+              <Button>Submit</Button>
+            </CardFooter>
+          </Card>
+        </form>
         <Card>
           <CardHeader>
             <CardTitle>Add action steps for the journey</CardTitle>
