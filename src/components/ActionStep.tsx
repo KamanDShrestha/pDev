@@ -20,16 +20,16 @@ interface ActionStepProps {
 const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
   const providedActionStep = watch(`day${day}actionStep`);
   const providedDescription = watch(`day${day}description`);
-  console.log(day, providedActionStep, providedDescription);
+  //   console.log(day, providedActionStep, providedDescription);
 
-  const providedAdditionalActionStep1 = watch(`day${day}additionalStep1`);
-  const providedAdditionalActionStep2 = watch(`day${day}additionalStep2`);
-  const providedAdditionalActionStep3 = watch(`day${day}additionalStep3`);
-  console.log(
-    providedAdditionalActionStep1,
-    providedAdditionalActionStep2,
-    providedAdditionalActionStep3
-  );
+  //   const providedAdditionalActionStep1 = watch(`day${day}additionalStep1`);
+  //   const providedAdditionalActionStep2 = watch(`day${day}additionalStep2`);
+  //   const providedAdditionalActionStep3 = watch(`day${day}additionalStep3`);
+  //   console.log(
+  //     providedAdditionalActionStep1,
+  //     providedAdditionalActionStep2,
+  //     providedAdditionalActionStep3
+  //   );
   return (
     <div className='flex flex-col gap-3'>
       <div className='flex items-center gap-4'>
@@ -69,7 +69,10 @@ const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
           )}
         </div>
         <div className='relative flex flex-col gap-2 group'>
-          <label htmlFor={`${day}additionalActionSteps`}>
+          <label
+            htmlFor={`${day}additionalActionSteps`}
+            className='font-medium'
+          >
             Additional Steps
           </label>
 
@@ -87,7 +90,10 @@ const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
         </div>
 
         <div className='relative flex flex-col gap-2 group'>
-          <label htmlFor={`${day}additionalActionSteps`}>
+          <label
+            htmlFor={`${day}additionalActionSteps`}
+            className='font-medium'
+          >
             Evidences and further Learnings
           </label>
 

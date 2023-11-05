@@ -24,9 +24,9 @@ import { useTheme } from './ThemeProvider';
 interface ActionSteps {
   description: string;
   majorAction: string;
-  additionalSteps: string[];
+  additionalSteps?: string[];
   evidences: string[];
-  references: string[];
+  references?: string[];
 }
 
 export interface JourneyCardProps {
@@ -36,8 +36,8 @@ export interface JourneyCardProps {
   journeyLength: number;
   importance: string[];
   usages: string[];
-  learningQuotes: string[];
-  actionSteps: ActionSteps[];
+  learningQuotes?: string[];
+  actionSteps?: ActionSteps[];
 }
 
 const JourneyCard = ({

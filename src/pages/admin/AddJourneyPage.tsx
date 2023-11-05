@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { FieldValue, FieldValues, useForm } from 'react-hook-form';
-import * as zod from 'zod';
+import React, { useRef, useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
+// import * as zod from 'zod';
 import {
   Card,
   CardContent,
@@ -14,31 +14,149 @@ import { Input } from '../../components/ui/input';
 import ErrorMessage from '../../components/ErrorMessage';
 import { Button } from '../../components/ui/button';
 import ActionStep from '../../components/ActionStep';
+import { Textarea } from '../../components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../../components/ui/select';
+import JourneyCard from '../../components/JourneyCard';
+
+type ActionSteps = {
+  [key: string]: {
+    actionStep: string;
+    description: string;
+    evidences: string[];
+    additionalSteps: string[];
+  };
+};
+
 const AddJourneyPage = () => {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-    getValues,
   } = useForm();
+  const actionStepsForm = useForm();
   const [numberOfActionSteps, setNumberOfActionSteps] = useState(10);
+  const actionSteps: React.MutableRefObject<ActionSteps> = useRef({});
 
   const providedName = watch('journeyName');
-
-  function handleJourneySubmit() {
-    console.log('clicked');
+  const providedDescription = watch('journeyDescription');
+  const providedDarkIconImage = watch('journeyIconImageDark');
+  const providedLightIconImage = watch('journeyIconImageLight');
+  function handleJourneySubmit(data: FieldValues) {
+    console.log('journey', data);
   }
 
-  function handleSaveButton() {
-    console.log(getValues());
+  function handleSaveButton(data: FieldValues) {
+    console.log(data);
+    Array.from(Array(numberOfActionSteps)).map((_, index) => {
+      Object.keys(data).forEach((key) => {
+        if (
+          key.includes(`day${index + 1}`) &&
+          data[key] !== undefined &&
+          data[key] !== ''
+        ) {
+          console.log(key);
+          if (key === `day${index + 1}actionStep`) {
+            const actionStep = data[key];
+            actionSteps.current = {
+              ...actionSteps.current,
+              [`day${index + 1}`]: {
+                ...actionSteps.current[`day${index + 1}`],
+                actionStep,
+              },
+            };
+            console.log(actionSteps.current);
+          } else if (key === `day${index + 1}description`) {
+            const description = data[key];
+            actionSteps.current = {
+              ...actionSteps.current,
+              [`day${index + 1}`]: {
+                ...actionSteps.current[`day${index + 1}`],
+                description,
+              },
+            };
+          } else if (
+            key === `day${index + 1}evidence1` ||
+            key === `day${index + 1}evidence2` ||
+            key === `day${index + 1}evidence3`
+          ) {
+            const evidence = data[key];
+            if (actionSteps.current[`day${index + 1}`].evidences) {
+              actionSteps.current = {
+                ...actionSteps.current,
+                [`day${index + 1}`]: {
+                  ...actionSteps.current[`day${index + 1}`],
+                  evidences: [
+                    ...actionSteps.current[`day${index + 1}`].evidences,
+                    evidence,
+                  ],
+                },
+              };
+            } else {
+              actionSteps.current = {
+                ...actionSteps.current,
+                [`day${index + 1}`]: {
+                  ...actionSteps.current[`day${index + 1}`],
+                  evidences: [evidence],
+                },
+              };
+            }
+          } else if (
+            key === `day${index + 1}additionalStep1` ||
+            key === `day${index + 1}additionalStep2` ||
+            (key === `day${index + 1}additionalStep3` &&
+              data[key] !== undefined &&
+              data[key] !== '')
+          ) {
+            const additionalStep = data[key];
+
+            if (actionSteps.current[`day${index + 1}`].additionalSteps) {
+              actionSteps.current = {
+                ...actionSteps.current,
+                [`day${index + 1}`]: {
+                  ...actionSteps.current[`day${index + 1}`],
+                  additionalSteps: [
+                    ...actionSteps.current[`day${index + 1}`].additionalSteps,
+                    additionalStep,
+                  ],
+                },
+              };
+            } else {
+              actionSteps.current = {
+                ...actionSteps.current,
+                [`day${index + 1}`]: {
+                  ...actionSteps.current[`day${index + 1}`],
+                  additionalSteps: [additionalStep],
+                },
+              };
+            }
+          }
+        }
+      });
+    });
   }
 
   return (
     <div className='flex flex-col items-center justify-center w-screen min-h-screen gap-10 overflow-scroll'>
-      <div className='w-[350px] sm:w-[400px] h-[200px] bg-slate-100'>
-        Preview
-      </div>
+      <JourneyCard
+        journeyName={providedName}
+        journeyDescription={providedDescription}
+        journeyIcon={{
+          dark: providedDarkIconImage,
+          light: providedLightIconImage,
+        }}
+        journeyLength={numberOfActionSteps}
+        importance={[]}
+        usages={[]}
+      />
       <div className='flex flex-wrap items-center justify-around gap-5'>
         <Card className='overflow-scroll'>
           <CardHeader>
@@ -70,91 +188,186 @@ const AddJourneyPage = () => {
                   <InputFieldLabel
                     htmlFor='journeyDescription'
                     hasContent={
-                      providedName !== undefined && providedName?.length !== 0
+                      providedDescription !== undefined &&
+                      providedDescription?.length !== 0
                     }
                   >
                     Journey Description
                   </InputFieldLabel>
-                  <Input {...register('journeyDescription')} type='text' />
+                  <Textarea {...register('journeyDescription')} />
                   {errors.journeyDescription && (
                     <ErrorMessage>
                       {errors.journeyDescription.message as string}
                     </ErrorMessage>
                   )}
                 </div>
+
+                <div className='flex flex-col gap-2'>
+                  <label htmlFor='iconImageLinks' className='font-medium'>
+                    Icon Image Links
+                  </label>
+                  <div className='space-y-2'>
+                    <div className='relative group'>
+                      <InputFieldLabel
+                        htmlFor='journeyDescription'
+                        hasContent={
+                          providedDarkIconImage !== undefined &&
+                          providedDarkIconImage?.length !== 0
+                        }
+                      >
+                        For Dark Mode
+                      </InputFieldLabel>
+                      <Input
+                        {...register('journeyIconImageDark')}
+                        type='text'
+                      />
+                      {errors.journeyIconImageDark && (
+                        <ErrorMessage>
+                          {errors.journeyIconImageDark.message as string}
+                        </ErrorMessage>
+                      )}
+                    </div>
+                    <div className='relative group'>
+                      <InputFieldLabel
+                        htmlFor='journeyDescription'
+                        hasContent={
+                          providedLightIconImage !== undefined &&
+                          providedLightIconImage?.length !== 0
+                        }
+                      >
+                        For Light Mode
+                      </InputFieldLabel>
+                      <Input
+                        {...register('journeyIconImageLight')}
+                        type='text'
+                      />
+                      {errors.journeyIconImageLight && (
+                        <ErrorMessage>
+                          {errors.journeyIconImageLight.message as string}
+                        </ErrorMessage>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 <div className='relative group'>
-                  <InputFieldLabel
-                    htmlFor='journeyImportance'
-                    hasContent={
-                      providedName !== undefined && providedName?.length !== 0
-                    }
-                  >
+                  <label htmlFor='journeyImportance' className='font-medium'>
                     Journey Importance
-                  </InputFieldLabel>
-                  <Input {...register('journeyImportance')} type='text' />
-                  {errors.journeyImportance && (
+                  </label>
+                  <div className='relative flex flex-col gap-2'>
+                    {Array.from(Array(3)).map((_, index) => (
+                      <>
+                        <Input
+                          key={index}
+                          {...register(`journeyImportance${index + 1}`)}
+                        />
+                      </>
+                    ))}
+                  </div>
+                  {/* {errors.journeyImportance && (
                     <ErrorMessage>
                       {errors.journeyImportance.message as string}
                     </ErrorMessage>
-                  )}
+                  )} */}
                 </div>
+
                 <div className='relative group'>
-                  <InputFieldLabel
-                    htmlFor='journeyUsages'
-                    hasContent={
-                      providedName !== undefined && providedName?.length !== 0
-                    }
-                  >
+                  <label htmlFor='journeyUsages' className='font-medium'>
                     Journey Usages
-                  </InputFieldLabel>
-                  <Input {...register('journeyUsages')} type='text' />
-                  {errors.journeyUsages && (
+                  </label>
+                  <div className='relative flex flex-col gap-2 group'>
+                    {Array.from(Array(3)).map((_, index) => (
+                      <>
+                        <Input
+                          key={index}
+                          {...register(`journeyUsage${index + 1}`)}
+                        />
+                      </>
+                    ))}
+                  </div>
+                  {/* {errors.journeyUsages && (
                     <ErrorMessage>
                       {errors.journeyUsages.message as string}
                     </ErrorMessage>
-                  )}
+                  )} */}
                 </div>
                 <div className='relative group'>
-                  <InputFieldLabel
-                    htmlFor='journeyQuotes'
-                    hasContent={
-                      providedName !== undefined && providedName?.length !== 0
-                    }
-                  >
+                  <label htmlFor='journeyQuotes' className='font-medium'>
                     Journey Quotes
-                  </InputFieldLabel>
-                  <Input {...register('journeyQuotes')} type='text' />
+                  </label>
+                  <div className='relative flex flex-col gap-2 group'>
+                    {Array.from(Array(3)).map((_, index) => (
+                      <>
+                        <Input
+                          key={index}
+                          {...register(`journeyQuotes${index + 1}`)}
+                        />
+                      </>
+                    ))}
+                  </div>
                   {errors.journeyQuotes && (
                     <ErrorMessage>
                       {errors.journeyQuotes.message as string}
                     </ErrorMessage>
                   )}
                 </div>
-                <Button>Submit</Button>
+                <div>
+                  <label htmlFor='journeyQuotes' className='font-medium'>
+                    Select the length of journey
+                  </label>
+                  <Select
+                    onValueChange={(value) =>
+                      setNumberOfActionSteps(parseInt(value))
+                    }
+                    defaultValue={numberOfActionSteps.toString()}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder='Select the length of journey' />
+                    </SelectTrigger>
+                    <SelectContent className='overflow-scroll'>
+                      <SelectGroup>
+                        <SelectLabel>Length of the journey</SelectLabel>
+                        {Array.from(Array(20)).map((_, index) => (
+                          <>
+                            <SelectItem value={(index + 10).toString()}>
+                              {' '}
+                              {index + 10}
+                            </SelectItem>
+                          </>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </form>
           </CardContent>
-          <CardFooter></CardFooter>
+          <CardFooter>
+            <Button>Submit</Button>
+          </CardFooter>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle>Add action steps for the journey</CardTitle>
           </CardHeader>
-          <CardContent className='flex flex-col gap-10 h-[550px] overflow-scroll md:w-[640px]'>
-            {Array.from(Array(numberOfActionSteps)).map((_, index) => (
-              <>
-                <ActionStep
-                  day={index + 1}
-                  register={register}
-                  errors={errors}
-                  watch={watch}
-                />
-              </>
-            ))}
-          </CardContent>
-          <CardFooter>
-            <Button onClick={handleSaveButton}>Save</Button>
-          </CardFooter>
+          <form onSubmit={actionStepsForm.handleSubmit(handleSaveButton)}>
+            <CardContent className='flex flex-col gap-10 h-[550px] overflow-scroll md:w-[640px]'>
+              {Array.from(Array(numberOfActionSteps)).map((_, index) => (
+                <>
+                  <ActionStep
+                    key={index}
+                    day={index + 1}
+                    register={actionStepsForm.register}
+                    errors={actionStepsForm.formState.errors}
+                    watch={actionStepsForm.watch}
+                  />
+                </>
+              ))}
+            </CardContent>
+            <CardFooter>
+              <Button>Save</Button>
+            </CardFooter>
+          </form>
         </Card>
       </div>
     </div>
