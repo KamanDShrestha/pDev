@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '../../components/ui/select';
 import JourneyCard from '../../components/JourneyCard';
+import { useAddNewJourney } from '../../services/journey/addNewJourney';
 
 type ActionSteps = {
   [key: string]: {
@@ -53,6 +54,8 @@ const AddJourneyPage = () => {
   const providedDescription = watch('journeyDescription');
   const providedDarkIconImage = watch('journeyIconImageDark');
   const providedLightIconImage = watch('journeyIconImageLight');
+
+  const { mutate } = useAddNewJourney();
 
   function handleJourneySubmit(data: FieldValues) {
     journeyImportance.current = [];
@@ -91,10 +94,14 @@ const AddJourneyPage = () => {
       }
     });
 
-    console.log({
+    mutate({
       name: providedName,
       description: providedDescription,
       length: numberOfActionSteps,
+      imageLinks: {
+        light: providedLightIconImage,
+        dark: providedDarkIconImage,
+      },
       importance: journeyImportance.current,
       learningQuotes: journeyQuotes.current,
       usages: journeyUsages.current,

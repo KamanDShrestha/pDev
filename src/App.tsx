@@ -60,8 +60,9 @@ function App() {
                 </Route>
               </Route>
 
-              <Route path='/addJourney' element={<AddJourneyPage />} />
-              <Route element={<AuthRequire allowedRoles={['admin']} />}></Route>
+              <Route element={<AuthRequire allowedRoles={['admin']} />}>
+                <Route path='/addJourney' element={<AddJourneyPage />} />
+              </Route>
 
               <Route path='/journeyNotFound' element={<JourneyNotFound />} />
               <Route path='/unauthorized' element={<UnauthorizedPage />} />
