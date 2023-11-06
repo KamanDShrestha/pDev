@@ -4,11 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import setToLocalStorage from '../localStorage/setToLocalStorage';
 import { AuthContextType, useAuthContext } from '../../context/AuthProvider';
-
-interface LoginData {
-  email: string;
-  password: string;
-}
+import { LoginData } from '../../types';
 
 export function useLoginUser() {
   const { setUser } = useAuthContext();

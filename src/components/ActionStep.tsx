@@ -74,8 +74,8 @@ const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
                 message: 'Description must have at least 20 characters',
               },
               maxLength: {
-                value: 50,
-                message: 'Description must not have more than 20 characters',
+                value: 300,
+                message: 'Description must not have more than 300 characters',
               },
             })}
           />

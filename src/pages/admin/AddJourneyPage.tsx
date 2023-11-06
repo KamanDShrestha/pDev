@@ -267,9 +267,9 @@ const AddJourneyPage = () => {
                         message: 'Description must have at least 20 characters',
                       },
                       maxLength: {
-                        value: 100,
+                        value: 500,
                         message:
-                          'Description must not have more than 100 characters',
+                          'Description must not have more than 500 characters',
                       },
                     })}
                   />

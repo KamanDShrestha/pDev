@@ -1,11 +1,6 @@
+import { ProfileCompletionData } from '../../types';
 import { axiosInstance } from '../../constants/index';
 import { useMutation } from '@tanstack/react-query';
-
-interface ProfileCompletionData {
-  challenges: string[];
-  goals: string[];
-  values: string[];
-}
 
 export function useProfileCompletion() {
   const response = useMutation({

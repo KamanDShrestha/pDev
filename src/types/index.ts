@@ -1,0 +1,30 @@
+export type JourneyData = {
+  name: string;
+  description: string;
+  length: number;
+  imageLinks: { dark: string; light: string };
+  importance: string[];
+  learningQuotes: string[];
+  usages: string[];
+  actionSteps: object;
+};
+
+export type LoginData = {
+  email: string;
+  password: string;
+};
+
+export type RegisterData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  dateOfBirth: Date;
+};
+
+export type ProfileCompletionData = {
+  challenges: string[];
+  goals: string[];
+  values: string[];
+};
