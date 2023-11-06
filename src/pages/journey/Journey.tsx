@@ -1,12 +1,3 @@
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from '../components/ui/card';
-
 import {
   Accordion,
   AccordionItem,
@@ -30,6 +21,7 @@ import {
 } from '../../components/ui/tooltip';
 
 import stoicismIcon from '../../assets/journeyIcons/Stoicism/stoicismLight.png';
+import { useGetAllJourneys } from '../../services/journey/getAllJourneys';
 // import stoicismIconDark from '../../assets/journeyIcons/Stoicism/stoicismDark.png';
 
 const Journey = () => {
