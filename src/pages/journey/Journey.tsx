@@ -9,9 +9,7 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardDescription,
   CardContent,
-  CardFooter,
 } from '../../components/ui/card';
 
 import stoicismIcon from '../../assets/journeyIcons/Stoicism/stoicismLight.png';
@@ -20,7 +18,6 @@ import { useGetAllJourneys } from '../../services/journey/getAllJourneys';
 import JourneyCardSkeleton from '../../components/JourneyCardSkeleton';
 import JourneyCard from '../../components/JourneyCard';
 import { useNavigate } from 'react-router-dom';
-// import stoicismIconDark from '../../assets/journeyIcons/Stoicism/stoicismDark.png';
 
 const Journey = () => {
   const { data: journeys, isLoading } = useGetAllJourneys();

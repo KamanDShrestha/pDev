@@ -10,6 +10,17 @@ export type JourneyData = {
   actionSteps: object;
 };
 
+export type AddJourneyData = {
+  name: string;
+  description: string;
+  length: number;
+  imageLinks: { dark: string; light: string };
+  importance: string[];
+  learningQuotes: string[];
+  usages: string[];
+  actionSteps: object;
+};
+
 export type LoginData = {
   email: string;
   password: string;
