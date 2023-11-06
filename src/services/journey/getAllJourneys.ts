@@ -8,7 +8,7 @@ export function useGetAllJourneys() {
     queryFn: () =>
       axiosInstance
         .get('/journey/getAllJourneys')
-        .then((response) => response.data),
+        .then((response) => response.data.allJourneys),
   });
 
   return response;

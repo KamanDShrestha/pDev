@@ -1,4 +1,5 @@
 export type JourneyData = {
+  _id: string;
   name: string;
   description: string;
   length: number;

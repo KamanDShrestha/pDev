@@ -38,6 +38,7 @@ export interface JourneyCardProps {
   usages: string[];
   learningQuotes?: string[];
   actionSteps?: ActionSteps[];
+  onBrowseClick?: () => void;
 }
 
 const JourneyCard = ({
@@ -47,6 +48,7 @@ const JourneyCard = ({
   journeyLength,
   importance,
   usages,
+  onBrowseClick,
 }: JourneyCardProps) => {
   const { theme } = useTheme();
   return (
@@ -57,7 +59,7 @@ const JourneyCard = ({
             <Card className='w-[350px] sm:w-[400px]'>
               <CardHeader>
                 <CardTitle>
-                  <div className='flex items-center gap-10'>
+                  <div className='flex items-center justify-around gap-10'>
                     {journeyName}
                     <img
                       src={
@@ -93,7 +95,8 @@ const JourneyCard = ({
                   <span>{journeyLength}</span>
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className='space-x-4'>
+                <Button onClick={onBrowseClick}>Browse</Button>
                 <Button>Begin</Button>
               </CardFooter>
             </Card>
