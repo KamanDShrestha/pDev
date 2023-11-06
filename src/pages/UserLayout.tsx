@@ -7,10 +7,14 @@ const UserLayout = () => {
   return (
     <div>
       <div className='flex justify-between p-5'>
-        <Logo />
-        <div className='flex gap-3 px-2'>
+        <div className='hidden lg:block'>
+          <Logo />
+        </div>
+        <div className='flex justify-between w-screen gap-3 px-2'>
           <NavBar />
-          <ModeToggle />
+          <div>
+            <ModeToggle />
+          </div>
         </div>
       </div>
       <Outlet />
