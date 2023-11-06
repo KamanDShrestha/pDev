@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import setToLocalStorage from '../localStorage/setToLocalStorage';
 import { AuthContextType, useAuthContext } from '../../context/AuthProvider';
 import { LoginData } from '../../types';
-
+import toast from 'react-hot-toast';
 export function useLoginUser() {
   const { setUser } = useAuthContext();
 
@@ -17,6 +17,7 @@ export function useLoginUser() {
     mutationFn: (data: LoginData) =>
       axiosInstance.post('/auth/login', data).then((response) => response.data),
     onSuccess: (response) => {
+      toast.success('You have successfully been logged in.');
       console.log(response);
       setToLocalStorage('authentication', {
         firstName: response.user.firstName,
