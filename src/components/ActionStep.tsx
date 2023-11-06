@@ -20,16 +20,8 @@ interface ActionStepProps {
 const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
   const providedActionStep = watch(`day${day}actionStep`);
   const providedDescription = watch(`day${day}description`);
-  //   console.log(day, providedActionStep, providedDescription);
 
-  //   const providedAdditionalActionStep1 = watch(`day${day}additionalStep1`);
-  //   const providedAdditionalActionStep2 = watch(`day${day}additionalStep2`);
-  //   const providedAdditionalActionStep3 = watch(`day${day}additionalStep3`);
-  //   console.log(
-  //     providedAdditionalActionStep1,
-  //     providedAdditionalActionStep2,
-  //     providedAdditionalActionStep3
-  //   );
+  console.log(errors);
   return (
     <div className='flex flex-col gap-3'>
       <div className='flex items-center gap-4'>
@@ -47,9 +39,20 @@ const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
           >
             Action Step
           </InputFieldLabel>
-          <Input {...register(`day${day}actionStep`)} type='text' />
+          <Input
+            {...register(`day${day}actionStep`, {
+              required: 'Action Step need to be provided',
+              minLength: {
+                value: 10,
+                message: 'Action step must have 10 characters',
+              },
+            })}
+            type='text'
+          />
           {errors[`day${day}actionStep`] && (
-            <ErrorMessage>{errors.journeyName?.message as string}</ErrorMessage>
+            <ErrorMessage>
+              {errors[`day${day}actionStep`]?.message as string}
+            </ErrorMessage>
           )}
         </div>
 
@@ -63,18 +66,35 @@ const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
           >
             Description
           </InputFieldLabel>
-          <Textarea {...register(`day${day}description`)} />
+          <Textarea
+            {...register(`day${day}description`, {
+              required: 'Description need to be provided',
+              minLength: {
+                value: 20,
+                message: 'Description must have at least 20 characters',
+              },
+              maxLength: {
+                value: 50,
+                message: 'Description must not have more than 20 characters',
+              },
+            })}
+          />
           {errors[`day${day}description`] && (
-            <ErrorMessage>{errors.journeyName?.message as string}</ErrorMessage>
+            <ErrorMessage>
+              {errors[`day${day}description`]?.message as string}
+            </ErrorMessage>
           )}
         </div>
         <div className='relative flex flex-col gap-2 group'>
-          <label
-            htmlFor={`${day}additionalActionSteps`}
-            className='font-medium'
-          >
-            Additional Steps
-          </label>
+          <div>
+            <label
+              htmlFor={`${day}additionalActionSteps`}
+              className='font-medium'
+            >
+              Additional Steps
+            </label>
+            <span className='text-xs'> {'(Optional)'}</span>
+          </div>
 
           {Array.from(Array(3)).map((_, index) => (
             <>

@@ -91,7 +91,15 @@ const AddJourneyPage = () => {
       }
     });
 
-    console.log('journey', data);
+    console.log({
+      name: providedName,
+      description: providedDescription,
+      length: numberOfActionSteps,
+      importance: journeyImportance.current,
+      learningQuotes: journeyQuotes.current,
+      usages: journeyUsages.current,
+      actionSteps: actionSteps.current,
+    });
   }
 
   function handleSaveButton(data: FieldValues) {
@@ -156,7 +164,6 @@ const AddJourneyPage = () => {
               data[key] !== '')
           ) {
             const additionalStep = data[key];
-
             if (actionSteps.current[`day${index + 1}`].additionalSteps) {
               actionSteps.current = {
                 ...actionSteps.current,
@@ -201,14 +208,14 @@ const AddJourneyPage = () => {
       </div>
       <div className='flex flex-wrap items-center justify-around gap-5'>
         <form onSubmit={handleSubmit(handleJourneySubmit)}>
-          <Card className='overflow-scroll'>
+          <Card>
             <CardHeader>
               <CardTitle>Add new journey for the users !</CardTitle>
               <CardDescription>
                 Through this, add new journeys for the users
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className='overflow-scroll h-[600px]'>
               <div className='flex flex-col gap-3'>
                 <div className='relative group'>
                   <InputFieldLabel
@@ -219,10 +226,19 @@ const AddJourneyPage = () => {
                   >
                     Journey Name
                   </InputFieldLabel>
-                  <Input {...register('journeyName')} type='text' />
+                  <Input
+                    {...register('journeyName', {
+                      required: 'Journey name need to be provided',
+                      minLength: {
+                        value: 5,
+                        message: 'Journey name must have at least 5 characters',
+                      },
+                    })}
+                    type='text'
+                  />
                   {errors.journeyName && (
                     <ErrorMessage>
-                      {errors.journeyName?.message as string}
+                      {errors.journeyName.message as string}
                     </ErrorMessage>
                   )}
                 </div>
@@ -236,7 +252,20 @@ const AddJourneyPage = () => {
                   >
                     Journey Description
                   </InputFieldLabel>
-                  <Textarea {...register('journeyDescription')} />
+                  <Textarea
+                    {...register('journeyDescription', {
+                      required: 'Description need to be provided',
+                      minLength: {
+                        value: 20,
+                        message: 'Description must have at least 20 characters',
+                      },
+                      maxLength: {
+                        value: 100,
+                        message:
+                          'Description must not have more than 100 characters',
+                      },
+                    })}
+                  />
                   {errors.journeyDescription && (
                     <ErrorMessage>
                       {errors.journeyDescription.message as string}
@@ -260,7 +289,10 @@ const AddJourneyPage = () => {
                         For Dark Mode
                       </InputFieldLabel>
                       <Input
-                        {...register('journeyIconImageDark')}
+                        {...register('journeyIconImageDark', {
+                          required:
+                            'Image link for dark mode need to be provided',
+                        })}
                         type='text'
                       />
                       {errors.journeyIconImageDark && (
@@ -280,7 +312,10 @@ const AddJourneyPage = () => {
                         For Light Mode
                       </InputFieldLabel>
                       <Input
-                        {...register('journeyIconImageLight')}
+                        {...register('journeyIconImageLight', {
+                          required:
+                            'Image link for light mode need to be provided',
+                        })}
                         type='text'
                       />
                       {errors.journeyIconImageLight && (
@@ -301,16 +336,22 @@ const AddJourneyPage = () => {
                       <>
                         <Input
                           key={index}
-                          {...register(`journeyImportance${index + 1}`)}
+                          {...register(`journeyImportance${index + 1}`, {
+                            required:
+                              'Please provide importance for this journey',
+                          })}
                         />
+                        {errors[`journeyImportance${index + 1}`] && (
+                          <ErrorMessage>
+                            {
+                              errors[`journeyImportance${index + 1}`]
+                                ?.message as string
+                            }
+                          </ErrorMessage>
+                        )}
                       </>
                     ))}
                   </div>
-                  {/* {errors.journeyImportance && (
-                    <ErrorMessage>
-                      {errors.journeyImportance.message as string}
-                    </ErrorMessage>
-                  )} */}
                 </div>
 
                 <div className='relative group'>
@@ -322,16 +363,21 @@ const AddJourneyPage = () => {
                       <>
                         <Input
                           key={index}
-                          {...register(`journeyUsage${index + 1}`)}
+                          {...register(`journeyUsage${index + 1}`, {
+                            required: 'Please provide usages for this journey',
+                          })}
                         />
+                        {errors[`journeyUsage${index + 1}`] && (
+                          <ErrorMessage>
+                            {
+                              errors[`journeyUsage${index + 1}`]
+                                ?.message as string
+                            }
+                          </ErrorMessage>
+                        )}
                       </>
                     ))}
                   </div>
-                  {/* {errors.journeyUsages && (
-                    <ErrorMessage>
-                      {errors.journeyUsages.message as string}
-                    </ErrorMessage>
-                  )} */}
                 </div>
                 <div className='relative group'>
                   <label htmlFor='journeyQuotes' className='font-medium'>
@@ -342,16 +388,21 @@ const AddJourneyPage = () => {
                       <>
                         <Input
                           key={index}
-                          {...register(`journeyQuotes${index + 1}`)}
+                          {...register(`journeyQuotes${index + 1}`, {
+                            required: 'Please provide quotes for this journey',
+                          })}
                         />
+                        {errors[`journeyQuotes${index + 1}`] && (
+                          <ErrorMessage>
+                            {
+                              errors[`journeyQuotes${index + 1}`]
+                                ?.message as string
+                            }
+                          </ErrorMessage>
+                        )}
                       </>
                     ))}
                   </div>
-                  {errors.journeyQuotes && (
-                    <ErrorMessage>
-                      {errors.journeyQuotes.message as string}
-                    </ErrorMessage>
-                  )}
                 </div>
                 <div>
                   <label htmlFor='journeyQuotes' className='font-medium'>
@@ -372,7 +423,6 @@ const AddJourneyPage = () => {
                         {Array.from(Array(20)).map((_, index) => (
                           <>
                             <SelectItem value={(index + 10).toString()}>
-                              {' '}
                               {index + 10}
                             </SelectItem>
                           </>
