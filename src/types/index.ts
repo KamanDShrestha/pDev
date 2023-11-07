@@ -7,7 +7,9 @@ export type JourneyData = {
   importance: string[];
   learningQuotes: string[];
   usages: string[];
-  actionSteps: object;
+  actionSteps: {
+    [key: string]: ActionStep;
+  };
 };
 
 export type AddJourneyData = {
@@ -39,4 +41,15 @@ export type ProfileCompletionData = {
   challenges: string[];
   goals: string[];
   values: string[];
+};
+
+export type ActionStep = {
+  actionStep: string;
+  description: string;
+  evidences: string[];
+  additionalSteps: string[];
+};
+
+export type ActionSteps = {
+  [key: string]: ActionStep;
 };

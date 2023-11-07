@@ -17,7 +17,7 @@ interface ActionStepProps {
   watch: UseFormWatch<FieldValues>;
 }
 
-const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
+const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
   const providedActionStep = watch(`day${day}actionStep`);
   const providedDescription = watch(`day${day}description`);
 
@@ -134,4 +134,4 @@ const ActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
   );
 };
 
-export default ActionStep;
+export default AddActionStep;

@@ -13,7 +13,7 @@ import InputFieldLabel from '../../components/InputFieldLabel';
 import { Input } from '../../components/ui/input';
 import ErrorMessage from '../../components/ErrorMessage';
 import { Button } from '../../components/ui/button';
-import ActionStep from '../../components/ActionStep';
+import ActionStep from '../../components/AddActionStep';
 import { Textarea } from '../../components/ui/textarea';
 import {
   Select,
@@ -26,15 +26,7 @@ import {
 } from '../../components/ui/select';
 import JourneyCard from '../../components/JourneyCard';
 import { useAddNewJourney } from '../../services/journey/addNewJourney';
-
-type ActionSteps = {
-  [key: string]: {
-    actionStep: string;
-    description: string;
-    evidences: string[];
-    additionalSteps: string[];
-  };
-};
+import { ActionSteps } from '../../types';
 
 const AddJourneyPage = () => {
   const {

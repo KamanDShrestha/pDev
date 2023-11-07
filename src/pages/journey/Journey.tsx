@@ -30,7 +30,7 @@ const Journey = () => {
   }
   return (
     <div className='p-5 mt-5 mb-5'>
-      <div className='w-screen h-[80vh] bg-gray-300'>
+      <div className='w-screen h-[80vh] bg-gray-200'>
         Placeholder for quotes
       </div>
       <div className='mt-8'>

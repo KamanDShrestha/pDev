@@ -1,5 +1,10 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import JourneyCardSkeleton from '../../components/JourneyCardSkeleton';
+import { Skeleton } from '../../components/ui/skeleton';
+import useGetSpecificJourney from '../../services/journey/getSpecificJourney';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import ActionStepShowcase from '../../components/ActionStepShowcase';
+import { Button } from '../../components/ui/button';
 
 const validJourneys = [
   'mindfulness',
@@ -11,16 +16,50 @@ const validJourneys = [
 
 const SpecificJourney = () => {
   const params = useParams();
+  const { data: journey, isLoading } = useGetSpecificJourney(
+    params.name as string
+  );
+  console.log(journey);
   const navigate = useNavigate();
-  const searchParams = useSearchParams();
-  console.log(searchParams[0].get('id'));
+
   useEffect(() => {
     if (!validJourneys.includes(params.name as string)) {
       navigate('/journeyNotFound');
     }
   }, [navigate, params.name]);
-  console.log(params);
-  return <div>SpecificJourney</div>;
+  return (
+    <div>
+      <div className='w-screen h-[80vh] bg-gray-200 flex items-center '>
+        <div className='p-4 text-3xl'>
+          {journey ? journey.name : <Skeleton className='h-4 w-[450px]' />}
+        </div>
+      </div>
+      <div className='p-3'>
+        <div className='flex flex-wrap items-center justify-between'>
+          <h2 className='mt-2 mb-5 text-4xl font-semibold'>
+            Action Steps for Stoicism
+          </h2>
+          <Button onClick={() => navigate('/currentJourney')}>
+            Begin the journey
+          </Button>
+        </div>
+        <div className='flex flex-wrap justify-center gap-5 p-3'>
+          {isLoading &&
+            Array.from(Array(4)).map((_, index) => (
+              <JourneyCardSkeleton key={index} />
+            ))}
+
+          {journey &&
+            Array.from(Array(journey.length)).map((_, index) => (
+              <ActionStepShowcase
+                day={index + 1}
+                actionStep={journey.actionSteps[`day${index + 1}`]}
+              />
+            ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default SpecificJourney;

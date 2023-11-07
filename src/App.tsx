@@ -23,6 +23,7 @@ import AddJourneyPage from './pages/admin/AddJourneyPage';
 import SpecificJourney from './pages/journey/SpecificJourney';
 import JourneyNotFound from './pages/JourneyNotFound';
 import UnauthorizedPage from './pages/UnauthorizedPage';
+import CurrentJourney from './pages/journey/CurrentJourney';
 
 function App() {
   return (
@@ -57,6 +58,10 @@ function App() {
                   <Route path={'/payment'} element={<Payment />} />
                   <Route path={'/wellbeing'} element={<WellBeing />} />
                   <Route path={'/profile'} element={<Profile />} />
+                  <Route
+                    path={'/currentJourney'}
+                    element={<CurrentJourney />}
+                  />
                 </Route>
               </Route>
 
