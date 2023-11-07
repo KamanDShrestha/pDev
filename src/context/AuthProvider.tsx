@@ -7,6 +7,7 @@ export type AuthContextType = {
   email: string;
   role: string;
   accessToken: string;
+  id: string;
   isNewUser: boolean;
 };
 

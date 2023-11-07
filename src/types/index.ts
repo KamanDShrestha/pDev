@@ -1,3 +1,8 @@
+export type AddEmbarkedJourneyData = {
+  userId: string;
+  journeyId: string;
+};
+
 export type JourneyData = {
   _id: string;
   name: string;

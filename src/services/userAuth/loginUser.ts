@@ -33,6 +33,7 @@ export function useLoginUser() {
           email: response?.user?.email,
           role: response?.user?.role,
           accessToken: response?.token,
+          id: response?.user?._id,
         } as AuthContextType);
         if (response.user.isNewUser) navigate('/newUser');
         else navigate(from, { replace: true });

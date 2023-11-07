@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ActionStepShowcase from '../../components/ActionStepShowcase';
 import { Button } from '../../components/ui/button';
+import useAddEmbarkedJourney from '../../services/embarkedJourneys/addEmbarkedJourney';
+import { useAuthContext } from '../../context/AuthProvider';
 
 const validJourneys = [
   'mindfulness',
@@ -22,11 +24,21 @@ const SpecificJourney = () => {
   console.log(journey);
   const navigate = useNavigate();
 
+  const { user } = useAuthContext();
+  const { mutate } = useAddEmbarkedJourney();
+
   useEffect(() => {
     if (!validJourneys.includes(params.name as string)) {
       navigate('/journeyNotFound');
     }
   }, [navigate, params.name]);
+
+  function handleBeginButton() {
+    console.log(user?.id, journey?._id);
+    if (!user?.id || !journey?._id) return;
+    mutate({ userId: user.id, journeyId: journey._id });
+  }
+
   return (
     <div>
       <div className='w-screen h-[80vh] bg-gray-200 flex items-center '>
@@ -39,9 +51,7 @@ const SpecificJourney = () => {
           <h2 className='mt-2 mb-5 text-4xl font-semibold'>
             Action Steps for Stoicism
           </h2>
-          <Button onClick={() => navigate('/currentJourney')}>
-            Begin the journey
-          </Button>
+          <Button onClick={handleBeginButton}>Begin the journey</Button>
         </div>
         <div className='flex flex-wrap justify-center gap-5 p-3'>
           {isLoading &&
