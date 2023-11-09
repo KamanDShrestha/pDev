@@ -9,6 +9,7 @@ export default function useAddEmbarkedJourney() {
     onSuccess: (data) => {
       console.log(data);
     },
+    onError: (error) => console.log(error),
   });
   return response;
 }

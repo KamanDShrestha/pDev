@@ -25,6 +25,7 @@ const SpecificJourney = () => {
   const navigate = useNavigate();
 
   const { user } = useAuthContext();
+  console.log(user);
   const { mutate } = useAddEmbarkedJourney();
 
   useEffect(() => {
@@ -36,7 +37,17 @@ const SpecificJourney = () => {
   function handleBeginButton() {
     console.log(user?.id, journey?._id);
     if (!user?.id || !journey?._id) return;
-    mutate({ userId: user.id, journeyId: journey._id });
+    mutate(
+      { userId: user.id, journeyId: journey._id },
+      {
+        onSuccess: () => {
+          navigate(`/currentJourney/${journey._id}`);
+        },
+        onError: () => {
+          navigate('/unauthorized');
+        },
+      }
+    );
   }
 
   return (

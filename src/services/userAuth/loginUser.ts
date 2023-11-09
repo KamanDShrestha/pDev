@@ -20,6 +20,7 @@ export function useLoginUser() {
       toast.success('You have successfully been logged in.');
       console.log(response);
       setToLocalStorage('authentication', {
+        id: response.user._id,
         firstName: response.user.firstName,
         lastName: response.user.lastName,
         email: response.user.email,

@@ -1,3 +1,27 @@
+export type GetEmbarkedJourneyData = {
+  success: boolean;
+  message: string;
+  embarkedJourney: {
+    _id: string;
+    userId: string;
+    journeyId: string;
+    keyLearning: [string];
+    reflection: [string];
+    isJourneyCompleted: boolean;
+    dateCompleted: Date;
+    actionSteps: {
+      [key: string]: {
+        actionStep: string;
+        description: string;
+        evidences: string[];
+        additionalSteps: string[];
+        isCompleted: boolean;
+        status: 'idle' | 'completed' | 'due' | 'blocked' | 'ongoing';
+      };
+    };
+  };
+};
+
 export type AddEmbarkedJourneyData = {
   userId: string;
   journeyId: string;

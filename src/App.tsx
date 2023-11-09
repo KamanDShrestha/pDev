@@ -59,7 +59,7 @@ function App() {
                   <Route path={'/wellbeing'} element={<WellBeing />} />
                   <Route path={'/profile'} element={<Profile />} />
                   <Route
-                    path={'/currentJourney'}
+                    path={'/currentJourney/:id'}
                     element={<CurrentJourney />}
                   />
                 </Route>
