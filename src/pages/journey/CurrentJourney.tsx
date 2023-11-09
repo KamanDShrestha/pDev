@@ -1,7 +1,15 @@
+import { Skeleton } from '../../components/ui/skeleton';
+import { Checkbox } from '../../components/ui/checkbox';
 import { useAuthContext } from '../../context/AuthProvider';
 import useGetEmbarkedJourney from '../../services/embarkedJourneys/getEmbarkedJourney';
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from '../../components/ui/dialog';
+import { Button } from '../../components/ui/button';
 
 const CurrentJourney = () => {
   const { user } = useAuthContext();
@@ -10,8 +18,11 @@ const CurrentJourney = () => {
     user?.id as string,
     journeyId?.id as string
   );
-  console.log(error);
-  console.log(journeyId.id);
+
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // // const selectedJourneyDay = searchParams.
+  const [selectedJourneyDay, setSelectedJourneyDay] = useState(1);
+
   console.log('current Journey', data);
   return (
     <div>
@@ -24,19 +35,153 @@ const CurrentJourney = () => {
           Today's action step
         </h2>
 
-        {/* getting the action step in which the journey is ongoing as only one of the journey would be ongoing*/}
-        {(data?.embarkedJourney &&
-          data.embarkedJourney.actionSteps[
-            Object.keys(data.embarkedJourney.actionSteps).filter(
-              (day) =>
-                data.embarkedJourney?.actionSteps[day].status === 'ongoing'
-            )[0]
-          ]?.actionStep) ||
-          'You have completed all the journey'}
+        <div className='text-xl font-medium'>
+          {/* getting the action step in which the journey is ongoing as only one of the journey would be ongoing*/}
+          {(data?.embarkedJourney &&
+            data.embarkedJourney.actionSteps[
+              Object.keys(data.embarkedJourney.actionSteps).filter(
+                (day) =>
+                  data.embarkedJourney?.actionSteps[day].status === 'ongoing'
+              )[0]
+            ]?.actionStep) ||
+            'You have completed all the journey'}
+        </div>
       </div>
 
-      <div>
+      <div className='p-10'>
         <h2 className='mt-2 mb-5 text-4xl font-semibold'>Your journey</h2>
+        <div>
+          {isLoading &&
+            Array.from(Array(7)).map((_, index) => (
+              <div className='flex gap-4' key={index}>
+                <Skeleton className='w-2 h-2 rounded-full' />
+                <Skeleton className='w-[60vh] h-2' />
+              </div>
+            ))}
+
+          {data?.embarkedJourney &&
+            Object.keys(data.embarkedJourney.actionSteps).map(
+              (day: string, index) => (
+                <div className='flex items-center gap-4 p-3 text-lg font-medium'>
+                  <Dialog>
+                    <DialogTrigger>
+                      <Checkbox
+                        defaultChecked={
+                          data.embarkedJourney.actionSteps[day].isCompleted
+                        }
+                        disabled={
+                          data.embarkedJourney.actionSteps[day].isCompleted
+                        }
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <div className='space-y-5'>
+                        <h1 className='text-2xl font-semibold'>
+                          Do you want to mark this day as completed?
+                        </h1>
+                        <div className='flex justify-between'>
+                          <Button>Cancel</Button>
+                          <Button>Confirm</Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  <div
+                    className='hover:cursor-pointer'
+                    onClick={() => setSelectedJourneyDay(index + 1)}
+                  >
+                    <Dialog>
+                      <DialogTrigger>
+                        <span className='text-xl'>{`Day ${index + 1}`}</span>
+                        <span> - </span>
+                        {data.embarkedJourney.actionSteps[day].actionStep}
+                      </DialogTrigger>
+
+                      <DialogContent>
+                        <div>
+                          <h1 className='text-2xl font-semibold'>
+                            Day {selectedJourneyDay}
+                          </h1>
+                          <span className='text-lg font-medium'>
+                            Level up your day
+                          </span>
+
+                          <div>
+                            <h2 className='text-xl font-semibold'>
+                              Action step for the day
+                            </h2>
+                            <p>
+                              {
+                                data.embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].actionStep
+                              }
+                            </p>
+                          </div>
+
+                          <div>
+                            <h2 className='text-xl font-semibold'>
+                              Description
+                            </h2>
+                            <p>
+                              {
+                                data.embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].description
+                              }
+                            </p>
+                          </div>
+                          {data.embarkedJourney.actionSteps[
+                            `day${selectedJourneyDay}`
+                          ].additionalSteps && (
+                            <div>
+                              <h2 className='text-xl font-semibold'>
+                                Additional Steps{' '}
+                              </h2>
+                              <p>
+                                {data.embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].additionalSteps.map((step: string, index) => (
+                                  <p key={index}>
+                                    {index + 1}. {step}
+                                  </p>
+                                ))}
+                              </p>
+                            </div>
+                          )}
+
+                          {data.embarkedJourney.actionSteps[
+                            `day${selectedJourneyDay}`
+                          ].evidences && (
+                            <div>
+                              <h2 className='text-xl font-semibold'>
+                                Evidences
+                              </h2>
+                              {data.embarkedJourney.actionSteps[
+                                `day${selectedJourneyDay}`
+                              ].evidences.map((link: string, index) => (
+                                <p>
+                                  <Link key={index} to={link} target='_blank'>
+                                    {index + 1}. {link}
+                                  </Link>
+                                </p>
+                              ))}
+                            </div>
+                          )}
+                          <div className='flex items-center gap-2'>
+                            <Checkbox />
+                            <span className='font-medium'>
+                              Yay, I completed the action step for the day. 🎉
+                            </span>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </div>
+              )
+            )}
+        </div>
       </div>
     </div>
   );
