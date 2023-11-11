@@ -6,22 +6,43 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogTrigger,
 } from '../../components/ui/dialog';
 import { Button } from '../../components/ui/button';
+import useUpdateActionCompletion from '../../services/embarkedJourneys/updateActionCompletion';
+import { useQueryClient } from '@tanstack/react-query';
 
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
-  const { data, error, isLoading } = useGetEmbarkedJourney(
+  const { data, isLoading } = useGetEmbarkedJourney(
     user?.id as string,
     journeyId?.id as string
   );
-
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // // const selectedJourneyDay = searchParams.
+  const { mutate } = useUpdateActionCompletion();
+  const queryClient = useQueryClient();
   const [selectedJourneyDay, setSelectedJourneyDay] = useState(1);
+  const [isActionStepChecked, setIsActionStepChecked] = useState(false);
+
+  function handleConfirmActionStepCompletion(day: string) {
+    mutate(
+      {
+        journeyId: journeyId?.id as string,
+        day: day,
+        userId: user?.id as string,
+      },
+      {
+        onSuccess: () => {
+          console.log('Action step completion updated successfully');
+          queryClient.invalidateQueries({
+            queryKey: ['embarkedJourney', user?.id, journeyId.id],
+          });
+        },
+      }
+    );
+  }
 
   console.log('current Journey', data);
   return (
@@ -51,13 +72,15 @@ const CurrentJourney = () => {
       <div className='p-10'>
         <h2 className='mt-2 mb-5 text-4xl font-semibold'>Your journey</h2>
         <div>
-          {isLoading &&
-            Array.from(Array(7)).map((_, index) => (
-              <div className='flex gap-4' key={index}>
-                <Skeleton className='w-2 h-2 rounded-full' />
-                <Skeleton className='w-[60vh] h-2' />
-              </div>
-            ))}
+          <div className='flex flex-col gap-8'>
+            {isLoading &&
+              Array.from(Array(7)).map((_, index) => (
+                <div className='flex gap-4' key={index}>
+                  <Skeleton className='w-8 h-8 rounded-full' />
+                  <Skeleton className='w-[80vw] h-8' />
+                </div>
+              ))}
+          </div>
 
           {data?.embarkedJourney &&
             Object.keys(data.embarkedJourney.actionSteps).map(
@@ -68,6 +91,10 @@ const CurrentJourney = () => {
                       <Checkbox
                         defaultChecked={
                           data.embarkedJourney.actionSteps[day].isCompleted
+                        }
+                        checked={
+                          data.embarkedJourney.actionSteps[day].isCompleted ||
+                          isActionStepChecked
                         }
                         disabled={
                           data.embarkedJourney.actionSteps[day].isCompleted
@@ -80,8 +107,22 @@ const CurrentJourney = () => {
                           Do you want to mark this day as completed?
                         </h1>
                         <div className='flex justify-between'>
-                          <Button>Cancel</Button>
-                          <Button>Confirm</Button>
+                          <DialogClose>
+                            <Button
+                              onClick={() => setIsActionStepChecked(false)}
+                            >
+                              Cancel
+                            </Button>
+                          </DialogClose>
+                          <DialogClose>
+                            <Button
+                              onClick={() =>
+                                handleConfirmActionStepCompletion(day)
+                              }
+                            >
+                              Confirm
+                            </Button>
+                          </DialogClose>
                         </div>
                       </div>
                     </DialogContent>
@@ -169,7 +210,23 @@ const CurrentJourney = () => {
                             </div>
                           )}
                           <div className='flex items-center gap-2'>
-                            <Checkbox />
+                            <Checkbox
+                              defaultChecked={
+                                data.embarkedJourney.actionSteps[day]
+                                  .isCompleted
+                              }
+                              checked={
+                                data.embarkedJourney.actionSteps[day]
+                                  .isCompleted || isActionStepChecked
+                              }
+                              disabled={
+                                data.embarkedJourney.actionSteps[day]
+                                  .isCompleted
+                              }
+                              onClick={() =>
+                                handleConfirmActionStepCompletion(day)
+                              }
+                            />
                             <span className='font-medium'>
                               Yay, I completed the action step for the day. 🎉
                             </span>

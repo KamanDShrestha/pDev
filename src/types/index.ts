@@ -1,3 +1,9 @@
+export type UpdateActionCompletionData = {
+  journeyId: string;
+  userId: string;
+  day: string;
+};
+
 export type GetEmbarkedJourneyData = {
   success: boolean;
   message: string;
