@@ -26,7 +26,7 @@ const Journey = () => {
   console.log(journeys);
 
   function handleJourneyBrowseClick(name: string) {
-    navigate('/journey/' + name.toLowerCase());
+    navigate('/journeys/' + name.toLowerCase());
   }
   return (
     <div className='p-5 mt-5 mb-5'>

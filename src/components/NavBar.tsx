@@ -50,7 +50,7 @@ const NavBar = () => {
               Wellbeing
             </NavLink>
             <NavLink
-              to={'/journey'}
+              to={'/journeys'}
               className={cn(navigationMenuTriggerStyle(), 'text-base')}
             >
               Journeys
@@ -90,7 +90,7 @@ const NavBar = () => {
             </NavLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavLink to={'/journey'} className={navigationMenuTriggerStyle()}>
+            <NavLink to={'/journeys'} className={navigationMenuTriggerStyle()}>
               Journeys
             </NavLink>
           </NavigationMenuItem>

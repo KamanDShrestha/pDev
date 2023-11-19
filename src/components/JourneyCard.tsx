@@ -20,6 +20,8 @@ import {
   CardFooter,
 } from './ui/card';
 import { useTheme } from './ThemeProvider';
+import { useAuthContext } from '../context/AuthProvider';
+import useGetEmbarkedJourney from '../services/embarkedJourneys/getEmbarkedJourney';
 
 interface ActionSteps {
   description: string;
@@ -51,6 +53,10 @@ const JourneyCard = ({
   onBrowseClick,
 }: JourneyCardProps) => {
   const { theme } = useTheme();
+  // const { user } = useAuthContext();
+
+  // const {data} = useGetEmbarkedJourney(user?.id as string, jou)
+
   return (
     <div>
       <TooltipProvider>

@@ -17,7 +17,7 @@ const Home = () => {
       <div className='flex flex-col gap-5 mb-3'>
         <h1 className='text-7xl'>Sync yourself.</h1>
         <h2 className='text-4xl'>Let your transformation finds its rhythm.</h2>
-        <NavLink to={'/journey'} className='hover:underline'>
+        <NavLink to={'/journeys'} className='hover:underline'>
           <span className='flex items-center gap-3'>
             Embark onto your journey
             <IoIosArrowRoundForward />
