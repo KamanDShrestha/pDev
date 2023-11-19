@@ -1,5 +1,5 @@
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthProvider';
+import { useAuthContext } from '../../context/AuthProvider';
 
 const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user } = useAuthContext();

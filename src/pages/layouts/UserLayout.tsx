@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import Logo from '../components/Logo';
-import NavBar from '../components/NavBar';
-import { ModeToggle } from '../components/ThemeToggleButton';
+import Logo from '../../components/Logo';
+import NavBar from '../..//components/NavBar';
+import { ModeToggle } from '../../components/ThemeToggleButton';
 
 const UserLayout = () => {
   return (

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GettingStarted from './pages/GettingStarted';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 import { ThemeProvider } from './components/ThemeProvider';
 import Home from './pages/Home';
@@ -10,12 +10,12 @@ import Journey from './pages/journey/Journey';
 import Payment from './pages/Payment';
 import NewUser from './pages/NewUser';
 
-import AuthRequire from './pages/AuthRequire';
+import AuthRequire from './pages/auth/AuthRequire';
 import AuthProvider from './context/AuthProvider';
 import PageNotFound from './pages/PageNotFound';
 import TempPreference from './pages/TempPreference';
-import AuthLayout from './pages/AuthLayout';
-import UserLayout from './pages/UserLayout';
+import AuthLayout from './pages/layouts/AuthLayout';
+import UserLayout from './pages/layouts/UserLayout';
 import WellBeing from './pages/WellBeing';
 import Community from './pages/Community';
 import Profile from './pages/Profile';
@@ -24,6 +24,8 @@ import SpecificJourney from './pages/journey/SpecificJourney';
 import JourneyNotFound from './pages/JourneyNotFound';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import CurrentJourney from './pages/journey/CurrentJourney';
+import UsersAction from './pages/admin/UsersAction';
+import VerifyJourneyPage from './pages/qha/VerifyJourneyPage';
 
 function App() {
   return (
@@ -49,9 +51,9 @@ function App() {
                   <Route path={'/home'} element={<Home />} />
                   <Route path={'/dashboard'} element={<Dashboard />} />
                   <Route path={'/community'} element={<Community />} />
-                  <Route path={'/journey'} element={<Journey />} />
+                  <Route path={'/journeys'} element={<Journey />} />
                   <Route
-                    path={'/journey/:name'}
+                    path={'/journeys/:name'}
                     element={<SpecificJourney />}
                     errorElement={<JourneyNotFound />}
                   />
@@ -67,6 +69,11 @@ function App() {
 
               <Route element={<AuthRequire allowedRoles={['admin']} />}>
                 <Route path='/addJourney' element={<AddJourneyPage />} />
+                <Route path='/users' element={<UsersAction />} />
+              </Route>
+
+              <Route element={<AuthRequire allowedRoles={['qha']} />}>
+                <Route path='/verifyJourney' element={<VerifyJourneyPage />} />
               </Route>
 
               <Route path='/journeyNotFound' element={<JourneyNotFound />} />

@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { registerSchema } from '../schema/authSchema';
+import { registerSchema } from '../../schema/authSchema';
 
 import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
@@ -12,12 +12,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../components/ui/card';
-import { Input } from '../components/ui/input';
-import InputFieldLabel from '../components/InputFieldLabel';
-import { Button } from '../components/ui/button';
-import ErrorMessage from '../components/ErrorMessage';
-import { useRegisterUser } from '../services/userAuth/registerUser';
+} from '../../components/ui/card';
+import { Input } from '../../components/ui/input';
+import InputFieldLabel from '../../components/InputFieldLabel';
+import { Button } from '../../components/ui/button';
+import ErrorMessage from '../../components/ErrorMessage';
+import { useRegisterUser } from '../../services/userAuth/registerUser';
 
 import { NavLink } from 'react-router-dom';
 

@@ -15,6 +15,7 @@ export type GetEmbarkedJourneyData = {
     reflection: [string];
     isJourneyCompleted: boolean;
     dateCompleted: Date;
+    currentDay: string;
     actionSteps: {
       [key: string]: {
         actionStep: string;

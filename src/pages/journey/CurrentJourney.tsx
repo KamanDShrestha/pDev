@@ -2,7 +2,7 @@ import { Skeleton } from '../../components/ui/skeleton';
 import { Checkbox } from '../../components/ui/checkbox';
 import { useAuthContext } from '../../context/AuthProvider';
 import useGetEmbarkedJourney from '../../services/embarkedJourneys/getEmbarkedJourney';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   Dialog,
@@ -17,10 +17,12 @@ import { useQueryClient } from '@tanstack/react-query';
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
-  const { data, isLoading } = useGetEmbarkedJourney(
+  const { data, isLoading, error } = useGetEmbarkedJourney(
     user?.id as string,
     journeyId?.id as string
   );
+
+  console.log(error);
   const { mutate } = useUpdateActionCompletion();
   const queryClient = useQueryClient();
   const [selectedJourneyDay, setSelectedJourneyDay] = useState(1);
@@ -88,18 +90,29 @@ const CurrentJourney = () => {
                 <div className='flex items-center gap-4 p-3 text-lg font-medium'>
                   <Dialog>
                     <DialogTrigger>
-                      <Checkbox
-                        defaultChecked={
-                          data.embarkedJourney.actionSteps[day].isCompleted
-                        }
-                        checked={
-                          data.embarkedJourney.actionSteps[day].isCompleted ||
-                          isActionStepChecked
-                        }
-                        disabled={
-                          data.embarkedJourney.actionSteps[day].isCompleted
-                        }
-                      />
+                      {data.embarkedJourney.actionSteps[day].status === 'due' ||
+                      data.embarkedJourney.actionSteps[day].status ===
+                        'ongoing' ? (
+                        <Checkbox
+                          defaultChecked={
+                            data.embarkedJourney.actionSteps[day].isCompleted
+                          }
+                          checked={
+                            data.embarkedJourney.actionSteps[day].isCompleted ||
+                            isActionStepChecked
+                          }
+                          disabled={
+                            data.embarkedJourney.actionSteps[day].isCompleted
+                          }
+                        />
+                      ) : (
+                        <Checkbox
+                          disabled
+                          checked={
+                            data.embarkedJourney.actionSteps[day].isCompleted
+                          }
+                        />
+                      )}
                     </DialogTrigger>
                     <DialogContent>
                       <div className='space-y-5'>
@@ -127,6 +140,8 @@ const CurrentJourney = () => {
                       </div>
                     </DialogContent>
                   </Dialog>
+
+                  {/* modal dialog for providing details of action steps */}
                   <div
                     className='hover:cursor-pointer'
                     onClick={() => setSelectedJourneyDay(index + 1)}
@@ -177,7 +192,7 @@ const CurrentJourney = () => {
                           ].additionalSteps && (
                             <div>
                               <h2 className='text-xl font-semibold'>
-                                Additional Steps{' '}
+                                Additional Steps
                               </h2>
                               <p>
                                 {data.embarkedJourney.actionSteps[
@@ -209,28 +224,59 @@ const CurrentJourney = () => {
                               ))}
                             </div>
                           )}
-                          <div className='flex items-center gap-2'>
-                            <Checkbox
-                              defaultChecked={
-                                data.embarkedJourney.actionSteps[day]
-                                  .isCompleted
-                              }
-                              checked={
-                                data.embarkedJourney.actionSteps[day]
-                                  .isCompleted || isActionStepChecked
-                              }
-                              disabled={
-                                data.embarkedJourney.actionSteps[day]
-                                  .isCompleted
-                              }
-                              onClick={() =>
-                                handleConfirmActionStepCompletion(day)
-                              }
-                            />
+
+                          {data.embarkedJourney.actionSteps[
+                            `day${selectedJourneyDay}`
+                          ].status === 'ongoing' && (
+                            <div className='flex items-center gap-2'>
+                              <Checkbox
+                                defaultChecked={
+                                  data.embarkedJourney.actionSteps[day]
+                                    .isCompleted
+                                }
+                                checked={
+                                  data.embarkedJourney.actionSteps[day]
+                                    .isCompleted || isActionStepChecked
+                                }
+                                disabled={
+                                  data.embarkedJourney.actionSteps[day]
+                                    .isCompleted
+                                }
+                                onClick={() =>
+                                  handleConfirmActionStepCompletion(day)
+                                }
+                              />
+                              <span className='font-medium'>
+                                Yay, I completed the action step for the day. 🎉
+                              </span>
+                            </div>
+                          )}
+
+                          {data.embarkedJourney.actionSteps[
+                            `day${selectedJourneyDay}`
+                          ].status === 'idle' && (
                             <span className='font-medium'>
-                              Yay, I completed the action step for the day. 🎉
+                              I will surely complete this on the respective day.
                             </span>
-                          </div>
+                          )}
+
+                          {data.embarkedJourney.actionSteps[
+                            `day${selectedJourneyDay}`
+                          ].status === 'blocked' && (
+                            <span className='font-medium'>
+                              Please complete previous days action steps to
+                              unlock this day's action step.
+                            </span>
+                          )}
+
+                          {data.embarkedJourney.actionSteps[
+                            `day${selectedJourneyDay}`
+                          ].status === 'due' && (
+                            <span className='font-medium'>
+                              Please complete this day to unlock the next day's
+                              action step.
+                            </span>
+                          )}
                         </div>
                       </DialogContent>
                     </Dialog>
