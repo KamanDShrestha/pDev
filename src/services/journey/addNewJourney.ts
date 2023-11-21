@@ -1,7 +1,8 @@
-import { AddJourneyData } from '../../types';
+import { AddJourneyData, ErrorResponse } from '../../types';
 import { axiosInstance } from '../../constants';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 export function useAddNewJourney() {
   const response = useMutation({
     mutationFn: (data: AddJourneyData) =>
@@ -10,11 +11,11 @@ export function useAddNewJourney() {
         .then((response) => response.data),
     onSuccess: (response) => {
       console.log(response);
-      toast.success('Journey added successfully');
+      toast.success('This journey has been added successfully');
     },
-    onError: (error) => {
-      toast.error('Error in adding journey');
+    onError: (error: AxiosError<ErrorResponse>) => {
       console.log(error);
+      toast.error(error.response?.data.message || 'An error occurred');
     },
   });
 
