@@ -25,6 +25,7 @@ import useGetEmbarkedJourney from '../services/embarkedJourneys/getEmbarkedJourn
 
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
+
 interface ActionSteps {
   description: string;
   majorAction: string;
@@ -71,17 +72,15 @@ const JourneyCard = ({
           <TooltipTrigger asChild>
             <Card className='w-[350px] sm:w-[400px]'>
               <CardHeader>
-                <CardTitle>
-                  <div className='flex items-center justify-around gap-10'>
-                    {journeyName}
-                    <img
-                      src={
-                        theme === 'dark' ? journeyIcon.dark : journeyIcon.light
-                      }
-                      className='w-32'
-                    />
-                  </div>
-                </CardTitle>
+                <div className='flex items-center justify-around gap-10'>
+                  <CardTitle>{journeyName}</CardTitle>
+                  <img
+                    src={
+                      theme === 'dark' ? journeyIcon.dark : journeyIcon.light
+                    }
+                    className='w-32'
+                  />
+                </div>
                 <CardDescription>
                   <Accordion type='single' collapsible>
                     <AccordionItem value='item-1'>

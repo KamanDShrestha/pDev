@@ -1,3 +1,24 @@
+export type EmbarkedJourney = {
+  _id: string;
+  userId: string;
+  journeyId: string;
+  keyLearning: [string];
+  reflection: [string];
+  isJourneyCompleted: boolean;
+  dateCompleted: Date;
+  currentDay: string;
+  actionSteps: {
+    [key: string]: {
+      actionStep: string;
+      description: string;
+      evidences: string[];
+      additionalSteps: string[];
+      isCompleted: boolean;
+      status: 'idle' | 'completed' | 'due' | 'blocked' | 'ongoing';
+    };
+  };
+};
+
 export type UpdateActionCompletionData = {
   journeyId: string;
   userId: string;
@@ -7,26 +28,7 @@ export type UpdateActionCompletionData = {
 export type GetEmbarkedJourneyData = {
   success: boolean;
   message: string;
-  embarkedJourney: {
-    _id: string;
-    userId: string;
-    journeyId: string;
-    keyLearning: [string];
-    reflection: [string];
-    isJourneyCompleted: boolean;
-    dateCompleted: Date;
-    currentDay: string;
-    actionSteps: {
-      [key: string]: {
-        actionStep: string;
-        description: string;
-        evidences: string[];
-        additionalSteps: string[];
-        isCompleted: boolean;
-        status: 'idle' | 'completed' | 'due' | 'blocked' | 'ongoing';
-      };
-    };
-  };
+  embarkedJourney: EmbarkedJourney;
 };
 
 export type AddEmbarkedJourneyData = {

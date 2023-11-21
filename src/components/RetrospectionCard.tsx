@@ -6,16 +6,24 @@ import {
 } from './ui/accordion';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 
-const RetrospectionCard = () => {
+interface RetrospectionCardProps {
+  journeyName: string;
+  keyLearnings: string[];
+  reflection: string[];
+}
+
+const RetrospectionCard = ({
+  keyLearnings,
+  reflection,
+  journeyName,
+}: RetrospectionCardProps) => {
   return (
     <Card className='flex items-center justify-around w-[350px] sm:w-[600px] p-5'>
       <CardHeader>
-        <CardTitle>
-          <div className='flex flex-col items-center gap-3'>
-            <img src={'fakjd'} className='w-32' />
-            Stoicism
-          </div>
-        </CardTitle>
+        <div className='flex flex-col items-center gap-3'>
+          <CardTitle>{journeyName}</CardTitle>
+          <img src={'fakjd'} className='w-32' />
+        </div>
       </CardHeader>
       <CardContent>
         <CardTitle>Retrospection</CardTitle>
@@ -25,9 +33,9 @@ const RetrospectionCard = () => {
               Key Learnings
             </AccordionTrigger>
             <AccordionContent>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-              voluptatem, iusto, fugiat, voluptatum voluptates quas voluptatibus
-              quia doloribus molestias quos quibusdam exercitationem.
+              {keyLearnings.map((learning) => (
+                <p>{learning}</p>
+              ))}
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -37,9 +45,9 @@ const RetrospectionCard = () => {
               Your reflection
             </AccordionTrigger>
             <AccordionContent>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-              voluptatem, iusto, fugiat, voluptatum voluptates quas voluptatibus
-              quia doloribus molestias quos quibusdam exercitationem.
+              {reflection.map((reflection) => (
+                <p>{reflection}</p>
+              ))}
             </AccordionContent>
           </AccordionItem>
         </Accordion>

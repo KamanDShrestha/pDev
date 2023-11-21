@@ -1,26 +1,20 @@
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from '../../components/ui/accordion';
-
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from '../../components/ui/card';
-
-import stoicismIcon from '../../assets/journeyIcons/Stoicism/stoicismLight.png';
 import { useGetAllJourneys } from '../../services/journey/getAllJourneys';
 
 import JourneyCardSkeleton from '../../components/JourneyCardSkeleton';
 import JourneyCard from '../../components/JourneyCard';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../context/AuthProvider';
+import useGetAllEmbarkedJourneys from '../../services/embarkedJourneys/getAllEmbarkedJourneys';
+import RetrospectionCard from '../../components/RetrospectionCard';
 
 const Journey = () => {
+  const { user } = useAuthContext();
   const { data: journeys, isLoading } = useGetAllJourneys();
+  const { data: embarkedJourneys } = useGetAllEmbarkedJourneys(
+    user?.id as string
+  );
+
+  console.log('embarkedJourneys', embarkedJourneys);
   const navigate = useNavigate();
 
   console.log(journeys);
@@ -63,86 +57,15 @@ const Journey = () => {
         <h2 className='mb-5 text-4xl font-semibold'>Completed Journeys</h2>
         <div className='flex flex-wrap justify-center gap-10'>
           <div>
-            <Card className='flex items-center justify-around w-[350px] sm:w-[600px] p-5'>
-              <CardHeader>
-                <CardTitle>
-                  <div className='flex flex-col items-center gap-3'>
-                    <img src={stoicismIcon} className='w-32' />
-                    Stoicism
-                  </div>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardTitle>Retrospection</CardTitle>
-                <Accordion type='single' collapsible>
-                  <AccordionItem value='item-1'>
-                    <AccordionTrigger className='text-lg'>
-                      Key Learnings
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quisquam voluptatem, iusto, fugiat, voluptatum voluptates
-                      quas voluptatibus quia doloribus molestias quos quibusdam
-                      exercitationem.
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-                <Accordion type='single' collapsible>
-                  <AccordionItem value='item-2'>
-                    <AccordionTrigger className='text-lg'>
-                      Your reflection
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quisquam voluptatem, iusto, fugiat, voluptatum voluptates
-                      quas voluptatibus quia doloribus molestias quos quibusdam
-                      exercitationem.
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </CardContent>
-            </Card>
-          </div>
-          <div>
-            <Card className='flex items-center justify-around w-[350px] sm:w-[600px] p-5'>
-              <CardHeader>
-                <CardTitle>
-                  <div className='flex flex-col items-center gap-3'>
-                    <img src={stoicismIcon} className='w-32' />
-                    Stoicism
-                  </div>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardTitle>Retrospection</CardTitle>
-                <Accordion type='single' collapsible>
-                  <AccordionItem value='item-1'>
-                    <AccordionTrigger className='text-lg'>
-                      Key Learnings
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quisquam voluptatem, iusto, fugiat, voluptatum voluptates
-                      quas voluptatibus quia doloribus molestias quos quibusdam
-                      exercitationem.
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-                <Accordion type='single' collapsible>
-                  <AccordionItem value='item-2'>
-                    <AccordionTrigger className='text-lg'>
-                      Your reflection
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quisquam voluptatem, iusto, fugiat, voluptatum voluptates
-                      quas voluptatibus quia doloribus molestias quos quibusdam
-                      exercitationem.
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </CardContent>
-            </Card>
+            {embarkedJourneys &&
+              embarkedJourneys.map((embarkedJourney) => (
+                <RetrospectionCard
+                  key={embarkedJourney._id}
+                  keyLearnings={embarkedJourney.keyLearning}
+                  reflection={embarkedJourney.reflection}
+                  journeyName='Stoicism'
+                />
+              ))}
           </div>
         </div>
       </div>
