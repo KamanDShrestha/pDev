@@ -20,8 +20,6 @@ import {
   CardFooter,
 } from './ui/card';
 import { useTheme } from './ThemeProvider';
-import { useAuthContext } from '../context/AuthProvider';
-import useGetEmbarkedJourney from '../services/embarkedJourneys/getEmbarkedJourney';
 
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
@@ -33,7 +31,7 @@ interface ActionSteps {
   references?: string[];
 }
 
-export interface JourneyCardProps {
+export interface ReviewJourneyCardProps {
   journeyId: string;
   journeyName: string;
   journeyIcon: { light: string; dark: string };
@@ -43,7 +41,7 @@ export interface JourneyCardProps {
   usages: string[];
   learningQuotes?: string[];
   actionSteps?: ActionSteps[];
-  onBrowseClick?: () => void;
+  onVerifyClick: (journeyId: string) => void;
 }
 
 const ReviewJourneyCard = ({
@@ -54,7 +52,8 @@ const ReviewJourneyCard = ({
   journeyLength,
   importance,
   usages,
-}: JourneyCardProps) => {
+  onVerifyClick,
+}: ReviewJourneyCardProps) => {
   const { theme } = useTheme();
 
   return (
@@ -104,7 +103,8 @@ const ReviewJourneyCard = ({
                   <span>{journeyLength}</span>
                 </div>
               </CardContent>
-              <CardFooter className='space-x-4'>
+              <CardFooter className='flex justify-between'>
+                <Button onClick={() => onVerifyClick(journeyId)}>Verify</Button>
                 <span className='px-4 py-2 text-xs text-red-500 bg-red-100 rounded-full'>
                   Not verified
                 </span>
