@@ -92,3 +92,9 @@ export type ActionStep = {
 export type ActionSteps = {
   [key: string]: ActionStep;
 };
+
+export type ErrorResponse = {
+  success: false;
+  message: string;
+  [key: string]: unknown;
+};

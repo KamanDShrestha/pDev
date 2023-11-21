@@ -1,11 +1,12 @@
-import { ErrorResponse, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../constants';
 import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+
 import setToLocalStorage from '../localStorage/setToLocalStorage';
 import { AuthContextType, useAuthContext } from '../../context/AuthProvider';
-import { LoginData } from '../../types';
+import { ErrorResponse, LoginData } from '../../types';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 export function useLoginUser() {
   const { setUser } = useAuthContext();
 
@@ -42,8 +43,10 @@ export function useLoginUser() {
         console.log('User not found in response');
       }
     },
-    onError: (error: AxiosError<ErrorResponse>) =>
-      console.log(error.response?.data),
+
+    onError: (error: AxiosError<ErrorResponse>) => {
+      toast.error(error.response?.data.message || 'An error occurred');
+    },
   });
   return response;
 }
