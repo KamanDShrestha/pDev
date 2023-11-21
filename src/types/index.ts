@@ -43,6 +43,7 @@ export type JourneyData = {
   importance: string[];
   learningQuotes: string[];
   usages: string[];
+  isVerified: boolean;
   actionSteps: {
     [key: string]: ActionStep;
   };

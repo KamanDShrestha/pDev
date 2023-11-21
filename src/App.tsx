@@ -73,7 +73,12 @@ function App() {
               </Route>
 
               <Route element={<AuthRequire allowedRoles={['qha']} />}>
-                <Route path='/verifyJourney' element={<VerifyJourneyPage />} />
+                <Route element={<UserLayout />}>
+                  <Route
+                    path='/verifyJourneys'
+                    element={<VerifyJourneyPage />}
+                  />
+                </Route>
               </Route>
 
               <Route path='/journeyNotFound' element={<JourneyNotFound />} />

@@ -46,7 +46,7 @@ export interface JourneyCardProps {
   onBrowseClick?: () => void;
 }
 
-const JourneyCard = ({
+const ReviewJourneyCard = ({
   journeyId,
   journeyName,
   journeyDescription,
@@ -54,15 +54,8 @@ const JourneyCard = ({
   journeyLength,
   importance,
   usages,
-  onBrowseClick,
 }: JourneyCardProps) => {
   const { theme } = useTheme();
-  const { user } = useAuthContext();
-
-  const { data: embarkedJourney } = useGetEmbarkedJourney(
-    user?.id as string,
-    journeyId
-  );
 
   return (
     <div>
@@ -112,8 +105,9 @@ const JourneyCard = ({
                 </div>
               </CardContent>
               <CardFooter className='space-x-4'>
-                <Button onClick={onBrowseClick}>Browse</Button>
-                {!embarkedJourney?.embarkedJourney && <Button>Begin</Button>}
+                <span className='px-4 py-2 text-xs text-red-500 bg-red-100 rounded-full'>
+                  Not verified
+                </span>
               </CardFooter>
             </Card>
           </TooltipTrigger>
@@ -138,4 +132,4 @@ const JourneyCard = ({
   );
 };
 
-export default JourneyCard;
+export default ReviewJourneyCard;

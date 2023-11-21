@@ -15,7 +15,16 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from './ui/sheet';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import Logo from './Logo';
+import { useAuthContext } from '../context/AuthProvider';
+import { Button } from './ui/button';
+import useLogoutUser from '../services/userAuth/logoutUser';
 const NavBar = () => {
+  const { user } = useAuthContext();
+  const { mutate } = useLogoutUser();
+
+  function handleLogout() {
+    mutate(user?.accessToken as string);
+  }
   return (
     <>
       <Sheet>
@@ -120,6 +129,25 @@ const NavBar = () => {
                   >
                     Profile
                   </NavLink>
+                </DropdownMenuItem>
+
+                {user?.role === 'qha' && (
+                  <DropdownMenuItem>
+                    <NavLink
+                      to={'/verifyJourneys'}
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Review Journey
+                    </NavLink>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem>
+                  <Button
+                    className={cn(navigationMenuTriggerStyle(), 'text-black')}
+                    onClick={handleLogout}
+                  >
+                    Log out
+                  </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

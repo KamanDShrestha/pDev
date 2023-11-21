@@ -45,6 +45,7 @@ const Journey = () => {
             journeys.map((journey) => (
               <>
                 <JourneyCard
+                  journeyId={journey._id}
                   journeyName={journey.name}
                   journeyDescription={journey.description}
                   journeyIcon={journey.imageLinks}
