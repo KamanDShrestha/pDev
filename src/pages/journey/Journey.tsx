@@ -58,14 +58,23 @@ const Journey = () => {
         <div className='flex flex-wrap justify-center gap-10'>
           <div>
             {embarkedJourneys &&
-              embarkedJourneys.map((embarkedJourney) => (
-                <RetrospectionCard
-                  key={embarkedJourney._id}
-                  keyLearnings={embarkedJourney.keyLearning}
-                  reflection={embarkedJourney.reflection}
-                  journeyName='Stoicism'
-                />
-              ))}
+            embarkedJourneys.filter(
+              (embarkedJourney) => embarkedJourney.isJourneyCompleted === true
+            ).length !== 0 ? (
+              embarkedJourneys.map(
+                (embarkedJourney) =>
+                  embarkedJourney.isJourneyCompleted && (
+                    <RetrospectionCard
+                      key={embarkedJourney._id}
+                      keyLearnings={embarkedJourney.keyLearning}
+                      reflection={embarkedJourney.reflection}
+                      journeyName='Stoicism'
+                    />
+                  )
+              )
+            ) : (
+              <p>You have not completed any journeys. </p>
+            )}
           </div>
         </div>
       </div>
