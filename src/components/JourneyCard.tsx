@@ -112,7 +112,7 @@ const JourneyCard = ({
               </CardContent>
               <CardFooter className='space-x-4'>
                 <Button onClick={onBrowseClick}>Browse</Button>
-                {!embarkedJourney?.embarkedJourney && <Button>Begin</Button>}
+                {!embarkedJourney && <Button>Begin</Button>}
               </CardFooter>
             </Card>
           </TooltipTrigger>

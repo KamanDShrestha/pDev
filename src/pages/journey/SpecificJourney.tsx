@@ -19,6 +19,7 @@ const validJourneys = [
 
 const SpecificJourney = () => {
   const params = useParams();
+
   const { data: journey, isLoading } = useGetSpecificJourney(
     params.name as string
   );
@@ -28,10 +29,12 @@ const SpecificJourney = () => {
   const { user } = useAuthContext();
   console.log(user);
   const { mutate } = useAddEmbarkedJourney();
+
   const { data: embarkedJourney } = useGetEmbarkedJourney(
     user?.id as string,
     journey?._id as string
   );
+
   useEffect(() => {
     if (!validJourneys.includes(params.name as string)) {
       navigate('/journeyNotFound');
@@ -66,8 +69,7 @@ const SpecificJourney = () => {
           <h2 className='mt-2 mb-5 text-4xl font-semibold'>
             Action Steps for Stoicism
           </h2>
-          {embarkedJourney &&
-          !embarkedJourney.embarkedJourney.isJourneyCompleted ? (
+          {embarkedJourney && !embarkedJourney.isJourneyCompleted ? (
             <Button onClick={() => navigate(`/currentJourney/${journey?._id}`)}>
               Navigate to current journey
             </Button>

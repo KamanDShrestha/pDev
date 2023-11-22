@@ -7,6 +7,7 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 
 interface RetrospectionCardProps {
+  journeyId: string;
   journeyName: string;
   keyLearnings: string[];
   reflection: string[];

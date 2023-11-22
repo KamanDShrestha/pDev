@@ -68,6 +68,7 @@ const Journey = () => {
                       key={embarkedJourney._id}
                       keyLearnings={embarkedJourney.keyLearning}
                       reflection={embarkedJourney.reflection}
+                      journeyId={embarkedJourney._id}
                       journeyName='Stoicism'
                     />
                   )
