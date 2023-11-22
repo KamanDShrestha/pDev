@@ -1,3 +1,4 @@
+import useGetSpecificJourneyByID from '../services/journey/getSpecificJourneyByID';
 import {
   Accordion,
   AccordionItem,
@@ -8,7 +9,6 @@ import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 
 interface RetrospectionCardProps {
   journeyId: string;
-  journeyName: string;
   keyLearnings: string[];
   reflection: string[];
 }
@@ -16,14 +16,15 @@ interface RetrospectionCardProps {
 const RetrospectionCard = ({
   keyLearnings,
   reflection,
-  journeyName,
+  journeyId,
 }: RetrospectionCardProps) => {
+  const { data: journey } = useGetSpecificJourneyByID(journeyId);
   return (
     <Card className='flex items-center justify-around w-[350px] sm:w-[600px] p-5'>
       <CardHeader>
         <div className='flex flex-col items-center gap-3'>
-          <CardTitle>{journeyName}</CardTitle>
-          <img src={'fakjd'} className='w-32' />
+          <CardTitle>{journey && journey.name}</CardTitle>
+          <img src={journey && journey.imageLinks.dark} className='w-32' />
         </div>
       </CardHeader>
       <CardContent>
