@@ -26,6 +26,7 @@ import UnauthorizedPage from './pages/UnauthorizedPage';
 import CurrentJourney from './pages/journey/CurrentJourney';
 import UsersAction from './pages/admin/UsersAction';
 import VerifyJourneyPage from './pages/qha/VerifyJourneyPage';
+import NotSubscribed from './pages/NotSubscribed';
 
 function App() {
   return (
@@ -56,13 +57,13 @@ function App() {
                     element={<SpecificJourney />}
                     errorElement={<JourneyNotFound />}
                   />
-                  <Route path={'/payment'} element={<Payment />} />
-                  <Route path={'/wellbeing'} element={<WellBeing />} />
-                  <Route path={'/profile'} element={<Profile />} />
                   <Route
                     path={'/currentJourney/:id'}
                     element={<CurrentJourney />}
                   />
+                  <Route path={'/payment'} element={<Payment />} />
+                  <Route path={'/wellbeing'} element={<WellBeing />} />
+                  <Route path={'/profile'} element={<Profile />} />
                 </Route>
               </Route>
 
@@ -83,6 +84,8 @@ function App() {
               <Route path={'/newUser'} element={<NewUser />} />
               <Route path='/journeyNotFound' element={<JourneyNotFound />} />
               <Route path='/unauthorized' element={<UnauthorizedPage />} />
+              <Route path='/notSubscribed' element={<NotSubscribed />} />
+
               <Route path='*' element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>

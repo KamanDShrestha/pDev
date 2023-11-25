@@ -36,10 +36,18 @@ const SpecificJourney = () => {
   );
 
   useEffect(() => {
+    //to check if the user have the particular journey as preferred or user's subscribed
+    if (
+      !(user?.preferredJourney.toLowerCase() === params.name) ||
+      !user?.hasSubscribed
+    ) {
+      navigate('/notSubscribed');
+    }
+
     if (!validJourneys.includes(params.name as string)) {
       navigate('/journeyNotFound');
     }
-  }, [navigate, params.name]);
+  }, [navigate, params.name, user?.hasSubscribed, user?.preferredJourney]);
 
   function handleBeginButton() {
     console.log(user?.id, journey?._id);
