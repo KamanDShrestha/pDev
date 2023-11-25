@@ -9,6 +9,8 @@ export type AuthContextType = {
   accessToken: string;
   id: string;
   isNewUser: boolean;
+  hasSubscribed: boolean;
+  preferredJourney: string;
 };
 
 const AuthContext = createContext(

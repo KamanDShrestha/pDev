@@ -25,7 +25,7 @@ import useGetEmbarkedJourney from '../services/embarkedJourneys/getEmbarkedJourn
 
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
-
+import { FaLock } from 'react-icons/fa';
 interface ActionSteps {
   description: string;
   majorAction: string;
@@ -111,8 +111,24 @@ const JourneyCard = ({
                 </div>
               </CardContent>
               <CardFooter className='space-x-4'>
-                <Button onClick={onBrowseClick}>Browse</Button>
-                {!embarkedJourney && <Button>Begin</Button>}
+                {user &&
+                  (user.preferredJourney === journeyName ||
+                    user.hasSubscribed) && (
+                    <>
+                      <Button onClick={onBrowseClick}>Browse</Button>
+                      {!embarkedJourney && <Button>Begin</Button>}
+                    </>
+                  )}
+                {user &&
+                  user.preferredJourney !== journeyName &&
+                  !user.hasSubscribed && (
+                    <>
+                      <FaLock />
+                      <span className='text-sm'>
+                        Subscribe for unlocking the journey!
+                      </span>
+                    </>
+                  )}
               </CardFooter>
             </Card>
           </TooltipTrigger>

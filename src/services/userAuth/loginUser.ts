@@ -28,6 +28,8 @@ export function useLoginUser() {
         role: response.user.role,
         isNewUser: response?.user.isNewUser,
         accessToken: response.token,
+        hasSubscribed: response.user.hasSubscribed,
+        preferredJourney: response.user.preferredJourney,
       });
       if (response && response.user && response.token && setUser) {
         setUser({
@@ -38,6 +40,8 @@ export function useLoginUser() {
           accessToken: response?.token,
           isNewUser: response?.user.isNewUser,
           id: response?.user?._id,
+          hasSubscribed: response.user.hasSubscribed,
+          preferredJourney: response.user.preferredJourney,
         } as AuthContextType);
         if (response.user.isNewUser) navigate('/newUser');
         else navigate(from, { replace: true });
