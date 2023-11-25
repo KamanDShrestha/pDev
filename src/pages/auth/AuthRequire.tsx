@@ -5,7 +5,11 @@ const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user } = useAuthContext();
   const location = useLocation();
   return allowedRoles.find((role: string) => role === user?.role) ? (
-    <Outlet />
+    user?.email && user.isNewUser ? (
+      <Navigate to={'/newUser'} state={{ from: location }} replace />
+    ) : (
+      <Outlet />
+    )
   ) : user?.email ? (
     <Navigate to={'/unauthorized'} state={{ from: location }} replace />
   ) : (

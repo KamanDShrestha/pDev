@@ -45,7 +45,6 @@ function App() {
                   <AuthRequire allowedRoles={['user', 'admin', 'qha']} />
                 }
               >
-                <Route path={'/newUser'} element={<NewUser />} />
                 <Route path={'/preference'} element={<TempPreference />} />
                 <Route element={<UserLayout />}>
                   <Route path={'/home'} element={<Home />} />
@@ -81,6 +80,7 @@ function App() {
                 </Route>
               </Route>
 
+              <Route path={'/newUser'} element={<NewUser />} />
               <Route path='/journeyNotFound' element={<JourneyNotFound />} />
               <Route path='/unauthorized' element={<UnauthorizedPage />} />
               <Route path='*' element={<PageNotFound />} />

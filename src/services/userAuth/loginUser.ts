@@ -26,6 +26,7 @@ export function useLoginUser() {
         lastName: response.user.lastName,
         email: response.user.email,
         role: response.user.role,
+        isNewUser: response?.user.isNewUser,
         accessToken: response.token,
       });
       if (response && response.user && response.token && setUser) {
@@ -35,6 +36,7 @@ export function useLoginUser() {
           email: response?.user?.email,
           role: response?.user?.role,
           accessToken: response?.token,
+          isNewUser: response?.user.isNewUser,
           id: response?.user?._id,
         } as AuthContextType);
         if (response.user.isNewUser) navigate('/newUser');
