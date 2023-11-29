@@ -22,92 +22,151 @@ const NavBar = () => {
   const { user } = useAuthContext();
   const { mutate } = useLogoutUser();
 
+  const userNavigationMenu = [
+    { to: '/home', option: 'Home' },
+    { to: '/dashboard', option: 'Dashboard' },
+    { to: '/wellbeing', option: 'Wellbeing' },
+    { to: '/journeys', option: 'Journeys' },
+    { to: '/community', option: 'Community' },
+  ];
+  const userActionOptions = [{ to: '/profile', option: 'Profile' }];
+
+  const adminNavigationMenu = [
+    { to: '/home', option: 'Home' },
+    { to: '/users', option: 'Users' },
+    { to: '/admin/dashboard', option: 'Dashboard' },
+    { to: '/community', option: 'Community' },
+  ];
+  const adminActionOptions = [
+    { to: '/profile', option: 'Profile' },
+    { to: '/addJourney', option: 'Add Journey' },
+  ];
+
+  const qhpNavigationMenu = [
+    { to: '/home', option: 'Home' },
+    { to: '/journeys', option: 'Journeys' },
+    { to: '/qas', option: 'QAs' },
+    { to: '/community', option: 'Community' },
+  ];
+
+  const qhpActionOptions = [
+    { to: '/profile', option: 'Profile' },
+    { to: '/verifyJourneys', option: 'Verify Journeys' },
+  ];
+
   function handleLogout() {
     mutate(user?.accessToken as string);
   }
   return (
     <>
       <Sheet>
-        <SheetTrigger>
-          <div className='block md:hidden'>
-            <GiHamburgerMenu />
-          </div>
+        <SheetTrigger className='block md:hidden'>
+          <GiHamburgerMenu />
         </SheetTrigger>
         <SheetContent className='flex flex-col' side={'left'}>
           <SheetHeader>
-            <div className='m-auto'>
+            <span className='m-auto'>
               <Logo />
-            </div>
+            </span>
           </SheetHeader>
           <div className='flex flex-col'>
-            <NavLink
-              to={'/home'}
-              className={cn(navigationMenuTriggerStyle(), 'text-base')}
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to={'/dashboard'}
-              className={cn(navigationMenuTriggerStyle(), 'text-base')}
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              to={'/wellbeing'}
-              className={cn(navigationMenuTriggerStyle(), 'text-base')}
-            >
-              Wellbeing
-            </NavLink>
-            <NavLink
-              to={'/journeys'}
-              className={cn(navigationMenuTriggerStyle(), 'text-base')}
-            >
-              Journeys
-            </NavLink>
-            <NavLink
-              to={'/community'}
-              className={cn(navigationMenuTriggerStyle(), 'text-base')}
-            >
-              Community
-            </NavLink>
-            <NavLink
-              to={'/profile'}
-              className={cn(navigationMenuTriggerStyle(), 'text-base')}
-            >
-              Profile
-            </NavLink>
+            {user?.role === 'user' &&
+              userNavigationMenu.map((menu) => (
+                <NavLink
+                  to={menu.to}
+                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
+                  key={menu.to}
+                >
+                  {menu.option}
+                </NavLink>
+              ))}
+
+            {user?.role === 'user' &&
+              userActionOptions.map((menu) => (
+                <NavLink
+                  to={menu.to}
+                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
+                  key={menu.to}
+                >
+                  {menu.option}
+                </NavLink>
+              ))}
+
+            {user?.role === 'admin' &&
+              adminNavigationMenu.map((menu) => (
+                <NavLink
+                  to={menu.to}
+                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
+                  key={menu.to}
+                >
+                  {menu.option}
+                </NavLink>
+              ))}
+
+            {user?.role === 'admin' &&
+              adminActionOptions.map((menu) => (
+                <NavLink
+                  to={menu.to}
+                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
+                  key={menu.to}
+                >
+                  {menu.option}
+                </NavLink>
+              ))}
+
+            {user?.role === 'qha' &&
+              qhpNavigationMenu.map((menu) => (
+                <NavLink
+                  to={menu.to}
+                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
+                  key={menu.to}
+                >
+                  {menu.option}
+                </NavLink>
+              ))}
+
+            {user?.role === 'qha' &&
+              qhpActionOptions.map((menu) => (
+                <NavLink
+                  to={menu.to}
+                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
+                  key={menu.to}
+                >
+                  {menu.option}
+                </NavLink>
+              ))}
           </div>
         </SheetContent>
       </Sheet>
 
       <NavigationMenu className='hidden md:block'>
         <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavLink to={'/home'} className={navigationMenuTriggerStyle()}>
-              Home
-            </NavLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavLink to={'/dashboard'} className={navigationMenuTriggerStyle()}>
-              Dashboard
-            </NavLink>
-          </NavigationMenuItem>
+          {user?.role === 'user' &&
+            userNavigationMenu.map((menu) => (
+              <NavigationMenuItem key={menu.to}>
+                <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
+                  {menu.option}
+                </NavLink>
+              </NavigationMenuItem>
+            ))}
 
-          <NavigationMenuItem>
-            <NavLink to={'/wellbeing'} className={navigationMenuTriggerStyle()}>
-              Wellbeing
-            </NavLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavLink to={'/journeys'} className={navigationMenuTriggerStyle()}>
-              Journeys
-            </NavLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavLink to={'/community'} className={navigationMenuTriggerStyle()}>
-              Community
-            </NavLink>
-          </NavigationMenuItem>
+          {user?.role === 'admin' &&
+            adminNavigationMenu.map((menu) => (
+              <NavigationMenuItem key={menu.to}>
+                <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
+                  {menu.option}
+                </NavLink>
+              </NavigationMenuItem>
+            ))}
+
+          {user?.role === 'qha' &&
+            qhpNavigationMenu.map((menu) => (
+              <NavigationMenuItem key={menu.to}>
+                <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
+                  {menu.option}
+                </NavLink>
+              </NavigationMenuItem>
+            ))}
 
           <NavigationMenuItem>
             <DropdownMenu>
@@ -122,25 +181,42 @@ const NavBar = () => {
                 </p>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <NavLink
-                    to={'/profile'}
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    Profile
-                  </NavLink>
-                </DropdownMenuItem>
+                {user?.role === 'user' &&
+                  userActionOptions.map((option) => (
+                    <DropdownMenuItem key={option.to}>
+                      <NavLink
+                        to={option.to}
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        {option.option}
+                      </NavLink>
+                    </DropdownMenuItem>
+                  ))}
 
-                {user?.role === 'qha' && (
-                  <DropdownMenuItem>
-                    <NavLink
-                      to={'/verifyJourneys'}
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Review Journey
-                    </NavLink>
-                  </DropdownMenuItem>
-                )}
+                {user?.role === 'admin' &&
+                  adminActionOptions.map((option) => (
+                    <DropdownMenuItem key={option.to}>
+                      <NavLink
+                        to={option.to}
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        {option.option}
+                      </NavLink>
+                    </DropdownMenuItem>
+                  ))}
+
+                {user?.role === 'qha' &&
+                  qhpActionOptions.map((option) => (
+                    <DropdownMenuItem key={option.to}>
+                      <NavLink
+                        to={option.to}
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        {option.option}
+                      </NavLink>
+                    </DropdownMenuItem>
+                  ))}
+
                 <DropdownMenuItem>
                   <Button
                     className={cn(navigationMenuTriggerStyle(), 'text-black')}

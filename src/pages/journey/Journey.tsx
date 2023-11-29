@@ -23,7 +23,7 @@ const Journey = () => {
     navigate('/journeys/' + name.toLowerCase());
   }
   return (
-    <div className='p-5 mt-5 mb-5'>
+    <div className='mt-5 mb-5 '>
       <div className='w-screen h-[80vh] bg-gray-200'>
         Placeholder for quotes
       </div>

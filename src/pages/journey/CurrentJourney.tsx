@@ -57,7 +57,7 @@ const CurrentJourney = () => {
         <p>{error.response?.data.message}</p>
       ) : (
         <>
-          <div className='p-4'>
+          <div>
             <h2 className='mt-2 mb-5 text-4xl font-semibold'>
               Today's action step
             </h2>
