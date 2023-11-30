@@ -68,8 +68,10 @@ function App() {
               </Route>
 
               <Route element={<AuthRequire allowedRoles={['admin']} />}>
-                <Route path='/addJourney' element={<AddJourneyPage />} />
-                <Route path='/users' element={<UsersAction />} />
+                <Route element={<UserLayout />}>
+                  <Route path='/addJourney' element={<AddJourneyPage />} />
+                  <Route path='/users' element={<UsersAction />} />
+                </Route>
               </Route>
 
               <Route element={<AuthRequire allowedRoles={['qha']} />}>

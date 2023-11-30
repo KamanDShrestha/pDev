@@ -1,7 +1,10 @@
-import React from 'react';
+import useGetAllUsers from '../../services/users/getAllUsers';
 
 const UsersAction = () => {
-  return <div>UsersAction</div>;
+  const { data: users } = useGetAllUsers();
+  console.log(users);
+
+  return <div></div>;
 };
 
 export default UsersAction;
