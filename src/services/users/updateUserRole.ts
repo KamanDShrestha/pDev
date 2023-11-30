@@ -10,10 +10,12 @@ function useUpdateUserRole() {
     mutationFn: (data: UpdateUserRoleData) =>
       axiosInstance.patch('/users/updateRole', data).then((res) => res.data),
     onSuccess: (response) => {
-      toast.success(response.data.message);
+      toast.success(response.message);
+      console.log(response);
       queryClient.invalidateQueries(['users']);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
+      console.log(error);
       toast.error(error.response?.data?.message || 'An error occurred');
     },
   });
