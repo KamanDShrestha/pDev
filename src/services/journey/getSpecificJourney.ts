@@ -7,7 +7,7 @@ export default function useGetSpecificJourney(name: string) {
     queryKey: ['journey', name],
     queryFn: () =>
       axiosInstance
-        .get(`/journey/${name}`)
+        .get(`/journeys/${name}`)
         .then((response) => response.data.journey),
   });
   return response;

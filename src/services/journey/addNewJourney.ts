@@ -7,7 +7,7 @@ export function useAddNewJourney() {
   const response = useMutation({
     mutationFn: (data: AddJourneyData) =>
       axiosInstance
-        .post('/journey/addNewJourney', data)
+        .post('/journeys/addNewJourney', data)
         .then((response) => response.data),
     onSuccess: (response) => {
       console.log(response);

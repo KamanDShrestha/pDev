@@ -51,6 +51,10 @@ export type JourneyData = {
   };
 };
 
+export type DeleteJourneyData = {
+  id: string;
+};
+
 export type AddJourneyData = {
   name: string;
   description: string;

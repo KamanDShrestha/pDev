@@ -10,7 +10,7 @@ const useUpdateJourneyVerification = () => {
   const response = useMutation({
     mutationFn: (data: string) =>
       axiosInstance
-        .post('/journey/verify', { journeyId: data })
+        .post('/journeys/verify', { journeyId: data })
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
@@ -18,7 +18,7 @@ const useUpdateJourneyVerification = () => {
       toast.success('The journey has been verified successfully.');
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      console.log(error.response?.data.message || 'An error occurred');
+      console.log(error);
       toast.error(error.response?.data.message || 'An error occurred');
     },
   });

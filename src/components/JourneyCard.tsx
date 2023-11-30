@@ -70,7 +70,7 @@ const JourneyCard = ({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Card className='w-[350px] sm:w-[400px]'>
+            <Card className='max-w-[500px]'>
               <CardHeader>
                 <div className='flex items-center justify-around gap-10'>
                   <CardTitle>{journeyName}</CardTitle>
@@ -112,6 +112,8 @@ const JourneyCard = ({
               </CardContent>
               <CardFooter className='space-x-4'>
                 {user &&
+                  user.role === 'user' &&
+                  user.preferredJourney !== '' &&
                   (user.preferredJourney === journeyName ||
                     user.hasSubscribed) && (
                     <>
@@ -120,6 +122,7 @@ const JourneyCard = ({
                     </>
                   )}
                 {user &&
+                  user.role === 'user' &&
                   user.preferredJourney !== journeyName &&
                   !user.hasSubscribed && (
                     <>
@@ -129,6 +132,12 @@ const JourneyCard = ({
                       </span>
                     </>
                   )}
+                {user && user.role === 'admin' && (
+                  <>
+                    <Button>Delete this journey</Button>
+                    <Button>Edit this journey</Button>
+                  </>
+                )}
               </CardFooter>
             </Card>
           </TooltipTrigger>

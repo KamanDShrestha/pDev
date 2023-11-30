@@ -7,7 +7,7 @@ export function useGetAllJourneys() {
     queryKey: ['journeys'],
     queryFn: () =>
       axiosInstance
-        .get('/journey/getAllJourneys')
+        .get('/journeys/getAllJourneys')
         .then((response) => response.data.allJourneys),
   });
 
