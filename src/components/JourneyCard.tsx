@@ -27,6 +27,7 @@ import useDeleteSpecificJourney from '../services/journey/deleteSpecificJourney'
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
 import { FaLock } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 interface ActionSteps {
   description: string;
@@ -61,7 +62,7 @@ const JourneyCard = ({
 }: JourneyCardProps) => {
   const { theme } = useTheme();
   const { user } = useAuthContext();
-
+  const navigate = useNavigate();
   const { data: embarkedJourney } = useGetEmbarkedJourney(
     user?.id as string,
     journeyId
@@ -140,7 +141,11 @@ const JourneyCard = ({
                     <Button onClick={() => deleteJourney({ id: journeyId })}>
                       Delete this journey
                     </Button>
-                    <Button>Edit this journey</Button>
+                    <Button
+                      onClick={() => navigate(`/journeys/edit/${journeyId}`)}
+                    >
+                      Edit this journey
+                    </Button>
                   </>
                 )}
               </CardFooter>
