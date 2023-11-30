@@ -123,3 +123,7 @@ export type UpdateUserRoleData = {
   userId: string;
   role: string;
 };
+
+export type DeleteUserData = {
+  id: string;
+};

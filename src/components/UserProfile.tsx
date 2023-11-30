@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
 import {
   Select,
   SelectContent,
@@ -12,13 +18,15 @@ import { Button } from './ui/button';
 import { UpdateUserRoleData, User } from '../types';
 import useUpdateUserRole from '../services/users/updateUserRole';
 import { useState } from 'react';
+import useDeleteUser from '../services/users/deleteUser';
 
 interface UserProfileProps {
   user: User;
 }
 
 const UserProfile = ({ user }: UserProfileProps) => {
-  const { mutate } = useUpdateUserRole();
+  const { mutate: updateRole } = useUpdateUserRole();
+  const { mutate: deleteUser } = useDeleteUser();
   const roles = {
     qha: 'Qualified Health Personnel',
     admin: 'Admin',
@@ -76,7 +84,7 @@ const UserProfile = ({ user }: UserProfileProps) => {
             {userRoleUpdate.role && (
               <Button
                 onClick={() => {
-                  mutate(userRoleUpdate);
+                  updateRole(userRoleUpdate);
                 }}
               >
                 Update Role
@@ -102,6 +110,11 @@ const UserProfile = ({ user }: UserProfileProps) => {
             : 'The user has not subscribed yet.'}
         </div>
       </CardContent>
+      <CardFooter>
+        <Button onClick={() => deleteUser({ id: user._id })}>
+          Delete User
+        </Button>
+      </CardFooter>
     </Card>
   );
 };
