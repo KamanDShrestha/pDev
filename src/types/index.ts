@@ -118,3 +118,8 @@ export type User = {
   values: string[];
   __v: number;
 };
+
+export type UpdateUserRoleData = {
+  userId: string;
+  role: string;
+};

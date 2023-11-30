@@ -15,6 +15,7 @@ import {
 } from '../../components/ui/card';
 import UserProfile from '../../components/UserProfile';
 import useGetAllUsers from '../../services/users/getAllUsers';
+import { Button } from '../../components/ui/button';
 
 const UsersAction = () => {
   const { data: users, isLoading } = useGetAllUsers();
@@ -52,7 +53,7 @@ const UsersAction = () => {
                   The user is currently listed as{' '}
                   {roles[user.role as keyof typeof roles]}
                 </div>
-                <div className='m-3'>
+                <div className='m-3 space-y-1'>
                   {/* changing the role of the user */}
                   <p>Select the required option to change the role:</p>
                   <Select>
@@ -71,6 +72,7 @@ const UsersAction = () => {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
+                  <Button>Update Role</Button>
                 </div>
               </div>
               <div>
