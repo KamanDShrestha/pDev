@@ -22,10 +22,12 @@ import {
 import { useTheme } from './ThemeProvider';
 import { useAuthContext } from '../context/AuthProvider';
 import useGetEmbarkedJourney from '../services/embarkedJourneys/getEmbarkedJourney';
+import useDeleteSpecificJourney from '../services/journey/deleteSpecificJourney';
 
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
 import { FaLock } from 'react-icons/fa';
+
 interface ActionSteps {
   description: string;
   majorAction: string;
@@ -64,6 +66,7 @@ const JourneyCard = ({
     user?.id as string,
     journeyId
   );
+  const { mutate: deleteJourney } = useDeleteSpecificJourney();
 
   return (
     <div>
@@ -134,7 +137,9 @@ const JourneyCard = ({
                   )}
                 {user && user.role === 'admin' && (
                   <>
-                    <Button>Delete this journey</Button>
+                    <Button onClick={() => deleteJourney({ id: journeyId })}>
+                      Delete this journey
+                    </Button>
                     <Button>Edit this journey</Button>
                   </>
                 )}

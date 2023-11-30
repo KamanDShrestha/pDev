@@ -2,7 +2,7 @@ import UserProfile from '../../components/UserProfile';
 import useGetAllUsers from '../../services/users/getAllUsers';
 
 const UsersAction = () => {
-  const { data: users, isLoading } = useGetAllUsers();
+  const { data: users } = useGetAllUsers();
 
   return (
     <>
