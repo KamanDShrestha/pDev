@@ -27,6 +27,7 @@ import CurrentJourney from './pages/journey/CurrentJourney';
 import UsersAction from './pages/admin/UsersAction';
 import VerifyJourneyPage from './pages/qha/VerifyJourneyPage';
 import NotSubscribed from './pages/NotSubscribed';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
                 <Route element={<UserLayout />}>
                   <Route path='/addJourney' element={<AddJourneyPage />} />
                   <Route path='/users' element={<UsersAction />} />
+                  <Route path='/admin/dashboard' element={<AdminDashboard />} />
                 </Route>
               </Route>
 
