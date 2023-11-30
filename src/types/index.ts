@@ -98,3 +98,23 @@ export type ErrorResponse = {
   message: string;
   [key: string]: unknown;
 };
+
+export type User = {
+  _id: string;
+  challenges: string[];
+  completedJourney: string[];
+  createdAt: string;
+  dateOfBirth: string;
+  email: string;
+  embarkedJourney: string;
+  firstName: string;
+  goals: string[];
+  hasSubscribed: boolean;
+  isNewUser: boolean;
+  lastName: string;
+  preferredJourney: string;
+  role: string;
+  updatedAt: string;
+  values: string[];
+  __v: number;
+};
