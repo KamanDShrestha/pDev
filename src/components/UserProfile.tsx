@@ -57,7 +57,6 @@ const UserProfile = ({ user }: UserProfileProps) => {
             {roles[user.role as keyof typeof roles]}
           </div>
           <div className='m-3 space-y-1'>
-            {/* changing the role of the user */}
             <p>Select the required option to change the role:</p>
             <Select
               onValueChange={(chosenRole) => {

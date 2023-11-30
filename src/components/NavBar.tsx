@@ -34,6 +34,7 @@ const NavBar = () => {
   const adminNavigationMenu = [
     { to: '/home', option: 'Home' },
     { to: '/users', option: 'Users' },
+    { to: '/journeys', option: 'Journeys' },
     { to: '/admin/dashboard', option: 'Dashboard' },
     { to: '/community', option: 'Community' },
   ];
