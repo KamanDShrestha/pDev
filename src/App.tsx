@@ -30,6 +30,7 @@ import NotSubscribed from './pages/NotSubscribed';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import EditJourneyPage from './pages/admin/EditJourneyPage';
 import ReviewApplicationPage from './pages/admin/ReviewApplicationPage';
+import ApplyForQHP from './pages/ApplyForQHP';
 
 function App() {
   return (
@@ -67,6 +68,12 @@ function App() {
                   <Route path={'/payment'} element={<Payment />} />
                   <Route path={'/wellbeing'} element={<WellBeing />} />
                   <Route path={'/profile'} element={<Profile />} />
+                </Route>
+              </Route>
+
+              <Route element={<AuthRequire allowedRoles={['user']} />}>
+                <Route element={<UserLayout />}>
+                  <Route path={'/apply'} element={<ApplyForQHP />} />
                 </Route>
               </Route>
 

@@ -1,4 +1,4 @@
-import { FieldValue, FieldValues, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { Input } from '../../components/ui/input';
 import useGetSpecificJourneyByID from '../../services/journey/getSpecificJourneyByID';
 
@@ -173,101 +173,95 @@ const EditJourneyPage = () => {
           <div>
             <Heading className='mb-2 text-2xl'>Action Steps</Heading>
             <div className='flex flex-wrap justify-center gap-5'>
-              {Object.entries(journey.actionSteps).map(
-                ([day, actionStepData], index) => (
-                  <>
-                    <Card className='p-5'>
-                      <Heading className='mb-2 text-xl'>
-                        Action Steps for Day {index + 1}
-                      </Heading>
+              {Array.from(Array(journey.length)).map((item, index) => (
+                <>
+                  <Card className='p-5'>
+                    <Heading className='mb-2 text-xl'>
+                      Action Steps for Day {index + 1}
+                    </Heading>
 
-                      <div>
-                        <Heading className='mb-1 text-lg'>
-                          Major Action Step
-                        </Heading>
-                        <Input
-                          {...register(
-                            `actionSteps.day${index + 1}.actionStep`
-                          )}
-                          defaultValue={
-                            journey.actionSteps[`day${index + 1}`].actionStep
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Heading className='mb-1 text-lg'>Description</Heading>
-                        <Textarea
-                          {...register(
-                            `actionSteps.day${index + 1}.description`
-                          )}
-                          className=' h-[100px] w-[450px]'
-                        />
-                      </div>
-                      <Dialog>
-                        <DialogTrigger>
-                          <p className='mt-3 text-xs font-medium hover:underline text-slate-600'>
-                            Make additional changes
-                          </p>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle className='text-xl'>
-                              Make changes in additional steps and evidences !
-                            </DialogTitle>
-                          </DialogHeader>
-                          <div>
-                            <Heading className='mt-1 mb-1 text-lg'>
-                              Additional Steps
-                            </Heading>
-                            <div className='space-y-2'>
-                              {Array.from(Array(3).keys()).map(
-                                (item, thisIndex) => (
-                                  <Input
-                                    {...register(
-                                      `actionSteps.day${
-                                        index + 1
-                                      }.additionalSteps[${thisIndex}]`
-                                    )}
-                                    value={
-                                      journey.actionSteps[`day${index + 1}`]
-                                        .additionalSteps[thisIndex]
-                                    }
-                                  />
-                                )
-                              )}
-                            </div>
+                    <div>
+                      <Heading className='mb-1 text-lg'>
+                        Major Action Step
+                      </Heading>
+                      <Input
+                        {...register(`actionSteps.day${index + 1}.actionStep`)}
+                        defaultValue={
+                          journey.actionSteps[`day${index + 1}`].actionStep
+                        }
+                      />
+                    </div>
+                    <div>
+                      <Heading className='mb-1 text-lg'>Description</Heading>
+                      <Textarea
+                        {...register(`actionSteps.day${index + 1}.description`)}
+                        className=' h-[100px] w-[450px]'
+                      />
+                    </div>
+                    <Dialog>
+                      <DialogTrigger>
+                        <p className='mt-3 text-xs font-medium hover:underline text-slate-600'>
+                          Make additional changes
+                        </p>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle className='text-xl'>
+                            Make changes in additional steps and evidences !
+                          </DialogTitle>
+                        </DialogHeader>
+                        <div>
+                          <Heading className='mt-1 mb-1 text-lg'>
+                            Additional Steps
+                          </Heading>
+                          <div className='space-y-2'>
+                            {Array.from(Array(3).keys()).map(
+                              (item, thisIndex) => (
+                                <Input
+                                  {...register(
+                                    `actionSteps.day${
+                                      index + 1
+                                    }.additionalSteps[${thisIndex}]`
+                                  )}
+                                  value={
+                                    journey.actionSteps[`day${index + 1}`]
+                                      .additionalSteps[thisIndex]
+                                  }
+                                />
+                              )
+                            )}
                           </div>
-                          <div>
-                            <Heading className='mt-1 mb-1 text-lg'>
-                              Evidences
-                            </Heading>
-                            <div className='space-y-2'>
-                              {Array.from(Array(3).keys()).map(
-                                (item, thisIndex) => (
-                                  <Input
-                                    {...register(
-                                      `actionSteps.day${
-                                        index + 1
-                                      }.evidences[${thisIndex}]`
-                                    )}
-                                    value={
-                                      journey.actionSteps[`day${index + 1}`]
-                                        .evidences[thisIndex]
-                                    }
-                                  />
-                                )
-                              )}
-                            </div>
+                        </div>
+                        <div>
+                          <Heading className='mt-1 mb-1 text-lg'>
+                            Evidences
+                          </Heading>
+                          <div className='space-y-2'>
+                            {Array.from(Array(3).keys()).map(
+                              (item, thisIndex) => (
+                                <Input
+                                  {...register(
+                                    `actionSteps.day${
+                                      index + 1
+                                    }.evidences[${thisIndex}]`
+                                  )}
+                                  value={
+                                    journey.actionSteps[`day${index + 1}`]
+                                      .evidences[thisIndex]
+                                  }
+                                />
+                              )
+                            )}
                           </div>
-                          <p className='text-xs text-slate-400'>
-                            Close for temporarily saving the changes!
-                          </p>
-                        </DialogContent>
-                      </Dialog>
-                    </Card>
-                  </>
-                )
-              )}
+                        </div>
+                        <p className='text-xs text-slate-400'>
+                          Close for temporarily saving the changes!
+                        </p>
+                      </DialogContent>
+                    </Dialog>
+                  </Card>
+                </>
+              ))}
             </div>
           </div>
         </div>

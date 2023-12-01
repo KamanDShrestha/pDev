@@ -29,7 +29,10 @@ const NavBar = () => {
     { to: '/journeys', option: 'Journeys' },
     { to: '/community', option: 'Community' },
   ];
-  const userActionOptions = [{ to: '/profile', option: 'Profile' }];
+  const userActionOptions = [
+    { to: '/profile', option: 'Profile' },
+    { to: '/apply', option: 'Apply for QHP' },
+  ];
 
   const adminNavigationMenu = [
     { to: '/home', option: 'Home' },

@@ -194,6 +194,7 @@ const AddJourneyPage = () => {
       <div className='flex flex-col gap-2 mt-4'>
         <h2 className='text-2xl font-semibold'>Preview</h2>
         <JourneyCard
+          journeyId='newJourney'
           journeyName={providedName}
           journeyDescription={providedDescription}
           journeyIcon={{
