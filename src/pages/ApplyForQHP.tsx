@@ -120,7 +120,7 @@ const ApplyForQHP = () => {
                         })}
                       />
                       {errors[`qualification${index + 1}`] && (
-                        <ErrorMessage>
+                        <ErrorMessage key={index}>
                           {
                             errors[`qualification${index + 1}`]
                               ?.message as string
@@ -145,7 +145,7 @@ const ApplyForQHP = () => {
                         })}
                       />
                       {errors[`experience${index + 1}`] && (
-                        <ErrorMessage>
+                        <ErrorMessage key={index}>
                           {errors[`experience${index + 1}`]?.message as string}
                         </ErrorMessage>
                       )}
@@ -167,7 +167,7 @@ const ApplyForQHP = () => {
                         })}
                       />
                       {errors[`proficientField${index + 1}`] && (
-                        <ErrorMessage>
+                        <ErrorMessage key={index}>
                           {
                             errors[`proficientField${index + 1}`]
                               ?.message as string
@@ -192,7 +192,7 @@ const ApplyForQHP = () => {
                         })}
                       />
                       {errors[`additionalSkill${index + 1}`] && (
-                        <ErrorMessage>
+                        <ErrorMessage key={index}>
                           {
                             errors[`additionalSkill${index + 1}`]
                               ?.message as string

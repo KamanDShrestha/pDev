@@ -29,8 +29,10 @@ import VerifyJourneyPage from './pages/qha/VerifyJourneyPage';
 import NotSubscribed from './pages/NotSubscribed';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import EditJourneyPage from './pages/admin/EditJourneyPage';
-import ReviewApplicationPage from './pages/admin/ReviewApplicationPage';
+
 import ApplyForQHP from './pages/ApplyForQHP';
+
+import Review from './pages/admin/Review';
 
 function App() {
   return (
@@ -82,10 +84,8 @@ function App() {
                   <Route path='/addJourney' element={<AddJourneyPage />} />
                   <Route path='/users' element={<UsersAction />} />
                   <Route path='/admin/dashboard' element={<AdminDashboard />} />
-                  <Route
-                    path='/reviewApplications'
-                    element={<ReviewApplicationPage />}
-                  />
+
+                  <Route path='/reviewApplications' element={<Review />} />
 
                   <Route
                     path='/journeys/edit/:id'

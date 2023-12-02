@@ -1,4 +1,4 @@
-export type ApplyForQHPData = {
+export type ApplicationData = {
   userId: string;
   workingLicense: string;
   qualifications: string[];

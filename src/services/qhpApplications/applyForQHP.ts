@@ -1,15 +1,22 @@
-import { axiosInstance } from '@/src/constants';
-import { ApplyForQHPData } from '@/src/types';
+import { AxiosError } from 'axios';
+import { axiosInstance } from '../../constants';
+import { ApplicationData, ErrorResponse } from '../../types';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 function useApplyForQHP() {
   const response = useMutation({
-    mutationFn: (data: ApplyForQHPData) =>
-      axiosInstance.post('/qhpPost/apply', data).then((res) => res.data),
+    mutationFn: (data: ApplicationData) =>
+      axiosInstance
+        .post('/qhpPost/apply', { application: data })
+        .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      console.log(error.response?.data.message);
+      toast.error(error.response?.data.message || 'An error occurred');
     },
   });
   return response;
