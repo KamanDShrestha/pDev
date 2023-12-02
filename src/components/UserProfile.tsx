@@ -110,7 +110,10 @@ const UserProfile = ({ user }: UserProfileProps) => {
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={() => deleteUser({ id: user._id })}>
+        <Button
+          onClick={() => deleteUser({ id: user._id })}
+          variant={'destructive'}
+        >
           Delete User
         </Button>
       </CardFooter>

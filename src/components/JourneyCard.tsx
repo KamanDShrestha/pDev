@@ -138,13 +138,16 @@ const JourneyCard = ({
                   )}
                 {user && user.role === 'admin' && (
                   <>
-                    <Button onClick={() => deleteJourney({ id: journeyId })}>
-                      Delete this journey
-                    </Button>
                     <Button
                       onClick={() => navigate(`/journeys/edit/${journeyId}`)}
                     >
                       Edit this journey
+                    </Button>
+                    <Button
+                      onClick={() => deleteJourney({ id: journeyId })}
+                      variant={'destructive'}
+                    >
+                      Delete this journey
                     </Button>
                   </>
                 )}
