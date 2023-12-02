@@ -11,6 +11,7 @@ export type AuthContextType = {
   isNewUser: boolean;
   hasSubscribed: boolean;
   preferredJourney: string;
+  loggedMood: boolean;
 };
 
 const AuthContext = createContext(

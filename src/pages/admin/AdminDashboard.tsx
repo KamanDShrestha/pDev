@@ -12,7 +12,6 @@ import {
 import { Input } from '../../components/ui/input';
 import { Label } from '@radix-ui/react-dropdown-menu';
 import { Copy } from 'lucide-react';
-import React from 'react';
 
 const AdminDashboard = () => {
   return (

@@ -16,7 +16,7 @@ const UserLayout = () => {
           <ModeToggle />
         </div>
       </div>
-      <div className='p-5'>
+      <div className='relative p-5'>
         <Outlet />
       </div>
     </div>

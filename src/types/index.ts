@@ -147,6 +147,7 @@ export type User = {
   isNewUser: boolean;
   lastName: string;
   preferredJourney: string;
+  loggedMood: boolean;
   role: string;
   updatedAt: string;
   values: string[];
