@@ -1,4 +1,10 @@
+export type UpdateApplicationStatusData = {
+  id: string;
+  status: 'Approved' | 'Rejected' | 'Pending';
+};
+
 export type ApplicationData = {
+  _id: string;
   userId: string;
   workingLicense: string;
   qualifications: string[];

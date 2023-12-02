@@ -14,9 +14,13 @@ import {
 import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import ApplicationDetails from '../../components/ApplicationDetails';
+import { Button } from '../../components/ui/button';
+import Heading from '../../components/Heading';
+import useUpdateApplicationStatus from '../../services/qhpApplications/updateApplicationStatus';
 
 const Review = () => {
   const { data: applications } = useGetAllApplications();
+  const { mutate: updateStatus } = useUpdateApplicationStatus();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
@@ -32,8 +36,17 @@ const Review = () => {
       setSearchParams({ userId });
     }
   }
+
+  function handleVerify(id: string) {
+    updateStatus({ id, status: 'Approved' });
+  }
+
+  function handleReject(id: string) {
+    updateStatus({ id, status: 'Rejected' });
+  }
   return (
     <>
+      <Heading>Review applications for QHPs</Heading>
       <div>
         {applications &&
           applications.map((application) => (
@@ -67,7 +80,7 @@ const Review = () => {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className='flex flex-col items-start gap-4'>
                 <Dialog
                   open={open}
                   onOpenChange={() => handleSetOpen(application.userId)}
@@ -79,6 +92,17 @@ const Review = () => {
                     <ApplicationDetails application={application} />
                   </DialogContent>
                 </Dialog>
+                <div className='space-x-3'>
+                  <Button onClick={() => handleVerify(application._id)}>
+                    Verify
+                  </Button>
+                  <Button
+                    onClick={() => handleReject(application._id)}
+                    variant={'destructive'}
+                  >
+                    Reject
+                  </Button>
+                </div>
               </CardFooter>
             </Card>
           ))}
