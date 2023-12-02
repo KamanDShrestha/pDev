@@ -25,12 +25,11 @@ const Review = () => {
   function handleSetOpen(userId: string) {
     if (open) {
       setOpen(false);
-      console.log('will remove the params');
+
       setSearchParams({});
     } else {
       setOpen(true);
       setSearchParams({ userId });
-      console.log('will add the params');
     }
   }
   return (
@@ -77,7 +76,7 @@ const Review = () => {
                     View additional details
                   </DialogTrigger>
                   <DialogContent>
-                    <ApplicationDetails />
+                    <ApplicationDetails application={application} />
                   </DialogContent>
                 </Dialog>
               </CardFooter>
