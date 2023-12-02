@@ -8,20 +8,73 @@ const Review = () => {
   console.log(applications);
 
   return (
-    <>
-      <Heading>Review applications for QHPs</Heading>
+    <div className='space-y-20'>
       <div>
-        {applications &&
-          applications.map((application) => (
-            <>
-              <ApplicationCard
-                application={application}
-                key={application._id}
-              />
-            </>
-          ))}
+        <Heading>Review applications for QHPs</Heading>
+        <div>
+          {applications &&
+          applications.filter((application) => application.status === 'Pending')
+            .length === 0 ? (
+            <p>No pending applications</p>
+          ) : (
+            applications?.map((application) => (
+              <>
+                {application.status === 'Pending' && (
+                  <ApplicationCard
+                    application={application}
+                    key={application._id}
+                  />
+                )}
+              </>
+            ))
+          )}
+        </div>
       </div>
-    </>
+      <div>
+        <Heading>Approved Applications</Heading>
+        <div>
+          {applications &&
+          applications.filter(
+            (application) => application.status === 'Approved'
+          ).length === 0 ? (
+            <p>No approved applications</p>
+          ) : (
+            applications?.map((application) => (
+              <>
+                {application.status === 'Approved' && (
+                  <ApplicationCard
+                    application={application}
+                    key={application._id}
+                  />
+                )}
+              </>
+            ))
+          )}
+        </div>
+      </div>
+      <div>
+        <Heading>Rejected Applications</Heading>
+        <div>
+          {applications &&
+          applications.filter(
+            (application) => application.status === 'Rejected'
+          ).length === 0 ? (
+            <p>No approved applications</p>
+          ) : (
+            applications?.map((application) => (
+              <>
+                {application.status === 'Rejected' && (
+                  <ApplicationCard
+                    application={application}
+                    key={application._id}
+                  />
+                )}
+              </>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

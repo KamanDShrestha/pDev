@@ -11,6 +11,7 @@ export type ApplicationData = {
   experiences: string[];
   proficientFields: string[];
   additionalSkills: string[];
+  status: 'Approved' | 'Rejected' | 'Pending';
   additionalInformation: string;
 };
 
