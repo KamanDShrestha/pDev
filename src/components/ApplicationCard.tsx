@@ -13,6 +13,7 @@ import { ApplicationData } from '../types';
 import { useSearchParams } from 'react-router-dom';
 import useUpdateApplicationStatus from '../services/qhpApplications/updateApplicationStatus';
 import useUpdateUserRole from '../services/users/updateUserRole';
+import useAddQhpDetails from '../services/qhpDetails/addQhpDetails';
 
 interface ApplicationCardProps {
   application: ApplicationData;
@@ -21,6 +22,7 @@ interface ApplicationCardProps {
 const ApplicationCard = ({ application }: ApplicationCardProps) => {
   const { mutate: updateStatus } = useUpdateApplicationStatus();
   const { mutate: updateUserRole } = useUpdateUserRole();
+  const { mutate: addQhpDetails } = useAddQhpDetails();
   const [searchParams, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
 
@@ -46,6 +48,17 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
       {
         onSuccess: () => {
           updateUserRole({ userId: userId, role: 'qha' });
+          addQhpDetails({
+            userId: userId,
+            workingLicense: application.workingLicense,
+            jobTitle: 'temp job',
+            employerName: 'temp employer',
+            qualifications: application.qualifications,
+            additionalInformation: application.additionalInformation,
+            experiences: application.experiences,
+            proficientFields: application.proficientFields,
+            additionalSkills: application.additionalSkills,
+          });
         },
       }
     );
