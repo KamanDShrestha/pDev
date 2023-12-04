@@ -4,15 +4,22 @@ import Heading from './Heading';
 import { Textarea } from './ui/textarea';
 import { useForm } from 'react-hook-form';
 import { Button } from './ui/button';
+import { useAuthContext } from '../context/AuthProvider';
+import toast from 'react-hot-toast';
+import ErrorMessage from './ErrorMessage';
 
 interface MoodTrackerProps {
   handleModalClose: () => void;
 }
 
 const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
-  const { register } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [selectedMood, setSelectedMood] = useState(-1);
-
+  const { user } = useAuthContext();
   const moods = [
     { mood: 'Terrible', emoji: '😰', score: 1 },
     { mood: 'Bad', emoji: '👎', score: 2 },
@@ -23,6 +30,19 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
 
   function handleMoodSelection(index: number) {
     setSelectedMood(index);
+  }
+
+  function handleMoodSave() {
+    if (selectedMood < 0) return toast.error('Please select a mood');
+
+    console.log({
+      userId: user?.id,
+      mood: {
+        mood: moods[selectedMood].score,
+        loggedDate: Date.now().toLocaleString(),
+        reasoning: register('reasoning'),
+      },
+    });
   }
   return (
     <>
@@ -58,10 +78,18 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
           </label>
           <Textarea
             placeholder='Your reasoning...'
-            {...register('reasoning')}
+            {...register('reasoning', {
+              required: {
+                value: true,
+                message: 'Please provide valid reasoning for your mood',
+              },
+            })}
           />
+          {errors.reasoning && (
+            <ErrorMessage>{errors.reasoning.message as string}</ErrorMessage>
+          )}
         </div>
-        <Button>Save</Button>
+        <Button onClick={handleSubmit(handleMoodSave)}>Save</Button>
       </div>
     </>
   );
