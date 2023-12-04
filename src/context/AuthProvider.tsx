@@ -17,7 +17,7 @@ export type AuthContextType = {
 const AuthContext = createContext(
   {} as {
     user?: AuthContextType;
-    setUser?: React.Dispatch<React.SetStateAction<AuthContextType | undefined>>;
+    setUser?: React.Dispatch<React.SetStateAction<AuthContextType>>;
   }
 );
 
@@ -31,7 +31,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         setUser: setUser as React.Dispatch<
-          React.SetStateAction<AuthContextType | undefined>
+          React.SetStateAction<AuthContextType>
         >,
       }}
     >

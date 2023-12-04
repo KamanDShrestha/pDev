@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import ErrorMessage from './ErrorMessage';
 import useLogMood from '../services/moods/logMood';
 import useUpdateLoggedMood from '../services/users/updateLoggedMood';
+import setToLocalStorage from '../services/localStorage/setToLocalStorage';
 
 interface MoodTrackerProps {
   handleModalClose: () => void;
@@ -23,7 +24,7 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
   const [selectedMood, setSelectedMood] = useState(-1);
   const { mutate } = useLogMood();
   const { mutate: updateMood } = useUpdateLoggedMood();
-  const { user } = useAuthContext();
+  const { user, setUser } = useAuthContext();
   const moods = [
     { mood: 'Terrible', emoji: '😰', score: 1 },
     { mood: 'Bad', emoji: '👎', score: 2 },
@@ -61,6 +62,15 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
         onSuccess: () => {
           handleModalClose();
           updateMood({ userId: user?.id as string });
+          setUser &&
+            setUser((currentUser) => ({
+              ...currentUser,
+              loggedMood: true,
+            }));
+          setToLocalStorage('authentication', {
+            ...user,
+            loggedMood: true,
+          });
         },
       }
     );
