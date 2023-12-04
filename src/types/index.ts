@@ -1,3 +1,12 @@
+export type LogMoodData = {
+  userId: string;
+  mood: {
+    mood: number;
+    reasoning: string;
+    loggedDate: Date;
+  };
+};
+
 export type QhpDetails = {
   userId: string;
   workingLicense: string;

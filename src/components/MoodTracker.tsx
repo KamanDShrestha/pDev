@@ -2,11 +2,12 @@ import { useState } from 'react';
 
 import Heading from './Heading';
 import { Textarea } from './ui/textarea';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { Button } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import toast from 'react-hot-toast';
 import ErrorMessage from './ErrorMessage';
+import useLogMood from '../services/moods/logMood';
 
 interface MoodTrackerProps {
   handleModalClose: () => void;
@@ -19,6 +20,8 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
     formState: { errors },
   } = useForm();
   const [selectedMood, setSelectedMood] = useState(-1);
+  const { mutate } = useLogMood();
+
   const { user } = useAuthContext();
   const moods = [
     { mood: 'Terrible', emoji: '😰', score: 1 },
@@ -32,7 +35,7 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
     setSelectedMood(index);
   }
 
-  function handleMoodSave() {
+  function handleMoodSave(data: FieldValues) {
     if (selectedMood < 0) return toast.error('Please select a mood');
 
     console.log({
@@ -43,6 +46,22 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
         reasoning: register('reasoning'),
       },
     });
+
+    mutate(
+      {
+        userId: user?.id as string,
+        mood: {
+          mood: moods[selectedMood].score,
+          loggedDate: new Date(),
+          reasoning: data.reasoning,
+        },
+      },
+      {
+        onSuccess: () => {
+          handleModalClose();
+        },
+      }
+    );
   }
   return (
     <>
