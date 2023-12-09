@@ -44,7 +44,7 @@ const NavBar = () => {
   const adminActionOptions = [
     { to: '/profile', option: 'Profile' },
     { to: '/addJourney', option: 'Add Journey' },
-
+    { to: '/feedbacks', option: 'Feedbacks' },
     { to: '/reviewApplications', option: 'Review Applications' },
   ];
 

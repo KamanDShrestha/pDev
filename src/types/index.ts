@@ -1,3 +1,15 @@
+export type JourneyFeedbacks = {
+  _id: string;
+  userId: string;
+  journeyId: string;
+  journeyFeedback: string[];
+  actionStepFeedback: {
+    actionStepDay: string;
+    feedback: string;
+  }[];
+  feedbackStatus: 'pending' | 'resolved' | 'rejected';
+};
+
 export type AddJourneyFeedbackData = {
   userId: string;
   journeyId: string;

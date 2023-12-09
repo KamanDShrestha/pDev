@@ -33,6 +33,7 @@ import EditJourneyPage from './pages/admin/EditJourneyPage';
 import ApplyForQHP from './pages/ApplyForQHP';
 
 import Review from './pages/admin/Review';
+import Feedbacks from './pages/admin/Feedbacks';
 
 function App() {
   return (
@@ -91,6 +92,8 @@ function App() {
                     path='/journeys/edit/:id'
                     element={<EditJourneyPage />}
                   />
+
+                  <Route path='/feedbacks' element={<Feedbacks />} />
                 </Route>
               </Route>
 
