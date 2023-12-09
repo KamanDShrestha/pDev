@@ -1,3 +1,13 @@
+export type AddJourneyFeedbackData = {
+  userId: string;
+  journeyId: string;
+  journeyFeedback: string;
+  actionStepFeedback: {
+    actionStepDay: string;
+    feedback: string;
+  };
+};
+
 export type LogMoodData = {
   userId: string;
   mood: {

@@ -1,10 +1,35 @@
+import { FieldValues, useForm } from 'react-hook-form';
 import Heading from './Heading';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 import { Textarea } from './ui/textarea';
+import useAddJourneyFeedback from '../services/journeyFeedbacks/addJourneyFeedback';
+import { useAuthContext } from '../context/AuthProvider';
 
-const JourneyFeedback = () => {
+interface JourneyFeedbackProps {
+  journeyId: string;
+}
+
+const JourneyFeedback = ({ journeyId }: JourneyFeedbackProps) => {
+  const { register, handleSubmit } = useForm();
+  const { user } = useAuthContext();
+  const { mutate } = useAddJourneyFeedback();
+  function handleFeedbackSubmit(data: FieldValues) {
+    if (!data.journeyFeedback && !data.actionStepFeedback) return;
+
+    console.log(data);
+    mutate({
+      userId: user?.id as string,
+      journeyId,
+      journeyFeedback: data.journeyFeedback,
+      actionStepFeedback: {
+        actionStepDay: data.actionStepDay,
+        feedback: data.actionStepFeedback,
+      },
+    });
+  }
+
   return (
     <div className='space-y-5'>
       <Heading className='mb-0 text-xl'>Provide appropriate feedbacks</Heading>
@@ -13,7 +38,7 @@ const JourneyFeedback = () => {
       </span>
       <div>
         <Heading className='mb-2 text-lg'>Feedback for the journey</Heading>
-        <Textarea />
+        <Textarea {...register('journeyFeedback')} />
       </div>
       <div>
         <Heading className='mb-2 text-lg'>
@@ -23,15 +48,15 @@ const JourneyFeedback = () => {
         <div className='space-y-3'>
           <div>
             <label className='font-medium'>For this day </label>
-            <Input />
+            <Input {...register('actionStepDay')} />
           </div>
           <div>
             <label className='font-medium'>Feedback </label>
-            <Textarea />
+            <Textarea {...register('feedback')} />
           </div>
         </div>
       </div>
-      <Button>Submit</Button>
+      <Button onClick={handleSubmit(handleFeedbackSubmit)}>Submit</Button>
     </div>
   );
 };

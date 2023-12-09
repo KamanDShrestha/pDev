@@ -92,7 +92,7 @@ const SpecificJourney = () => {
                   <Button>Provide feedbacks</Button>
                 </DialogTrigger>
                 <DialogContent>
-                  <JourneyFeedback />
+                  <JourneyFeedback journeyId={journey?._id as string} />
                 </DialogContent>
               </Dialog>
             )}
