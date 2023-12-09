@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../../components/ui/dialog';
+import useEditJourney from '../../services/journey/editJourney';
 
 const EditJourneyPage = () => {
   const { id } = useParams();
@@ -33,6 +34,7 @@ const EditJourneyPage = () => {
       actionSteps: journey?.actionSteps,
     },
   });
+  const { mutate } = useEditJourney();
 
   useEffect(() => {
     if (journey) {
@@ -53,6 +55,20 @@ const EditJourneyPage = () => {
 
   function onSubmit(data: FieldValues) {
     console.log(data);
+    mutate({
+      _id: id as string,
+      name: data.name,
+      description: data.description,
+      imageLinks: {
+        light: data.light,
+        dark: data.dark,
+      },
+      importance: data.importance,
+      usages: data.usages,
+      learningQuotes: data.learningQuotes,
+      actionSteps: data.actionSteps,
+      length: journey?.length as number,
+    });
   }
   return (
     <>

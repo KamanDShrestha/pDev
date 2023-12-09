@@ -110,6 +110,20 @@ export type JourneyData = {
   };
 };
 
+export type EditJourneyData = {
+  _id: string;
+  name: string;
+  description: string;
+  length: number;
+  imageLinks: { dark: string; light: string };
+  importance: string[];
+  learningQuotes: string[];
+  usages: string[];
+  actionSteps: {
+    [key: string]: ActionStep;
+  };
+};
+
 export type DeleteJourneyData = {
   id: string;
 };
