@@ -37,6 +37,16 @@ export type ApplicationData = {
   appliedDate: Date;
 };
 
+export type ApplyingApplicationData = {
+  userId: string;
+  workingLicense: string;
+  qualifications: string[];
+  experiences: string[];
+  proficientFields: string[];
+  additionalSkills: string[];
+  additionalInformation: string;
+};
+
 export type EmbarkedJourney = {
   _id: string;
   userId: string;
