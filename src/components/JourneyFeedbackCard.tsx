@@ -104,15 +104,19 @@ const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
         </div>
       </CardContent>
       <CardFooter className='flex justify-between'>
-        <div className='space-x-3'>
-          <Button onClick={() => handleResolve()}>Resolve</Button>
-          <Button onClick={() => handleReject()}>Reject</Button>
-          <Button
-            onClick={() => navigate(`/journeys/edit/${feedback.journeyId}`)}
-          >
-            Act
-          </Button>
-        </div>
+        {feedback.feedbackStatus === 'pending' && (
+          <div className='space-x-3'>
+            <>
+              <Button onClick={() => handleResolve()}>Resolve</Button>
+              <Button onClick={() => handleReject()}>Reject</Button>
+              <Button
+                onClick={() => navigate(`/journeys/edit/${feedback.journeyId}`)}
+              >
+                Act
+              </Button>
+            </>
+          </div>
+        )}
         <span
           className={`px-4 py-2 text-xs ${
             statusColoring[
