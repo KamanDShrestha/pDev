@@ -23,13 +23,8 @@ import { useTheme } from './ThemeProvider';
 
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
-interface ActionSteps {
-  description: string;
-  majorAction: string;
-  additionalSteps?: string[];
-  evidences: string[];
-  references?: string[];
-}
+import { useNavigate } from 'react-router-dom';
+import { ActionStep } from '../types';
 
 export interface ReviewJourneyCardProps {
   journeyId: string;
@@ -40,7 +35,7 @@ export interface ReviewJourneyCardProps {
   importance: string[];
   usages: string[];
   learningQuotes?: string[];
-  actionSteps?: ActionSteps[];
+  actionSteps?: ActionStep[];
   onVerifyClick: (journeyId: string) => void;
 }
 
@@ -55,6 +50,7 @@ const ReviewJourneyCard = ({
   onVerifyClick,
 }: ReviewJourneyCardProps) => {
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -105,6 +101,14 @@ const ReviewJourneyCard = ({
               </CardContent>
               <CardFooter className='flex justify-between'>
                 <Button onClick={() => onVerifyClick(journeyId)}>Verify</Button>
+                <Button
+                  onClick={() =>
+                    navigate(`/journeys/${journeyName.toLowerCase()}`)
+                  }
+                >
+                  Browse
+                </Button>
+
                 <span className='px-4 py-2 text-xs text-red-500 bg-red-100 rounded-full'>
                   Not verified
                 </span>

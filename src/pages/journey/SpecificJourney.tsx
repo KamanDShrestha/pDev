@@ -8,6 +8,12 @@ import { Button } from '../../components/ui/button';
 import useAddEmbarkedJourney from '../../services/embarkedJourneys/addEmbarkedJourney';
 import { useAuthContext } from '../../context/AuthProvider';
 import useGetEmbarkedJourney from '../../services/embarkedJourneys/getEmbarkedJourney';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from '../../components/ui/dialog';
+import JourneyFeedback from '../../components/JourneyFeedback';
 
 const validJourneys = [
   'mindfulness',
@@ -79,13 +85,27 @@ const SpecificJourney = () => {
           <h2 className='mt-2 mb-5 text-4xl font-semibold'>
             Action Steps for Stoicism
           </h2>
-          {embarkedJourney && !embarkedJourney.isJourneyCompleted ? (
-            <Button onClick={() => navigate(`/currentJourney/${journey?._id}`)}>
-              Navigate to current journey
-            </Button>
-          ) : (
-            <Button onClick={handleBeginButton}>Begin the journey</Button>
-          )}
+          <div className='space-x-2'>
+            {user?.role === 'qha' && (
+              <Dialog>
+                <DialogTrigger>
+                  <Button>Provide feedbacks</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <JourneyFeedback />
+                </DialogContent>
+              </Dialog>
+            )}
+            {embarkedJourney && !embarkedJourney.isJourneyCompleted ? (
+              <Button
+                onClick={() => navigate(`/currentJourney/${journey?._id}`)}
+              >
+                Navigate to current journey
+              </Button>
+            ) : (
+              <Button onClick={handleBeginButton}>Begin the journey</Button>
+            )}
+          </div>
         </div>
         <div className='flex flex-wrap justify-center gap-5 p-3'>
           {isLoading &&
@@ -96,6 +116,7 @@ const SpecificJourney = () => {
           {journey &&
             Array.from(Array(journey.length)).map((_, index) => (
               <ActionStepShowcase
+                user={user}
                 day={index + 1}
                 actionStep={journey.actionSteps[`day${index + 1}`]}
               />
