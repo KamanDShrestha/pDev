@@ -19,6 +19,7 @@ export default function useLogoutUser() {
       toast.success('You have successfully been logged out.');
     },
     onError: (error: AxiosError<ErrorResponse>) => {
+      console.log(error);
       console.log(error.response?.data.message || 'An error occurred');
       toast.error(error.response?.data.message || 'An error occurred');
     },
