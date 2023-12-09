@@ -9,12 +9,14 @@ import { JourneyFeedbacks } from '../types';
 import Heading from './Heading';
 import { Button } from './ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useUpdateJourneyFeedbackStatus } from '../services/journeyFeedbacks/updateJourneyFeedbackStatus';
 
 interface JourneyFeedbackCardProps {
   feedback: JourneyFeedbacks;
 }
 
 const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
+  const { mutate: updateFeedbackStatus } = useUpdateJourneyFeedbackStatus();
   const navigate = useNavigate();
 
   const statusColoring = {
@@ -22,6 +24,20 @@ const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
     resolved: 'bg-green-100 text-green-500',
     rejected: 'bg-red-100 text-red-500',
   };
+
+  function handleResolve() {
+    updateFeedbackStatus({
+      feedbackId: feedback._id,
+      status: 'resolved',
+    });
+  }
+  function handleReject() {
+    updateFeedbackStatus({
+      feedbackId: feedback._id,
+      status: 'rejected',
+    });
+  }
+
   return (
     <Card className='max-w-[550px] '>
       <CardHeader>
@@ -89,8 +105,8 @@ const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
       </CardContent>
       <CardFooter className='flex justify-between'>
         <div className='space-x-3'>
-          <Button>Resolve</Button>
-          <Button>Reject</Button>
+          <Button onClick={() => handleResolve()}>Resolve</Button>
+          <Button onClick={() => handleReject()}>Reject</Button>
           <Button
             onClick={() => navigate(`/journeys/edit/${feedback.journeyId}`)}
           >
@@ -102,7 +118,7 @@ const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
             statusColoring[
               feedback.feedbackStatus as keyof typeof statusColoring
             ]
-          } bg-red-100 rounded-full`}
+          } rounded-full`}
         >
           {feedback.feedbackStatus}
         </span>

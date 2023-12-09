@@ -1,3 +1,8 @@
+export type UpdateJourneyFeedbackStatusData = {
+  feedbackId: string;
+  status: 'pending' | 'resolved' | 'rejected';
+};
+
 export type JourneyFeedbacks = {
   _id: string;
   userId: string;
