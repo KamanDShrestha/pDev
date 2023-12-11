@@ -1,3 +1,8 @@
+export type AddCommunityMemberData = {
+  communityId: string;
+  userId: string;
+};
+
 export type CommunityMemberData = {
   _id: string;
   communityId: string;

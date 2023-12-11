@@ -11,17 +11,24 @@ import { useTheme } from './ThemeProvider';
 import { Button } from './ui/button';
 import useGetCommunityMembers from '../services/communityMembers/getCommunityMembers';
 
+import useAddMembers from '../services/communityMembers/addMembers';
+import { useAuthContext } from '../context/AuthProvider';
+
 interface CommunityCardProps {
   community: CommunityData;
 }
 
 const CommunityCard = ({ community }: CommunityCardProps) => {
   const { theme } = useTheme();
+  const { user } = useAuthContext();
 
   const { data: communityMembers } = useGetCommunityMembers(community._id);
+  console.log(communityMembers);
 
+  const { mutate: addMember } = useAddMembers();
   function handleUserJoinCommunity() {
-    console.log('Joining community');
+    console.log({ userId: user?.id, communityId: community._id });
+    addMember({ userId: user?.id as string, communityId: community._id });
   }
 
   return (
@@ -40,12 +47,12 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         </div>
         <CardDescription>{community.communityDescription}</CardDescription>
       </CardHeader>
-      <CardContent>
-        {communityMembers && communityMembers.users.length <= 0 ? (
+      <CardContent className='text-xs'>
+        {!communityMembers ? (
           <p>No one has joined till now in this community</p>
         ) : (
           <p>
-            {communityMembers?.users.length} members have joined this community
+            {communityMembers?.users?.length} members have joined this community
           </p>
         )}
       </CardContent>

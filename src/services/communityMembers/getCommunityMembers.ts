@@ -1,5 +1,5 @@
-import { axiosInstance } from '@/src/constants';
-import { CommunityMemberData } from '@/src/types';
+import { axiosInstance } from '../../constants';
+import { CommunityMemberData } from '../../types';
 import { useQuery } from '@tanstack/react-query';
 
 export default function useGetCommunityMembers(communityId: string) {
