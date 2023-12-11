@@ -14,6 +14,7 @@ import useGetCommunityMembers from '../services/communityMembers/getCommunityMem
 import useAddMembers from '../services/communityMembers/addMembers';
 import { useAuthContext } from '../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -29,9 +30,19 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
   const { mutate: addMember } = useAddMembers();
   console.log(communityMembers);
 
+  const queryClient = useQueryClient();
+
   function handleUserJoinCommunity() {
     console.log({ userId: user?.id, communityId: community._id });
-    addMember({ userId: user?.id as string, communityId: community._id });
+    addMember(
+      { userId: user?.id as string, communityId: community._id },
+      {
+        onSuccess: () => {
+          navigate(`/community/${community._id}`);
+          queryClient.invalidateQueries(['communityMembers', community._id]);
+        },
+      }
+    );
   }
 
   return (
