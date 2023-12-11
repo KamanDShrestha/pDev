@@ -88,7 +88,9 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
             </Button>
           </>
         ) : (
-          <Button>Checkout this community</Button>
+          <Button onClick={() => navigate(`/community/${community._id}`)}>
+            Checkout this community
+          </Button>
         )}
       </CardFooter>
     </Card>
