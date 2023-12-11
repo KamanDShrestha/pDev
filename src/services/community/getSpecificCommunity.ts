@@ -1,4 +1,4 @@
-import { axiosInstance } from '@/src/constants';
+import { axiosInstance } from '../../constants';
 import { CommunityData } from '../../types';
 import { useQuery } from '@tanstack/react-query';
 
