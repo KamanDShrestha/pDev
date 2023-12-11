@@ -34,6 +34,7 @@ import ApplyForQHP from './pages/ApplyForQHP';
 
 import Review from './pages/admin/Review';
 import Feedbacks from './pages/admin/Feedbacks';
+import AddCommunity from './pages/admin/AddCommunity';
 
 function App() {
   return (
@@ -83,6 +84,7 @@ function App() {
               <Route element={<AuthRequire allowedRoles={['admin']} />}>
                 <Route element={<UserLayout />}>
                   <Route path='/addJourney' element={<AddJourneyPage />} />
+                  <Route path='/addCommunity' element={<AddCommunity />} />
                   <Route path='/users' element={<UsersAction />} />
                   <Route path='/admin/dashboard' element={<AdminDashboard />} />
 

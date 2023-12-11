@@ -1,0 +1,11 @@
+import { axiosInstance } from '../../constants';
+import { useQuery } from '@tanstack/react-query';
+
+export default function useGetCommunities() {
+  const response = useQuery({
+    queryKey: ['communities'],
+    queryFn: () =>
+      axiosInstance.get('/community/get').then((res) => res.data.data),
+  });
+  return response;
+}

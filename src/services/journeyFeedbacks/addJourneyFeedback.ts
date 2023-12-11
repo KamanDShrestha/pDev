@@ -9,9 +9,11 @@ export default function useAddJourneyFeedback() {
     mutationFn: (data: AddJourneyFeedbackData) =>
       axiosInstance.post('/journeyFeedbacks/add', data).then((res) => res.data),
     onSuccess: (response) => {
+      console.log(response);
       toast.success(response.message);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
+      console.log(error);
       toast.error(error.response?.data.message || 'An error occured');
     },
   });
