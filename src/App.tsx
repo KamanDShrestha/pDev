@@ -35,6 +35,7 @@ import ApplyForQHP from './pages/ApplyForQHP';
 import Review from './pages/admin/Review';
 import Feedbacks from './pages/admin/Feedbacks';
 import AddCommunity from './pages/admin/AddCommunity';
+import SpecificCommunity from './pages/SpecificCommunity';
 
 function App() {
   return (
@@ -59,6 +60,11 @@ function App() {
                   <Route path={'/home'} element={<Home />} />
                   <Route path={'/dashboard'} element={<Dashboard />} />
                   <Route path={'/community'} element={<Community />} />
+                  <Route
+                    path={'/community/:communityId'}
+                    element={<SpecificCommunity />}
+                  />
+
                   <Route path={'/journeys'} element={<Journey />} />
                   <Route
                     path={'/journeys/:name'}

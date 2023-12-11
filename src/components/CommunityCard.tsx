@@ -13,6 +13,7 @@ import useGetCommunityMembers from '../services/communityMembers/getCommunityMem
 
 import useAddMembers from '../services/communityMembers/addMembers';
 import { useAuthContext } from '../context/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -22,10 +23,12 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
   const { theme } = useTheme();
   const { user } = useAuthContext();
 
+  const navigate = useNavigate();
+
   const { data: communityMembers } = useGetCommunityMembers(community._id);
+  const { mutate: addMember } = useAddMembers();
   console.log(communityMembers);
 
-  const { mutate: addMember } = useAddMembers();
   function handleUserJoinCommunity() {
     console.log({ userId: user?.id, communityId: community._id });
     addMember({ userId: user?.id as string, communityId: community._id });
@@ -56,8 +59,12 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
           </p>
         )}
       </CardContent>
-      <CardFooter>
+      <CardFooter className='space-x-3'>
         <Button onClick={handleUserJoinCommunity}>Join the community</Button>
+
+        <Button onClick={() => navigate(`/community/${community._id}`)}>
+          Browse
+        </Button>
       </CardFooter>
     </Card>
   );
