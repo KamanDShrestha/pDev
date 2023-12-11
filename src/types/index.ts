@@ -1,3 +1,13 @@
+export type AddCommunityData = {
+  journeyId: string;
+  communityName: string;
+  communityDescription: string;
+  communityIcon: {
+    dark: string;
+    light: string;
+  };
+};
+
 export type UpdateJourneyFeedbackStatusData = {
   feedbackId: string;
   status: 'pending' | 'resolved' | 'rejected';
