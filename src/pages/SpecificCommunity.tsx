@@ -6,6 +6,7 @@ import useGetCommunityMembers from '../services/communityMembers/getCommunityMem
 import Heading from '../components/Heading';
 import { BsSignpostSplit } from 'react-icons/bs';
 import { Input } from '../components/ui/input';
+import AddPostCard from '../components/AddPostCard';
 
 const SpecificCommunity = () => {
   const { communityId } = useParams<{ communityId: string }>();
@@ -63,7 +64,9 @@ const SpecificCommunity = () => {
                   placeholder="What's on your mind?"
                 />
               </DialogTrigger>
-              <DialogContent>hello</DialogContent>
+              <DialogContent>
+                <AddPostCard />
+              </DialogContent>
             </Dialog>
           </div>
           {/* <Button className='absolute right-4'>Create Post</Button> */}
@@ -91,10 +94,6 @@ const SpecificCommunity = () => {
           </div>
         </div> */}
       </div>
-      {/* <Dialog>
-        <DialogTrigger>SpecificCommunity</DialogTrigger>
-        <DialogContent>hello</DialogContent>
-      </Dialog> */}
     </>
   );
 };
