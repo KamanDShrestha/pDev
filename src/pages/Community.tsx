@@ -12,7 +12,7 @@ const Community = () => {
 
   return (
     <>
-      <div className='flex flex-wrap items-center justify-between'>
+      <div className='flex flex-wrap items-center justify-between mb-3'>
         <Heading>Our communities</Heading>
         {user?.role === 'admin' && (
           <Button onClick={() => navigate('/addCommunity')}>
@@ -21,12 +21,12 @@ const Community = () => {
         )}
       </div>
       <div>{isLoading && <p>Loading</p>}</div>
-      <div>
+      <div className='flex flex-wrap justify-center gap-3'>
         {communities && communities.length === 0 ? (
           <p>No communities found</p>
         ) : (
-          communities?.map((community) => (
-            <CommunityCard community={community} />
+          communities?.map((community, index) => (
+            <CommunityCard community={community} key={index} />
           ))
         )}
       </div>

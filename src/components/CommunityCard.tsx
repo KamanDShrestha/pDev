@@ -18,7 +18,7 @@ interface CommunityCardProps {
 const CommunityCard = ({ community }: CommunityCardProps) => {
   const { theme } = useTheme();
   return (
-    <Card className='max-w-[550px]'>
+    <Card className='max-w-[400px]'>
       <CardHeader>
         <div className='flex items-center justify-around gap-10'>
           <CardTitle>{community.communityName}</CardTitle>
