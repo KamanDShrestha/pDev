@@ -8,6 +8,7 @@ import CommunityCard from '../components/CommunityCard';
 const Community = () => {
   const { user } = useAuthContext();
   const { data: communities, isLoading } = useGetCommunities();
+
   const navigate = useNavigate();
 
   return (

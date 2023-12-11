@@ -1,3 +1,14 @@
+export type CommunityMemberData = {
+  _id: string;
+  communityId: string;
+  users: [
+    {
+      userId: string;
+      joinedDate: Date;
+    }
+  ];
+};
+
 export type AddCommunityData = {
   journeyId: string;
   communityName: string;

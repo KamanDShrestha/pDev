@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import {
 import { CommunityData } from '../types';
 import { useTheme } from './ThemeProvider';
 import { Button } from './ui/button';
+import useGetCommunityMembers from '../services/communityMembers/getCommunityMembers';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -17,6 +17,13 @@ interface CommunityCardProps {
 
 const CommunityCard = ({ community }: CommunityCardProps) => {
   const { theme } = useTheme();
+
+  const { data: communityMembers } = useGetCommunityMembers(community._id);
+
+  function handleUserJoinCommunity() {
+    console.log('Joining community');
+  }
+
   return (
     <Card className='max-w-[400px]'>
       <CardHeader>
@@ -33,9 +40,17 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         </div>
         <CardDescription>{community.communityDescription}</CardDescription>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>
+        {communityMembers && communityMembers.users.length <= 0 ? (
+          <p>No one has joined till now in this community</p>
+        ) : (
+          <p>
+            {communityMembers?.users.length} members have joined this community
+          </p>
+        )}
+      </CardContent>
       <CardFooter>
-        <Button>Join the community</Button>
+        <Button onClick={handleUserJoinCommunity}>Join the community</Button>
       </CardFooter>
     </Card>
   );
