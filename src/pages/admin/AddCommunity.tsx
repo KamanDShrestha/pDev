@@ -37,6 +37,7 @@ const AddCommunity = () => {
 
   const { data: journeys } = useGetAllJourneys();
   const [selectedJourney, setSelectedJourney] = useState('');
+  const [isJourneySelected, setIsSelectedJourney] = useState(true);
 
   const providedName = watch('communityName');
   const providedDescription = watch('communityDescription');
@@ -44,7 +45,10 @@ const AddCommunity = () => {
   const providedLightIconImage = watch('communityIconImageLight');
 
   function handleAddCommunity(data: FieldValues) {
-    console.log(data, 'selected journey', selectedJourney);
+    if (selectedJourney === '') {
+      setIsSelectedJourney(false);
+      return;
+    }
 
     addCommunity({
       journeyId: selectedJourney,
@@ -79,10 +83,10 @@ const AddCommunity = () => {
               </InputFieldLabel>
               <Input
                 {...register('communityName', {
-                  required: 'community name need to be provided',
+                  required: 'Community name need to be provided',
                   minLength: {
                     value: 5,
-                    message: 'community name must have at least 5 characters',
+                    message: 'Community name must have at least 5 characters',
                   },
                 })}
                 type='text'
@@ -250,7 +254,12 @@ const AddCommunity = () => {
               <label htmlFor='journeyQuotes' className='font-medium'>
                 Select the journey associated with this community
               </label>
-              <Select onValueChange={(value) => setSelectedJourney(value)}>
+              <Select
+                onValueChange={(value) => {
+                  setIsSelectedJourney(true);
+                  setSelectedJourney(value);
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder='Select the journey' />
                 </SelectTrigger>
@@ -267,6 +276,9 @@ const AddCommunity = () => {
                   </SelectGroup>
                 </SelectContent>
               </Select>
+              {!isJourneySelected && (
+                <ErrorMessage>Please select a journey</ErrorMessage>
+              )}
             </div>
           </div>
         </CardContent>
