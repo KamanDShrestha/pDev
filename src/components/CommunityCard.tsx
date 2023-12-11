@@ -15,6 +15,7 @@ import useAddMembers from '../services/communityMembers/addMembers';
 import { useAuthContext } from '../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -27,6 +28,12 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
   const navigate = useNavigate();
 
   const { data: communityMembers } = useGetCommunityMembers(community._id);
+  const { data: joinedStatus } = useCheckJoinedStatus(
+    community._id,
+    user?.id as string
+  );
+
+  console.log(joinedStatus);
   const { mutate: addMember } = useAddMembers();
   console.log(communityMembers);
 
@@ -71,11 +78,18 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         )}
       </CardContent>
       <CardFooter className='space-x-3'>
-        <Button onClick={handleUserJoinCommunity}>Join the community</Button>
-
-        <Button onClick={() => navigate(`/community/${community._id}`)}>
-          Browse
-        </Button>
+        {!joinedStatus ? (
+          <>
+            <Button onClick={handleUserJoinCommunity}>
+              Join the community
+            </Button>
+            <Button onClick={() => navigate(`/community/${community._id}`)}>
+              Browse
+            </Button>
+          </>
+        ) : (
+          <Button>Checkout this community</Button>
+        )}
       </CardFooter>
     </Card>
   );
