@@ -8,6 +8,18 @@ export type AddCommunityData = {
   };
 };
 
+export type CommunityData = {
+  _id: string;
+  journeyId: string;
+  communityName: string;
+  communityDescription: string;
+  communityIcon: {
+    dark: string;
+    light: string;
+  };
+  createdDate: Date;
+};
+
 export type UpdateJourneyFeedbackStatusData = {
   feedbackId: string;
   status: 'pending' | 'resolved' | 'rejected';

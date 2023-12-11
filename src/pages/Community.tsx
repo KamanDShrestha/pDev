@@ -3,6 +3,7 @@ import { useAuthContext } from '../context/AuthProvider';
 import { Button } from '../components/ui/button';
 import useGetCommunities from '../services/community/getCommunities';
 import { useNavigate } from 'react-router-dom';
+import CommunityCard from '../components/CommunityCard';
 
 const Community = () => {
   const { user } = useAuthContext();
@@ -21,7 +22,13 @@ const Community = () => {
       </div>
       <div>{isLoading && <p>Loading</p>}</div>
       <div>
-        {communities && communities.length === 0 && <p>No communities found</p>}
+        {communities && communities.length === 0 ? (
+          <p>No communities found</p>
+        ) : (
+          communities?.map((community) => (
+            <CommunityCard community={community} />
+          ))
+        )}
       </div>
     </>
   );
