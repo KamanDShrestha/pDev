@@ -1,3 +1,11 @@
+export type AddPostData = {
+  userId: string;
+  communityId: string;
+  postTitle: string;
+  post: string;
+  postCategory: string;
+};
+
 export type AddCommunityMemberData = {
   communityId: string;
   userId: string;
