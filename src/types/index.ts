@@ -1,3 +1,10 @@
+export type AddQAData = {
+  userId: string;
+  communityId: string;
+  questionTitle: string;
+  question: string;
+};
+
 export type AddPostData = {
   userId: string;
   communityId: string;

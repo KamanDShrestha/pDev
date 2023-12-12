@@ -18,6 +18,7 @@ import {
 import { Button } from './ui/button';
 import ErrorMessage from './ErrorMessage';
 import useAddPost from '../services/posts/addPost';
+import useAddQA from '../services/QAs/addQA';
 
 const AddPostCard = () => {
   const { user } = useAuthContext();
@@ -30,6 +31,7 @@ const AddPostCard = () => {
   } = useForm();
 
   const { mutate: addPost } = useAddPost();
+  const { mutate: addQA } = useAddQA();
 
   const postCategories = [
     {
@@ -54,13 +56,22 @@ const AddPostCard = () => {
       postCategory: selectedCategory,
     });
 
-    addPost({
-      userId: user?.id as string,
-      communityId: communityId as string,
-      postCategory: selectedCategory,
-      postTitle: data.postTitle,
-      post: data.postContent,
-    });
+    if (selectedCategory === 'question') {
+      addQA({
+        userId: user?.id as string,
+        communityId: communityId as string,
+        questionTitle: data.postTitle,
+        question: data.postContent,
+      });
+    } else {
+      addPost({
+        userId: user?.id as string,
+        communityId: communityId as string,
+        postCategory: selectedCategory,
+        postTitle: data.postTitle,
+        post: data.postContent,
+      });
+    }
   }
 
   return (
