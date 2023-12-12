@@ -16,6 +16,7 @@ import { useAuthContext } from '../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
+import useDeleteCommunity from '../services/community/deleteCommunity';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -32,9 +33,10 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
     community._id,
     user?.id as string
   );
+  const { mutate: addMember } = useAddMembers();
+  const { mutate: deleteCommunity } = useDeleteCommunity();
 
   console.log(joinedStatus);
-  const { mutate: addMember } = useAddMembers();
   console.log(communityMembers);
 
   const queryClient = useQueryClient();
@@ -50,6 +52,10 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         },
       }
     );
+  }
+
+  function handleDeleteCommunity(communityId: string) {
+    deleteCommunity(communityId);
   }
 
   return (
@@ -90,6 +96,15 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         ) : (
           <Button onClick={() => navigate(`/community/${community._id}`)}>
             Checkout this community
+          </Button>
+        )}
+
+        {user?.role === 'admin' && (
+          <Button
+            variant={'destructive'}
+            onClick={() => handleDeleteCommunity(community._id)}
+          >
+            Delete this community
           </Button>
         )}
       </CardFooter>
