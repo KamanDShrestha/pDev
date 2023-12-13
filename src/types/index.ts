@@ -14,7 +14,7 @@ export type QAsData = {
     {
       userId: string;
       answer: string;
-      createdDate: Date;
+      answerDate: Date;
     }
   ];
   createdAt: Date;
