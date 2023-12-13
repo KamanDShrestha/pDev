@@ -1,3 +1,9 @@
+export type AddAnswerData = {
+  qhpId: string;
+  answer: string;
+  questionId: string;
+};
+
 export type QAsData = {
   _id: string;
   userId: string;

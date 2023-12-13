@@ -34,7 +34,7 @@ const QuestionAnswerCardWithComments = ({
         {question.answers.length > 0 ? (
           question.answers.map((answer) => (
             <div>
-              <p>{answer.answer} heres</p>
+              <p>{answer.answer}</p>
             </div>
           ))
         ) : (

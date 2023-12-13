@@ -13,6 +13,7 @@ import { Textarea } from './ui/textarea';
 import { useAuthContext } from '../context/AuthProvider';
 import { Button } from './ui/button';
 import QuestionAnswerCardWithComments from './QuestionAnswerCardWithComments';
+import useAddAnswer from '../services/QAs/addAnswer';
 
 interface QuestionAnswerCardProps {
   question: QAsData;
@@ -22,9 +23,16 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
   const { user } = useAuthContext();
   const { register, handleSubmit } = useForm();
 
-  function handleSubmitAnswer() {
+  const { mutate: addAnswer } = useAddAnswer();
+
+  function handleSubmitAnswer(data) {
     console.log('answer submitted');
     console.log(user?.id);
+    addAnswer({
+      qhpId: user?.id as string,
+      questionId: question._id,
+      answer: data.answer,
+    });
   }
   return (
     <>
@@ -37,7 +45,8 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
         <CardFooter className='flex flex-col gap-3'>
           <p className='text-sm'>
             {question.answers.length <= 0 ? (
-              //   'No one has answered the question'
+              'No one has answered the question'
+            ) : (
               <Dialog>
                 <DialogTrigger>
                   <span className='hover:cursor-pointer'>
@@ -47,13 +56,6 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                 <DialogContent>
                   <QuestionAnswerCardWithComments question={question} />
                 </DialogContent>
-              </Dialog>
-            ) : (
-              <Dialog>
-                <DialogTrigger>
-                  <span>{question.answers.length} answers</span>
-                </DialogTrigger>
-                <DialogContent>Here</DialogContent>
               </Dialog>
             )}{' '}
           </p>
