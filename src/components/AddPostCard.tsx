@@ -49,13 +49,6 @@ const AddPostCard = () => {
   ];
 
   function handlePost(data: FieldValues) {
-    console.log({
-      ...data,
-      userId: user?.id,
-      communityId: communityId,
-      postCategory: selectedCategory,
-    });
-
     if (selectedCategory === 'question') {
       addQA({
         userId: user?.id as string,

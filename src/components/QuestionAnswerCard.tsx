@@ -37,7 +37,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
     <>
       <Card className='max-w-[550px]'>
         <CardHeader>
-          <div className='flex items-center gap-4'>
+          <div className='flex items-center gap-4 my-3'>
             <img
               src='https://picsum.photos/200'
               alt='user'
@@ -50,7 +50,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
               </span>
             </div>
           </div>
-          <p>{question.userId}</p>
+
           <CardTitle>{question.question}</CardTitle>
         </CardHeader>
         <CardContent className='m-5'>{question.question}</CardContent>
