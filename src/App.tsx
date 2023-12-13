@@ -36,6 +36,7 @@ import Review from './pages/admin/Review';
 import Feedbacks from './pages/admin/Feedbacks';
 import AddCommunity from './pages/admin/AddCommunity';
 import SpecificCommunity from './pages/SpecificCommunity';
+import QAs from './pages/qha/QAs';
 
 function App() {
   return (
@@ -111,6 +112,7 @@ function App() {
                     path='/verifyJourneys'
                     element={<VerifyJourneyPage />}
                   />
+                  <Route path='/qas' element={<QAs />} />
                 </Route>
               </Route>
 

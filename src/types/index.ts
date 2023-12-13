@@ -1,3 +1,19 @@
+export type QAsData = {
+  _id: string;
+  userId: string;
+  communityId: string;
+  questionTitle: string;
+  question: string;
+  answers: [
+    {
+      userId: string;
+      answer: string;
+      createdDate: Date;
+    }
+  ];
+  createdDate: Date;
+};
+
 export type AddQAData = {
   userId: string;
   communityId: string;
