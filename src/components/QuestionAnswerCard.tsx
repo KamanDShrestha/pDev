@@ -38,6 +38,19 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
     <>
       <Card className='max-w-[550px]'>
         <CardHeader>
+          <div className='flex items-center gap-4'>
+            <img
+              src='https://picsum.photos/200'
+              alt='user'
+              className='w-12 h-12 rounded-full'
+            />
+            <div className='flex flex-col'>
+              <span className='font-medium'>{question.userName}</span>
+              <span className='text-xs'>
+                Questioned at {question.createdAt.toLocaleString()}
+              </span>
+            </div>
+          </div>
           <p>{question.userId}</p>
           <CardTitle>{question.question}</CardTitle>
         </CardHeader>

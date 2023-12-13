@@ -7,6 +7,7 @@ export type AddAnswerData = {
 export type QAsData = {
   _id: string;
   userId: string;
+  userName: string;
   communityId: string;
   questionTitle: string;
   question: string;
@@ -15,6 +16,7 @@ export type QAsData = {
       userId: string;
       answer: string;
       answerDate: Date;
+      userName: string;
     }
   ];
   createdAt: Date;

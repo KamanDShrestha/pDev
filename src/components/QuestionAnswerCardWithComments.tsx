@@ -18,7 +18,7 @@ const QuestionAnswerCardWithComments = ({
           className='w-12 h-12 rounded-full'
         />
         <div className='flex flex-col'>
-          <span className='font-medium'>username</span>
+          <span className='font-medium'>{question.userName}</span>
           <span className='text-xs'>
             Questioned at {question.createdAt.toLocaleString()}
           </span>
@@ -43,7 +43,9 @@ const QuestionAnswerCardWithComments = ({
                     className='w-8 h-8 rounded-full'
                   />
                   <div className='flex flex-col'>
-                    <span className='text-sm font-medium'>username</span>
+                    <span className='text-sm font-medium'>
+                      {answer.userName}
+                    </span>
                     <span className='text-xs'>
                       Answered at {answer.answerDate.toLocaleString()}
                     </span>
