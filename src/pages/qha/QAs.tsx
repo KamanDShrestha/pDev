@@ -6,7 +6,9 @@ const QAs = () => {
   console.log(QAs);
 
   return (
-    <div>{QAs && QAs.map((QA) => <QuestionAnswerCard question={QA} />)}</div>
+    <div className='flex flex-wrap justify-center gap-5'>
+      {QAs && QAs.map((QA) => <QuestionAnswerCard question={QA} />)}
+    </div>
   );
 };
 

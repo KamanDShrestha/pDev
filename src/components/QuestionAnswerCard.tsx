@@ -12,6 +12,7 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { useAuthContext } from '../context/AuthProvider';
 import { Button } from './ui/button';
+import QuestionAnswerCardWithComments from './QuestionAnswerCardWithComments';
 
 interface QuestionAnswerCardProps {
   question: QAsData;
@@ -36,9 +37,24 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
         <CardFooter className='flex flex-col gap-3'>
           <p className='text-sm'>
             {question.answers.length <= 0 ? (
-              'No one has answered the question'
+              //   'No one has answered the question'
+              <Dialog>
+                <DialogTrigger>
+                  <span className='hover:cursor-pointer'>
+                    {question.answers.length} answers
+                  </span>
+                </DialogTrigger>
+                <DialogContent>
+                  <QuestionAnswerCardWithComments question={question} />
+                </DialogContent>
+              </Dialog>
             ) : (
-              <span>{question.answers.length} answers</span>
+              <Dialog>
+                <DialogTrigger>
+                  <span>{question.answers.length} answers</span>
+                </DialogTrigger>
+                <DialogContent>Here</DialogContent>
+              </Dialog>
             )}{' '}
           </p>
           <Dialog>

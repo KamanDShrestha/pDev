@@ -11,7 +11,7 @@ export type QAsData = {
       createdDate: Date;
     }
   ];
-  createdDate: Date;
+  createdAt: Date;
 };
 
 export type AddQAData = {
