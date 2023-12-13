@@ -1,6 +1,6 @@
-import React from 'react';
 import { QAsData } from '../types';
 import Heading from './Heading';
+import { Separator } from './ui/separator';
 
 interface QuestionAnswerCardWithCommentsProps {
   question: QAsData;
@@ -29,7 +29,25 @@ const QuestionAnswerCardWithComments = ({
         <p>{question.question}</p>
       </div>
 
-      <div></div>
+      <Separator className='my-4' />
+      <div>
+        {question.answers.length > 0 ? (
+          question.answers.map((answer) => (
+            <div>
+              <p>{answer.answer} heres</p>
+            </div>
+          ))
+        ) : (
+          <p className='text-sm'>No answers have been provided</p>
+        )}
+      </div>
+      {/* <label className='font-medium'>Provide your answer</label>
+      <div>
+        <Textarea placeholder='Your answer...' {...register('answer')} />
+      </div>
+      <Button onClick={handleSubmit(handleSubmitAnswer)}>
+        Submit your answer
+      </Button> */}
     </div>
   );
 };
