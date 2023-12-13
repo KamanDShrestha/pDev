@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { QAsData } from '../types';
 import {
   Card,
@@ -14,6 +14,7 @@ import { useAuthContext } from '../context/AuthProvider';
 import { Button } from './ui/button';
 import QuestionAnswerCardWithComments from './QuestionAnswerCardWithComments';
 import useAddAnswer from '../services/QAs/addAnswer';
+import { Separator } from './ui/separator';
 
 interface QuestionAnswerCardProps {
   question: QAsData;
@@ -25,9 +26,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
 
   const { mutate: addAnswer } = useAddAnswer();
 
-  function handleSubmitAnswer(data) {
-    console.log('answer submitted');
-    console.log(user?.id);
+  function handleSubmitAnswer(data: FieldValues) {
     addAnswer({
       qhpId: user?.id as string,
       questionId: question._id,
@@ -56,7 +55,8 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
         </CardHeader>
         <CardContent className='m-5'>{question.question}</CardContent>
         <CardFooter className='flex flex-col gap-3'>
-          <p className='text-sm'>
+          <Separator />
+          <p className='text-sm font-medium'>
             {question.answers.length <= 0 ? (
               'No one has answered the question'
             ) : (
@@ -70,8 +70,10 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                   <QuestionAnswerCardWithComments question={question} />
                 </DialogContent>
               </Dialog>
-            )}{' '}
+            )}
           </p>
+          <Separator />
+
           <Dialog>
             <DialogTrigger>
               <Input

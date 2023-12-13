@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 import useDeleteCommunity from '../services/community/deleteCommunity';
+import LoadingSpinner from './LoadingSpinner';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -29,7 +30,7 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
   const navigate = useNavigate();
 
   const { data: communityMembers } = useGetCommunityMembers(community._id);
-  const { data: joinedStatus } = useCheckJoinedStatus(
+  const { data: joinedStatus, isLoading: isChecking } = useCheckJoinedStatus(
     community._id,
     user?.id as string
   );
@@ -84,7 +85,9 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         )}
       </CardContent>
       <CardFooter className='space-x-3'>
-        {!joinedStatus ? (
+        {isChecking ? (
+          <LoadingSpinner />
+        ) : !joinedStatus ? (
           <>
             <Button onClick={handleUserJoinCommunity}>
               Join the community
