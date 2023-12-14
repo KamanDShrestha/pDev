@@ -29,6 +29,31 @@ export type AddQAData = {
   question: string;
 };
 
+export type PostData = {
+  _id: string;
+  userId: string;
+  userName: string;
+  communityId: string;
+  postTitle: string;
+  post: string;
+  postCategory: string;
+  postComments: [
+    {
+      userId: string;
+      comment: string;
+      commentDate: Date;
+      userName: string;
+    }
+  ];
+  postLikes: [
+    {
+      userId: string;
+      likedDate: Date;
+    }
+  ];
+  createdAt: Date;
+};
+
 export type AddPostData = {
   userId: string;
   communityId: string;

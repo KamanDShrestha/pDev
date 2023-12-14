@@ -1,8 +1,9 @@
-import { axiosInstance } from '@/src/constants';
+import { PostData } from '@/src/types';
+import { axiosInstance } from '../../constants';
 import { useQuery } from '@tanstack/react-query';
 
-export async function useGetPosts(communityId: string) {
-  const response = useQuery({
+export function useGetPosts(communityId: string) {
+  const response = useQuery<PostData[]>({
     queryKey: ['posts'],
     queryFn: () =>
       axiosInstance
