@@ -20,7 +20,7 @@ const QuestionAnswerCardWithComments = ({
         <div className='flex flex-col'>
           <span className='font-medium'>{question.userName}</span>
           <span className='text-xs'>
-            Questioned at {question.createdAt.toLocaleString()}
+            Questioned at {new Date(question.createdAt).toLocaleString()}
           </span>
         </div>
       </div>
@@ -47,7 +47,7 @@ const QuestionAnswerCardWithComments = ({
                       {answer.userName}
                     </span>
                     <span className='text-xs'>
-                      Answered at {answer.answerDate.toLocaleString()}
+                      Answered at {new Date(answer.answerDate).toLocaleString()}
                     </span>
                   </div>
                 </div>

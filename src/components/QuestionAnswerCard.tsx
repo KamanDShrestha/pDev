@@ -46,7 +46,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
             <div className='flex flex-col'>
               <span className='font-medium'>{question.userName}</span>
               <span className='text-xs'>
-                Questioned at {question.createdAt.toLocaleString()}
+                Questioned at {new Date(question.createdAt).toLocaleString()}
               </span>
             </div>
           </div>
