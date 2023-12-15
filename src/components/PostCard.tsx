@@ -16,6 +16,7 @@ import { Button } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import ErrorMessage from './ErrorMessage';
 import { Textarea } from './ui/textarea';
+import LoadingSpinner from './LoadingSpinner';
 
 interface PostCardProps {
   post: PostData;
@@ -28,7 +29,7 @@ const PostCard = ({ post }: PostCardProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { mutate: addComment } = useAddComment();
+  const { mutate: addComment, isLoading: isCommenting } = useAddComment();
   const postCategoriesTheme = {
     reflection: 'bg-blue-300 text-blue-800',
     learning: 'bg-green-300 text-green-800',
@@ -136,8 +137,11 @@ const PostCard = ({ post }: PostCardProps) => {
                   </ErrorMessage>
                 )}
               </div>
-              <Button onClick={handleSubmit(handleAddComment)}>
-                Add comment
+              <Button
+                onClick={handleSubmit(handleAddComment)}
+                disabled={isCommenting}
+              >
+                {isCommenting ? <LoadingSpinner /> : 'Add comment'}
               </Button>
             </DialogContent>
           </Dialog>

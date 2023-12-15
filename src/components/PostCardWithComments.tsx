@@ -1,4 +1,3 @@
-import React from 'react';
 import { PostData } from '../types';
 import { Separator } from './ui/separator';
 import Heading from './Heading';
@@ -33,7 +32,7 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
         {post.postComments.length > 0 ? (
           <>
             <Heading className='mb-2 text-lg'>Comments</Heading>
-            <div className='flex flex-col gap-3'>
+            <div className='flex flex-col gap-3 max-h-[400px] overflow-scroll'>
               {post.postComments.map((comment) => (
                 <div className='p-3 border rounded-lg'>
                   <div className='flex items-center gap-4'>
