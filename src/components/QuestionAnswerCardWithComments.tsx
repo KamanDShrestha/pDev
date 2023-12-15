@@ -34,28 +34,31 @@ const QuestionAnswerCardWithComments = ({
         {question.answers.length > 0 ? (
           <>
             <Heading className='mb-2 text-lg'>Answers</Heading>
-            {question.answers.map((answer) => (
-              <div className='p-3 border'>
-                <div className='flex items-center gap-4'>
-                  <img
-                    src='https://picsum.photos/200'
-                    alt='user'
-                    className='w-8 h-8 rounded-full'
-                  />
-                  <div className='flex flex-col'>
-                    <span className='text-sm font-medium'>
-                      {answer.userName}
-                    </span>
-                    <span className='text-xs'>
-                      Answered at {new Date(answer.answerDate).toLocaleString()}
-                    </span>
+            <div className='flex flex-col gap-3 max-h-[400px] overflow-scroll'>
+              {question.answers.map((answer) => (
+                <div className='p-3 border'>
+                  <div className='flex items-center gap-4'>
+                    <img
+                      src='https://picsum.photos/200'
+                      alt='user'
+                      className='w-8 h-8 rounded-full'
+                    />
+                    <div className='flex flex-col'>
+                      <span className='text-sm font-medium'>
+                        {answer.userName}
+                      </span>
+                      <span className='text-xs'>
+                        Answered at{' '}
+                        {new Date(answer.answerDate).toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                  <div className='mt-3 text-sm'>
+                    <p>{answer.answer}</p>
                   </div>
                 </div>
-                <div className='mt-3 text-sm'>
-                  <p>{answer.answer}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </>
         ) : (
           <p className='text-sm'>No answers have been provided</p>

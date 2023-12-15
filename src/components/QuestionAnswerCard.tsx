@@ -15,6 +15,7 @@ import { Button } from './ui/button';
 import QuestionAnswerCardWithComments from './QuestionAnswerCardWithComments';
 import useAddAnswer from '../services/QAs/addAnswer';
 import { Separator } from './ui/separator';
+import LoadingSpinner from './LoadingSpinner';
 
 interface QuestionAnswerCardProps {
   question: QAsData;
@@ -22,16 +23,29 @@ interface QuestionAnswerCardProps {
 
 const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
   const { user } = useAuthContext();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
 
-  const { mutate: addAnswer } = useAddAnswer();
+  const { mutate: addAnswer, isLoading: isCommenting } = useAddAnswer();
 
   function handleSubmitAnswer(data: FieldValues) {
-    addAnswer({
-      qhpId: user?.id as string,
-      questionId: question._id,
-      answer: data.answer,
-    });
+    addAnswer(
+      {
+        qhpId: user?.id as string,
+        questionId: question._id,
+        answer: data.answer,
+      },
+      {
+        onSuccess: () => {
+          question.answers.push({
+            userName: user?.firstName as string,
+            userId: user?.id as string,
+            answer: data.answer,
+            answerDate: new Date(),
+          });
+          setValue('answer', '');
+        },
+      }
+    );
   }
   return (
     <>
@@ -89,8 +103,11 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                   {...register('answer')}
                 />
               </div>
-              <Button onClick={handleSubmit(handleSubmitAnswer)}>
-                Submit your answer
+              <Button
+                onClick={handleSubmit(handleSubmitAnswer)}
+                disabled={isCommenting}
+              >
+                {isCommenting ? <LoadingSpinner /> : 'Submit your answer'}
               </Button>
             </DialogContent>
           </Dialog>
