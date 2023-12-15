@@ -28,6 +28,7 @@ const PostCard = ({ post }: PostCardProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const { mutate: addComment, isLoading: isCommenting } = useAddComment();
   const postCategoriesTheme = {
@@ -51,6 +52,7 @@ const PostCard = ({ post }: PostCardProps) => {
             comment: data.comment,
             commentDate: new Date(),
           });
+          setValue('comment', '');
         },
       }
     );
