@@ -10,17 +10,50 @@ import { Separator } from './ui/separator';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import PostCardWithComments from './PostCardWithComments';
 import { Input } from './ui/input';
+import { FieldValues, useForm } from 'react-hook-form';
+import useAddComment from '../services/posts/addComment';
+import { Button } from './ui/button';
+import { useAuthContext } from '../context/AuthProvider';
+import ErrorMessage from './ErrorMessage';
+import { Textarea } from './ui/textarea';
 
 interface PostCardProps {
   post: PostData;
 }
 
 const PostCard = ({ post }: PostCardProps) => {
+  const { user } = useAuthContext();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { mutate: addComment } = useAddComment();
   const postCategoriesTheme = {
     reflection: 'bg-blue-300 text-blue-800',
     learning: 'bg-green-300 text-green-800',
     question: 'bg-gray-300 text-gray-800',
   };
+
+  function handleAddComment(data: FieldValues) {
+    addComment(
+      {
+        comment: data.comment,
+        userId: user?.id as string,
+        postId: post._id,
+      },
+      {
+        onSuccess: () => {
+          post.postComments.push({
+            userId: user?.id as string,
+            userName: user?.firstName as string,
+            comment: data.comment,
+            commentDate: new Date(),
+          });
+        },
+      }
+    );
+  }
 
   return (
     <Card>
@@ -37,7 +70,7 @@ const PostCard = ({ post }: PostCardProps) => {
                 {post?.userName || 'username'}
               </span>
               <span className='text-xs'>
-                Posted at {post.createdAt.toLocaleString()}
+                Posted at {new Date(post.createdAt).toLocaleString()}
               </span>
             </div>
           </div>
@@ -67,7 +100,9 @@ const PostCard = ({ post }: PostCardProps) => {
             <Dialog>
               <DialogTrigger>
                 <span className='hover:cursor-pointer'>
-                  {post.postComments.length} answers
+                  {post.postComments.length === 1
+                    ? '1 comment'
+                    : `${post.postComments.length} comments`}
                 </span>
               </DialogTrigger>
               <DialogContent>
@@ -87,13 +122,23 @@ const PostCard = ({ post }: PostCardProps) => {
               />
             </DialogTrigger>
             <DialogContent>
-              <label className='font-medium'>Provide your answer</label>
+              <label className='font-medium'>Provide your comment</label>
               <div>
-                <textarea
+                <Textarea
                   placeholder='Your answer...'
-                  // {...register('answer')}
+                  {...register('comment', {
+                    required: 'Please provide your comment before posting.',
+                  })}
                 />
+                {errors.comment && (
+                  <ErrorMessage>
+                    {errors.comment.message as string}
+                  </ErrorMessage>
+                )}
               </div>
+              <Button onClick={handleSubmit(handleAddComment)}>
+                Add comment
+              </Button>
             </DialogContent>
           </Dialog>
         </div>

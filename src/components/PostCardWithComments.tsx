@@ -19,7 +19,7 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
         <div className='flex flex-col'>
           <span className='font-medium'>{post.userName}</span>
           <span className='text-xs'>
-            Questioned at {post.createdAt.toLocaleString()}
+            Questioned at {new Date(post.createdAt).toLocaleString()}
           </span>
         </div>
       </div>
@@ -32,29 +32,32 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
       <div>
         {post.postComments.length > 0 ? (
           <>
-            <Heading className='mb-2 text-lg'>Answers</Heading>
-            {post.postComments.map((comment) => (
-              <div className='p-3 border'>
-                <div className='flex items-center gap-4'>
-                  <img
-                    src='https://picsum.photos/200'
-                    alt='user'
-                    className='w-8 h-8 rounded-full'
-                  />
-                  <div className='flex flex-col'>
-                    <span className='text-sm font-medium'>
-                      {comment.userName}
-                    </span>
-                    <span className='text-xs'>
-                      Answered at {comment.commentDate.toLocaleString()}
-                    </span>
+            <Heading className='mb-2 text-lg'>Comments</Heading>
+            <div className='flex flex-col gap-3'>
+              {post.postComments.map((comment) => (
+                <div className='p-3 border rounded-lg'>
+                  <div className='flex items-center gap-4'>
+                    <img
+                      src='https://picsum.photos/200'
+                      alt='user'
+                      className='w-8 h-8 rounded-full'
+                    />
+                    <div className='flex flex-col'>
+                      <span className='text-sm font-medium'>
+                        {comment.userName}
+                      </span>
+                      <span className='text-xs'>
+                        Answered at{' '}
+                        {new Date(comment.commentDate).toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                  <div className='mt-3 text-sm'>
+                    <p>{comment.comment}</p>
                   </div>
                 </div>
-                <div className='mt-3 text-sm'>
-                  <p>{comment.comment}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </>
         ) : (
           <p className='text-sm'>No comments</p>

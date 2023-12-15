@@ -29,6 +29,12 @@ export type AddQAData = {
   question: string;
 };
 
+export type AddPostCommentData = {
+  postId: string;
+  userId: string;
+  comment: string;
+};
+
 export type PostData = {
   _id: string;
   userId: string;
