@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import { PostData } from '../types';
 import { Separator } from './ui/separator';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import PostCardWithComments from './PostCardWithComments';
+import { Input } from './ui/input';
 
 interface PostCardProps {
   post: PostData;
@@ -77,6 +77,26 @@ const PostCard = ({ post }: PostCardProps) => {
           )}
         </p>
         <Separator />
+
+        <div>
+          <Dialog>
+            <DialogTrigger>
+              <Input
+                placeholder='Comment on the post.'
+                className='min-w-[400px]'
+              />
+            </DialogTrigger>
+            <DialogContent>
+              <label className='font-medium'>Provide your answer</label>
+              <div>
+                <textarea
+                  placeholder='Your answer...'
+                  // {...register('answer')}
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
       </CardFooter>
     </Card>
   );
