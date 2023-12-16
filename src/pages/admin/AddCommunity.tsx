@@ -25,9 +25,11 @@ import { Textarea } from '../../components/ui/textarea';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useGetAllJourneys } from '../../services/journey/getAllJourneys';
 import { useState } from 'react';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const AddCommunity = () => {
-  const { mutate: addCommunity } = useAddCommunity();
+  const { mutate: addCommunity, isLoading: isCreatingCommunity } =
+    useAddCommunity();
   const {
     register,
     handleSubmit,
@@ -283,7 +285,9 @@ const AddCommunity = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button onClick={handleSubmit(handleAddCommunity)}>Submit</Button>
+          <Button onClick={handleSubmit(handleAddCommunity)}>
+            {isCreatingCommunity ? <LoadingSpinner /> : 'Submit'}
+          </Button>
         </CardFooter>
       </Card>
     </div>

@@ -1,10 +1,11 @@
 import { axiosInstance } from '../../constants';
 import { AddQAData, ErrorResponse } from '../../types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
 export default function useAddQA() {
+  const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: AddQAData) =>
       axiosInstance
@@ -12,6 +13,7 @@ export default function useAddQA() {
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
+      queryClient.invalidateQueries(['QAs']);
       console.log(response);
     },
     onError: (error: AxiosError<ErrorResponse>) => {

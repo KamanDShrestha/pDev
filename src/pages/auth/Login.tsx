@@ -20,6 +20,7 @@ import { Button } from '../../components/ui/button';
 import ErrorMessage from '../../components/ErrorMessage';
 import { NavLink } from 'react-router-dom';
 import { useLoginUser } from '../../services/userAuth/loginUser';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const Login = () => {
   const {
@@ -35,7 +36,7 @@ const Login = () => {
   const providedPassword = watch('password');
 
   console.log(errors);
-  const { mutate } = useLoginUser();
+  const { mutate, isLoading: isLoggingIn } = useLoginUser();
 
   function handleLogin(values: z.infer<typeof loginSchema>) {
     console.log(values);
@@ -104,7 +105,7 @@ const Login = () => {
                   <ErrorMessage>{errors.password.message}</ErrorMessage>
                 )}
               </div>
-              <Button>Login</Button>
+              <Button>{isLoggingIn ? <LoadingSpinner /> : 'Login'}</Button>
             </div>
           </form>
         </CardContent>

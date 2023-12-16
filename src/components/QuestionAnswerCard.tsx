@@ -77,7 +77,9 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
               <Dialog>
                 <DialogTrigger>
                   <span className='hover:cursor-pointer'>
-                    {question.answers.length} answers
+                    {question.answers.length === 1
+                      ? '1 answer'
+                      : `${question.answers.length} answers`}
                   </span>
                 </DialogTrigger>
                 <DialogContent>

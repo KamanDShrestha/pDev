@@ -16,6 +16,7 @@ import {
   DialogTrigger,
 } from '../../components/ui/dialog';
 import useEditJourney from '../../services/journey/editJourney';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const EditJourneyPage = () => {
   const { id } = useParams();
@@ -34,7 +35,7 @@ const EditJourneyPage = () => {
       actionSteps: journey?.actionSteps,
     },
   });
-  const { mutate } = useEditJourney();
+  const { mutate, isLoading: isUpdating } = useEditJourney();
 
   useEffect(() => {
     if (journey) {
@@ -178,6 +179,7 @@ const EditJourneyPage = () => {
                   {Array.from(Array(3).keys()).map((item, index) => (
                     <Input
                       {...register(`learningQuotes.${index}`)}
+                      defaultValue={item}
                       key={index}
                       className='mb-2 text-lg w-[500px]'
                     />
@@ -282,7 +284,9 @@ const EditJourneyPage = () => {
           </div>
         </div>
       )}
-      <Button onClick={handleSubmit(onSubmit)}>Update the journey</Button>
+      <Button onClick={handleSubmit(onSubmit)}>
+        {isUpdating ? <LoadingSpinner /> : 'Update this journey'}
+      </Button>
     </>
   );
 };

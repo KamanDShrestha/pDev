@@ -14,6 +14,7 @@ import {
 import { Textarea } from '../components/ui/textarea';
 import { Button } from '../components/ui/button';
 import useApplyForQHP from '../services/qhpApplications/applyForQHP';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const ApplyForQHP = () => {
   const { user } = useAuthContext();
@@ -24,7 +25,7 @@ const ApplyForQHP = () => {
     handleSubmit,
   } = useForm();
 
-  const { mutate: applyForQHP } = useApplyForQHP();
+  const { mutate: applyForQHP, isLoading: isApplying } = useApplyForQHP();
 
   const providedLicense = watch('workingLicense');
   const providedAdditionalInfo = watch('additionalInformation');
@@ -237,7 +238,7 @@ const ApplyForQHP = () => {
             </CardContent>
             <CardFooter className='flex justify-center'>
               <Button onClick={handleSubmit(handleApplicationSubmit)}>
-                Submit my application
+                {isApplying ? <LoadingSpinner /> : 'Submit my application'}
               </Button>
             </CardFooter>
           </Card>

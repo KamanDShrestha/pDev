@@ -119,7 +119,7 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
           <span
             className={`px-4 py-2 text-xs ${
               statusColoring[application.status]
-            } bg-red-100 rounded-full`}
+            } rounded-full`}
           >
             {application.status}
           </span>

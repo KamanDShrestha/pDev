@@ -19,6 +19,7 @@ import { Button } from './ui/button';
 import ErrorMessage from './ErrorMessage';
 import useAddPost from '../services/posts/addPost';
 import useAddQA from '../services/QAs/addQA';
+import LoadingSpinner from './LoadingSpinner';
 
 const AddPostCard = () => {
   const { user } = useAuthContext();
@@ -28,10 +29,11 @@ const AddPostCard = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
-  const { mutate: addPost } = useAddPost();
-  const { mutate: addQA } = useAddQA();
+  const { mutate: addPost, isLoading: isAddingPost } = useAddPost();
+  const { mutate: addQA, isLoading: isAddingQA } = useAddQA();
 
   const postCategories = [
     {
@@ -50,20 +52,38 @@ const AddPostCard = () => {
 
   function handlePost(data: FieldValues) {
     if (selectedCategory === 'question') {
-      addQA({
-        userId: user?.id as string,
-        communityId: communityId as string,
-        questionTitle: data.postTitle,
-        question: data.postContent,
-      });
+      addQA(
+        {
+          userId: user?.id as string,
+          communityId: communityId as string,
+          questionTitle: data.postTitle,
+          question: data.postContent,
+        },
+        {
+          onSuccess: () => {
+            setSelectedCategory('');
+            setValue('postTitle', '');
+            setValue('postContent', '');
+          },
+        }
+      );
     } else {
-      addPost({
-        userId: user?.id as string,
-        communityId: communityId as string,
-        postCategory: selectedCategory,
-        postTitle: data.postTitle,
-        post: data.postContent,
-      });
+      addPost(
+        {
+          userId: user?.id as string,
+          communityId: communityId as string,
+          postCategory: selectedCategory,
+          postTitle: data.postTitle,
+          post: data.postContent,
+        },
+        {
+          onSuccess: () => {
+            setSelectedCategory('');
+            setValue('postTitle', '');
+            setValue('postContent', '');
+          },
+        }
+      );
     }
   }
 
@@ -119,7 +139,9 @@ const AddPostCard = () => {
             <ErrorMessage>{errors.postContent.message as string}</ErrorMessage>
           )}
         </div>
-        <Button onClick={handleSubmit(handlePost)}>Post</Button>
+        <Button onClick={handleSubmit(handlePost)}>
+          {isAddingPost || isAddingQA ? <LoadingSpinner /> : 'Post'}
+        </Button>
       </div>
     </>
   );

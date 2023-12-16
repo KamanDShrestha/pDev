@@ -28,6 +28,7 @@ import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
 import { FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from './LoadingSpinner';
 
 interface ActionSteps {
   description: string;
@@ -67,7 +68,8 @@ const JourneyCard = ({
     user?.id as string,
     journeyId
   );
-  const { mutate: deleteJourney } = useDeleteSpecificJourney();
+  const { mutate: deleteJourney, isLoading: isDeleting } =
+    useDeleteSpecificJourney();
 
   return (
     <div>
@@ -147,7 +149,7 @@ const JourneyCard = ({
                       onClick={() => deleteJourney({ id: journeyId })}
                       variant={'destructive'}
                     >
-                      Delete this journey
+                      {isDeleting ? <LoadingSpinner /> : 'Delete this journey'}
                     </Button>
                   </>
                 )}

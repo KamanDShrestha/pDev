@@ -7,9 +7,10 @@ import { IoIosArrowRoundForward } from 'react-icons/io';
 import MoodTracker from '../components/MoodTracker';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Home = () => {
-  const { mutate } = useLogoutUser();
+  const { mutate, isLoading: isLoggingOut } = useLogoutUser();
   const { user } = useAuthContext();
 
   const [moodTrackerModal, setMoodTrackerModal] = useState(false);
@@ -65,7 +66,9 @@ const Home = () => {
             </span>
           </NavLink>
         </div>
-        <Button onClick={handleLogout}>Logout</Button>
+        <Button onClick={handleLogout}>
+          {isLoggingOut ? <LoadingSpinner /> : 'Logout'}
+        </Button>
       </div>
 
       {/* {createPortal(

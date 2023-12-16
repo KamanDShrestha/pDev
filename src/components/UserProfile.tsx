@@ -19,14 +19,15 @@ import { UpdateUserRoleData, User } from '../types';
 import useUpdateUserRole from '../services/users/updateUserRole';
 import { useState } from 'react';
 import useDeleteUser from '../services/users/deleteUser';
+import LoadingSpinner from './LoadingSpinner';
 
 interface UserProfileProps {
   user: User;
 }
 
 const UserProfile = ({ user }: UserProfileProps) => {
-  const { mutate: updateRole } = useUpdateUserRole();
-  const { mutate: deleteUser } = useDeleteUser();
+  const { mutate: updateRole, isLoading: isUpdatingRole } = useUpdateUserRole();
+  const { mutate: deleteUser, isLoading: isDeletingUser } = useDeleteUser();
   const roles = {
     qha: 'Qualified Health Personnel',
     admin: 'Admin',
@@ -86,7 +87,7 @@ const UserProfile = ({ user }: UserProfileProps) => {
                   updateRole(userRoleUpdate);
                 }}
               >
-                Update Role
+                {isUpdatingRole ? <LoadingSpinner /> : 'Update Role'}
               </Button>
             )}
           </div>
@@ -114,7 +115,7 @@ const UserProfile = ({ user }: UserProfileProps) => {
           onClick={() => deleteUser({ id: user._id })}
           variant={'destructive'}
         >
-          Delete User
+          {isDeletingUser ? <LoadingSpinner /> : 'Delete User'}
         </Button>
       </CardFooter>
     </Card>
