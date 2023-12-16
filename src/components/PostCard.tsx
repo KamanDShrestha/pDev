@@ -74,12 +74,22 @@ const PostCard = ({ post }: PostCardProps) => {
         postId: post._id,
       },
       {
-        onSuccess: () => {
+        onSuccess: (response) => {
           queryClient.invalidateQueries([
             'likedStatus',
             post._id,
             user?.id as string,
           ]);
+
+          if (response.message.split(' ').includes('unliked')) {
+            post.postLikes.pop();
+            return;
+          } else {
+            post.postLikes.push({
+              userId: user?.id as string,
+              likedDate: new Date(),
+            });
+          }
         },
       }
     );
@@ -138,13 +148,13 @@ const PostCard = ({ post }: PostCardProps) => {
                 <FcLikePlaceholder />
               )}
             </span>
-            <div>
-              {/* <span>
-                  {question.length === 1
-                    ? '1 like'
-                    : `${question.likes.length} likes`}
-                </span> */}
-            </div>
+            <span>
+              {post.postLikes.length > 0
+                ? post.postLikes.length === 1
+                  ? '1 like'
+                  : `${post.postLikes.length} likes`
+                : 'No likes'}
+            </span>
           </div>
           <p className='text-sm font-medium'>
             {post.postComments.length <= 0 ? (
