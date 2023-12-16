@@ -17,10 +17,20 @@ import { useAuthContext } from '../context/AuthProvider';
 import ErrorMessage from './ErrorMessage';
 import { Textarea } from './ui/textarea';
 import LoadingSpinner from './LoadingSpinner';
+import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import useLikePost from '../services/posts/likePost';
+import useGetLikedStatus from '../services/posts/getLikedStatus';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface PostCardProps {
   post: PostData;
 }
+
+const postCategoriesTheme = {
+  reflection: 'bg-blue-300 text-blue-800',
+  learning: 'bg-green-300 text-green-800',
+  question: 'bg-gray-300 text-gray-800',
+};
 
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useAuthContext();
@@ -31,12 +41,11 @@ const PostCard = ({ post }: PostCardProps) => {
     setValue,
   } = useForm();
   const { mutate: addComment, isLoading: isCommenting } = useAddComment();
-  const postCategoriesTheme = {
-    reflection: 'bg-blue-300 text-blue-800',
-    learning: 'bg-green-300 text-green-800',
-    question: 'bg-gray-300 text-gray-800',
-  };
+  const { mutate: addLike, isLoading: isLiking } = useLikePost();
+  const { data: likedStatus, isLoading: gettingLikedStatus } =
+    useGetLikedStatus(post._id, user?.id as string);
 
+  const queryClient = useQueryClient();
   function handleAddComment(data: FieldValues) {
     addComment(
       {
@@ -53,6 +62,24 @@ const PostCard = ({ post }: PostCardProps) => {
             commentDate: new Date(),
           });
           setValue('comment', '');
+        },
+      }
+    );
+  }
+
+  function handleLikePost() {
+    addLike(
+      {
+        userId: user?.id as string,
+        postId: post._id,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'likedStatus',
+            post._id,
+            user?.id as string,
+          ]);
         },
       }
     );
@@ -96,24 +123,48 @@ const PostCard = ({ post }: PostCardProps) => {
       </CardContent>
       <CardFooter className='flex flex-col gap-3'>
         <Separator />
-        <p className='text-sm font-medium'>
-          {post.postComments.length <= 0 ? (
-            'No one has commented on this post yet.'
-          ) : (
-            <Dialog>
-              <DialogTrigger>
-                <span className='hover:cursor-pointer'>
-                  {post.postComments.length === 1
-                    ? '1 comment'
-                    : `${post.postComments.length} comments`}
-                </span>
-              </DialogTrigger>
-              <DialogContent>
-                <PostCardWithComments post={post} />
-              </DialogContent>
-            </Dialog>
-          )}
-        </p>
+        <div className='relative flex items-center gap-10'>
+          <div>
+            <span
+              style={{ fontSize: '25px' }}
+              onClick={handleLikePost}
+              className='hover:cursor-pointer'
+            >
+              {gettingLikedStatus || isLiking ? (
+                <LoadingSpinner />
+              ) : likedStatus ? (
+                <FcLike />
+              ) : (
+                <FcLikePlaceholder />
+              )}
+            </span>
+            <div>
+              {/* <span>
+                  {question.length === 1
+                    ? '1 like'
+                    : `${question.likes.length} likes`}
+                </span> */}
+            </div>
+          </div>
+          <p className='text-sm font-medium'>
+            {post.postComments.length <= 0 ? (
+              'No one has commented on this post yet.'
+            ) : (
+              <Dialog>
+                <DialogTrigger>
+                  <span className='hover:cursor-pointer'>
+                    {post.postComments.length === 1
+                      ? '1 comment'
+                      : `${post.postComments.length} comments`}
+                  </span>
+                </DialogTrigger>
+                <DialogContent>
+                  <PostCardWithComments post={post} />
+                </DialogContent>
+              </Dialog>
+            )}
+          </p>
+        </div>
         <Separator />
 
         <div>

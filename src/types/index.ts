@@ -29,6 +29,11 @@ export type AddQAData = {
   question: string;
 };
 
+export type AddPostLikeData = {
+  postId: string;
+  userId: string;
+};
+
 export type AddPostCommentData = {
   postId: string;
   userId: string;

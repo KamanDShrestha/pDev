@@ -17,6 +17,8 @@ import useAddAnswer from '../services/QAs/addAnswer';
 import { Separator } from './ui/separator';
 import LoadingSpinner from './LoadingSpinner';
 
+import { FcLikePlaceholder } from 'react-icons/fc';
+
 interface QuestionAnswerCardProps {
   question: QAsData;
 }
@@ -70,24 +72,38 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
         <CardContent className='m-5'>{question.question}</CardContent>
         <CardFooter className='flex flex-col gap-3'>
           <Separator />
-          <p className='text-sm font-medium'>
-            {question.answers.length <= 0 ? (
-              'No one has answered the question'
-            ) : (
-              <Dialog>
-                <DialogTrigger>
-                  <span className='hover:cursor-pointer'>
-                    {question.answers.length === 1
-                      ? '1 answer'
-                      : `${question.answers.length} answers`}
-                  </span>
-                </DialogTrigger>
-                <DialogContent>
-                  <QuestionAnswerCardWithComments question={question} />
-                </DialogContent>
-              </Dialog>
-            )}
-          </p>
+          <div className='relative flex items-center gap-10'>
+            <div>
+              <span style={{ fontSize: '25px' }}>
+                <FcLikePlaceholder />
+              </span>
+              <div>
+                {/* <span>
+                  {question.length === 1
+                    ? '1 like'
+                    : `${question.likes.length} likes`}
+                </span> */}
+              </div>
+            </div>
+            <p className='text-sm font-medium'>
+              {question.answers.length <= 0 ? (
+                'No one has answered the question'
+              ) : (
+                <Dialog>
+                  <DialogTrigger>
+                    <span className='hover:cursor-pointer'>
+                      {question.answers.length === 1
+                        ? '1 answer'
+                        : `${question.answers.length} answers`}
+                    </span>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <QuestionAnswerCardWithComments question={question} />
+                  </DialogContent>
+                </Dialog>
+              )}
+            </p>
+          </div>
           <Separator />
 
           <Dialog>
