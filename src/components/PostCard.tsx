@@ -131,10 +131,10 @@ const PostCard = ({ post }: PostCardProps) => {
       <CardContent className='m-5'>
         <p>{post.post}</p>
       </CardContent>
-      <CardFooter className='flex flex-col gap-3'>
+      <CardFooter className='flex flex-col gap-3 text-sm font-medium'>
         <Separator />
         <div className='relative flex items-center gap-10'>
-          <div>
+          <div className='flex items-center gap-3'>
             <span
               style={{ fontSize: '25px' }}
               onClick={handleLikePost}
@@ -156,9 +156,9 @@ const PostCard = ({ post }: PostCardProps) => {
                 : 'No likes'}
             </span>
           </div>
-          <p className='text-sm font-medium'>
+          <p>
             {post.postComments.length <= 0 ? (
-              'No one has commented on this post yet.'
+              'Be the first one to comment.'
             ) : (
               <Dialog>
                 <DialogTrigger>
