@@ -46,7 +46,7 @@ const SpecificCommunity = () => {
               <span style={{ fontSize: '20px' }}>
                 <BsSignpostSplit />
               </span>
-              <span className='hover:underline hover:cursor-pointer' onClick={}>
+              <span className='hover:underline hover:cursor-pointer'>
                 My posts
               </span>
             </div>
