@@ -56,6 +56,24 @@ const EditJourneyPage = () => {
 
   function onSubmit(data: FieldValues) {
     console.log(data);
+    // handle null values in evidences, additional steps and references in action steps
+    const actionSteps = Object.keys(data.actionSteps).reduce((acc, key) => {
+      const { actionStep, description, evidences, additionalSteps } =
+        data.actionSteps[key];
+      return {
+        ...acc,
+        [key]: {
+          actionStep,
+          description,
+          evidences: evidences.filter((evidence: string) => evidence !== null),
+          additionalSteps: additionalSteps.filter(
+            (additionalStep: string) => additionalStep !== null
+          ),
+        },
+      };
+    }, {});
+
+    console.log(actionSteps);
     mutate({
       _id: id as string,
       name: data.name,
@@ -67,7 +85,7 @@ const EditJourneyPage = () => {
       importance: data.importance,
       usages: data.usages,
       learningQuotes: data.learningQuotes,
-      actionSteps: data.actionSteps,
+      actionSteps: actionSteps,
       length: journey?.length as number,
     });
   }

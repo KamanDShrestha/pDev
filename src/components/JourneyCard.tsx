@@ -141,6 +141,13 @@ const JourneyCard = ({
                 {user && user.role === 'admin' && (
                   <>
                     <Button
+                      onClick={() =>
+                        navigate(`/journeys/${journeyName.toLowerCase()}`)
+                      }
+                    >
+                      Browse
+                    </Button>
+                    <Button
                       onClick={() => navigate(`/journeys/edit/${journeyId}`)}
                     >
                       Edit this journey
@@ -150,6 +157,17 @@ const JourneyCard = ({
                       variant={'destructive'}
                     >
                       {isDeleting ? <LoadingSpinner /> : 'Delete this journey'}
+                    </Button>
+                  </>
+                )}
+                {user && user.role === 'qha' && (
+                  <>
+                    <Button
+                      onClick={() =>
+                        navigate(`/journeys/${journeyName.toLowerCase()}`)
+                      }
+                    >
+                      Browse
                     </Button>
                   </>
                 )}
