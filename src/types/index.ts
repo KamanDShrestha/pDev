@@ -47,6 +47,7 @@ export type PostData = {
   communityId: string;
   postTitle: string;
   post: string;
+  userRole: string;
   postCategory: string;
   postComments: [
     {

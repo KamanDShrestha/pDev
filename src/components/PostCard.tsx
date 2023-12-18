@@ -21,6 +21,7 @@ import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import useLikePost from '../services/posts/likePost';
 import useGetLikedStatus from '../services/posts/getLikedStatus';
 import { useQueryClient } from '@tanstack/react-query';
+import { Badge } from './ui/badge';
 
 interface PostCardProps {
   post: PostData;
@@ -106,9 +107,12 @@ const PostCard = ({ post }: PostCardProps) => {
               className='w-12 h-12 rounded-full'
             />
             <div className='flex flex-col'>
-              <span className='font-medium'>
-                {post?.userName || 'username'}
-              </span>
+              <div className='flex items-center gap-2'>
+                <span className='font-medium'>
+                  {post?.userName || 'username'}
+                </span>
+                <Badge className=''>{post.userRole}</Badge>
+              </div>
               <span className='text-xs'>
                 Posted at {new Date(post.createdAt).toLocaleString()}
               </span>
