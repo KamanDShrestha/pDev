@@ -1,12 +1,16 @@
 import { PostData } from '../types';
 import { Separator } from './ui/separator';
 import Heading from './Heading';
+import { useAuthContext } from '../context/AuthProvider';
+import { Badge } from './ui/badge';
 
 interface PostCardWithCommentsProps {
   post: PostData;
 }
 
 const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
+  const { user } = useAuthContext();
+  console.log(post);
   return (
     <div>
       <div className='flex items-center gap-4'>
@@ -18,7 +22,7 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
         <div className='flex flex-col'>
           <span className='font-medium'>{post.userName}</span>
           <span className='text-xs'>
-            Questioned at {new Date(post.createdAt).toLocaleString()}
+            Posted at {new Date(post.createdAt).toLocaleString()}
           </span>
         </div>
       </div>
@@ -42,9 +46,14 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
                       className='w-8 h-8 rounded-full'
                     />
                     <div className='flex flex-col'>
-                      <span className='text-sm font-medium'>
-                        {comment.userName}
-                      </span>
+                      <div className='flex items-center gap-2'>
+                        <span className='font-medium'>
+                          {comment?.userId === user?.id
+                            ? 'You'
+                            : post?.userName}
+                        </span>
+                        <Badge className=''>{comment.userRole}</Badge>
+                      </div>
                       <span className='text-xs'>
                         Answered at{' '}
                         {new Date(comment.commentDate).toLocaleString()}

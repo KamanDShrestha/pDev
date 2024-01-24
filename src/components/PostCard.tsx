@@ -61,6 +61,7 @@ const PostCard = ({ post }: PostCardProps) => {
             userName: user?.firstName as string,
             comment: data.comment,
             commentDate: new Date(),
+            userRole: user?.role as string,
           });
           setValue('comment', '');
         },
@@ -109,7 +110,7 @@ const PostCard = ({ post }: PostCardProps) => {
             <div className='flex flex-col'>
               <div className='flex items-center gap-2'>
                 <span className='font-medium'>
-                  {post?.userName || 'username'}
+                  {post?.userId === user?.id ? 'You' : post?.userName}
                 </span>
                 <Badge className=''>{post.userRole}</Badge>
               </div>

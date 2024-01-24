@@ -42,7 +42,7 @@ const Feedbacks = () => {
                 <JourneyFeedbackCard feedback={feedback} key={index} />
               ))
           ) : (
-            <div>No rejected feedbacks</div>
+            <div>No resolved feedbacks</div>
           )}
         </div>
       </div>

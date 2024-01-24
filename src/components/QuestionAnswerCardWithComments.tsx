@@ -1,3 +1,4 @@
+import { useAuthContext } from '../context/AuthProvider';
 import { QAsData } from '../types';
 import Heading from './Heading';
 import { Separator } from './ui/separator';
@@ -9,6 +10,8 @@ interface QuestionAnswerCardWithCommentsProps {
 const QuestionAnswerCardWithComments = ({
   question,
 }: QuestionAnswerCardWithCommentsProps) => {
+  const { user } = useAuthContext();
+
   return (
     <div>
       <div className='flex items-center gap-4'>
@@ -18,7 +21,9 @@ const QuestionAnswerCardWithComments = ({
           className='w-12 h-12 rounded-full'
         />
         <div className='flex flex-col'>
-          <span className='font-medium'>{question.userName}</span>
+          <span className='font-medium'>
+            {question._id === user?.id ? 'You' : question.userName}
+          </span>
           <span className='text-xs'>
             Questioned at {new Date(question.createdAt).toLocaleString()}
           </span>
@@ -45,7 +50,7 @@ const QuestionAnswerCardWithComments = ({
                     />
                     <div className='flex flex-col'>
                       <span className='text-sm font-medium'>
-                        {answer.userName}
+                        {answer.userId === user?.id ? 'You' : answer.userName}
                       </span>
                       <span className='text-xs'>
                         Answered at{' '}

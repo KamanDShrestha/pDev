@@ -10,6 +10,16 @@ import AddPostCard from '../components/AddPostCard';
 import { useGetPosts } from '../services/posts/getPosts';
 import { Separator } from '../components/ui/separator';
 import PostCard from '../components/PostCard';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
+import { useState } from 'react';
 
 const SpecificCommunity = () => {
   const { communityId } = useParams<{ communityId: string }>();
@@ -17,13 +27,24 @@ const SpecificCommunity = () => {
   const { data: communityMembers } = useGetCommunityMembers(
     communityId as string
   );
-
   console.log(communityMembers);
 
   const { data: community } = useGetSpecificCommunity(communityId as string);
-  const { data: posts } = useGetPosts(communityId as string);
+
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  const { data: posts } = useGetPosts(communityId as string, {
+    category: selectedCategory,
+  });
+
   console.log(posts);
   console.log(community);
+
+  const categories = [
+    { label: 'Reflection', value: 'reflection' },
+    { label: 'Learning', value: 'learning' },
+    { label: 'Question', value: 'question' },
+  ];
 
   return (
     <>
@@ -79,6 +100,27 @@ const SpecificCommunity = () => {
           <Separator className='my-10' />
           <div className=''>
             <Heading>Our posts</Heading>
+            <Select
+              defaultValue={selectedCategory}
+              onValueChange={(value) => setSelectedCategory(value)}
+            >
+              <SelectTrigger className='max-w-[300px] my-5'>
+                <SelectValue placeholder='Categorized by' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Sort by</SelectLabel>
+                  <SelectItem value='all'>All posts</SelectItem>
+                  {categories.map((category, index) => (
+                    <>
+                      <SelectItem key={index} value={category.value}>
+                        {category.label}
+                      </SelectItem>
+                    </>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
             <div className='flex flex-col gap-5'>
               {posts &&
                 posts.map((post, index) => (

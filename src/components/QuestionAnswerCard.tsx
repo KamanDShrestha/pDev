@@ -17,7 +17,7 @@ import useAddAnswer from '../services/QAs/addAnswer';
 import { Separator } from './ui/separator';
 import LoadingSpinner from './LoadingSpinner';
 
-import { FcLikePlaceholder } from 'react-icons/fc';
+// import { FcLikePlaceholder } from 'react-icons/fc';
 
 interface QuestionAnswerCardProps {
   question: QAsData;
@@ -49,6 +49,35 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
       }
     );
   }
+
+  // function handleLikePost() {
+  //   addLike(
+  //     {
+  //       userId: user?.id as string,
+  //       postId: post._id,
+  //     },
+  //     {
+  //       onSuccess: (response) => {
+  //         queryClient.invalidateQueries([
+  //           'likedStatus',
+  //           post._id,
+  //           user?.id as string,
+  //         ]);
+
+  //         if (response.message.split(' ').includes('unliked')) {
+  //           post.postLikes.pop();
+  //           return;
+  //         } else {
+  //           post.postLikes.push({
+  //             userId: user?.id as string,
+  //             likedDate: new Date(),
+  //           });
+  //         }
+  //       },
+  //     }
+  //   );
+  // }
+
   return (
     <>
       <Card className='max-w-[550px]'>
@@ -60,7 +89,9 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
               className='w-12 h-12 rounded-full'
             />
             <div className='flex flex-col'>
-              <span className='font-medium'>{question.userName}</span>
+              <span className='font-medium'>
+                {question._id === user?.id ? 'You' : question.userName}
+              </span>
               <span className='text-xs'>
                 Questioned at {new Date(question.createdAt).toLocaleString()}
               </span>
@@ -73,18 +104,28 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
         <CardFooter className='flex flex-col gap-3'>
           <Separator />
           <div className='relative flex items-center gap-10'>
-            <div>
-              <span style={{ fontSize: '25px' }}>
-                <FcLikePlaceholder />
+            {/* <div className='flex items-center gap-3'>
+              <span
+                style={{ fontSize: '25px' }}
+                onClick={handleLikePost}
+                className='hover:cursor-pointer'
+              >
+                {gettingLikedStatus || isLiking ? (
+                  <LoadingSpinner />
+                ) : likedStatus ? (
+                  <FcLike />
+                ) : (
+                  <FcLikePlaceholder />
+                )}
               </span>
-              <div>
-                {/* <span>
-                  {question.length === 1
+              <span>
+                {post.postLikes.length > 0
+                  ? post.postLikes.length === 1
                     ? '1 like'
-                    : `${question.likes.length} likes`}
-                </span> */}
-              </div>
-            </div>
+                    : `${post.postLikes.length} likes`
+                  : 'No likes'}
+              </span>
+            </div> */}
             <p className='text-sm font-medium'>
               {question.answers.length <= 0 ? (
                 'No one has answered the question'

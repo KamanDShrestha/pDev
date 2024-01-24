@@ -55,6 +55,7 @@ export type PostData = {
       comment: string;
       commentDate: Date;
       userName: string;
+      userRole: string;
     }
   ];
   postLikes: [
