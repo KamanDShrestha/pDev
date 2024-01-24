@@ -5,26 +5,44 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card';
-import { PostData } from '../types';
 import { Separator } from './ui/separator';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
-import PostCardWithComments from './PostCardWithComments';
 import { Input } from './ui/input';
-import { FieldValues, useForm } from 'react-hook-form';
-import useAddComment from '../services/posts/addComment';
 import { Button } from './ui/button';
-import { useAuthContext } from '../context/AuthProvider';
-import ErrorMessage from './ErrorMessage';
 import { Textarea } from './ui/textarea';
+import { Badge } from './ui/badge';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+
+import { PostData } from '../types';
+
+import PostCardWithComments from './PostCardWithComments';
+import ErrorMessage from './ErrorMessage';
 import LoadingSpinner from './LoadingSpinner';
-import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+
+import useAddComment from '../services/posts/addComment';
+import { useAuthContext } from '../context/AuthProvider';
 import useLikePost from '../services/posts/likePost';
 import useGetLikedStatus from '../services/posts/getLikedStatus';
+
+import { FieldValues, useForm } from 'react-hook-form';
 import { useQueryClient } from '@tanstack/react-query';
-import { Badge } from './ui/badge';
+
+import { BsThreeDots } from 'react-icons/bs';
+import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import { FaTrashAlt } from 'react-icons/fa';
+// import { FaEdit } from 'react-icons/fa';
 
 interface PostCardProps {
   post: PostData;
+  onDeletePost: (postId: string) => void;
 }
 
 const postCategoriesTheme = {
@@ -33,7 +51,7 @@ const postCategoriesTheme = {
   question: 'bg-gray-300 text-gray-800',
 };
 
-const PostCard = ({ post }: PostCardProps) => {
+const PostCard = ({ post, onDeletePost }: PostCardProps) => {
   const { user } = useAuthContext();
   const {
     register,
@@ -119,7 +137,33 @@ const PostCard = ({ post }: PostCardProps) => {
               </span>
             </div>
           </div>
-          <div>
+          <div className='flex flex-col items-end'>
+            {user?.id === post.userId && (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <span className='text-2xl'>
+                    <BsThreeDots />
+                  </span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    {/* <DropdownMenuItem className='flex items-center gap-2'>
+                      <FaEdit />
+                      <span>Edit this post</span>
+                    </DropdownMenuItem> */}
+                    <DropdownMenuItem
+                      className='flex items-center gap-2'
+                      onClick={() => onDeletePost(post._id)}
+                    >
+                      <FaTrashAlt />
+                      <span>Move to Trash</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             <span
               className={`px-2 py-1 text-xs rounded-full ${
                 postCategoriesTheme[

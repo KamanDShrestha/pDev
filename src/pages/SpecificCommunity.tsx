@@ -23,6 +23,7 @@ import { useState } from 'react';
 
 import QuestionAnswerCard from '../components/QuestionAnswerCard';
 import { PostData, QAsData } from '../types';
+import useDeletePost from '../services/posts/deletePost';
 
 const SpecificCommunity = () => {
   const { communityId } = useParams<{ communityId: string }>();
@@ -35,6 +36,10 @@ const SpecificCommunity = () => {
   const { data: community } = useGetSpecificCommunity(communityId as string);
 
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const { mutate: deletePost } = useDeletePost(
+    communityId as string,
+    selectedCategory
+  );
 
   const { data: posts } = useGetPosts(communityId as string, {
     category: selectedCategory,
@@ -48,6 +53,13 @@ const SpecificCommunity = () => {
     { label: 'Learning', value: 'learning' },
     { label: 'Question', value: 'question' },
   ];
+
+  function handleDeletePost(postId: string) {
+    deletePost(postId);
+    console.log(postId);
+    console.log(posts);
+    posts?.filter((post) => post._id !== postId);
+  }
 
   return (
     <>
@@ -133,9 +145,15 @@ const SpecificCommunity = () => {
                       key={index}
                     />
                   ) : (
-                    <PostCard post={post as PostData} key={index} />
+                    <PostCard
+                      post={post as PostData}
+                      key={index}
+                      onDeletePost={handleDeletePost}
+                    />
                   )
                 )}
+
+              {posts === null && <p>No posts found</p>}
             </div>
           </div>
 
