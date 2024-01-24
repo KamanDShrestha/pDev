@@ -98,7 +98,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
             </div>
           </div>
 
-          <CardTitle>{question.question}</CardTitle>
+          <CardTitle>{question.questionTitle}</CardTitle>
         </CardHeader>
         <CardContent className='m-5'>{question.question}</CardContent>
         <CardFooter className='flex flex-col gap-3'>
