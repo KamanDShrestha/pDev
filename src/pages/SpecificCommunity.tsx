@@ -21,6 +21,9 @@ import {
 } from '../components/ui/select';
 import { useState } from 'react';
 
+import QuestionAnswerCard from '../components/QuestionAnswerCard';
+import { PostData, QAsData } from '../types';
+
 const SpecificCommunity = () => {
   const { communityId } = useParams<{ communityId: string }>();
   const { user } = useAuthContext();
@@ -123,9 +126,16 @@ const SpecificCommunity = () => {
             </Select>
             <div className='flex flex-col gap-5'>
               {posts &&
-                posts.map((post, index) => (
-                  <PostCard post={post} key={index} />
-                ))}
+                posts.map((post, index) =>
+                  selectedCategory === 'question' ? (
+                    <QuestionAnswerCard
+                      question={post as QAsData}
+                      key={index}
+                    />
+                  ) : (
+                    <PostCard post={post as PostData} key={index} />
+                  )
+                )}
             </div>
           </div>
 
