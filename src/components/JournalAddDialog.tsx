@@ -25,6 +25,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import ErrorMessage from './ErrorMessage';
 import { useAuthContext } from '../context/AuthProvider';
 import { useState } from 'react';
+import useAddJournalEntry from '../services/journals/addJournalEntry';
 
 const journalCategories = [
   {
@@ -61,13 +62,23 @@ const JournalAddDialog = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const { mutate: addJournalEntry } = useAddJournalEntry();
   console.log(errors);
   function handleJournalEntrySubmit(data: FieldValues) {
     if (!selectedCategory) {
       setCategoryError('Please select a category for your journal entry.');
       return;
     }
+    addJournalEntry({
+      userId: user?.id as string,
+      journalEntry: {
+        journalTitle: data.journalTitle,
+        journalContent: data.journalContent,
+        entryDate: data.entryDate,
+        journalCategory: selectedCategory,
+      },
+    });
+
     console.log(data);
   }
 
