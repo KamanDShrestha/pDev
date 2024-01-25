@@ -10,7 +10,7 @@ function useDeleteUser() {
     mutationFn: (data: DeleteUserData) =>
       axiosInstance.delete(`/users/delete/${data.id}`).then((res) => res.data),
     onSuccess: (response) => {
-      console.log(response);
+      console.log(response.message);
       toast.success(response.message);
       queryClient.invalidateQueries(['users']);
     },
