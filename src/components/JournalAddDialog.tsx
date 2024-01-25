@@ -23,6 +23,8 @@ import { Textarea } from './ui/textarea';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import ErrorMessage from './ErrorMessage';
+import { useAuthContext } from '../context/AuthProvider';
+import { useState } from 'react';
 
 const journalCategories = [
   {
@@ -51,6 +53,9 @@ const journalCategories = [
   },
 ];
 const JournalAddDialog = () => {
+  const { user } = useAuthContext();
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categoryError, setCategoryError] = useState('');
   const {
     register,
     handleSubmit,
@@ -59,6 +64,10 @@ const JournalAddDialog = () => {
 
   console.log(errors);
   function handleJournalEntrySubmit(data: FieldValues) {
+    if (!selectedCategory) {
+      setCategoryError('Please select a category for your journal entry.');
+      return;
+    }
     console.log(data);
   }
 
@@ -98,23 +107,45 @@ const JournalAddDialog = () => {
             )}
           </div>
           <div className='flex justify-between'>
-            <Select>
-              <SelectTrigger className='w-[200px]'>
-                <SelectValue placeholder='Select a category' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Categories</SelectLabel>
-                  {journalCategories.map((category) => (
-                    <SelectItem value={category.value} key={category.value}>
-                      {category.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
             <div>
-              <Input type='date' defaultValue={getFormattedDate()} />
+              <Select
+                onValueChange={(category) => {
+                  setCategoryError('');
+                  setSelectedCategory(category);
+                }}
+              >
+                <SelectTrigger className='w-[200px]'>
+                  <SelectValue placeholder='Select a category' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Categories</SelectLabel>
+                    {journalCategories.map((category) => (
+                      <SelectItem value={category.value} key={category.value}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {categoryError && <ErrorMessage>{categoryError}</ErrorMessage>}
+            </div>
+            <div>
+              <Input
+                type='date'
+                defaultValue={getFormattedDate()}
+                {...register('entryDate', {
+                  required: {
+                    value: true,
+                    message: 'Please provide entry date for the journal.',
+                  },
+                })}
+              />
+              {errors.entryDate && (
+                <ErrorMessage>
+                  {errors.entryDate.message as string}
+                </ErrorMessage>
+              )}
             </div>
           </div>
           <div>
@@ -122,7 +153,18 @@ const JournalAddDialog = () => {
             <Textarea
               placeholder='Provide your entry.'
               className='min-h-[300px]'
+              {...register('journalContent', {
+                required: {
+                  value: true,
+                  message: 'Please provide content for your entry.',
+                },
+              })}
             />
+            {errors.journalContent && (
+              <ErrorMessage>
+                {errors.journalContent.message as string}
+              </ErrorMessage>
+            )}
           </div>
           <Button
             className='m-auto'
