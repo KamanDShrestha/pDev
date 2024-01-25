@@ -60,8 +60,15 @@ const JournalAddDialog = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      journalTitle: '',
+      journalContent: '',
+      entryDate: getFormattedDate(),
+    },
+  });
   const { mutate: addJournalEntry } = useAddJournalEntry();
   console.log(errors);
   function handleJournalEntrySubmit(data: FieldValues) {
@@ -69,15 +76,27 @@ const JournalAddDialog = () => {
       setCategoryError('Please select a category for your journal entry.');
       return;
     }
-    addJournalEntry({
-      userId: user?.id as string,
-      journalEntry: {
-        journalTitle: data.journalTitle,
-        journalContent: data.journalContent,
-        entryDate: data.entryDate,
-        journalCategory: selectedCategory,
+    addJournalEntry(
+      {
+        userId: user?.id as string,
+        journalEntry: {
+          journalTitle: data.journalTitle,
+          journalContent: data.journalContent,
+          entryDate: data.entryDate,
+          journalCategory: selectedCategory,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          reset({
+            journalTitle: '',
+            journalContent: '',
+            entryDate: getFormattedDate(),
+          });
+          setSelectedCategory('');
+        },
+      }
+    );
 
     console.log(data);
   }
@@ -124,6 +143,7 @@ const JournalAddDialog = () => {
                   setCategoryError('');
                   setSelectedCategory(category);
                 }}
+                defaultValue=''
               >
                 <SelectTrigger className='w-[200px]'>
                   <SelectValue placeholder='Select a category' />
