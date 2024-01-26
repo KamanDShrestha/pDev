@@ -9,10 +9,23 @@ import {
 import Heading from './Heading';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
+import useGetPrompts from '../services/gratitudePrompts/getPrompts';
+import LoadingSpinner from './LoadingSpinner';
+import ErrorMessage from './ErrorMessage';
 
 const GratitudeJournalAddDialog = () => {
-  const { register } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { data: gratitudePrompts, isLoading } = useGetPrompts();
+
+  function handleGratitudeJournalSubmit(data: FieldValues) {
+    console.log(data);
+  }
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -26,33 +39,33 @@ const GratitudeJournalAddDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <div className='px-4'>
-          <div>
-            <Heading className='mb-0 text-md'>
-              What am I grateful for today?
-            </Heading>
-            <Textarea placeholder='I am grateful for ...' {...register('')} />
-          </div>
-          <div>
-            <Heading className='mb-0 text-md'>
-              Who made a positive impact on my day?
-            </Heading>
-            <Textarea placeholder='Acknowledge the people who have made your day better.' />
-          </div>
-          <div>
-            <Heading className='mb-0 text-md'>
-              How did I grow or learn from today's challenges?
-            </Heading>
-            <Textarea placeholder='Focus on the lessons learned and personal growth opportunities.' />
-          </div>
-          <div>
-            <Heading className='mb-0 text-md'>
-              What progress, achievements, or aspirations am I grateful for?
-            </Heading>
-            <Textarea placeholder='Celebrate your accomplishments and express gratitude for your hopes and dreams.' />
-          </div>
+          {isLoading && <LoadingSpinner />}
+          {gratitudePrompts &&
+            gratitudePrompts.map((prompt, index) => (
+              <div>
+                <Heading className='mb-0 text-md'>{prompt.prompt}</Heading>
+                <Textarea
+                  placeholder={prompt.placeholder}
+                  key={index}
+                  {...register(prompt.category, {
+                    required: {
+                      value: true,
+                      message: 'Provide the details before proceeding.',
+                    },
+                  })}
+                />
+                {errors[prompt.category] && (
+                  <ErrorMessage>
+                    {errors[prompt.category]?.message as string}
+                  </ErrorMessage>
+                )}
+              </div>
+            ))}
         </div>
         <div>
-          <Button>Express gratitude</Button>
+          <Button onClick={handleSubmit(handleGratitudeJournalSubmit)}>
+            Express gratitude
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
