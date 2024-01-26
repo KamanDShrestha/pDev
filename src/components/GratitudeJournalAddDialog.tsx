@@ -13,6 +13,8 @@ import { FieldValues, useForm } from 'react-hook-form';
 import useGetPrompts from '../services/gratitudePrompts/getPrompts';
 import LoadingSpinner from './LoadingSpinner';
 import ErrorMessage from './ErrorMessage';
+import useAddGratitudeJournalEntry from '../services/gratitudeJournals/addGratitudeJournalEntry';
+import { useAuthContext } from '../context/AuthProvider';
 
 const GratitudeJournalAddDialog = () => {
   const {
@@ -21,9 +23,27 @@ const GratitudeJournalAddDialog = () => {
     formState: { errors },
   } = useForm();
   const { data: gratitudePrompts, isLoading } = useGetPrompts();
+  const { mutate: addGratitudeJournalEntry } = useAddGratitudeJournalEntry();
+  const { user } = useAuthContext();
 
   function handleGratitudeJournalSubmit(data: FieldValues) {
     console.log(data);
+    const filledPrompts = Object.keys(data);
+    const journals = filledPrompts.map((category) => ({
+      prompt: gratitudePrompts?.find((prompt) => prompt.category === category)
+        ?.prompt as string,
+      answer: data[category] as string,
+    }));
+
+    addGratitudeJournalEntry({
+      userId: user?.id as string,
+      journalEntry: {
+        journals: journals,
+        entryDate: new Date(),
+      },
+    });
+
+    console.log(journals);
   }
 
   return (
