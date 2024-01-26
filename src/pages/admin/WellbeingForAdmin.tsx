@@ -1,44 +1,17 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../../components/ui/card';
 import GratitudeJournalPromptCard from '../../components/GratitudeJournalPromptCard';
 import Heading from '../../components/Heading';
-import { Input } from '../../components/ui/input';
+
+import GratitudeJournalPromptAddCard from '../../components/GratitudeJournalPromptAddCard';
 
 const WellbeingForAdmin = () => {
   return (
     <>
-      <div>
-        <Heading>Gratitude Journal</Heading>
-        <GratitudeJournalPromptCard />
-        <Card>
-          <CardHeader>
-            <CardTitle>Add new prompts here.</CardTitle>
-            <CardDescription>
-              You can add new prompts from here.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div>
-              <div>
-                <Heading className='mb-0 text-lg'>Prompt</Heading>
-                <Input />
-              </div>
-              <div>
-                <Heading className='mb-0 text-lg'>Placeholder</Heading>
-                <Input />
-              </div>
-              <div>
-                <Heading className='mb-0 text-lg'>Category</Heading>
-                <Input />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className='space-y-3'>
+        <Heading className='text-3xl'>Gratitude Journal</Heading>
+        <div className='flex flex-wrap justify-center gap-4'>
+          <GratitudeJournalPromptCard />
+          <GratitudeJournalPromptAddCard />
+        </div>
       </div>
     </>
   );
