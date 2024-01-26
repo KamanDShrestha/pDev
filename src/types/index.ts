@@ -1,3 +1,11 @@
+export type Journal = {
+  _id: string;
+  entryDate: string;
+  journalCategory: string;
+  journalContent: string;
+  journalTitle: string;
+};
+
 export type AddJournalEntryData = {
   userId: string;
   journalEntry: {

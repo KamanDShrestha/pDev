@@ -1,3 +1,4 @@
+import { Journal } from '../../types';
 import { axiosInstance } from '../../constants';
 import { useQuery } from '@tanstack/react-query';
 
@@ -11,7 +12,7 @@ export default function useGetJournals(
   userId: string,
   fetchQueryJournal?: FetchQueryJournal
 ) {
-  const response = useQuery({
+  const response = useQuery<Journal[]>({
     queryKey: ['journals', userId, fetchQueryJournal],
     queryFn: () =>
       axiosInstance
@@ -20,7 +21,7 @@ export default function useGetJournals(
             category: fetchQueryJournal?.category,
           },
         })
-        .then((res) => res.data),
+        .then((res) => res.data.data),
   });
   return response;
 }
