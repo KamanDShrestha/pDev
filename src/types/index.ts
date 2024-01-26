@@ -1,3 +1,16 @@
+export type AddGratitudeJournalData = {
+  userId: string;
+  journalEntry: {
+    journals: [
+      {
+        prompt: string;
+        answer: string;
+      }
+    ];
+    entryDate: Date;
+  };
+};
+
 export type GratitudeJournalPrompt = {
   prompt: string;
   placeholder: string;
