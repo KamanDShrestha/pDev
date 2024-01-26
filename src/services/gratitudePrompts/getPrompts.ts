@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export default function useGetPrompts() {
   const response = useQuery<GetGratitudePromptsData[]>({
-    queryKey: ['prompts'],
+    queryKey: ['graditudePrompts'],
     queryFn: () =>
       axiosInstance
         .get('/gratitudeJournalPrompts/get')

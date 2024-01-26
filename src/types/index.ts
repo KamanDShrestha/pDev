@@ -1,3 +1,9 @@
+export type GratitudeJournalPrompt = {
+  prompt: string;
+  placeholder: string;
+  category: string;
+};
+
 export type GetGratitudePromptsData = {
   _id: string;
   prompt: string;

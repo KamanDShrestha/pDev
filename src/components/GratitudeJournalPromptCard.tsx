@@ -12,7 +12,14 @@ const GratitudeJournalPromptCard = () => {
       </CardHeader>
       <CardContent>
         {isLoading && <LoadingSpinner />}
-        {prompts && prompts.map((prompt) => <p>{prompt.prompt}</p>)}
+        {prompts &&
+          prompts.map((prompt) => (
+            <div className='flex flex-col gap-3'>
+              <span>{prompt.prompt}</span>
+              <span className='text-sm'>Placeholder: {prompt.placeholder}</span>
+              <span className='text-sm'>Category: {prompt.category}</span>
+            </div>
+          ))}
         {prompts?.length === 0 && <p>No prompts found.</p>}
       </CardContent>
     </Card>

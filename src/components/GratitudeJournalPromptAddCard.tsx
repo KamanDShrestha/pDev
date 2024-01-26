@@ -9,8 +9,26 @@ import {
 import Heading from './Heading';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { FieldValues, useForm } from 'react-hook-form';
+import ErrorMessage from './ErrorMessage';
+import useAddPrompt from '../services/gratitudePrompts/addPrompt';
 
 const GratitudeJournalPromptAddCard = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { mutate: addPrompt } = useAddPrompt();
+  function handleAddPrompt(data: FieldValues) {
+    addPrompt({
+      prompt: data.prompt,
+      placeholder: data.placeholder,
+      category: data.category,
+    });
+  }
+
   return (
     <Card className='lg:w-[500px] w-400px'>
       <CardHeader>
@@ -21,20 +39,55 @@ const GratitudeJournalPromptAddCard = () => {
         <div className='px-5'>
           <div>
             <Heading className='mb-0 text-lg font-medium'>Prompt</Heading>
-            <Input />
+            <Input
+              placeholder='Provide prompt.'
+              {...register('prompt', {
+                required: {
+                  value: true,
+                  message: 'Please provide prompt for gratitude journal.',
+                },
+              })}
+            />
+            {errors.prompt && (
+              <ErrorMessage>{errors.prompt.message as string}</ErrorMessage>
+            )}
           </div>
           <div>
             <Heading className='mb-0 text-lg font-medium'>Placeholder</Heading>
-            <Input />
+            <Input
+              placeholder='Provide placeholder.'
+              {...register('placeholder', {
+                required: {
+                  value: true,
+                  message: 'Please provide placeholder for the prompt.',
+                },
+              })}
+            />
+            {errors.placeholder && (
+              <ErrorMessage>
+                {errors.placeholder.message as string}
+              </ErrorMessage>
+            )}
           </div>
           <div>
             <Heading className='mb-0 text-lg font-medium'>Category</Heading>
-            <Input />
+            <Input
+              placeholder='Category of the prompt'
+              {...register('category', {
+                required: {
+                  value: true,
+                  message: 'Provide category for the prompt.',
+                },
+              })}
+            />
+            {errors.category && (
+              <ErrorMessage>{errors.category.message as string}</ErrorMessage>
+            )}
           </div>
         </div>
       </CardContent>
       <CardFooter>
-        <Button>Add prompt</Button>
+        <Button onClick={handleSubmit(handleAddPrompt)}>Add prompt</Button>
       </CardFooter>
     </Card>
   );
