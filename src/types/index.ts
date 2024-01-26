@@ -1,3 +1,10 @@
+export type GetGratitudePromptsData = {
+  _id: string;
+  prompt: string;
+  placeholder: string;
+  category: string;
+};
+
 export type DeleteJournalData = {
   userId: string;
   journalId: string;
