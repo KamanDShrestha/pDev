@@ -28,7 +28,7 @@ import { useState } from 'react';
 import useAddJournalEntry from '../services/journals/addJournalEntry';
 import { useQueryClient } from '@tanstack/react-query';
 
-const journalCategories = [
+export const journalCategories = [
   {
     label: 'Reflection',
     value: 'reflection',
