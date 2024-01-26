@@ -110,7 +110,7 @@ const JournalAddDialog = () => {
       <div className='flex justify-center w-full'>
         <DialogTrigger>
           <Textarea
-            placeholder='Provide journal entry.'
+            placeholder='Write your own journal on your own accord.'
             className='lg:w-[500px] w-[350px]'
           />
         </DialogTrigger>

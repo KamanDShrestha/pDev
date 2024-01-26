@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from '../components/ui/select';
 import LoadingSpinner from '../components/LoadingSpinner';
-// import { Button } from '../components/ui/button';
+import GratitudeJournalAddDialog from '../components/GratitudeJournalAddDialog';
 
 const WellBeing = () => {
   const { user } = useAuthContext();
@@ -28,7 +28,10 @@ const WellBeing = () => {
   return (
     <>
       <Heading>Journals</Heading>
-      <JournalAddDialog />
+      <div className='p-5 space-y-3'>
+        <JournalAddDialog />
+        <GratitudeJournalAddDialog />
+      </div>
       <div>
         <Heading className='text-2xl'>Past journal entries</Heading>
         <Select
