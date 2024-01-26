@@ -40,6 +40,7 @@ const NavBar = () => {
     { to: '/journeys', option: 'Journeys' },
     { to: '/admin/dashboard', option: 'Dashboard' },
     { to: '/community', option: 'Community' },
+    { to: '/wellbeingForAdmin', option: 'Wellbeing' },
   ];
   const adminActionOptions = [
     { to: '/profile', option: 'Profile' },

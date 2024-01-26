@@ -37,6 +37,7 @@ import Feedbacks from './pages/admin/Feedbacks';
 import AddCommunity from './pages/admin/AddCommunity';
 import SpecificCommunity from './pages/SpecificCommunity';
 import QAs from './pages/qha/QAs';
+import WellbeingForAdmin from './pages/admin/WellbeingForAdmin';
 
 function App() {
   return (
@@ -101,8 +102,11 @@ function App() {
                     path='/journeys/edit/:id'
                     element={<EditJourneyPage />}
                   />
-
                   <Route path='/feedbacks' element={<Feedbacks />} />
+                  <Route
+                    path='/wellbeingForAdmin'
+                    element={<WellbeingForAdmin />}
+                  />
                 </Route>
               </Route>
 

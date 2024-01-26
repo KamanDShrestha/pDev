@@ -9,8 +9,10 @@ import {
 import Heading from './Heading';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
+import { useForm } from 'react-hook-form';
 
 const GratitudeJournalAddDialog = () => {
+  const { register } = useForm();
   return (
     <Dialog>
       <DialogTrigger>
@@ -28,7 +30,7 @@ const GratitudeJournalAddDialog = () => {
             <Heading className='mb-0 text-md'>
               What am I grateful for today?
             </Heading>
-            <Textarea placeholder='I am grateful for ...' />
+            <Textarea placeholder='I am grateful for ...' {...register('')} />
           </div>
           <div>
             <Heading className='mb-0 text-md'>
