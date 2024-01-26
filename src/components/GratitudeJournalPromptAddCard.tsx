@@ -18,15 +18,27 @@ const GratitudeJournalPromptAddCard = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const { mutate: addPrompt } = useAddPrompt();
   function handleAddPrompt(data: FieldValues) {
-    addPrompt({
-      prompt: data.prompt,
-      placeholder: data.placeholder,
-      category: data.category,
-    });
+    addPrompt(
+      {
+        prompt: data.prompt,
+        placeholder: data.placeholder,
+        category: data.category,
+      },
+      {
+        onSuccess: () => {
+          reset({
+            prompt: '',
+            placeholder: '',
+            category: '',
+          });
+        },
+      }
+    );
   }
 
   return (
