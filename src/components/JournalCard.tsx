@@ -5,17 +5,31 @@ import { Badge } from './ui/badge';
 import TruncatedText from './TruncatedText';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
+import { Button } from './ui/button';
+import { FaTrash } from 'react-icons/fa';
+import useDeleteJournal from '../services/journals/deleteJournal';
+import LoadingSpinner from './LoadingSpinner';
+import { useAuthContext } from '../context/AuthProvider';
 
 interface JournalCardProps {
   journal: Journal;
 }
 
 const JournalCard = ({ journal }: JournalCardProps) => {
+  const { mutate: deleteJournal, isLoading: isDeleting } = useDeleteJournal();
+  const { user } = useAuthContext();
+
+  function handleJournalDeletion() {
+    deleteJournal({ userId: user?.id as string, journalId: journal._id });
+  }
+
   return (
     <>
       <Dialog>
@@ -48,6 +62,25 @@ const JournalCard = ({ journal }: JournalCardProps) => {
           <div>
             <p>{journal.journalContent}</p>
           </div>
+          <DialogFooter>
+            <DialogClose>
+              {isDeleting ? (
+                <LoadingSpinner />
+              ) : (
+                <Button
+                  variant={'destructive'}
+                  size={'xs'}
+                  className='space-x-2'
+                  onClick={handleJournalDeletion}
+                >
+                  <span>Delete</span>
+                  <span>
+                    <FaTrash />
+                  </span>
+                </Button>
+              )}
+            </DialogClose>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

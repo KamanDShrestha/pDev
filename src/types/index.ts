@@ -1,3 +1,8 @@
+export type DeleteJournalData = {
+  userId: string;
+  journalId: string;
+};
+
 export type Journal = {
   _id: string;
   entryDate: string;
