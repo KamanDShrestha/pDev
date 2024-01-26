@@ -3,6 +3,7 @@ import Heading from '../components/Heading';
 import JournalAddDialog from '../components/JournalAddDialog';
 import { useAuthContext } from '../context/AuthProvider';
 import useGetJournals from '../services/journals/getJournals';
+import JournalCard from '../components/JournalCard';
 // import { Button } from '../components/ui/button';
 
 const WellBeing = () => {
@@ -17,8 +18,13 @@ const WellBeing = () => {
       <Heading>Journals</Heading>
       <JournalAddDialog />
       <div>
-        <Heading className='text-2xl'>My journals</Heading>
-        {journals && journals.map((journal) => <p>{journal.journalTitle}</p>)}
+        <Heading className='text-2xl'>Past journal entries</Heading>
+        <div className='flex flex-wrap items-center justify-center gap-5'>
+          {journals &&
+            journals.map((journal, index) => (
+              <JournalCard key={index} journal={journal} />
+            ))}
+        </div>
       </div>
     </>
   );
