@@ -4,6 +4,7 @@ import { Button } from '../components/ui/button';
 import useGetCommunities from '../services/community/getCommunities';
 import { useNavigate } from 'react-router-dom';
 import CommunityCard from '../components/CommunityCard';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Community = () => {
   const { user } = useAuthContext();
@@ -21,8 +22,8 @@ const Community = () => {
           </Button>
         )}
       </div>
-      <div>{isLoading && <p>Loading</p>}</div>
       <div className='flex flex-wrap justify-center gap-3'>
+        <div>{isLoading && <LoadingSpinner />}</div>
         {communities && communities.length === 0 ? (
           <p>No communities found</p>
         ) : (
