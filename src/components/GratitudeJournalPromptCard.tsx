@@ -10,11 +10,11 @@ const GratitudeJournalPromptCard = () => {
       <CardHeader>
         <CardTitle>Gratitude journal prompts</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className='flex flex-col gap-3'>
         {isLoading && <LoadingSpinner />}
         {prompts &&
           prompts.map((prompt) => (
-            <div className='flex flex-col gap-3'>
+            <div className='flex flex-col gap-1'>
               <span>{prompt.prompt}</span>
               <span className='text-sm'>Placeholder: {prompt.placeholder}</span>
               <span className='text-sm'>Category: {prompt.category}</span>
