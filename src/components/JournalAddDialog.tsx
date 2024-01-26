@@ -26,6 +26,7 @@ import ErrorMessage from './ErrorMessage';
 import { useAuthContext } from '../context/AuthProvider';
 import { useState } from 'react';
 import useAddJournalEntry from '../services/journals/addJournalEntry';
+import { useQueryClient } from '@tanstack/react-query';
 
 const journalCategories = [
   {
@@ -70,7 +71,9 @@ const JournalAddDialog = () => {
     },
   });
   const { mutate: addJournalEntry } = useAddJournalEntry();
-  console.log(errors);
+
+  const queryClient = useQueryClient();
+
   function handleJournalEntrySubmit(data: FieldValues) {
     if (!selectedCategory) {
       setCategoryError('Please select a category for your journal entry.');
@@ -94,6 +97,7 @@ const JournalAddDialog = () => {
             entryDate: getFormattedDate(),
           });
           setSelectedCategory('');
+          queryClient.invalidateQueries(['journals']);
         },
       }
     );
