@@ -1,3 +1,5 @@
+import exp from 'constants';
+
 export type DeleteGratitudeJournalData = {
   userId: string;
   entryId: string;
@@ -182,6 +184,13 @@ export type UpdateJourneyFeedbackStatusData = {
 
 export type JourneyFeedback = {
   _id: string;
+  feedback: string;
+  feedbackStatus: 'pending' | 'resolved' | 'rejected';
+};
+
+export type ActionStepFeedback = {
+  _id: string;
+  actionStepDay: string;
   feedback: string;
   feedbackStatus: 'pending' | 'resolved' | 'rejected';
 };

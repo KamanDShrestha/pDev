@@ -1,19 +1,19 @@
 import { JourneyFeedbacks } from '../types';
+import ActionStepFeedbackCard from './ActionStepFeedbackCard';
 import Heading from './Heading';
-import JourneyFeedbackCard from './JourneyFeedbackCard';
 import LoadingSpinner from './LoadingSpinner';
 
-interface FeedbackSectionProps {
+interface ActionStepFeedbackSectionProps {
   journeyFeedbacks: JourneyFeedbacks[];
   status: 'pending' | 'resolved' | 'rejected';
   isLoading: boolean;
 }
 
-const FeedbackSection = ({
+const ActionStepFeedbackSection = ({
   journeyFeedbacks,
   status,
   isLoading,
-}: FeedbackSectionProps) => (
+}: ActionStepFeedbackSectionProps) => (
   <>
     <Heading className='text-xl'>{`${
       status.charAt(0).toUpperCase() + status.slice(1)
@@ -22,17 +22,18 @@ const FeedbackSection = ({
       {isLoading && <LoadingSpinner />}
       {journeyFeedbacks &&
       journeyFeedbacks.filter((feedback) =>
-        feedback.journeyFeedbacks.filter(
-          (journeyFeedback) => journeyFeedback.feedbackStatus === status
+        feedback.actionStepFeedbacks.filter(
+          (actionStepFeedback) => actionStepFeedback.feedbackStatus === status
         )
       ).length !== 0 ? (
         journeyFeedbacks.map((feedback) =>
-          feedback.journeyFeedbacks
+          feedback.actionStepFeedbacks
             .filter(
-              (journeyFeedback) => journeyFeedback.feedbackStatus === status
+              (actionStepFeedback) =>
+                actionStepFeedback.feedbackStatus === status
             )
             .map((journeyFeedback, index) => (
-              <JourneyFeedbackCard
+              <ActionStepFeedbackCard
                 feedback={journeyFeedback}
                 userId={feedback.userId}
                 feedbackId={feedback._id}
@@ -48,4 +49,4 @@ const FeedbackSection = ({
   </>
 );
 
-export default FeedbackSection;
+export default ActionStepFeedbackSection;
