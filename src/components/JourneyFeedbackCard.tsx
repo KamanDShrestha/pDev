@@ -70,35 +70,6 @@ const JourneyFeedbackCard = ({
             </ul>
           </>
         </div>
-
-        {/* <div>
-          {feedback.actionStepFeedback.length > 0 ? (
-            <>
-              <Heading className='m-0 text-lg'>
-                Feedbacks for the action steps:
-              </Heading>
-              <div>
-                {feedback.actionStepFeedback.map((feedback, index) => (
-                  <div key={index}>
-                    <div>
-                      <span className='mb-0 font-medium'>Feedback for: </span>
-                      <span>{feedback.actionStepDay}</span>
-                    </div>
-                    <div>
-                      <span className='mb-0 font-medium'>Feedback: </span>
-                      <span>{feedback.feedback}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <Heading className='m-0 text-lg'>
-              {' '}
-              No feedbacks for journeys are found{' '}
-            </Heading>
-          )}
-        </div> */}
       </CardContent>
       <CardFooter className='flex justify-between'>
         {feedback.feedbackStatus === 'pending' && (

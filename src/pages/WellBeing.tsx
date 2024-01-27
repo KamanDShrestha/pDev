@@ -83,6 +83,7 @@ const WellBeing = () => {
                 <GratitudeJournalCard gratitudeJournal={journal} key={index} />
               </div>
             ))}
+          {gratitudeJournals?.length === 0 && <p>No journals found for you.</p>}
         </div>
       </div>
     </>
