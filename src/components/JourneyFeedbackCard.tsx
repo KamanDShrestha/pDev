@@ -5,17 +5,25 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card';
-import { JourneyFeedbacks } from '../types';
+import { JourneyFeedback } from '../types';
 import Heading from './Heading';
 import { Button } from './ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useUpdateJourneyFeedbackStatus } from '../services/journeyFeedbacks/updateJourneyFeedbackStatus';
 
 interface JourneyFeedbackCardProps {
-  feedback: JourneyFeedbacks;
+  feedback: JourneyFeedback;
+  feedbackId: string;
+  userId: string;
+  journeyId: string;
 }
 
-const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
+const JourneyFeedbackCard = ({
+  feedback,
+  feedbackId,
+  userId,
+  journeyId,
+}: JourneyFeedbackCardProps) => {
   const { mutate: updateFeedbackStatus } = useUpdateJourneyFeedbackStatus();
   const navigate = useNavigate();
 
@@ -27,12 +35,14 @@ const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
 
   function handleResolve() {
     updateFeedbackStatus({
+      feedbackDocumentId: feedbackId,
       feedbackId: feedback._id,
       status: 'resolved',
     });
   }
   function handleReject() {
     updateFeedbackStatus({
+      feedbackDocumentId: feedbackId,
       feedbackId: feedback._id,
       status: 'rejected',
     });
@@ -45,36 +55,23 @@ const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
       </CardHeader>
       <CardContent className='flex flex-col gap-3'>
         <div>
+          <Heading className='m-0 text-lg'>Feedback from : {userId}</Heading>
           <Heading className='m-0 text-lg'>
-            Feedback from : {feedback.userId}
-          </Heading>
-          <Heading className='m-0 text-lg'>
-            Feedback for journey : {feedback.journeyId}
+            Feedback for journey : {journeyId}
           </Heading>
         </div>
         <div>
-          {feedback.journeyFeedback.length > 0 ? (
-            <>
-              <Heading className='m-0 text-lg'>
-                Feedbacks for the journey:
-              </Heading>
-              <ul>
-                {feedback.journeyFeedback.map((feedback, index) => (
-                  <li key={index} className=' list-item'>
-                    {feedback}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
+          <>
             <Heading className='m-0 text-lg'>
-              {' '}
-              No feedbacks for journeys are found{' '}
+              Feedbacks for the journey:
             </Heading>
-          )}
+            <ul>
+              <li className=' list-item'>{feedback.feedback}</li>
+            </ul>
+          </>
         </div>
 
-        <div>
+        {/* <div>
           {feedback.actionStepFeedback.length > 0 ? (
             <>
               <Heading className='m-0 text-lg'>
@@ -101,7 +98,7 @@ const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
               No feedbacks for journeys are found{' '}
             </Heading>
           )}
-        </div>
+        </div> */}
       </CardContent>
       <CardFooter className='flex justify-between'>
         {feedback.feedbackStatus === 'pending' && (
@@ -109,9 +106,7 @@ const JourneyFeedbackCard = ({ feedback }: JourneyFeedbackCardProps) => {
             <>
               <Button onClick={() => handleResolve()}>Resolve</Button>
               <Button onClick={() => handleReject()}>Reject</Button>
-              <Button
-                onClick={() => navigate(`/journeys/edit/${feedback.journeyId}`)}
-              >
+              <Button onClick={() => navigate(`/journeys/edit/${journeyId}`)}>
                 Act
               </Button>
             </>

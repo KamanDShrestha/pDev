@@ -175,20 +175,32 @@ export type CommunityData = {
 };
 
 export type UpdateJourneyFeedbackStatusData = {
+  feedbackDocumentId: string;
   feedbackId: string;
   status: 'pending' | 'resolved' | 'rejected';
+};
+
+export type JourneyFeedback = {
+  _id: string;
+  feedback: string;
+  feedbackStatus: 'pending' | 'resolved' | 'rejected';
 };
 
 export type JourneyFeedbacks = {
   _id: string;
   userId: string;
   journeyId: string;
-  journeyFeedback: string[];
-  actionStepFeedback: {
+  journeyFeedbacks: {
+    _id: string;
+    feedback: string;
+    feedbackStatus: 'pending' | 'resolved' | 'rejected';
+  }[];
+  actionStepFeedbacks: {
+    _id: string;
     actionStepDay: string;
     feedback: string;
+    feedbackStatus: 'pending' | 'resolved' | 'rejected';
   }[];
-  feedbackStatus: 'pending' | 'resolved' | 'rejected';
 };
 
 export type AddJourneyFeedbackData = {
