@@ -15,7 +15,7 @@ const FeedbackSection = ({
   isLoading,
 }: FeedbackSectionProps) => (
   <>
-    <Heading className='text-xl'>{`${
+    <Heading className='text-2xl'>{`${
       status.charAt(0).toUpperCase() + status.slice(1)
     } feedbacks`}</Heading>
     <div className='flex flex-wrap justify-center gap-4'>
