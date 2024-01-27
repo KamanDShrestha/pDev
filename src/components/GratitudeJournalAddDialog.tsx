@@ -25,7 +25,8 @@ const GratitudeJournalAddDialog = () => {
     reset,
   } = useForm();
   const { data: gratitudePrompts, isLoading } = useGetPrompts();
-  const { mutate: addGratitudeJournalEntry } = useAddGratitudeJournalEntry();
+  const { mutate: addGratitudeJournalEntry, isLoading: isSubmitting } =
+    useAddGratitudeJournalEntry();
   const { user } = useAuthContext();
 
   const queryClient = useQueryClient();
@@ -98,9 +99,13 @@ const GratitudeJournalAddDialog = () => {
             ))}
         </div>
         <div>
-          <Button onClick={handleSubmit(handleGratitudeJournalSubmit)}>
-            Express gratitude
-          </Button>
+          {isSubmitting ? (
+            <LoadingSpinner />
+          ) : (
+            <Button onClick={handleSubmit(handleGratitudeJournalSubmit)}>
+              Express gratitude
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
