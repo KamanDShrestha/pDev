@@ -1,0 +1,184 @@
+import React, { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
+import { useForm } from 'react-hook-form';
+import Heading from './Heading';
+import { Input } from './ui/input';
+import ErrorMessage from './ErrorMessage';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+import { Button } from './ui/button';
+
+const QuestionPromptAddSection = () => {
+  const {
+    register,
+    getValues,
+    formState: { errors },
+  } = useForm();
+
+  const [selectedNoOfQuestions, setSelectedNoOfQuestions] = useState(3);
+
+  return (
+    <div className='flex flex-wrap justify-center gap-5 p-5'>
+      <Card>
+        <CardHeader>
+          <CardTitle>Preview</CardTitle>
+        </CardHeader>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Add new question prompts</CardTitle>
+          <CardDescription>
+            You can add new question prompts here.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className='space-y-3'>
+            <div>
+              <Heading className='mb-0 text-lg font-medium'>Title</Heading>
+              <Input
+                placeholder='Provide title.'
+                {...register('title', {
+                  required: {
+                    value: true,
+                    message: 'Please provide title for this question prompt.',
+                  },
+                })}
+              />
+              {errors.title && (
+                <ErrorMessage>{errors.title.message as string}</ErrorMessage>
+              )}
+            </div>
+            <div>
+              <Heading className='mb-0 text-lg font-medium'>
+                Description
+              </Heading>
+              <Input
+                placeholder='Provide description.'
+                {...register('description', {
+                  required: {
+                    value: true,
+                    message:
+                      'Please provide description for this question prompt.',
+                  },
+                })}
+              />
+              {errors.description && (
+                <ErrorMessage>
+                  {errors.description.message as string}
+                </ErrorMessage>
+              )}
+            </div>
+            <div>
+              <Select
+                defaultValue={selectedNoOfQuestions.toString()}
+                onValueChange={(value) =>
+                  setSelectedNoOfQuestions(parseInt(value))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Select no. of questions' />
+                </SelectTrigger>
+                <SelectContent>
+                  {Array.from(Array(8).keys()).map((value, index) => (
+                    <SelectItem value={(value + 3).toString()} key={index}>
+                      {value + 3}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Heading className='mb-0 text-lg font-medium'>Questions</Heading>
+              <div className='p-3 overflow-scroll h-[250px]'>
+                {Array.from(Array(selectedNoOfQuestions).keys()).map(
+                  (value, index) => (
+                    <div key={index}>
+                      <div>
+                        <Heading className='mb-0 font-medium text-md'>
+                          Prompt
+                        </Heading>
+                        <Input
+                          placeholder={`Question ${index + 1}`}
+                          {...register(`question${index + 1}`, {
+                            required: {
+                              value: true,
+                              message: `Please provide this question.`,
+                            },
+                          })}
+                        />
+                        {errors[`question${index + 1}`] && (
+                          <ErrorMessage>
+                            {errors[`question${index + 1}`]?.message as string}
+                          </ErrorMessage>
+                        )}
+                      </div>
+                      <div>
+                        <Heading className='mb-0 font-medium text-md'>
+                          Placeholder
+                        </Heading>
+                        <Input
+                          placeholder={`Placeholder ${index + 1}`}
+                          {...register(`placeholder${index + 1}`, {
+                            required: {
+                              value: true,
+                              message: `Please provide this placeholder.`,
+                            },
+                          })}
+                        />
+                        {errors[`placeholder${index + 1}`] && (
+                          <ErrorMessage>
+                            {
+                              errors[`placeholder${index + 1}`]
+                                ?.message as string
+                            }
+                          </ErrorMessage>
+                        )}
+                      </div>
+                      <div>
+                        <Heading className='mb-0 font-medium text-md'>
+                          Tag
+                        </Heading>
+                        <Input
+                          placeholder='Provide suitable tag.'
+                          {...register(`tag${index + 1}`, {
+                            required: {
+                              value: true,
+                              message:
+                                'Please provide tag for this question prompt.',
+                            },
+                          })}
+                        />
+                        {errors[`tag${index + 1}`] && (
+                          <ErrorMessage>
+                            {errors[`tag${index + 1}`]?.message as string}
+                          </ErrorMessage>
+                        )}
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button>Add question prompt</Button>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+};
+
+export default QuestionPromptAddSection;

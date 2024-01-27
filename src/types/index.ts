@@ -1,4 +1,14 @@
-import exp from 'constants';
+export type QuestionPrompt = {
+  _id: string;
+  title: string;
+  description: string;
+  questions: {
+    _id: string;
+    prompt: string;
+    placeholder: string;
+    tag: string;
+  }[];
+};
 
 export type DeleteGratitudeJournalData = {
   userId: string;
