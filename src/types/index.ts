@@ -1,3 +1,8 @@
+export type DeleteGratitudeJournalData = {
+  userId: string;
+  entryId: string;
+};
+
 export type GratitudeJournals = {
   journals: {
     prompt: string;
