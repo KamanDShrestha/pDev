@@ -1,5 +1,9 @@
+import { FaTrash } from 'react-icons/fa';
+import { useAuthContext } from '../context/AuthProvider';
 import { cn } from '../lib/utils';
+import useDeleteGratitudeJournalEntry from '../services/gratitudeJournals/deleteGratitudeJournalEntry';
 import { GratitudeJournals } from '../types';
+import LoadingSpinner from './LoadingSpinner';
 import { buttonVariants } from './ui/button';
 import { Card, CardTitle } from './ui/card';
 import {
@@ -14,6 +18,7 @@ import {
 } from './ui/dialog';
 
 import { TbPointFilled } from 'react-icons/tb';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface GratitudeJournalCardProps {
   gratitudeJournal: GratitudeJournals;
@@ -22,6 +27,26 @@ interface GratitudeJournalCardProps {
 const GratitudeJournalCard = ({
   gratitudeJournal,
 }: GratitudeJournalCardProps) => {
+  const { user } = useAuthContext();
+  const { mutate: deleteGratitudeJournal, isLoading: isDeleting } =
+    useDeleteGratitudeJournalEntry();
+
+  const queryClient = useQueryClient();
+
+  function handleGratitudeJournalDeletion() {
+    deleteGratitudeJournal(
+      {
+        userId: user?.id as string,
+        entryId: gratitudeJournal._id,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['gratitudeJournals', user?.id]);
+        },
+      }
+    );
+  }
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -62,9 +87,9 @@ const GratitudeJournalCard = ({
               buttonVariants({ variant: 'destructive', size: 'xs' }),
               'space-x-2'
             )}
-            // onClick={handleJournalDeletion}
+            onClick={handleGratitudeJournalDeletion}
           >
-            {/* {isDeleting ? (
+            {isDeleting ? (
               <LoadingSpinner />
             ) : (
               <>
@@ -73,7 +98,7 @@ const GratitudeJournalCard = ({
                   <FaTrash />
                 </span>
               </>
-            )} */}
+            )}
           </DialogClose>
         </DialogFooter>
       </DialogContent>

@@ -4,6 +4,7 @@ export type DeleteGratitudeJournalData = {
 };
 
 export type GratitudeJournals = {
+  _id: string;
   journals: {
     prompt: string;
     answer: string;
