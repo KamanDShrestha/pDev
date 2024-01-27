@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import Heading from './Heading';
 import { Input } from './ui/input';
 import ErrorMessage from './ErrorMessage';
@@ -19,16 +19,21 @@ import {
   SelectValue,
 } from './ui/select';
 import { Button } from './ui/button';
+// import useAddQuestionPrompt from '../services/questionPrompts/addQuestionPrompt';
 
 const QuestionPromptAddSection = () => {
   const {
     register,
-    getValues,
+    // getValues,
+    handleSubmit,
     formState: { errors },
   } = useForm();
 
   const [selectedNoOfQuestions, setSelectedNoOfQuestions] = useState(3);
-
+  // const { mutate } = useAddQuestionPrompt();
+  function handleQuestionPromptSubmit(data: FieldValues) {
+    console.log(data);
+  }
   return (
     <div className='flex flex-wrap justify-center gap-5 p-5'>
       <Card>
@@ -103,7 +108,7 @@ const QuestionPromptAddSection = () => {
               <Heading className='mb-0 text-lg font-medium'>Questions</Heading>
               <div className='p-3 overflow-scroll h-[250px]'>
                 {Array.from(Array(selectedNoOfQuestions).keys()).map(
-                  (value, index) => (
+                  (_value, index) => (
                     <div key={index}>
                       <div>
                         <Heading className='mb-0 font-medium text-md'>
@@ -174,7 +179,9 @@ const QuestionPromptAddSection = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button>Add question prompt</Button>
+          <Button onClick={handleSubmit(handleQuestionPromptSubmit)}>
+            Add question prompt
+          </Button>
         </CardFooter>
       </Card>
     </div>

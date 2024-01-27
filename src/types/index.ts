@@ -1,3 +1,13 @@
+export type AddQuestionPromptData = {
+  title: string;
+  description: string;
+  questions: {
+    prompt: string;
+    placeholder: string;
+    tag: string;
+  }[];
+};
+
 export type QuestionPrompt = {
   _id: string;
   title: string;
