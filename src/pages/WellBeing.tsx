@@ -18,6 +18,7 @@ import {
 import LoadingSpinner from '../components/LoadingSpinner';
 import GratitudeJournalAddDialog from '../components/GratitudeJournalAddDialog';
 import useGetGratitudeJournals from '../services/gratitudeJournals/getGratitudeJournals';
+import GratitudeJournalCard from '../components/GratitudeJournalCard';
 
 const WellBeing = () => {
   const { user } = useAuthContext();
@@ -74,22 +75,12 @@ const WellBeing = () => {
       </div>
       <div>
         <Heading className='text-2xl'>Guided gratitude journals</Heading>
-        <div>
+        <div className='flex flex-wrap items-center justify-center gap-5'>
           {isGratitudeJournalLoading && <LoadingSpinner />}
           {gratitudeJournals &&
             gratitudeJournals.map((journal, index) => (
               <div key={index}>
-                <Heading className='text-xl'>
-                  {new Date(journal.entryDate).toLocaleString()}
-                </Heading>
-                <div className='flex flex-col gap-2'>
-                  {journal.journals.map((journal, index) => (
-                    <div key={index}>
-                      <Heading className='text-md'>{journal.prompt}</Heading>
-                      <p>{journal.answer}</p>
-                    </div>
-                  ))}
-                </div>
+                <GratitudeJournalCard gratitudeJournal={journal} key={index} />
               </div>
             ))}
         </div>

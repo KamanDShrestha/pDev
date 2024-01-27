@@ -12,11 +12,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
-import { Button } from './ui/button';
+import { buttonVariants } from './ui/button';
 import { FaTrash } from 'react-icons/fa';
 import useDeleteJournal from '../services/journals/deleteJournal';
 import LoadingSpinner from './LoadingSpinner';
 import { useAuthContext } from '../context/AuthProvider';
+import { cn } from '../lib/utils';
 
 interface JournalCardProps {
   journal: Journal;
@@ -63,21 +64,22 @@ const JournalCard = ({ journal }: JournalCardProps) => {
             <p>{journal.journalContent}</p>
           </div>
           <DialogFooter>
-            <DialogClose>
+            <DialogClose
+              className={cn(
+                buttonVariants({ variant: 'destructive', size: 'xs' }),
+                'space-x-2'
+              )}
+              onClick={handleJournalDeletion}
+            >
               {isDeleting ? (
                 <LoadingSpinner />
               ) : (
-                <Button
-                  variant={'destructive'}
-                  size={'xs'}
-                  className='space-x-2'
-                  onClick={handleJournalDeletion}
-                >
+                <>
                   <span>Delete</span>
                   <span>
                     <FaTrash />
                   </span>
-                </Button>
+                </>
               )}
             </DialogClose>
           </DialogFooter>
