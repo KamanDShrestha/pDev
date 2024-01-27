@@ -15,17 +15,20 @@ import LoadingSpinner from './LoadingSpinner';
 import ErrorMessage from './ErrorMessage';
 import useAddGratitudeJournalEntry from '../services/gratitudeJournals/addGratitudeJournalEntry';
 import { useAuthContext } from '../context/AuthProvider';
+import { useQueryClient } from '@tanstack/react-query';
 
 const GratitudeJournalAddDialog = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const { data: gratitudePrompts, isLoading } = useGetPrompts();
   const { mutate: addGratitudeJournalEntry } = useAddGratitudeJournalEntry();
   const { user } = useAuthContext();
 
+  const queryClient = useQueryClient();
   function handleGratitudeJournalSubmit(data: FieldValues) {
     console.log(data);
     const filledPrompts = Object.keys(data);
@@ -35,13 +38,25 @@ const GratitudeJournalAddDialog = () => {
       answer: data[category] as string,
     }));
 
-    addGratitudeJournalEntry({
-      userId: user?.id as string,
-      journalEntry: {
-        journals: journals,
-        entryDate: new Date(),
+    addGratitudeJournalEntry(
+      {
+        userId: user?.id as string,
+        journalEntry: {
+          journals: journals,
+          entryDate: new Date(),
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['gratitudeJournals', user?.id]);
+          reset(() => {
+            return Object.fromEntries(
+              filledPrompts.map((category) => [category, ''])
+            );
+          });
+        },
+      }
+    );
 
     console.log(journals);
   }
