@@ -22,8 +22,8 @@ const JourneyFeedback = ({ journeyId }: JourneyFeedbackProps) => {
     mutate({
       userId: user?.id as string,
       journeyId,
-      journeyFeedback: data.journeyFeedback || '',
-      actionStepFeedback: {
+      journeyFeedbacks: { feedback: data.journeyFeedback || '' },
+      actionStepFeedbacks: {
         actionStepDay: data.actionStepDay || '',
         feedback: data.feedback || '',
       },

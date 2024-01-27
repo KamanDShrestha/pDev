@@ -142,6 +142,12 @@ const NavBar = () => {
                   {menu.option}
                 </NavLink>
               ))}
+            <Button
+              className={cn(navigationMenuTriggerStyle(), 'text-base')}
+              onClick={handleLogout}
+            >
+              Log out
+            </Button>
           </div>
         </SheetContent>
       </Sheet>

@@ -194,8 +194,8 @@ export type JourneyFeedbacks = {
 export type AddJourneyFeedbackData = {
   userId: string;
   journeyId: string;
-  journeyFeedback: string;
-  actionStepFeedback: {
+  journeyFeedbacks: { feedback: string };
+  actionStepFeedbacks: {
     actionStepDay: string;
     feedback: string;
   };

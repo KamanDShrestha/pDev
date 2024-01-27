@@ -12,7 +12,7 @@ const JourneyNotFound = () => {
           The journey you are looking for is not found.
         </h2>
       </div>
-      <Link to={'/journey'} className='hover:underline'>
+      <Link to={'/journeys'} className='hover:underline'>
         <span className='flex items-center gap-3'>
           <IoIosArrowRoundBack />
           Go back to journey page
