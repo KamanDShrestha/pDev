@@ -19,27 +19,70 @@ import {
   SelectValue,
 } from './ui/select';
 import { Button } from './ui/button';
-// import useAddQuestionPrompt from '../services/questionPrompts/addQuestionPrompt';
+import useAddQuestionPrompt from '../services/questionPrompts/addQuestionPrompt';
 
 const QuestionPromptAddSection = () => {
+  const [selectedNoOfQuestions, setSelectedNoOfQuestions] = useState(3);
   const {
     register,
     // getValues,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
-  const [selectedNoOfQuestions, setSelectedNoOfQuestions] = useState(3);
-  // const { mutate } = useAddQuestionPrompt();
+  const providedTitle = watch('title');
+  const providedDescription = watch('description');
+  const providedQuestions = Array.from(Array(selectedNoOfQuestions).keys()).map(
+    (_, index) => ({
+      prompt: watch(`question${index + 1}`),
+      placeholder: watch(`placeholder${index + 1}`),
+      tag: watch(`tag${index + 1}`),
+    })
+  );
+
+  const { mutate: addQuestionPrompt } = useAddQuestionPrompt();
   function handleQuestionPromptSubmit(data: FieldValues) {
     console.log(data);
+    const providedPrompts = Array.from(Array(selectedNoOfQuestions).keys()).map(
+      (_, index) => ({
+        prompt: data[`question${index + 1}`],
+        placeholder: data[`placeholder${index + 1}`],
+        tag: data[`tag${index + 1}`],
+      })
+    );
+
+    addQuestionPrompt({
+      title: data.title,
+      description: data.description,
+      questions: providedPrompts,
+    });
   }
   return (
     <div className='flex flex-wrap justify-center gap-5 p-5'>
       <Card>
         <CardHeader>
-          <CardTitle>Preview</CardTitle>
+          <CardTitle className='text-3xl'>Preview</CardTitle>
+          <CardDescription>
+            You can preview your question prompt here.
+          </CardDescription>
         </CardHeader>
+        <CardContent>
+          <CardTitle>{providedTitle}</CardTitle>
+          <CardDescription>{providedDescription}</CardDescription>
+          <CardTitle className='text-xl'>Questions</CardTitle>
+          <div className='flex flex-col gap-3'>
+            {providedQuestions.map((question, index) => (
+              <div className='flex flex-col gap-1' key={index}>
+                <span>{question.prompt}</span>
+                <span className='text-sm'>
+                  Placeholder: {question.placeholder}
+                </span>
+                <span className='text-sm'>Category: {question.tag}</span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
       </Card>
       <Card>
         <CardHeader>
@@ -106,7 +149,7 @@ const QuestionPromptAddSection = () => {
             </div>
             <div>
               <Heading className='mb-0 text-lg font-medium'>Questions</Heading>
-              <div className='p-3 overflow-scroll h-[250px]'>
+              <div className='p-3 overflow-scroll h-[250px] flex flex-col gap-3'>
                 {Array.from(Array(selectedNoOfQuestions).keys()).map(
                   (_value, index) => (
                     <div key={index}>
