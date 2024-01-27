@@ -17,6 +17,7 @@ import {
 } from '../components/ui/select';
 import LoadingSpinner from '../components/LoadingSpinner';
 import GratitudeJournalAddDialog from '../components/GratitudeJournalAddDialog';
+import useGetGratitudeJournals from '../services/gratitudeJournals/getGratitudeJournals';
 
 const WellBeing = () => {
   const { user } = useAuthContext();
@@ -24,6 +25,11 @@ const WellBeing = () => {
   const { data: journals, isLoading } = useGetJournals(user?.id as string, {
     category: selectedCategory,
   });
+
+  const { data: gratitudeJournals, isLoading: isGratitudeJournalLoading } =
+    useGetGratitudeJournals(user?.id as string);
+  console.log(gratitudeJournals);
+
   console.log(journals);
   return (
     <>
@@ -64,6 +70,28 @@ const WellBeing = () => {
           {journals?.length === 0 && (
             <p>No journals found within this category</p>
           )}
+        </div>
+      </div>
+      <div>
+        <Heading className='text-2xl'>Guided gratitude journals</Heading>
+        <div>
+          {isGratitudeJournalLoading && <LoadingSpinner />}
+          {gratitudeJournals &&
+            gratitudeJournals.map((journal, index) => (
+              <div key={index}>
+                <Heading className='text-xl'>
+                  {new Date(journal.entryDate).toLocaleString()}
+                </Heading>
+                <div className='flex flex-col gap-2'>
+                  {journal.journals.map((journal, index) => (
+                    <div key={index}>
+                      <Heading className='text-md'>{journal.prompt}</Heading>
+                      <p>{journal.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     </>
