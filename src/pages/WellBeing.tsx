@@ -19,6 +19,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import GratitudeJournalAddDialog from '../components/GratitudeJournalAddDialog';
 import useGetGratitudeJournals from '../services/gratitudeJournals/getGratitudeJournals';
 import GratitudeJournalCard from '../components/GratitudeJournalCard';
+import useGetQuestionPrompts from '../services/questionPrompts/getQuestionPrompts';
+import QuestionPromptsCard from '../components/QuestionPromptsCard';
 
 const WellBeing = () => {
   const { user } = useAuthContext();
@@ -29,15 +31,33 @@ const WellBeing = () => {
 
   const { data: gratitudeJournals, isLoading: isGratitudeJournalLoading } =
     useGetGratitudeJournals(user?.id as string);
+  const { data: questionPrompts, isLoading: isQuestionPromptsLoading } =
+    useGetQuestionPrompts();
   console.log(gratitudeJournals);
 
   console.log(journals);
   return (
-    <>
-      <Heading>Journals</Heading>
-      <div className='p-5 space-y-3'>
-        <JournalAddDialog />
-        <GratitudeJournalAddDialog />
+    <div className='flex flex-col gap-10'>
+      <div>
+        <Heading>Journals</Heading>
+        <div className='p-5 space-y-3'>
+          <JournalAddDialog />
+          <GratitudeJournalAddDialog />
+        </div>
+      </div>
+
+      <div>
+        <Heading className='text-3xl'>Question prompts</Heading>
+        <div className='flex flex-wrap items-center justify-center'>
+          {isQuestionPromptsLoading && <LoadingSpinner />}
+          {questionPrompts &&
+            questionPrompts.map((questionPrompt) => (
+              <QuestionPromptsCard questionPrompt={questionPrompt} />
+            ))}
+          {questionPrompts?.length === 0 && (
+            <p>No question prompts are found.</p>
+          )}
+        </div>
       </div>
       <div>
         <Heading className='text-2xl'>Past journal entries</Heading>
@@ -86,7 +106,7 @@ const WellBeing = () => {
           {gratitudeJournals?.length === 0 && <p>No journals found for you.</p>}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
