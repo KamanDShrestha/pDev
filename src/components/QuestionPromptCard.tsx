@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
 import { QuestionPrompt } from '../types';
 
 interface QuestionPromptCardProps {
@@ -7,9 +13,10 @@ interface QuestionPromptCardProps {
 
 const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
   return (
-    <Card>
+    <Card className='lg:w-[600px] w-[400px]'>
       <CardHeader>
         <CardTitle>{questionPrompt.title}</CardTitle>
+        <CardDescription>{questionPrompt.description}</CardDescription>
       </CardHeader>
       <CardContent className='flex flex-col gap-3'>
         {questionPrompt.questions &&

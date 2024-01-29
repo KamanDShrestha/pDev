@@ -70,11 +70,13 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
         <Card className='w-[400px] h-[150px] flex justify-center items-center'>
           <CardHeader className='text-center'>
             <CardTitle>{questionPrompt.title}</CardTitle>
-            <CardDescription>{questionPrompt.description}</CardDescription>
+            <CardDescription className='text-xs'>
+              {questionPrompt.description}
+            </CardDescription>
           </CardHeader>
         </Card>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='h-[80vh] overflow-scroll'>
         <DialogHeader>
           <DialogTitle className='text-2xl'>{questionPrompt.title}</DialogTitle>
           <DialogDescription className='px-2 text-sm'>

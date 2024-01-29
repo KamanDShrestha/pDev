@@ -48,7 +48,7 @@ const WellBeing = () => {
 
       <div>
         <Heading className='text-3xl'>Question prompts</Heading>
-        <div className='flex flex-wrap items-center justify-center'>
+        <div className='flex flex-wrap items-center justify-center gap-5'>
           {isQuestionPromptsLoading && <LoadingSpinner />}
           {questionPrompts &&
             questionPrompts.map((questionPrompt) => (

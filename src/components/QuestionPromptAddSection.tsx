@@ -20,6 +20,7 @@ import {
 } from './ui/select';
 import { Button } from './ui/button';
 import useAddQuestionPrompt from '../services/questionPrompts/addQuestionPrompt';
+import { Textarea } from './ui/textarea';
 
 const QuestionPromptAddSection = () => {
   const [selectedNoOfQuestions, setSelectedNoOfQuestions] = useState(3);
@@ -112,7 +113,7 @@ const QuestionPromptAddSection = () => {
               <Heading className='mb-0 text-lg font-medium'>
                 Description
               </Heading>
-              <Input
+              <Textarea
                 placeholder='Provide description.'
                 {...register('description', {
                   required: {

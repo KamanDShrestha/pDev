@@ -67,7 +67,7 @@ const GratitudeJournalAddDialog = () => {
       <DialogTrigger>
         <Button>Express gratitude for your well-being.</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='h-[80vh] overflow-scroll'>
         <DialogHeader>
           <DialogTitle className='text-2xl'>Gratitude journaling</DialogTitle>
           <DialogDescription className='px-2 text-sm'>
