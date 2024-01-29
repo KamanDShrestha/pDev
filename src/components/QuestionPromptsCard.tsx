@@ -14,17 +14,55 @@ import ErrorMessage from './ErrorMessage';
 // import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { QuestionPrompt } from '../types';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
+import useAddQuestionPromptEntry from '../services/questionPromptEntries/addQuestionPromptEntry';
+import LoadingSpinner from './LoadingSpinner';
+import { Button } from './ui/button';
+import { useAuthContext } from '../context/AuthProvider';
 
 interface QuestionPromptsCardProps {
   questionPrompt: QuestionPrompt;
 }
 
 const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
+  const { user } = useAuthContext();
   const {
     register,
+    handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+
+  const { mutate: addEntry, isLoading: isSubmitting } =
+    useAddQuestionPromptEntry();
+
+  function handleEntrySubmission(data: FieldValues) {
+    console.log(data);
+    const tags = Object.keys(data);
+    const entryQuestions = Object.fromEntries(
+      questionPrompt.questions.map((question) => {
+        return [question.tag, question.prompt];
+      })
+    );
+    const entries = tags.map((tag) => ({
+      prompt: entryQuestions[tag],
+      answer: data[tag],
+    }));
+
+    addEntry(
+      {
+        userId: user?.id as string,
+        promptTitle: questionPrompt.title,
+        entryDate: new Date(),
+        entries: entries,
+      },
+      {
+        onSuccess: () => {
+          reset();
+        },
+      }
+    );
+  }
 
   return (
     <Dialog>
@@ -67,13 +105,13 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
             ))}
         </div>
         <div>
-          {/* {isSubmitting ? (
+          {isSubmitting ? (
             <LoadingSpinner />
           ) : (
-            <Button onClick={handleSubmit(handleGratitudeJournalSubmit)}>
-              Express gratitude
+            <Button onClick={handleSubmit(handleEntrySubmission)}>
+              Log entry
             </Button>
-          )} */}
+          )}
         </div>
       </DialogContent>
     </Dialog>
