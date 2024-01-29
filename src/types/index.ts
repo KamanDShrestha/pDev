@@ -1,3 +1,7 @@
+export type DeletePromptEntry = {
+  promptId: string;
+};
+
 export type QuestionPromptEntry = {
   _id: string;
   userId: string;
