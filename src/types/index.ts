@@ -1,3 +1,13 @@
+export type AddQuestionPromptEntryData = {
+  userId: string;
+  promptTitle: string;
+  entryDate: Date;
+  entries: {
+    prompt: string;
+    answer: string;
+  }[];
+};
+
 export type AddQuestionPromptData = {
   title: string;
   description: string;
