@@ -6,7 +6,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
-import { Card, CardDescription, CardHeader, CardTitle } from './ui/card';
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
 import Heading from './Heading';
 
 import ErrorMessage from './ErrorMessage';
@@ -19,6 +25,7 @@ import useAddQuestionPromptEntry from '../services/questionPromptEntries/addQues
 import LoadingSpinner from './LoadingSpinner';
 import { Button } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
+import useDeleteQuestionPrompt from '../services/questionPrompts/deleteQuestionPrompt';
 
 interface QuestionPromptsCardProps {
   questionPrompt: QuestionPrompt;
@@ -35,6 +42,9 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
 
   const { mutate: addEntry, isLoading: isSubmitting } =
     useAddQuestionPromptEntry();
+
+  const { mutate: deletePrompt, isLoading: isDeleting } =
+    useDeleteQuestionPrompt();
 
   function handleEntrySubmission(data: FieldValues) {
     console.log(data);
@@ -64,6 +74,10 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
     );
   }
 
+  function handleQuestionPromptDeletion(promptId: string) {
+    deletePrompt({ promptId: promptId });
+  }
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -74,6 +88,15 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
               {questionPrompt.description}
             </CardDescription>
           </CardHeader>
+          {user?.role === 'admin' && (
+            <CardFooter>
+              <Button
+                onClick={() => handleQuestionPromptDeletion(questionPrompt._id)}
+              >
+                {!isDeleting ? <span>Move to trash</span> : <LoadingSpinner />}
+              </Button>
+            </CardFooter>
+          )}
         </Card>
       </DialogTrigger>
       <DialogContent className='h-[80vh] overflow-scroll'>
