@@ -16,8 +16,6 @@ import {
 import Heading from './Heading';
 
 import ErrorMessage from './ErrorMessage';
-// import LoadingSpinner from './LoadingSpinner';
-// import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { QuestionPrompt } from '../types';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -26,6 +24,7 @@ import LoadingSpinner from './LoadingSpinner';
 import { Button } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import useDeleteQuestionPrompt from '../services/questionPrompts/deleteQuestionPrompt';
+import { cn } from '../lib/utils';
 
 interface QuestionPromptsCardProps {
   questionPrompt: QuestionPrompt;
@@ -81,7 +80,12 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
   return (
     <Dialog>
       <DialogTrigger>
-        <Card className='w-[400px] h-[150px] flex justify-center items-center'>
+        <Card
+          className={cn(
+            'w-[400px] h-[150px] flex justify-center items-center flex-col',
+            user?.role === 'admin' ? 'h-[200px]' : ''
+          )}
+        >
           <CardHeader className='text-center'>
             <CardTitle>{questionPrompt.title}</CardTitle>
             <CardDescription className='text-xs'>

@@ -6,6 +6,9 @@ import useGetQuestionPrompts from '../../services/questionPrompts/getQuestionPro
 import LoadingSpinner from '../../components/LoadingSpinner';
 import QuestionPromptCard from '../../components/QuestionPromptCard';
 import QuestionPromptAddSection from '../../components/QuestionPromptAddSection';
+import { NavLink } from 'react-router-dom';
+import { buttonVariants } from '../../components/ui/button';
+import { cn } from '../../lib/utils';
 
 // a seperate section for question prompts
 // rendering all the question prompts along with their title, description and questions
@@ -19,7 +22,15 @@ const WellbeingForAdmin = () => {
   return (
     <>
       <div className='space-y-3'>
-        <Heading className='text-3xl'>Gratitude Journal</Heading>
+        <div className='flex justify-between'>
+          <Heading className='text-3xl'>Gratitude Journal</Heading>
+          <NavLink
+            to={'/wellbeing'}
+            className={cn(buttonVariants({ variant: 'link' }))}
+          >
+            Wellbeing view for client
+          </NavLink>
+        </div>
         <div className='flex flex-wrap justify-center gap-4'>
           <GratitudeJournalPromptCard />
           <GratitudeJournalPromptAddCard />
