@@ -12,6 +12,7 @@ import useAddPreferredJourney from '../services/journey/addPreferredJourney';
 import { useAuthContext } from '../context/AuthProvider';
 import { set } from 'react-hook-form';
 import setToLocalStorage from '../services/localStorage/setToLocalStorage';
+import getFromLocalStorage from '../services/localStorage/getFromLocalStorage';
 
 const journeyCategories = [
   'Mindfulness',
@@ -48,7 +49,21 @@ const TempPreference = () => {
 
   function handleSubmit() {
     console.log(journeyCategories[selectedCategory]);
-    mutate(journeyCategories[selectedCategory]);
+    mutate(journeyCategories[selectedCategory], {
+      onSuccess: () => {
+        setUser &&
+          setUser((prev) => ({
+            ...prev,
+            preferredJourney: journeyCategories[selectedCategory],
+          }));
+        setToLocalStorage('authentication', {
+          ...(getFromLocalStorage('authentication') as {
+            [key: string]: string;
+          }),
+          preferredJourney: journeyCategories[selectedCategory],
+        });
+      },
+    });
   }
   return (
     <div className='flex items-center justify-center w-screen h-screen'>
