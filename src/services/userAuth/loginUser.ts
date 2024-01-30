@@ -31,6 +31,7 @@ export function useLoginUser() {
         hasSubscribed: response.user.hasSubscribed,
         preferredJourney: response.user.preferredJourney,
         loggedMood: response.user.loggedMood,
+        dateOfBirth: response.user.dateOfBirth,
       });
       if (response && response.user && response.token && setUser) {
         setUser({
@@ -44,6 +45,7 @@ export function useLoginUser() {
           hasSubscribed: response.user.hasSubscribed,
           preferredJourney: response.user.preferredJourney,
           loggedMood: response.user.loggedMood,
+          dateOfBirth: response.user.dateOfBirth,
         } as AuthContextType);
         if (response.user.isNewUser) navigate('/newUser');
         else navigate(from, { replace: true });

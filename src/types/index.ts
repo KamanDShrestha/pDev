@@ -460,6 +460,10 @@ export type UpdateUserRoleData = {
   userId: string;
   role: string;
 };
+export type UpdateUserDOBData = {
+  userId: string;
+  dob: Date;
+};
 
 export type DeleteUserData = {
   id: string;

@@ -6,9 +6,10 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from '../components/ui/card';
 import { Input } from '../components/ui/input';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import * as z from 'zod';
 import profileCompletionSchema from '../schema/profileCompletionSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,6 +17,9 @@ import ErrorMessage from '../components/ErrorMessage';
 import { useProfileCompletion } from '../services/profileCompletion/useProfileCompletion';
 import { useAuthContext } from '../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import useUpdateUserDOB from '../services/users/updateUserDOB';
+import setToLocalStorage from '../services/localStorage/setToLocalStorage';
+import getFromLocalStorage from '../services/localStorage/getFromLocalStorage';
 
 type ProfileCompletion = {
   question: string;
@@ -69,7 +73,8 @@ const reducer = (
 
 const NewUser = () => {
   const [personalProfile, dispatch] = useReducer(reducer, initialState);
-  const { user } = useAuthContext();
+  const { user, setUser } = useAuthContext();
+  const [hasDOB, setHasDOB] = useState(user?.dateOfBirth !== null);
   const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const {
@@ -83,7 +88,14 @@ const NewUser = () => {
     resolver: zodResolver(profileCompletionSchema),
   });
 
+  const {
+    register: DOBForm,
+    handleSubmit: handleDOBSubmit,
+    formState: { errors: DOBErrors },
+  } = useForm();
+
   const { mutate } = useProfileCompletion();
+  const { mutate: updateDOB } = useUpdateUserDOB();
 
   useEffect(() => {
     if (!user?.isNewUser) navigate('/home');
@@ -96,8 +108,15 @@ const NewUser = () => {
     setValue('answer3', personalProfile[currentQuestion].answers[2]);
   }, [currentQuestion, personalProfile, setValue]);
 
-  console.log(personalProfile);
+  useEffect(() => {
+    if (user?.dateOfBirth === null) {
+      setHasDOB(false);
+    } else {
+      setHasDOB(true);
+    }
+  }, [user?.dateOfBirth]);
 
+  console.log(personalProfile);
   function handleBackButton() {
     if (currentQuestion === 0) return;
     setCurrentQuestion((prev) => prev - 1);
@@ -118,7 +137,6 @@ const NewUser = () => {
   }
 
   function handleSubmitButton() {
-    console.log('submitted');
     console.log(personalProfile);
     console.log({
       challenges: personalProfile[0].answers,
@@ -132,9 +150,54 @@ const NewUser = () => {
     });
   }
 
+  function handleDOBSubmission(data: FieldValues) {
+    updateDOB(
+      { userId: user?.id as string, dob: data.dateOfBirth },
+      {
+        onSuccess: () => {
+          setUser &&
+            setUser((prev) => ({ ...prev, dateOfBirth: data.dateOfBirth }));
+          setToLocalStorage('authentication', {
+            ...(getFromLocalStorage('authentication') as {
+              [key: string]: string;
+            }),
+            dateOfBirth: data.dateOfBirth,
+          });
+        },
+      }
+    );
+  }
+
   return (
     <div className='flex items-center justify-center w-screen h-screen'>
-      {questions.length !== currentQuestion ? (
+      {!hasDOB ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Provide your date of birth: </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Input
+              type='date'
+              {...DOBForm('dateOfBirth', {
+                required: {
+                  value: true,
+                  message: 'Please provide your date of birth',
+                },
+              })}
+            />
+            {DOBErrors.dateOfBirth && (
+              <ErrorMessage>
+                {DOBErrors.dateOfBirth.message as string}
+              </ErrorMessage>
+            )}
+          </CardContent>
+          <CardFooter>
+            <Button onClick={handleDOBSubmit(handleDOBSubmission)}>
+              Submit
+            </Button>
+          </CardFooter>
+        </Card>
+      ) : questions.length !== currentQuestion ? (
         <Card className='m-5 w-[350px] sm:w-[500px]'>
           <CardHeader>
             <h2 className='text-lg font-semibold sm:text-xl'>

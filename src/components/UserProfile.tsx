@@ -49,7 +49,7 @@ const UserProfile = ({ user }: UserProfileProps) => {
       </CardHeader>
       <CardContent className='flex flex-col p-5'>
         <div>Email: {user.email}</div>
-        <div>DOB: {user.dateOfBirth.split('T')[0]}</div>
+        <div>DOB: {user.dateOfBirth?.split('T')[0] ?? ''}</div>
         <div>Preferred Journey: {user.preferredJourney}</div>
         <div>Joined Date: {user.createdAt.split('T')[0]}</div>
         <div>

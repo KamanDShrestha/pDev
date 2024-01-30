@@ -9,6 +9,9 @@ import {
 } from '../components/ui/tooltip';
 
 import useAddPreferredJourney from '../services/journey/addPreferredJourney';
+import { useAuthContext } from '../context/AuthProvider';
+import { set } from 'react-hook-form';
+import setToLocalStorage from '../services/localStorage/setToLocalStorage';
 
 const journeyCategories = [
   'Mindfulness',
@@ -35,6 +38,7 @@ const journeyUsages = [
 ];
 
 const TempPreference = () => {
+  const { user, setUser } = useAuthContext();
   const [selectedCategory, setSelectedCategory] = useState(-1);
 
   const { mutate } = useAddPreferredJourney();
