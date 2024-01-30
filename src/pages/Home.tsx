@@ -1,4 +1,4 @@
-import { NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 
 import { useAuthContext } from '../context/AuthProvider';
@@ -15,6 +15,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [moodTrackerModal, setMoodTrackerModal] = useState(false);
 
+  console.log(user);
   useEffect(() => {
     if (user && user.isNewUser) {
       navigate('/newUser');

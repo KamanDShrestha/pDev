@@ -38,6 +38,7 @@ import AddCommunity from './pages/admin/AddCommunity';
 import SpecificCommunity from './pages/SpecificCommunity';
 import QAs from './pages/qha/QAs';
 import WellbeingForAdmin from './pages/admin/WellbeingForAdmin';
+import Loading from './pages/Loading';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <Routes>
+              <Route path={'/loading'} element={<Loading />} />
               <Route element={<AuthLayout />}>
                 <Route index element={<GettingStarted />} />
                 <Route path={'/login'} element={<Login />} />

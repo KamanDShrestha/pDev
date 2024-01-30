@@ -3,8 +3,8 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schema/authSchema';
 
-import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
-import jwt_decode from 'jwt-decode';
+// import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
+// import jwt_decode from 'jwt-decode';
 import {
   Card,
   CardContent,
@@ -21,7 +21,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { NavLink } from 'react-router-dom';
 import { useLoginUser } from '../../services/userAuth/loginUser';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { BACKEND_URL, axiosInstance } from '../../constants';
+import { BACKEND_URL } from '../../constants';
 
 const Login = () => {
   const {
@@ -37,20 +37,19 @@ const Login = () => {
   const providedPassword = watch('password');
 
   console.log(errors);
-  const { mutate, isLoading: isLoggingIn } = useLoginUser();
+  const { mutate: loginUser, isLoading: isLoggingIn } = useLoginUser();
 
   function handleLogin(values: z.infer<typeof loginSchema>) {
     console.log(values);
-    mutate(values);
+    loginUser(values);
   }
-  function handleGoogleAuthSuccess(credentialResponse: CredentialResponse) {
-    console.log(credentialResponse);
-    const decrypted = jwt_decode(credentialResponse.credential!);
-    console.log(decrypted);
-  }
+  // function handleGoogleAuthSuccess(credentialResponse: CredentialResponse) {
+  //   console.log(credentialResponse);
+  //   const decrypted = jwt_decode(credentialResponse.credential!);
+  //   console.log(decrypted);
+  // }
 
   function handleGoogleAuthLogin() {
-    console.log('being clicked.');
     window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
   }
 
