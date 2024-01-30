@@ -21,6 +21,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { NavLink } from 'react-router-dom';
 import { useLoginUser } from '../../services/userAuth/loginUser';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { BACKEND_URL, axiosInstance } from '../../constants';
 
 const Login = () => {
   const {
@@ -48,6 +49,11 @@ const Login = () => {
     console.log(decrypted);
   }
 
+  function handleGoogleAuthLogin() {
+    console.log('being clicked.');
+    window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
+  }
+
   return (
     <>
       <Card className='w-[400px]'>
@@ -59,15 +65,18 @@ const Login = () => {
         </CardHeader>
         <CardContent>
           <div className='flex flex-col items-center gap-2'>
-            <p className='m-auto font-semibold text-bg text-slate-700'>
+            <p
+              className='m-auto font-semibold text-bg text-slate-700'
+              onClick={handleGoogleAuthLogin}
+            >
               Sign in using Google
             </p>
-            <GoogleLogin
+            {/* <GoogleLogin
               onSuccess={handleGoogleAuthSuccess}
               onError={() => {
                 console.log('Login Failed');
               }}
-            />
+            /> */}
           </div>
           <hr className='w-[100%] h-[0.5px] bg-slate-100 mt-6 mb-6' />
           <form onSubmit={handleSubmit(handleLogin)} autoComplete='off'>

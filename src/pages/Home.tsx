@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 
 import { useAuthContext } from '../context/AuthProvider';
@@ -12,8 +12,14 @@ import LoadingSpinner from '../components/LoadingSpinner';
 const Home = () => {
   const { mutate, isLoading: isLoggingOut } = useLogoutUser();
   const { user } = useAuthContext();
-
+  const navigate = useNavigate();
   const [moodTrackerModal, setMoodTrackerModal] = useState(false);
+
+  useEffect(() => {
+    if (user && user.isNewUser) {
+      navigate('/newUser');
+    }
+  }, []);
 
   useEffect(() => {
     if (user && user.loggedMood === false) {
