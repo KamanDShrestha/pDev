@@ -1,10 +1,10 @@
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import { AuthContextType, useAuthContext } from '../../context/AuthProvider';
-import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import { useAuthContext } from '../../context/AuthProvider';
+// import Cookies from 'js-cookie';
+// import { useEffect } from 'react';
 
 const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
-  const { user, setUser } = useAuthContext();
+  const { user } = useAuthContext();
 
   const location = useLocation();
 

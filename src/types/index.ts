@@ -1,3 +1,12 @@
+export type AddSubscriptionPlanData = {
+  subscriptionPlan: string;
+  subscriptionPrice: number;
+  subscriptionDescription: string;
+  subscriptionDuration: string;
+  subscriptionFeatures: string[];
+  isActive: boolean;
+};
+
 export type DeletePromptEntry = {
   promptId: string;
 };
