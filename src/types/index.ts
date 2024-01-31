@@ -1,3 +1,13 @@
+export type SubscriptionPlan = {
+  _id: string;
+  subscriptionPlan: string;
+  subscriptionPrice: number;
+  subscriptionDescription: string;
+  subscriptionDuration: string;
+  subscriptionFeatures: string[];
+  isActive: boolean;
+};
+
 export type AddSubscriptionPlanData = {
   subscriptionPlan: string;
   subscriptionPrice: number;
