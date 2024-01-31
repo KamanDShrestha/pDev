@@ -14,7 +14,6 @@ export type AddSubscriptionPlanData = {
   subscriptionDescription: string;
   subscriptionDuration: string;
   subscriptionFeatures: string[];
-  isActive: boolean;
 };
 
 export type DeletePromptEntry = {

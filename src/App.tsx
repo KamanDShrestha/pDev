@@ -40,6 +40,7 @@ import QAs from './pages/qha/QAs';
 import WellbeingForAdmin from './pages/admin/WellbeingForAdmin';
 import Loading from './pages/Loading';
 import Subscribe from './pages/Subscribe';
+import SubscribeForAdmin from './pages/SubscribeForAdmin';
 
 function App() {
   return (
@@ -110,6 +111,10 @@ function App() {
                   <Route
                     path='/wellbeingForAdmin'
                     element={<WellbeingForAdmin />}
+                  />
+                  <Route
+                    path='/subscribeForAdmin'
+                    element={<SubscribeForAdmin />}
                   />
                 </Route>
               </Route>
