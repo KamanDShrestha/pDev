@@ -11,6 +11,7 @@ import Heading from './Heading';
 import { FaCircle, FaPlay } from 'react-icons/fa';
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
+import { useNavigate } from 'react-router-dom';
 
 interface SubscriptionPlanCardProps {
   subscriptionPlan: SubscriptionPlan;
@@ -19,8 +20,9 @@ interface SubscriptionPlanCardProps {
 const SubscriptionPlanCard = ({
   subscriptionPlan,
 }: SubscriptionPlanCardProps) => {
+  const navigate = useNavigate();
   return (
-    <Card className='lg:w-[550px] w-[400px] py-5'>
+    <Card className='lg:w-[550px] w-[400px] py-3'>
       <CardContent className='text-center'>
         <div>
           <Heading className='mb-1 text-3xl'>Subscription Tier</Heading>
@@ -56,7 +58,11 @@ const SubscriptionPlanCard = ({
         </div>
       </CardContent>
       <CardFooter className='flex justify-center'>
-        <Button variant={'outline'} className='flex items-center gap-1'>
+        <Button
+          variant={'outline'}
+          className='flex items-center gap-1'
+          onClick={() => navigate(`/subscribe/${subscriptionPlan._id}`)}
+        >
           <span>Get Started</span>
           <FaPlay />
         </Button>

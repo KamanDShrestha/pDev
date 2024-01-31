@@ -41,6 +41,7 @@ import WellbeingForAdmin from './pages/admin/WellbeingForAdmin';
 import Loading from './pages/Loading';
 import Subscribe from './pages/Subscribe';
 import SubscribeForAdmin from './pages/SubscribeForAdmin';
+import SubscriptionConfirmation from './pages/SubscriptionConfirmation';
 
 function App() {
   return (
@@ -85,6 +86,11 @@ function App() {
                   <Route path={'/wellbeing'} element={<WellBeing />} />
                   <Route path={'/profile'} element={<Profile />} />
                   <Route path='/subscribe' element={<Subscribe />} />
+
+                  <Route
+                    path='/subscribe/:subscriptionId'
+                    element={<SubscriptionConfirmation />}
+                  />
                 </Route>
               </Route>
 
