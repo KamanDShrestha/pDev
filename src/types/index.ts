@@ -1,3 +1,19 @@
+export type PayViaKhaltiDetails = {
+  return_url: string;
+  website_url: string;
+  amount: number | undefined;
+  purchase_order_id: string;
+  purchase_order_name: string | undefined;
+  customer_info: {
+    name: string | undefined;
+    email: string | undefined;
+  };
+  // amount_breakdown: {
+  //   label: string;
+  //   amount: number | undefined;
+  // }[];
+};
+
 export type SubscriptionPlan = {
   _id: string;
   subscriptionPlan: string;

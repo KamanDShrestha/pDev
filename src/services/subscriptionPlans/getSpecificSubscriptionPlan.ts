@@ -6,7 +6,9 @@ export default function useGetSpecificSubscriptionPlan(planId: string) {
   const response = useQuery<SubscriptionPlan>({
     queryKey: ['subscriptionPlans', planId],
     queryFn: () =>
-      axiosInstance.get(`/subscriptions/${planId}`).then((res) => res.data),
+      axiosInstance
+        .get(`/subscriptions/get/${planId}`)
+        .then((res) => res.data.data),
   });
   return response;
 }
