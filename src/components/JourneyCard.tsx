@@ -104,8 +104,10 @@ const JourneyCard = ({
                   <p>
                     {importance.map((item) => (
                       <p className='flex gap-3'>
-                        <BsDot />
-                        {item}
+                        <span className='text-2xl'>
+                          <BsDot />
+                        </span>
+                        <span>{item}</span>
                       </p>
                     ))}
                   </p>
@@ -136,6 +138,12 @@ const JourneyCard = ({
                       <span className='text-sm'>
                         Subscribe for unlocking the journey!
                       </span>
+                      <Button
+                        size={'xs'}
+                        onClick={() => navigate('/subscribe')}
+                      >
+                        Subscribe
+                      </Button>
                     </>
                   )}
                 {user && user.role === 'admin' && (

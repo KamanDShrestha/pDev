@@ -39,6 +39,7 @@ import SpecificCommunity from './pages/SpecificCommunity';
 import QAs from './pages/qha/QAs';
 import WellbeingForAdmin from './pages/admin/WellbeingForAdmin';
 import Loading from './pages/Loading';
+import Subscribe from './pages/Subscribe';
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
                   <Route path={'/payment'} element={<Payment />} />
                   <Route path={'/wellbeing'} element={<WellBeing />} />
                   <Route path={'/profile'} element={<Profile />} />
+                  <Route path='/subscribe' element={<Subscribe />} />
                 </Route>
               </Route>
 

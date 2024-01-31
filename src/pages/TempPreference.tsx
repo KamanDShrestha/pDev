@@ -10,7 +10,6 @@ import {
 
 import useAddPreferredJourney from '../services/journey/addPreferredJourney';
 import { useAuthContext } from '../context/AuthProvider';
-import { set } from 'react-hook-form';
 import setToLocalStorage from '../services/localStorage/setToLocalStorage';
 import getFromLocalStorage from '../services/localStorage/getFromLocalStorage';
 
@@ -39,7 +38,7 @@ const journeyUsages = [
 ];
 
 const TempPreference = () => {
-  const { user, setUser } = useAuthContext();
+  const { setUser } = useAuthContext();
   const [selectedCategory, setSelectedCategory] = useState(-1);
 
   const { mutate } = useAddPreferredJourney();
