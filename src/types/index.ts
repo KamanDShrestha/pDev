@@ -503,6 +503,11 @@ export type UpdateUserDOBData = {
   dob: Date;
 };
 
+export type UpdateSubscriptionStatusData = {
+  userId: string;
+  subscriptionStatus: boolean;
+};
+
 export type DeleteUserData = {
   id: string;
 };
