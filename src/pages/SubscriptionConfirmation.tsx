@@ -17,9 +17,11 @@ const SubscriptionConfirmation = () => {
     subscriptionId as string
   );
 
-  const { mutate: payViaKhalti } = usePayViaKhalti();
+  const { mutate: payViaKhalti, isLoading: isSubmitting } = usePayViaKhalti();
   console.log(subscriptionPlan);
   console.log(subscriptionId);
+
+  console.log('Payment via Khalti', isSubmitting);
 
   const totalAmount =
     subscriptionPlan &&
@@ -30,7 +32,7 @@ const SubscriptionConfirmation = () => {
     console.log('Payment via Khalti');
 
     const subscriptionDetails = {
-      return_url: 'http://localhost:5173/loading',
+      return_url: 'http://localhost:5173/verifyKhalti',
       website_url: 'http://localhost:5173/',
       amount: totalAmount! * 100, // in paisa
       purchase_order_id: subscriptionId || '',
@@ -169,9 +171,16 @@ const SubscriptionConfirmation = () => {
                 variant={'outline'}
                 className='space-x-1'
                 onClick={handlePaymentViaKhalti}
+                disabled={isSubmitting}
               >
-                <span>Pay via Khalti</span>
-                <img src={khaltiLogo} className='h-[30px]' />
+                {isSubmitting ? (
+                  <LoadingSpinner />
+                ) : (
+                  <>
+                    <span>Pay via Khalti</span>
+                    <img src={khaltiLogo} className='h-[30px]' />
+                  </>
+                )}
               </Button>
               <Button variant={'outline'} className='space-x-1'>
                 <span>Pay via eSewa</span>

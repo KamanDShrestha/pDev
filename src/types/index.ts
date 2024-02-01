@@ -1,3 +1,7 @@
+export type KhaltiSubscriptionData = {
+  pidx: string;
+};
+
 export type PayViaKhaltiDetails = {
   return_url: string;
   website_url: string;

@@ -42,6 +42,7 @@ import Loading from './pages/Loading';
 import Subscribe from './pages/Subscribe';
 import SubscribeForAdmin from './pages/SubscribeForAdmin';
 import SubscriptionConfirmation from './pages/SubscriptionConfirmation';
+import VerifyKhaltiSubscription from './pages/VerifyKhaltiSubscription';
 
 function App() {
   return (
@@ -134,7 +135,10 @@ function App() {
                   <Route path='/qas' element={<QAs />} />
                 </Route>
               </Route>
-
+              <Route
+                path='/verifyKhalti'
+                element={<VerifyKhaltiSubscription />}
+              />
               <Route path={'/newUser'} element={<NewUser />} />
               <Route path='/journeyNotFound' element={<JourneyNotFound />} />
               <Route path='/unauthorized' element={<UnauthorizedPage />} />
