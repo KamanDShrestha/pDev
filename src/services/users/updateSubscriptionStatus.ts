@@ -8,7 +8,7 @@ export default function useUpdateSubscriptionStatus() {
   const response = useMutation({
     mutationFn: (data: UpdateSubscriptionStatusData) =>
       axiosInstance
-        .post('/users/updateSubscriptionStatus', data)
+        .patch('/users/updateSubscriptionStatus', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
