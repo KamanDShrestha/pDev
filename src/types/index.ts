@@ -1,3 +1,21 @@
+export type AddPaymentData = {
+  userId: string;
+  userName: string;
+  subscription: {
+    subscriptionId: string;
+    subscriptionPlan: string;
+    subscriptionDate: Date;
+  };
+  payment: {
+    transactionId: string;
+    paymentGateway: string;
+    currency: string;
+    amount: number;
+    paymentStatus: string;
+    lastPaymentDate: Date;
+  };
+};
+
 export type KhaltiSubscriptionData = {
   pidx: string;
 };
