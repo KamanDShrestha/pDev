@@ -9,6 +9,7 @@ import { Button } from '../components/ui/button';
 import khaltiLogo from '../assets/paymentsGateway/khalti-logo.png';
 import eSewaLogo from '../assets/paymentsGateway/esewa-icon.png';
 import usePayViaKhalti from '../services/payments/payViaKhalti';
+import usePayViaEsewa from '../services/payments/payViaEsewa';
 const SubscriptionConfirmation = () => {
   const { subscriptionId } = useParams();
   const { user } = useAuthContext();
@@ -17,11 +18,14 @@ const SubscriptionConfirmation = () => {
     subscriptionId as string
   );
 
-  const { mutate: payViaKhalti, isLoading: isSubmitting } = usePayViaKhalti();
+  const { mutate: payViaKhalti, isLoading: isSubmittingForKhalti } =
+    usePayViaKhalti();
+  const { mutate: payViaESewa } = usePayViaEsewa();
+
   console.log(subscriptionPlan);
   console.log(subscriptionId);
 
-  console.log('Payment via Khalti', isSubmitting);
+  console.log('Payment via Khalti', isSubmittingForKhalti);
 
   const totalAmount =
     subscriptionPlan &&
@@ -63,6 +67,28 @@ const SubscriptionConfirmation = () => {
       onSuccess: (data) => {
         console.log(data);
         window.location.href = data.payment_url;
+      },
+    });
+  }
+
+  function handlePaymentViaEsewa() {
+    const subscriptionDetails = {
+      amount: '100',
+      failure_url: 'https://google.com',
+      product_delivery_charge: '0',
+      product_service_charge: '0',
+      product_code: 'EPAYTEST',
+      signature: 'YVweM7CgAtZW5tRKica/BIeYFvpSj09AaInsulqNKHk=',
+      signed_field_names: 'total_amount,transaction_uuid,product_code',
+      success_url: 'https://esewa.com.np',
+      tax_amount: '10',
+      total_amount: '110',
+      transaction_uuid: 'ab14a8f2b02c3',
+    };
+
+    payViaESewa(subscriptionDetails, {
+      onSuccess: (data) => {
+        console.log(data);
       },
     });
   }
@@ -171,9 +197,9 @@ const SubscriptionConfirmation = () => {
                 variant={'outline'}
                 className='space-x-1'
                 onClick={handlePaymentViaKhalti}
-                disabled={isSubmitting}
+                disabled={isSubmittingForKhalti}
               >
-                {isSubmitting ? (
+                {isSubmittingForKhalti ? (
                   <LoadingSpinner />
                 ) : (
                   <>
@@ -182,7 +208,12 @@ const SubscriptionConfirmation = () => {
                   </>
                 )}
               </Button>
-              <Button variant={'outline'} className='space-x-1'>
+              <Button
+                variant={'outline'}
+                className='space-x-1'
+                onClick={handlePaymentViaEsewa}
+                disabled
+              >
                 <span>Pay via eSewa</span>
                 <img src={eSewaLogo} className='h-[25px]' />
               </Button>
