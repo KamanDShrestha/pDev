@@ -43,7 +43,9 @@ const PromptFeedbackCard = ({ feedback }: PromptFeedbackCardProps) => {
             <>
               <Button onClick={() => handleResolve()}>Resolve</Button>
               <Button onClick={() => handleReject()}>Reject</Button>
-              <Button onClick={() => navigate(`/prompts/edit/${feedback._id}`)}>
+              <Button
+                onClick={() => navigate(`/prompts/edit/${feedback.promptId}`)}
+              >
                 Act
               </Button>
             </>
