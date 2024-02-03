@@ -11,7 +11,8 @@ import Heading from './Heading';
 import { FaCircle, FaPlay } from 'react-icons/fa';
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthProvider';
 
 interface SubscriptionPlanCardProps {
   subscriptionPlan: SubscriptionPlan;
@@ -20,6 +21,7 @@ interface SubscriptionPlanCardProps {
 const SubscriptionPlanCard = ({
   subscriptionPlan,
 }: SubscriptionPlanCardProps) => {
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   return (
     <Card className='lg:w-[550px] w-[400px] py-3'>
@@ -56,16 +58,24 @@ const SubscriptionPlanCard = ({
             Subscription for {subscriptionPlan.subscriptionDuration}*
           </p>
         </div>
+        <Separator className='mt-3' />
       </CardContent>
-      <CardFooter className='flex justify-center'>
-        <Button
-          variant={'outline'}
-          className='flex items-center gap-1'
-          onClick={() => navigate(`/subscribe/${subscriptionPlan._id}`)}
-        >
-          <span>Get Started</span>
-          <FaPlay />
-        </Button>
+      <CardFooter className='flex items-center justify-center'>
+        {user?.hasSubscribed ? (
+          <NavLink to={'/home'} className='text-sm text-center hover:underline'>
+            You have already subscribed to this plan. <br />
+            <span className='text-xs'>Navigate to Home page</span>
+          </NavLink>
+        ) : (
+          <Button
+            variant={'outline'}
+            className='flex items-center gap-1'
+            onClick={() => navigate(`/subscribe/${subscriptionPlan._id}`)}
+          >
+            <span>Get Started</span>
+            <FaPlay />
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

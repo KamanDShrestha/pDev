@@ -2,14 +2,25 @@ import Heading from '../../components/Heading';
 import useGetJourneyFeedbacks from '../../services/journeyFeedbacks/getJourneyFeedbacks';
 import FeedbackSection from '../../components/FeedbackSection';
 import ActionStepFeedbackSection from '../../components/ActionStepFeedbackSection';
+import { buttonVariants } from '../../components/ui/button';
+import { NavLink } from 'react-router-dom';
 
 const Feedbacks = () => {
   const { data: journeyFeedbacks, isLoading } = useGetJourneyFeedbacks();
 
   return (
     <>
-      <Heading className=''>Feedbacks for journeys</Heading>
-      <div>
+      <div className='flex flex-wrap justify-between'>
+        <Heading>Feedbacks for journeys</Heading>
+        <NavLink
+          to={'/feedbacksForPrompts'}
+          className={buttonVariants({ variant: 'outline' })}
+        >
+          Find feedbacks for question prompts
+        </NavLink>
+      </div>
+
+      <div className='p-5'>
         <Heading className='text-3xl'>Journey feedbacks</Heading>
         <FeedbackSection
           journeyFeedbacks={journeyFeedbacks!}
@@ -27,7 +38,7 @@ const Feedbacks = () => {
           isLoading={isLoading}
         />
       </div>
-      <div className='flex flex-col gap-3 mt-5'>
+      <div className='flex flex-col gap-3 p-5 mt-5'>
         <Heading className='text-3xl'>Action step feedbacks</Heading>
         <ActionStepFeedbackSection
           journeyFeedbacks={journeyFeedbacks!}
