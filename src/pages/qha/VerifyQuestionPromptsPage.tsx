@@ -24,7 +24,8 @@ const VerifyQuestionPromptsPage = () => {
         {questionPrompts &&
           questionPrompts.map(
             (questionPrompt) =>
-              questionPrompt.isVerified === false && (
+              questionPrompt.isVerified === false &&
+              questionPrompt.verifiedBy == null && (
                 <QuestionPromptCard
                   questionPrompt={questionPrompt}
                   key={questionPrompt._id}
@@ -48,6 +49,29 @@ const VerifyQuestionPromptsPage = () => {
               (questionPrompt) =>
                 questionPrompt.isVerified === true && (
                   <QuestionPromptsCard
+                    questionPrompt={questionPrompt}
+                    key={questionPrompt._id}
+                  />
+                )
+            )}
+        </div>
+      </div>
+      <div>
+        <div>
+          <Heading>Rejected question prompts</Heading>
+        </div>
+
+        <div className='flex flex-wrap items-center justify-center gap-5 pt-4'>
+          {isLoading &&
+            Array.from(Array(4)).map((_, index) => {
+              return <JourneyCardSkeleton key={index + 1} />;
+            })}
+          {questionPrompts &&
+            questionPrompts.map(
+              (questionPrompt) =>
+                questionPrompt.isVerified === false &&
+                questionPrompt.verifiedBy != null && (
+                  <QuestionPromptCard
                     questionPrompt={questionPrompt}
                     key={questionPrompt._id}
                   />
