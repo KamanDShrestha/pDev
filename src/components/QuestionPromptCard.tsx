@@ -2,16 +2,20 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from './ui/card';
 import { QuestionPrompt } from '../types';
+import { Button } from './ui/button';
+import { useAuthContext } from '../context/AuthProvider';
 
 interface QuestionPromptCardProps {
   questionPrompt: QuestionPrompt;
 }
 
 const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
+  const { user } = useAuthContext();
   return (
     <Card className='lg:w-[600px] w-[400px]'>
       <CardHeader>
@@ -28,6 +32,12 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
             </div>
           ))}
       </CardContent>
+      {user?.role === 'qha' && (
+        <CardFooter className='flex gap-3'>
+          <Button>Verify</Button>
+          <Button variant={'destructive'}>Reject</Button>
+        </CardFooter>
+      )}
     </Card>
   );
 };

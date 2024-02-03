@@ -59,6 +59,7 @@ const NavBar = () => {
   const qhpActionOptions = [
     { to: '/profile', option: 'Profile' },
     { to: '/verifyJourneys', option: 'Verify Journeys' },
+    { to: '/verifyQuestionPrompts', option: 'Verify Question Prompts' },
   ];
 
   function handleLogout() {

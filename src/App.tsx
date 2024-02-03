@@ -43,6 +43,7 @@ import Subscribe from './pages/Subscribe';
 import SubscribeForAdmin from './pages/SubscribeForAdmin';
 import SubscriptionConfirmation from './pages/SubscriptionConfirmation';
 import VerifyKhaltiSubscription from './pages/VerifyKhaltiSubscription';
+import VerifyQuestionPromptsPage from './pages/qha/VerifyQuestionPromptsPage';
 
 function App() {
   return (
@@ -131,6 +132,10 @@ function App() {
                   <Route
                     path='/verifyJourneys'
                     element={<VerifyJourneyPage />}
+                  />
+                  <Route
+                    path='/verifyQuestionPrompts'
+                    element={<VerifyQuestionPromptsPage />}
                   />
                   <Route path='/qas' element={<QAs />} />
                 </Route>

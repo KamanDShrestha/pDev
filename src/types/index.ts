@@ -115,6 +115,8 @@ export type QuestionPrompt = {
     placeholder: string;
     tag: string;
   }[];
+  isVerified: boolean;
+  verifiedBy: string;
 };
 
 export type DeleteGratitudeJournalData = {
