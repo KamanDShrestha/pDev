@@ -92,7 +92,7 @@ const EditJourneyPage = () => {
   return (
     <>
       <Heading>Edit the journey</Heading>
-      {isLoading && <p>Loading</p>}
+      {isLoading && <LoadingSpinner />}
 
       {journey && (
         <div className='space-y-5'>

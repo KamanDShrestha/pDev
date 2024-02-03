@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   CardContent,
@@ -14,6 +15,8 @@ interface PromptFeedbackCardProps {
 }
 
 const PromptFeedbackCard = ({ feedback }: PromptFeedbackCardProps) => {
+  const navigate = useNavigate();
+
   function handleResolve() {}
 
   function handleReject() {}
@@ -40,9 +43,9 @@ const PromptFeedbackCard = ({ feedback }: PromptFeedbackCardProps) => {
             <>
               <Button onClick={() => handleResolve()}>Resolve</Button>
               <Button onClick={() => handleReject()}>Reject</Button>
-              {/* <Button onClick={() => navigate(`/journeys/edit/${journeyId}`)}>
-      Act
-    </Button> */}
+              <Button onClick={() => navigate(`/prompts/edit/${feedback._id}`)}>
+                Act
+              </Button>
             </>
           </div>
         )}
