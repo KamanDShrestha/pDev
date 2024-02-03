@@ -1,5 +1,14 @@
+import { FieldValues, useForm } from 'react-hook-form';
 import useGetSpecificQuestionPrompt from '../../services/questionPrompts/getSpecificQuestionPrompt';
 import { useParams } from 'react-router-dom';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import Heading from '../../components/Heading';
+import { Input } from '../../components/ui/input';
+import { Textarea } from '../../components/ui/textarea';
+import { Card, CardContent, CardHeader } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
+import ErrorMessage from '../../components/ErrorMessage';
+import { useEffect } from 'react';
 
 const EditQuestionPromptPage = () => {
   const { id } = useParams();
@@ -7,8 +16,158 @@ const EditQuestionPromptPage = () => {
   const { data: questionPrompt, isLoading } = useGetSpecificQuestionPrompt(
     id as string
   );
-  console.log(questionPrompt);
-  return <div>{questionPrompt && questionPrompt.title}</div>;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: questionPrompt?.title,
+      description: questionPrompt?.description,
+      questions: questionPrompt?.questions.map((question) => question.prompt),
+      placeholders: questionPrompt?.questions.map(
+        (question) => question.placeholder
+      ),
+      tags: questionPrompt?.questions.map((question) => question.tag),
+    },
+  });
+
+  useEffect(() => {
+    reset({
+      title: questionPrompt?.title,
+      description: questionPrompt?.description,
+      questions: questionPrompt?.questions.map((question) => question.prompt),
+      placeholders: questionPrompt?.questions.map(
+        (question) => question.placeholder
+      ),
+      tags: questionPrompt?.questions.map((question) => question.tag),
+    });
+  }, [questionPrompt?._id]);
+
+  console.log(errors);
+
+  function handleQuestionPromptUpdate(data: FieldValues) {
+    console.log(data);
+  }
+
+  return (
+    <>
+      <Heading>Edit the question prompt</Heading>
+      <div>{isLoading && <LoadingSpinner />}</div>
+      <div>
+        {questionPrompt && (
+          <div>
+            <div className='flex flex-wrap justify-around gap-5 p-5'>
+              <div>
+                <div>
+                  <Heading className='mb-2 text-2xl'>Question Prompt</Heading>
+                  <Input
+                    {...register('title', {
+                      required: 'Title is required',
+                      min: {
+                        value: 4,
+                        message: 'Title must be 4 characters long',
+                      },
+                    })}
+                    className='text-lg w-[300px]'
+                  />
+                  {errors.title && (
+                    <ErrorMessage>
+                      {errors.title.message as string}
+                    </ErrorMessage>
+                  )}
+                </div>
+                <div>
+                  <Heading className='mb-2 text-2xl'>Description</Heading>
+                  <Textarea
+                    {...register('description', {
+                      required: 'Description is required',
+                      min: {
+                        value: 10,
+                        message: 'Description must be 10 characters long',
+                      },
+                    })}
+                    className='text-lg h-[200px] w-[450px]'
+                  />
+                  {errors.description && (
+                    <ErrorMessage>
+                      {errors.description.message as string}
+                    </ErrorMessage>
+                  )}
+                </div>
+              </div>
+              <Card>
+                <CardHeader>
+                  <Heading className='mb-0 text-2xl'>Questions</Heading>
+                </CardHeader>
+                <CardContent className='h-[60vh] overflow-scroll'>
+                  {questionPrompt.questions.map((_, index) => (
+                    <div className='px-3 mb-10'>
+                      <div>
+                        <Heading className='mb-2 text-lg'>
+                          Question {index + 1}
+                        </Heading>
+                        <Input
+                          {...register(`questions.${index}`, {
+                            required: 'Question is required',
+                            min: {
+                              value: 10,
+                              message: 'Question must be 10 characters long',
+                            },
+                          })}
+                          className='text-lg w-[300px]'
+                        />
+                        {/* {errors[`question${index + 1}`] && (
+                          <ErrorMessage>
+                            {errors[`question${index + 1}`]?.message as string}
+                          </ErrorMessage>
+                        )} */}
+                      </div>
+                      <div>
+                        <Heading className='mb-2 text-lg'>
+                          Placeholder {index + 1}
+                        </Heading>
+                        <Input
+                          {...register(`placeholders.${index}`, {
+                            required: 'Placeholder is required',
+                            min: {
+                              value: 10,
+                              message:
+                                'Placeholder must be at least 10 characters long',
+                            },
+                          })}
+                          className='text-lg w-[300px]'
+                        />
+                      </div>
+                      <div>
+                        <Heading className='mb-2 text-lg'>
+                          Tag {index + 1}
+                        </Heading>
+                        <Input
+                          {...register(`tags.${index}`, {
+                            required: 'Tag is required',
+                            min: {
+                              value: 3,
+                              message: 'Tag must be at least 3 characters long',
+                            },
+                          })}
+                          className='text-lg w-[300px]'
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+        <Button onClick={handleSubmit(handleQuestionPromptUpdate)}>
+          Update the question prompt
+        </Button>
+      </div>
+    </>
+  );
 };
 
 export default EditQuestionPromptPage;
