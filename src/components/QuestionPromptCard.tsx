@@ -70,10 +70,16 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
       </CardContent>
       {user?.role === 'qha' && (
         <CardFooter className='flex gap-3'>
-          <Button onClick={() => handlePromptStatusChange(true)}>Verify</Button>
+          <Button
+            onClick={() => handlePromptStatusChange(true)}
+            disabled={isUpdating}
+          >
+            Verify
+          </Button>
           <Button
             variant={'destructive'}
             onClick={() => handlePromptStatusChange(false)}
+            disabled={isUpdating}
           >
             Reject
           </Button>

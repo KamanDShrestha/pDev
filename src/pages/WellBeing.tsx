@@ -51,9 +51,12 @@ const WellBeing = () => {
         <div className='flex flex-wrap items-center justify-center gap-5'>
           {isQuestionPromptsLoading && <LoadingSpinner />}
           {questionPrompts &&
-            questionPrompts.map((questionPrompt) => (
-              <QuestionPromptsCard questionPrompt={questionPrompt} />
-            ))}
+            questionPrompts.map(
+              (questionPrompt) =>
+                questionPrompt.isVerified === true && (
+                  <QuestionPromptsCard questionPrompt={questionPrompt} />
+                )
+            )}
           {questionPrompts?.length === 0 && (
             <p>No question prompts are found.</p>
           )}
