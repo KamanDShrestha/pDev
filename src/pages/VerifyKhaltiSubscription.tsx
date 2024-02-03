@@ -14,7 +14,7 @@ import subscriptionError from '../assets/cross.png';
 const VerifyKhaltiSubscription = () => {
   const [isNavigating, setIsNavigating] = useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { user, setUser } = useAuthContext();
 
   console.log(

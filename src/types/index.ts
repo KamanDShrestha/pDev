@@ -70,6 +70,13 @@ export type AddSubscriptionPlanData = {
   subscriptionFeatures: string[];
 };
 
+export type AddPromptFeedbackData = {
+  userId: string;
+  promptId: string;
+  feedback: string;
+  feedbackDate: Date;
+};
+
 export type DeletePromptEntry = {
   promptId: string;
 };

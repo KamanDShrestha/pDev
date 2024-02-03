@@ -22,6 +22,8 @@ import { Textarea } from './ui/textarea';
 import { FieldValues, useForm } from 'react-hook-form';
 import ErrorMessage from './ErrorMessage';
 import useUpdatePromptVerificationStatus from '../services/questionPrompts/updatePromptVerificationStatus';
+import useAddPromptFeedback from '../services/promptFeedbacks/addPromptFeedback';
+import LoadingSpinner from './LoadingSpinner';
 
 interface QuestionPromptCardProps {
   questionPrompt: QuestionPrompt;
@@ -38,9 +40,22 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
 
   const { mutate: updateStatus, isLoading: isUpdating } =
     useUpdatePromptVerificationStatus();
-
+  const { mutate: addFeedback, isLoading: isAdding } = useAddPromptFeedback();
   function handleFeedbackSubmit(data: FieldValues) {
     console.log(data);
+    addFeedback(
+      {
+        userId: user?.id as string,
+        promptId: questionPrompt._id,
+        feedback: data.feedback,
+        feedbackDate: new Date(),
+      },
+      {
+        onSuccess: () => {
+          reset({ feedback: '' });
+        },
+      }
+    );
   }
 
   function handlePromptStatusChange(verificationStatus: boolean) {
@@ -125,7 +140,7 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
                 )}
               </div>
               <Button onClick={handleSubmit(handleFeedbackSubmit)}>
-                Provide feedback
+                {isAdding ? <LoadingSpinner /> : <span>Submit feedback</span>}
               </Button>
             </DialogContent>
           </Dialog>
