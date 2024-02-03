@@ -32,6 +32,15 @@ const VerifyQuestionPromptsPage = () => {
                 />
               )
           )}
+        {questionPrompts?.length === 0 ? (
+          <span>No questions prompts are found</span>
+        ) : questionPrompts?.filter(
+            (questionPrompt) =>
+              questionPrompt.isVerified === false &&
+              questionPrompt.verifiedBy === null
+          ).length === 0 ? (
+          <span>No pending questions prompts for verification are found</span>
+        ) : null}
       </div>
 
       <div>
@@ -54,6 +63,15 @@ const VerifyQuestionPromptsPage = () => {
                   />
                 )
             )}
+          {questionPrompts?.length === 0 ? (
+            <span>No questions prompts are found</span>
+          ) : questionPrompts?.filter(
+              (questionPrompt) =>
+                questionPrompt.isVerified === true &&
+                questionPrompt.verifiedBy !== null
+            ).length === 0 ? (
+            <span>No verified questions prompts are found</span>
+          ) : null}
         </div>
       </div>
       <div>
@@ -77,6 +95,15 @@ const VerifyQuestionPromptsPage = () => {
                   />
                 )
             )}
+          {questionPrompts?.length === 0 ? (
+            <span>No questions prompts are found</span>
+          ) : questionPrompts?.filter(
+              (questionPrompt) =>
+                questionPrompt.isVerified === false &&
+                questionPrompt.verifiedBy !== null
+            ).length === 0 ? (
+            <span>No rejected questions prompts are found</span>
+          ) : null}
         </div>
       </div>
     </div>
