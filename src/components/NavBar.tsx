@@ -32,6 +32,7 @@ const NavBar = () => {
   const userActionOptions = [
     { to: '/profile', option: 'Profile' },
     { to: '/apply', option: 'Apply for QHP' },
+    { to: '/subscribe', option: 'Subscribe' },
   ];
 
   const adminNavigationMenu = [
@@ -47,6 +48,7 @@ const NavBar = () => {
     { to: '/addJourney', option: 'Add Journey' },
     { to: '/feedbacks', option: 'Feedbacks' },
     { to: '/reviewApplications', option: 'Review Applications' },
+    { to: '/subscribeForAdmin', option: 'Configure subscriptions' },
   ];
 
   const qhpNavigationMenu = [

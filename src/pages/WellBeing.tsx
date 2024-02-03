@@ -57,9 +57,15 @@ const WellBeing = () => {
                   <QuestionPromptsCard questionPrompt={questionPrompt} />
                 )
             )}
-          {questionPrompts?.length === 0 && (
-            <p>No question prompts are found.</p>
-          )}
+          {questionPrompts?.length === 0 ? (
+            <span>No questions prompts are found</span>
+          ) : questionPrompts?.filter(
+              (questionPrompt) =>
+                questionPrompt.isVerified === true &&
+                questionPrompt.verifiedBy !== null
+            ).length === 0 ? (
+            <span>No verified questions prompts are found</span>
+          ) : null}
         </div>
       </div>
       <div>

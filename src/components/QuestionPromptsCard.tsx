@@ -95,6 +95,7 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
           {user?.role === 'admin' && (
             <CardFooter>
               <Button
+                variant='destructive'
                 onClick={() => handleQuestionPromptDeletion(questionPrompt._id)}
               >
                 {!isDeleting ? <span>Move to trash</span> : <LoadingSpinner />}
