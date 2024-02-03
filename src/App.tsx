@@ -45,6 +45,7 @@ import SubscriptionConfirmation from './pages/SubscriptionConfirmation';
 import VerifyKhaltiSubscription from './pages/VerifyKhaltiSubscription';
 import VerifyQuestionPromptsPage from './pages/qha/VerifyQuestionPromptsPage';
 import FeedbacksForPrompts from './pages/admin/FeedbacksForPrompts';
+import EditQuestionPromptPage from './pages/admin/EditQuestionPromptPage';
 
 function App() {
   return (
@@ -116,11 +117,16 @@ function App() {
                     path='/journeys/edit/:id'
                     element={<EditJourneyPage />}
                   />
+                  <Route
+                    path='/prompts/edit/:id'
+                    element={<EditQuestionPromptPage />}
+                  />
                   <Route path='/feedbacks' element={<Feedbacks />} />
                   <Route
                     path='/feedbacksForPrompts'
                     element={<FeedbacksForPrompts />}
                   />
+
                   <Route
                     path='/wellbeingForAdmin'
                     element={<WellbeingForAdmin />}

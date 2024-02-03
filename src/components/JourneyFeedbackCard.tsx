@@ -10,6 +10,7 @@ import Heading from './Heading';
 import { Button } from './ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useUpdateJourneyFeedbackStatus } from '../services/journeyFeedbacks/updateJourneyFeedbackStatus';
+import { statusColoring } from '../constants';
 
 interface JourneyFeedbackCardProps {
   feedback: JourneyFeedback;
@@ -26,12 +27,6 @@ const JourneyFeedbackCard = ({
 }: JourneyFeedbackCardProps) => {
   const { mutate: updateFeedbackStatus } = useUpdateJourneyFeedbackStatus();
   const navigate = useNavigate();
-
-  const statusColoring = {
-    pending: 'bg-yellow-100 text-yellow-500',
-    resolved: 'bg-green-100 text-green-500',
-    rejected: 'bg-red-100 text-red-500',
-  };
 
   function handleResolve() {
     updateFeedbackStatus({

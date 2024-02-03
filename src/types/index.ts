@@ -70,6 +70,15 @@ export type AddSubscriptionPlanData = {
   subscriptionFeatures: string[];
 };
 
+export type PromptFeedback = {
+  _id: string;
+  promptId: string;
+  userId: string;
+  feedback: string;
+  feedbackStatus: 'pending' | 'resolved' | 'rejected';
+  feedbackDate: Date;
+};
+
 export type AddPromptFeedbackData = {
   userId: string;
   promptId: string;
