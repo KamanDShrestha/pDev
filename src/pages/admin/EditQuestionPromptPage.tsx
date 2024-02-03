@@ -9,13 +9,16 @@ import { Card, CardContent, CardHeader } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useEffect } from 'react';
+import useUpdateQuestionPrompt from '../../services/questionPrompts/updateQuestionPrompt';
+import { useQueryClient } from '@tanstack/react-query';
 
 const EditQuestionPromptPage = () => {
   const { id } = useParams();
-  console.log(id);
+  const queryClient = useQueryClient();
   const { data: questionPrompt, isLoading } = useGetSpecificQuestionPrompt(
     id as string
   );
+  const { mutate: updateQuestionPrompt } = useUpdateQuestionPrompt();
   const {
     register,
     handleSubmit,
@@ -49,6 +52,25 @@ const EditQuestionPromptPage = () => {
 
   function handleQuestionPromptUpdate(data: FieldValues) {
     console.log(data);
+    updateQuestionPrompt(
+      {
+        promptId: id as string,
+        questionPrompt: {
+          title: data.title,
+          description: data.description,
+          questions: data.questions.map((question: string, index: number) => ({
+            prompt: question,
+            placeholder: data.placeholders[index],
+            tag: data.tags[index],
+          })),
+        },
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['questionPrompt', id]);
+        },
+      }
+    );
   }
 
   return (

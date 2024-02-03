@@ -1,5 +1,5 @@
-import { axiosInstance } from '@/src/constants';
-import { AddQuestionPromptData, ErrorResponse } from '@/src/types';
+import { axiosInstance } from '../../constants';
+import { AddQuestionPromptData, ErrorResponse } from '../../types';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
