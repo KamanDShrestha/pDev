@@ -95,6 +95,12 @@ export type AddQuestionPromptEntryData = {
   }[];
 };
 
+export type UpdateQuestionPromptStatusData = {
+  questionPromptId: string;
+  verificationStatus: boolean;
+  verifiedBy: string;
+};
+
 export type AddQuestionPromptData = {
   title: string;
   description: string;

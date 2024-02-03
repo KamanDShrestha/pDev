@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from './ui/card';
 import { QuestionPrompt } from '../types';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import {
   Dialog,
@@ -21,6 +21,7 @@ import Heading from './Heading';
 import { Textarea } from './ui/textarea';
 import { FieldValues, useForm } from 'react-hook-form';
 import ErrorMessage from './ErrorMessage';
+import useUpdatePromptVerificationStatus from '../services/questionPrompts/updatePromptVerificationStatus';
 
 interface QuestionPromptCardProps {
   questionPrompt: QuestionPrompt;
@@ -35,8 +36,20 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
     reset,
   } = useForm();
 
+  const { mutate: updateStatus, isLoading: isUpdating } =
+    useUpdatePromptVerificationStatus();
+
   function handleFeedbackSubmit(data: FieldValues) {
     console.log(data);
+  }
+
+  function handlePromptStatusChange(verificationStatus: boolean) {
+    console.log('Prompt status changed');
+    updateStatus({
+      questionPromptId: questionPrompt._id,
+      verificationStatus: verificationStatus,
+      verifiedBy: user?.id as string,
+    });
   }
 
   return (
@@ -57,15 +70,22 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
       </CardContent>
       {user?.role === 'qha' && (
         <CardFooter className='flex gap-3'>
-          <Button>Verify</Button>
-          <Button variant={'destructive'}>Reject</Button>
+          <Button onClick={() => handlePromptStatusChange(true)}>Verify</Button>
+          <Button
+            variant={'destructive'}
+            onClick={() => handlePromptStatusChange(false)}
+          >
+            Reject
+          </Button>
           <Dialog
             onOpenChange={() => {
               errors.feedback && reset({ feedback: '' });
             }}
           >
             <DialogTrigger>
-              <Button variant={'outline'}>Provide feedback</Button>
+              <p className={buttonVariants({ variant: 'outline' })}>
+                Provide feedback
+              </p>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>

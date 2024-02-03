@@ -6,6 +6,7 @@ import QuestionPromptsCard from '../../components/QuestionPromptsCard';
 
 const VerifyQuestionPromptsPage = () => {
   const { data: questionPrompts, isLoading } = useGetQuestionPrompts();
+
   return (
     <div>
       <div>
@@ -24,7 +25,10 @@ const VerifyQuestionPromptsPage = () => {
           questionPrompts.map(
             (questionPrompt) =>
               questionPrompt.isVerified === false && (
-                <QuestionPromptCard questionPrompt={questionPrompt} />
+                <QuestionPromptCard
+                  questionPrompt={questionPrompt}
+                  key={questionPrompt._id}
+                />
               )
           )}
       </div>
@@ -37,13 +41,16 @@ const VerifyQuestionPromptsPage = () => {
         <div className='flex flex-wrap items-center justify-center gap-5 pt-4'>
           {isLoading &&
             Array.from(Array(4)).map((_, index) => {
-              return <JourneyCardSkeleton key={index} />;
+              return <JourneyCardSkeleton key={index + 1} />;
             })}
           {questionPrompts &&
             questionPrompts.map(
               (questionPrompt) =>
                 questionPrompt.isVerified === true && (
-                  <QuestionPromptsCard questionPrompt={questionPrompt} />
+                  <QuestionPromptsCard
+                    questionPrompt={questionPrompt}
+                    key={questionPrompt._id}
+                  />
                 )
             )}
         </div>
