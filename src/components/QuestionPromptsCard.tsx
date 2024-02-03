@@ -133,15 +133,17 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
               </div>
             ))}
         </div>
-        <div>
-          {isSubmitting ? (
-            <LoadingSpinner />
-          ) : (
-            <Button onClick={handleSubmit(handleEntrySubmission)}>
-              Log entry
-            </Button>
-          )}
-        </div>
+        {!window.location.pathname.includes('verifyQuestionPrompts') && (
+          <div>
+            {isSubmitting ? (
+              <LoadingSpinner />
+            ) : (
+              <Button onClick={handleSubmit(handleEntrySubmission)}>
+                Log entry
+              </Button>
+            )}
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
