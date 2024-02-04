@@ -7,7 +7,7 @@ export default function useGetPostsByUser(communityId: string, userId: string) {
     queryKey: ['posts', communityId, userId],
     queryFn: () =>
       axiosInstance
-        .post(`/posts/${communityId}/${userId}`)
+        .get(`/posts/get/${communityId}/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

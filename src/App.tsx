@@ -46,6 +46,7 @@ import VerifyKhaltiSubscription from './pages/VerifyKhaltiSubscription';
 import VerifyQuestionPromptsPage from './pages/qha/VerifyQuestionPromptsPage';
 import FeedbacksForPrompts from './pages/admin/FeedbacksForPrompts';
 import EditQuestionPromptPage from './pages/admin/EditQuestionPromptPage';
+import SpecificUserPosts from './pages/SpecificUserPosts';
 
 function App() {
   return (
@@ -74,6 +75,10 @@ function App() {
                   <Route
                     path={'/community/:communityId'}
                     element={<SpecificCommunity />}
+                  />
+                  <Route
+                    path={'/community/:communityId/posts/:userId'}
+                    element={<SpecificUserPosts />}
                   />
 
                   <Route path={'/journeys'} element={<Journey />} />

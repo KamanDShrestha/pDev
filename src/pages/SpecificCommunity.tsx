@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog';
 import useGetSpecificCommunity from '../services/community/getSpecificCommunity';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
 import useGetCommunityMembers from '../services/communityMembers/getCommunityMembers';
 import Heading from '../components/Heading';
@@ -48,6 +48,7 @@ const SpecificCommunity = () => {
   console.log(posts);
   console.log(community);
 
+  const navigate = useNavigate();
   const categories = [
     { label: 'Reflection', value: 'reflection' },
     { label: 'Learning', value: 'learning' },
@@ -82,7 +83,12 @@ const SpecificCommunity = () => {
               <span style={{ fontSize: '20px' }}>
                 <BsSignpostSplit />
               </span>
-              <span className='hover:underline hover:cursor-pointer'>
+              <span
+                className='hover:underline hover:cursor-pointer'
+                onClick={() =>
+                  navigate(`/community/${communityId}/posts/${user?.id}`)
+                }
+              >
                 My posts
               </span>
             </div>
