@@ -4,6 +4,7 @@ import useGetPostsByUser from '../services/posts/getPostsByUser';
 import Heading from '../components/Heading';
 
 import { Button } from '../components/ui/button';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const SpecificUserPosts = () => {
   const { communityId, userId } = useParams();
@@ -16,6 +17,7 @@ const SpecificUserPosts = () => {
     communityId as string,
     userId as string
   );
+  //   const {data: qas, isLoading: isQAsLoading} = useGetQ(communityId as string, userId as string);
 
   const navigate = useNavigate();
 
@@ -24,8 +26,9 @@ const SpecificUserPosts = () => {
 
   return (
     <div>
-      {posts && posts.length > 0 ? (
-        <Heading>{`Posts by ${posts[0]?.userName}`}</Heading>
+      {(isLoading || isPostsLoading) && <LoadingSpinner />}
+      {posts && posts.length > 0 && !isPostsLoading && !isLoading ? (
+        <Heading>{`Posts by ${posts[0]?.userName} in ${community?.communityName} community`}</Heading>
       ) : (
         <>
           <Heading>No posts yet in this community.</Heading>
