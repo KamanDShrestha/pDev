@@ -3,8 +3,6 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../schema/authSchema';
 
-// import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
-// import jwt_decode from 'jwt-decode';
 import {
   Card,
   CardContent,
@@ -22,6 +20,7 @@ import { NavLink } from 'react-router-dom';
 import { useLoginUser } from '../../services/userAuth/loginUser';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { BACKEND_URL } from '../../constants';
+import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {
   const {
@@ -43,11 +42,6 @@ const Login = () => {
     console.log(values);
     loginUser(values);
   }
-  // function handleGoogleAuthSuccess(credentialResponse: CredentialResponse) {
-  //   console.log(credentialResponse);
-  //   const decrypted = jwt_decode(credentialResponse.credential!);
-  //   console.log(decrypted);
-  // }
 
   function handleGoogleAuthLogin() {
     window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
@@ -64,18 +58,16 @@ const Login = () => {
         </CardHeader>
         <CardContent>
           <div className='flex flex-col items-center gap-2'>
-            <p
-              className='m-auto font-semibold text-bg text-slate-700'
+            <Button
               onClick={handleGoogleAuthLogin}
+              variant={'outline'}
+              className='space-x-1'
             >
-              Sign in using Google
-            </p>
-            {/* <GoogleLogin
-              onSuccess={handleGoogleAuthSuccess}
-              onError={() => {
-                console.log('Login Failed');
-              }}
-            /> */}
+              <span>Sign in using Google</span>
+              <span className='text-lg'>
+                <FcGoogle />
+              </span>
+            </Button>
           </div>
           <hr className='w-[100%] h-[0.5px] bg-slate-100 mt-6 mb-6' />
           <form onSubmit={handleSubmit(handleLogin)} autoComplete='off'>
