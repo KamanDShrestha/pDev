@@ -38,6 +38,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { BsThreeDots } from 'react-icons/bs';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import { FaTrashAlt } from 'react-icons/fa';
+import { useState } from 'react';
+import { Checkbox } from './ui/checkbox';
 // import { FaEdit } from 'react-icons/fa';
 
 interface PostCardProps {
@@ -61,8 +63,11 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
   } = useForm();
   const { mutate: addComment, isLoading: isCommenting } = useAddComment();
   const { mutate: addLike, isLoading: isLiking } = useLikePost();
+
   const { data: likedStatus, isLoading: gettingLikedStatus } =
     useGetLikedStatus(post._id, user?.id as string);
+
+  const [isAnonymousComment, setIsAnonymousComment] = useState(false);
 
   const queryClient = useQueryClient();
   function handleAddComment(data: FieldValues) {
@@ -71,6 +76,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
         comment: data.comment,
         userId: user?.id as string,
         postId: post._id,
+        isAnonymous: isAnonymousComment,
       },
       {
         onSuccess: () => {
@@ -80,8 +86,10 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             comment: data.comment,
             commentDate: new Date(),
             userRole: user?.role as string,
+            isAnonymous: isAnonymousComment,
           });
           setValue('comment', '');
+          setIsAnonymousComment(false);
         },
       }
     );
@@ -134,7 +142,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
                     ? 'Anonymous member'
                     : post?.userName}
                 </span>
-                {!post.isAnonymous && (
+                {(!post.isAnonymous || post?.userId === user?.id) && (
                   <Badge className=''>{post.userRole}</Badge>
                 )}
               </div>
@@ -254,6 +262,16 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
                     {errors.comment.message as string}
                   </ErrorMessage>
                 )}
+              </div>
+              <div className='flex items-center gap-1 text-sm'>
+                <Checkbox
+                  placeholder='Make it anonymous'
+                  checked={isAnonymousComment}
+                  onCheckedChange={() =>
+                    setIsAnonymousComment((previous) => !previous)
+                  }
+                />
+                <label>Make it anonymous</label>
               </div>
               <Button
                 onClick={handleSubmit(handleAddComment)}

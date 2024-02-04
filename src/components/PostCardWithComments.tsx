@@ -20,7 +20,18 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
           className='w-12 h-12 rounded-full'
         />
         <div className='flex flex-col'>
-          <span className='font-medium'>{post.userName}</span>
+          <div className='flex items-center gap-2'>
+            <span className='font-medium'>
+              {post?.userId === user?.id
+                ? 'You'
+                : post.isAnonymous
+                ? 'Anonymous member'
+                : post?.userName}
+            </span>
+            {(!post.isAnonymous || post?.userId === user?.id) && (
+              <Badge className=''>{post.userRole}</Badge>
+            )}
+          </div>
           <span className='text-xs'>
             Posted at {new Date(post.createdAt).toLocaleString()}
           </span>
@@ -50,12 +61,17 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
                         <span className='font-medium'>
                           {comment?.userId === user?.id
                             ? 'You'
-                            : post?.userName}
+                            : comment.isAnonymous
+                            ? 'Anonymous member'
+                            : comment?.userName}
                         </span>
-                        <Badge className=''>{comment.userRole}</Badge>
+                        {(!comment.isAnonymous ||
+                          comment?.userId === user?.id) && (
+                          <Badge className=''>{comment.userRole}</Badge>
+                        )}
                       </div>
                       <span className='text-xs'>
-                        Answered at{' '}
+                        Commented at{' '}
                         {new Date(comment.commentDate).toLocaleString()}
                       </span>
                     </div>

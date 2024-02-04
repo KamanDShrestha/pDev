@@ -66,6 +66,7 @@ const AddPostCard = () => {
             setSelectedCategory('');
             setValue('postTitle', '');
             setValue('postContent', '');
+            setIsAnonymousChecked(false);
           },
         }
       );
@@ -145,7 +146,6 @@ const AddPostCard = () => {
         <div className='flex items-center gap-1 text-sm'>
           <Checkbox
             placeholder='Make it anonymous'
-            className='w-3 h-3'
             checked={isAnonymousChecked}
             onCheckedChange={() =>
               setIsAnonymousChecked((previous) => !previous)

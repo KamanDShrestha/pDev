@@ -242,6 +242,7 @@ export type AddPostCommentData = {
   postId: string;
   userId: string;
   comment: string;
+  isAnonymous: boolean;
 };
 
 export type PostData = {
@@ -260,6 +261,7 @@ export type PostData = {
       commentDate: Date;
       userName: string;
       userRole: string;
+      isAnonymous: boolean;
     }
   ];
   postLikes: [
