@@ -128,9 +128,15 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             <div className='flex flex-col'>
               <div className='flex items-center gap-2'>
                 <span className='font-medium'>
-                  {post?.userId === user?.id ? 'You' : post?.userName}
+                  {post?.userId === user?.id
+                    ? 'You'
+                    : post.isAnonymous
+                    ? 'Anonymous member'
+                    : post?.userName}
                 </span>
-                <Badge className=''>{post.userRole}</Badge>
+                {!post.isAnonymous && (
+                  <Badge className=''>{post.userRole}</Badge>
+                )}
               </div>
               <span className='text-xs'>
                 Posted at {new Date(post.createdAt).toLocaleString()}

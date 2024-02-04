@@ -20,11 +20,13 @@ import ErrorMessage from './ErrorMessage';
 import useAddPost from '../services/posts/addPost';
 import useAddQA from '../services/QAs/addQA';
 import LoadingSpinner from './LoadingSpinner';
+import { Checkbox } from './ui/checkbox';
 
 const AddPostCard = () => {
   const { user } = useAuthContext();
   const { communityId } = useParams<{ communityId: string }>();
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [isAnonymousChecked, setIsAnonymousChecked] = useState(false);
   const {
     register,
     handleSubmit,
@@ -75,6 +77,7 @@ const AddPostCard = () => {
           postCategory: selectedCategory,
           postTitle: data.postTitle,
           post: data.postContent,
+          isAnonymous: isAnonymousChecked,
         },
         {
           onSuccess: () => {
@@ -138,6 +141,17 @@ const AddPostCard = () => {
           {errors.postContent && (
             <ErrorMessage>{errors.postContent.message as string}</ErrorMessage>
           )}
+        </div>
+        <div className='flex items-center gap-1 text-sm'>
+          <Checkbox
+            placeholder='Make it anonymous'
+            className='w-3 h-3'
+            checked={isAnonymousChecked}
+            onCheckedChange={() =>
+              setIsAnonymousChecked((previous) => !previous)
+            }
+          />
+          <label>Make it anonymous</label>
         </div>
         <Button onClick={handleSubmit(handlePost)}>
           {isAddingPost || isAddingQA ? <LoadingSpinner /> : 'Post'}

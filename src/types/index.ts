@@ -268,6 +268,7 @@ export type PostData = {
       likedDate: Date;
     }
   ];
+  isAnonymous: boolean;
   createdAt: Date;
 };
 
@@ -277,6 +278,7 @@ export type AddPostData = {
   postTitle: string;
   post: string;
   postCategory: string;
+  isAnonymous: boolean;
 };
 
 export type AddCommunityMemberData = {
