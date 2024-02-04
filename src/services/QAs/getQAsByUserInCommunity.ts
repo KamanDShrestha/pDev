@@ -6,7 +6,7 @@ export default function useGetQAsByUserInCommunity(
   communityId: string,
   userId: string
 ) {
-  const response = useQuery<QAsData>({
+  const response = useQuery<QAsData[]>({
     queryKey: ['QAs', communityId, userId],
     queryFn: () =>
       axiosInstance
