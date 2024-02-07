@@ -7,6 +7,22 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('authentication');
+      localStorage.removeItem('authroization');
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const KHALTI_API_URL = 'https://a.khalti.com/api/v2';
 export const ESEWA_API_URL =
   'https://rc-epay.esewa.com.np/api/epay/main/v2/form';

@@ -5,7 +5,19 @@ import './index.css';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
-const queryClient = new QueryClient();
+import { AxiosError } from 'axios';
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failureCount: number, error: unknown) => {
+        if (error instanceof AxiosError) {
+          return error.response?.status !== 401;
+        }
+        return false;
+      },
+    },
+  },
+});
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <React.StrictMode>
