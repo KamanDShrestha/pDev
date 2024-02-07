@@ -14,8 +14,12 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('authentication');
-      localStorage.removeItem('authroization');
-      if (window.location.pathname !== '/login') {
+
+      localStorage.removeItem('authorization');
+      if (
+        window.location.pathname !== '/login' &&
+        window.location.pathname !== '/register'
+      ) {
         window.location.href = '/login';
       }
     }

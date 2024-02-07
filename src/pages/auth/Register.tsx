@@ -67,12 +67,6 @@ const Register = () => {
             <p className='m-auto font-semibold text-bg text-slate-700'>
               Sign in using Google
             </p>
-            <GoogleLogin
-              onSuccess={handleGoogleAuthSuccess}
-              onError={() => {
-                console.log('Register Failed');
-              }}
-            />
           </div>
           <hr className='w-[100%] h-[0.5px] bg-slate-100 mt-6 mb-6' />
           <form onSubmit={handleSubmit(handleRegister)} autoComplete='off'>
