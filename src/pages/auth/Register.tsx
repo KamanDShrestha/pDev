@@ -2,9 +2,6 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from '../../schema/authSchema';
-
-import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
-import jwt_decode from 'jwt-decode';
 import {
   Card,
   CardContent,
@@ -20,6 +17,8 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { useRegisterUser } from '../../services/userAuth/registerUser';
 
 import { NavLink } from 'react-router-dom';
+import { BACKEND_URL } from '../../constants';
+import { FcGoogle } from 'react-icons/fc';
 
 const Register = () => {
   const {
@@ -46,11 +45,8 @@ const Register = () => {
     mutate(values);
   }
 
-  function handleGoogleAuthSuccess(credentialResponse: CredentialResponse) {
-    console.log(credentialResponse);
-
-    const decrypted = jwt_decode(credentialResponse.credential!);
-    console.log(decrypted);
+  function handleGoogleAuthLogin() {
+    window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
   }
 
   return (
@@ -64,9 +60,16 @@ const Register = () => {
         </CardHeader>
         <CardContent>
           <div className='flex flex-col items-center gap-2'>
-            <p className='m-auto font-semibold text-bg text-slate-700'>
-              Sign in using Google
-            </p>
+            <Button
+              onClick={handleGoogleAuthLogin}
+              variant={'outline'}
+              className='space-x-1'
+            >
+              <span>Sign in using Google</span>
+              <span className='text-lg'>
+                <FcGoogle />
+              </span>
+            </Button>
           </div>
           <hr className='w-[100%] h-[0.5px] bg-slate-100 mt-6 mb-6' />
           <form onSubmit={handleSubmit(handleRegister)} autoComplete='off'>
