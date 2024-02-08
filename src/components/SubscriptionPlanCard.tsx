@@ -16,6 +16,8 @@ import { useAuthContext } from '../context/AuthProvider';
 import useDeleteSubscriptionPlan from '../services/subscriptionPlans/deleteSubscriptionPlan';
 import LoadingSpinner from './LoadingSpinner';
 import useUpdateSubscriptionPlanStatus from '../services/subscriptionPlans/updateSubscriptionPlanStatus';
+import { cn } from '../lib/utils';
+import { statusColoring } from '../constants';
 
 interface SubscriptionPlanCardProps {
   subscriptionPlan: SubscriptionPlan;
@@ -89,36 +91,48 @@ const SubscriptionPlanCard = ({
         <Separator className='mt-3' />
       </CardContent>
       {user?.role === 'admin' ? (
-        <CardFooter className='flex justify-center gap-5'>
-          <NavLink
-            to={`/subscriptionPlans/edit/${subscriptionPlan._id}`}
-            className={buttonVariants({ variant: 'default' })}
+        <CardFooter className='flex flex-col gap-3'>
+          <div
+            className={cn(
+              `px-3 py-2 rounded-full text-xs`,
+              subscriptionPlan.isActive
+                ? statusColoring.resolved
+                : statusColoring.rejected
+            )}
           >
-            Edit
-          </NavLink>
-          <Button
-            variant={'destructive'}
-            onClick={handleSubscriptionPlanDelete}
-            disabled={isDeleting}
-          >
-            {isDeleting ? <LoadingSpinner /> : 'Delete'}
-          </Button>
+            {subscriptionPlan.isActive ? 'Activate plan' : 'Deactivated plan'}
+          </div>
+          <div className='flex justify-center gap-5'>
+            <NavLink
+              to={`/subscriptionPlans/edit/${subscriptionPlan._id}`}
+              className={buttonVariants({ variant: 'default' })}
+            >
+              Edit
+            </NavLink>
+            <Button
+              variant={'destructive'}
+              onClick={handleSubscriptionPlanDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? <LoadingSpinner /> : 'Delete'}
+            </Button>
 
-          {subscriptionPlan.isActive !== true ? (
-            <Button
-              onClick={handleSubscriptionPlanActivation}
-              disabled={isActivating}
-            >
-              {isActivating ? <LoadingSpinner /> : 'Activate this plan'}
-            </Button>
-          ) : (
-            <Button
-              onClick={handleSubscriptionPlanDeactivation}
-              disabled={isActivating}
-            >
-              {isActivating ? <LoadingSpinner /> : 'Deactivate the plan'}
-            </Button>
-          )}
+            {subscriptionPlan.isActive !== true ? (
+              <Button
+                onClick={handleSubscriptionPlanActivation}
+                disabled={isActivating}
+              >
+                {isActivating ? <LoadingSpinner /> : 'Activate this plan'}
+              </Button>
+            ) : (
+              <Button
+                onClick={handleSubscriptionPlanDeactivation}
+                disabled={isActivating}
+              >
+                {isActivating ? <LoadingSpinner /> : 'Deactivate the plan'}
+              </Button>
+            )}
+          </div>
         </CardFooter>
       ) : (
         <CardFooter className='flex items-center justify-center'>
