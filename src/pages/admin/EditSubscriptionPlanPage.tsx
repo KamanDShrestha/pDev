@@ -23,6 +23,7 @@ const EditSubscriptionPlanPage = () => {
     register,
     reset,
     formState: { errors },
+    handleSubmit,
   } = useForm({
     defaultValues: {
       subscriptionPlan: subscriptionPlan?.subscriptionPlan,
@@ -47,7 +48,7 @@ const EditSubscriptionPlanPage = () => {
   console.log(errors);
 
   function handleSubscriptionPlanUpdate(data: FieldValues) {
-    console.log(data);
+    console.log('field values', data);
     updateSubscriptionPlan({
       planId: id as string,
       newSubscriptionPlan: {
@@ -184,7 +185,7 @@ const EditSubscriptionPlanPage = () => {
                 )}
               </div>
               <Button
-                onClick={handleSubscriptionPlanUpdate}
+                onClick={handleSubmit(handleSubscriptionPlanUpdate)}
                 disabled={isUpdating}
               >
                 {isUpdating ? (
