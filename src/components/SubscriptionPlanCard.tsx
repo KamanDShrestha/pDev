@@ -13,6 +13,8 @@ import { Button, buttonVariants } from './ui/button';
 import { Separator } from './ui/separator';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
+import useDeleteSubscriptionPlan from '../services/subscriptionPlans/deleteSubscriptionPlan';
+import LoadingSpinner from './LoadingSpinner';
 
 interface SubscriptionPlanCardProps {
   subscriptionPlan: SubscriptionPlan;
@@ -22,7 +24,16 @@ const SubscriptionPlanCard = ({
   subscriptionPlan,
 }: SubscriptionPlanCardProps) => {
   const { user } = useAuthContext();
+
+  const { mutate: deleteSubscriptionPlan, isLoading: isDeleting } =
+    useDeleteSubscriptionPlan();
+
   const navigate = useNavigate();
+
+  function handleSubscriptionPlanDelete() {
+    deleteSubscriptionPlan({ planId: subscriptionPlan._id });
+  }
+
   return (
     <Card className='lg:w-[550px] w-[400px] py-3'>
       <CardContent className='text-center'>
@@ -68,7 +79,13 @@ const SubscriptionPlanCard = ({
           >
             Edit
           </NavLink>
-          <Button variant={'destructive'}>Delete</Button>
+          <Button
+            variant={'destructive'}
+            onClick={handleSubscriptionPlanDelete}
+            disabled={isDeleting}
+          >
+            {isDeleting ? <LoadingSpinner /> : 'Delete'}
+          </Button>
         </CardFooter>
       ) : (
         <CardFooter className='flex items-center justify-center'>
