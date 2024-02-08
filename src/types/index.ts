@@ -70,6 +70,11 @@ export type AddSubscriptionPlanData = {
   subscriptionFeatures: string[];
 };
 
+export type UpdateSubscriptionPlanData = {
+  planId: string;
+  newSubscriptionPlan: AddSubscriptionPlanData;
+};
+
 export type PromptFeedback = {
   _id: string;
   promptId: string;
