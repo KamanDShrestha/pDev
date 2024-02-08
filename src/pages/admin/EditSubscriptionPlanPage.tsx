@@ -1,6 +1,6 @@
 import { FieldValues, useForm } from 'react-hook-form';
 import useGetSpecificSubscriptionPlan from '../../services/subscriptionPlans/getSpecificSubscriptionPlan';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import Heading from '../../components/Heading';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -10,6 +10,7 @@ import { Textarea } from '../../components/ui/textarea';
 import { Button } from '../../components/ui/button';
 import useUpdateSubscriptionPlan from '../../services/subscriptionPlans/updateSubscriptionPlan';
 
+import { MdOutlineArrowLeft } from 'react-icons/md';
 const EditSubscriptionPlanPage = () => {
   const { id } = useParams();
   console.log(id);
@@ -44,6 +45,8 @@ const EditSubscriptionPlanPage = () => {
     });
   }, [subscriptionPlan?._id]);
 
+  const navigate = useNavigate();
+
   console.log(subscriptionPlan);
   console.log(errors);
 
@@ -62,6 +65,13 @@ const EditSubscriptionPlanPage = () => {
   }
   return (
     <>
+      <Button variant={'link'} onClick={() => navigate(-1)}>
+        {' '}
+        <span className='text-3xl'>
+          <MdOutlineArrowLeft />
+        </span>
+        Go back
+      </Button>
       <Heading>Edit the subscription plan</Heading>
       <div>{isLoading && <LoadingSpinner />}</div>
       <div>
