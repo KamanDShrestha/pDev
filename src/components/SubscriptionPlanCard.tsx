@@ -9,7 +9,7 @@ import { SubscriptionPlan } from '../types';
 import Heading from './Heading';
 
 import { FaCircle, FaPlay } from 'react-icons/fa';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import { Separator } from './ui/separator';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
@@ -60,23 +60,38 @@ const SubscriptionPlanCard = ({
         </div>
         <Separator className='mt-3' />
       </CardContent>
-      <CardFooter className='flex items-center justify-center'>
-        {user?.hasSubscribed ? (
-          <NavLink to={'/home'} className='text-sm text-center hover:underline'>
-            You have already subscribed to this plan. <br />
-            <span className='text-xs'>Navigate to Home page</span>
-          </NavLink>
-        ) : (
-          <Button
-            variant={'outline'}
-            className='flex items-center gap-1'
-            onClick={() => navigate(`/subscribe/${subscriptionPlan._id}`)}
+      {user?.role === 'admin' ? (
+        <CardFooter className='flex justify-center gap-5'>
+          <NavLink
+            to={`/subscriptionPlans/edit/${subscriptionPlan._id}`}
+            className={buttonVariants({ variant: 'default' })}
           >
-            <span>Get Started</span>
-            <FaPlay />
-          </Button>
-        )}
-      </CardFooter>
+            Edit
+          </NavLink>
+          <Button variant={'destructive'}>Delete</Button>
+        </CardFooter>
+      ) : (
+        <CardFooter className='flex items-center justify-center'>
+          {user?.hasSubscribed ? (
+            <NavLink
+              to={'/home'}
+              className='text-sm text-center hover:underline'
+            >
+              You have already subscribed to this plan. <br />
+              <span className='text-xs'>Navigate to Home page</span>
+            </NavLink>
+          ) : (
+            <Button
+              variant={'outline'}
+              className='flex items-center gap-1'
+              onClick={() => navigate(`/subscribe/${subscriptionPlan._id}`)}
+            >
+              <span>Get Started</span>
+              <FaPlay />
+            </Button>
+          )}
+        </CardFooter>
+      )}
     </Card>
   );
 };

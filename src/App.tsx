@@ -47,6 +47,7 @@ import VerifyQuestionPromptsPage from './pages/qha/VerifyQuestionPromptsPage';
 import FeedbacksForPrompts from './pages/admin/FeedbacksForPrompts';
 import EditQuestionPromptPage from './pages/admin/EditQuestionPromptPage';
 import SpecificUserPosts from './pages/SpecificUserPosts';
+import EditSubscriptionPlanPage from './pages/admin/EditSubscriptionPlanPage';
 
 function App() {
   return (
@@ -125,6 +126,10 @@ function App() {
                   <Route
                     path='/prompts/edit/:id'
                     element={<EditQuestionPromptPage />}
+                  />
+                  <Route
+                    path='/subscriptionPlans/edit/:id'
+                    element={<EditSubscriptionPlanPage />}
                   />
                   <Route path='/feedbacks' element={<Feedbacks />} />
                   <Route
