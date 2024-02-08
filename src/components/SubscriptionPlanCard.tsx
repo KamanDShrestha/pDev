@@ -15,6 +15,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
 import useDeleteSubscriptionPlan from '../services/subscriptionPlans/deleteSubscriptionPlan';
 import LoadingSpinner from './LoadingSpinner';
+import useUpdateSubscriptionPlanStatus from '../services/subscriptionPlans/updateSubscriptionPlanStatus';
 
 interface SubscriptionPlanCardProps {
   subscriptionPlan: SubscriptionPlan;
@@ -27,11 +28,27 @@ const SubscriptionPlanCard = ({
 
   const { mutate: deleteSubscriptionPlan, isLoading: isDeleting } =
     useDeleteSubscriptionPlan();
+  const { mutate: activateSubscriptionPlan, isLoading: isActivating } =
+    useUpdateSubscriptionPlanStatus();
 
   const navigate = useNavigate();
 
   function handleSubscriptionPlanDelete() {
     deleteSubscriptionPlan({ planId: subscriptionPlan._id });
+  }
+
+  function handleSubscriptionPlanActivation() {
+    activateSubscriptionPlan({
+      planId: subscriptionPlan._id,
+      activeStatus: true,
+    });
+  }
+
+  function handleSubscriptionPlanDeactivation() {
+    activateSubscriptionPlan({
+      planId: subscriptionPlan._id,
+      activeStatus: false,
+    });
   }
 
   return (
@@ -86,6 +103,22 @@ const SubscriptionPlanCard = ({
           >
             {isDeleting ? <LoadingSpinner /> : 'Delete'}
           </Button>
+
+          {subscriptionPlan.isActive !== true ? (
+            <Button
+              onClick={handleSubscriptionPlanActivation}
+              disabled={isActivating}
+            >
+              {isActivating ? <LoadingSpinner /> : 'Activate this plan'}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleSubscriptionPlanDeactivation}
+              disabled={isActivating}
+            >
+              {isActivating ? <LoadingSpinner /> : 'Deactivate the plan'}
+            </Button>
+          )}
         </CardFooter>
       ) : (
         <CardFooter className='flex items-center justify-center'>
