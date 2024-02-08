@@ -125,7 +125,7 @@ const EditQuestionPromptPage = () => {
                 </CardHeader>
                 <CardContent className='h-[60vh] overflow-scroll'>
                   {questionPrompt.questions.map((_, index) => (
-                    <div className='px-3 mb-10'>
+                    <div className='px-3 mb-10' key={index}>
                       <div>
                         <Heading className='mb-2 text-lg'>
                           Question {index + 1}

@@ -1,18 +1,18 @@
 import { axiosInstance } from '../../constants';
 import { ErrorResponse, UpdateSubscriptionPlanData } from '../../types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
 export default function useUpdateSubscriptionPlan() {
+  const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: UpdateSubscriptionPlanData) =>
-      axiosInstance
-        .put('/subscriptionPlans/update', data)
-        .then((res) => res.data),
+      axiosInstance.put('/subscriptions/update', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);
+      queryClient.invalidateQueries(['subscriptionPlans']);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       console.log(error.response?.data.message);
