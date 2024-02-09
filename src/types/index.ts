@@ -1,3 +1,9 @@
+export type Quote = {
+  _id: string;
+  quote: string;
+  author: string;
+};
+
 export type AddQuoteData = {
   category: string;
   quote: string;
