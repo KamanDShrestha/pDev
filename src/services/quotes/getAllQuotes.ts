@@ -1,5 +1,5 @@
-import { axiosInstance } from '@/src/constants';
-import { QuotesByCategory } from '@/src/types';
+import { axiosInstance } from '../../constants';
+import { QuotesByCategory } from '../../types';
 import { useQuery } from '@tanstack/react-query';
 
 export default function useGetAllQuotes() {
