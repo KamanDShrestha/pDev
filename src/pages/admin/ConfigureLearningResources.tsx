@@ -1,3 +1,4 @@
+import AddLearningVideoCard from '../../components/AddLearningVideoCard';
 import Heading from '../../components/Heading';
 
 const ConfigureLearningResources = () => {
@@ -5,6 +6,7 @@ const ConfigureLearningResources = () => {
     <div>
       ConfigureLearningResources
       <Heading>Hello</Heading>
+      <AddLearningVideoCard />
     </div>
   );
 };
