@@ -12,8 +12,14 @@ import {
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import LoadingSpinner from './LoadingSpinner';
-import { Select, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { SelectContent } from '@radix-ui/react-select';
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+} from './ui/select';
+
 import { Switch } from './ui/switch';
 import { Button } from './ui/button';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -32,6 +38,7 @@ const AddQuoteCard = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
 
   function handleQuoteSubmit(data: FieldValues) {
@@ -43,8 +50,12 @@ const AddQuoteCard = () => {
       },
       {
         onSuccess: () => {
-          setSelectedCategory(null);
           setIsAddingNewCategory(false);
+          reset({
+            quote: '',
+            author: '',
+            category: '',
+          });
         },
       }
     );
@@ -100,8 +111,8 @@ const AddQuoteCard = () => {
                 <SelectValue placeholder='Category' />
               </SelectTrigger>
               <SelectContent>
-                {categories?.map((category, index) => (
-                  <SelectItem key={index} value={category}>
+                {categories?.map((category) => (
+                  <SelectItem key={category} value={category}>
                     {category}
                   </SelectItem>
                 ))}

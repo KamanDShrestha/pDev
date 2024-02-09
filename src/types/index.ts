@@ -1,3 +1,8 @@
+export type DeleteQuoteData = {
+  category: string;
+  quoteId: string;
+};
+
 export type Quote = {
   _id: string;
   quote: string;
