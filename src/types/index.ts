@@ -1,3 +1,31 @@
+export type LearningVideo = {
+  _id: string;
+  url: string;
+  embedUrl: string;
+  title: string;
+  author: string;
+};
+
+export type LearningVideoDocument = {
+  _id: string;
+  category: string;
+  videos: {
+    _id: string;
+    url: string;
+    embedUrl: string;
+    title: string;
+    author: string;
+  }[];
+};
+
+export type AddLearningVideoData = {
+  category: string;
+  title: string;
+  url: string;
+  embedUrl: string;
+  author: string;
+};
+
 export type DeleteQuoteData = {
   category: string;
   quoteId: string;
