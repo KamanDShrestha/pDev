@@ -16,6 +16,7 @@ export type QuotesByCategory = {
   quotes: {
     _id: string;
     quote: string;
+    author: string;
   }[];
 };
 

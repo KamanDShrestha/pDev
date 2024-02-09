@@ -16,11 +16,40 @@ import { Select, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { SelectContent } from '@radix-ui/react-select';
 import { Switch } from './ui/switch';
 import { Button } from './ui/button';
+import { FieldValues, useForm } from 'react-hook-form';
+import useAddQuote from '../services/quotes/addQuote';
+import ErrorMessage from './ErrorMessage';
 
 const AddQuoteCard = () => {
+  const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { data: categories, isLoading: isCategoryFetching } =
     useGetQuoteCategories();
-  const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
+  console.log(categories);
+  const { mutate: addQuote, isLoading: isAddingQuote } = useAddQuote();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  function handleQuoteSubmit(data: FieldValues) {
+    addQuote(
+      {
+        quote: data.quote,
+        author: data.author,
+        category: isAddingNewCategory ? data.category : selectedCategory,
+      },
+      {
+        onSuccess: () => {
+          setSelectedCategory(null);
+          setIsAddingNewCategory(false);
+        },
+      }
+    );
+  }
+
   return (
     <Card className='w-[400px] lg:w-[600px]'>
       <CardHeader>
@@ -30,18 +59,43 @@ const AddQuoteCard = () => {
       <CardContent>
         <div>
           <Heading className='mb-1 text-lg font-medium'>Quote</Heading>
-          <Textarea />
+          <Textarea
+            {...register('quote', {
+              required: 'Quote is required',
+              minLength: {
+                value: 10,
+                message: 'Quote should be at least 10 characters long',
+              },
+            })}
+          />
+          {errors.quote && (
+            <ErrorMessage>{errors.quote.message as string}</ErrorMessage>
+          )}
         </div>
         <div>
           <Heading className='mb-1 text-lg font-medium'>Author</Heading>
-          <Input />
+          <Input
+            {...register('author', {
+              required: 'Author is required',
+              minLength: {
+                value: 4,
+                message: 'Author should be at least 4 characters long',
+              },
+            })}
+          />
+          {errors.author && (
+            <ErrorMessage>{errors.author.message as string}</ErrorMessage>
+          )}
         </div>
         <div className='flex flex-col gap-3 my-3'>
           {isCategoryFetching && <LoadingSpinner />}
           {categories && categories.length === 0 ? (
             <p>No existing categories found.</p>
           ) : (
-            <Select disabled={isAddingNewCategory}>
+            <Select
+              disabled={isAddingNewCategory}
+              onValueChange={(category) => setSelectedCategory(category)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder='Category' />
               </SelectTrigger>
@@ -64,17 +118,35 @@ const AddQuoteCard = () => {
               />
               <Heading className='m-0 text-md'>New category?</Heading>
             </div>
-            <div>
-              <Heading className='mb-0 font-medium text-md'>
-                New Category
-              </Heading>
-              <Input disabled={!isAddingNewCategory} />
-            </div>
+            {isAddingNewCategory && (
+              <div>
+                <Heading className='mb-0 font-medium text-md'>
+                  New Category
+                </Heading>
+                <Input
+                  disabled={!isAddingNewCategory}
+                  {...register('category', {
+                    required: 'Category is required',
+                    minLength: {
+                      value: 4,
+                      message: 'Category should be at least 4 characters long',
+                    },
+                  })}
+                />
+                {errors.category && (
+                  <ErrorMessage>
+                    {errors.category.message as string}
+                  </ErrorMessage>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </CardContent>
       <CardFooter>
-        <Button>Add Quote</Button>
+        <Button onClick={handleSubmit(handleQuoteSubmit)}>
+          {isAddingQuote ? <LoadingSpinner /> : 'Add Quote'}
+        </Button>
       </CardFooter>
     </Card>
   );

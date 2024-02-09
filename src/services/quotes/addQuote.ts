@@ -13,6 +13,7 @@ export default function useAddQuote() {
       console.log(response);
       toast.success(response.message);
       queryClient.invalidateQueries(['quotes']);
+      queryClient.invalidateQueries(['quoteCategories']);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       console.log(error);
