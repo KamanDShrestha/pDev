@@ -48,6 +48,7 @@ import FeedbacksForPrompts from './pages/admin/FeedbacksForPrompts';
 import EditQuestionPromptPage from './pages/admin/EditQuestionPromptPage';
 import SpecificUserPosts from './pages/SpecificUserPosts';
 import EditSubscriptionPlanPage from './pages/admin/EditSubscriptionPlanPage';
+import ConfigureLearningResources from './pages/admin/ConfigureLearningResources';
 
 function App() {
   return (
@@ -144,6 +145,11 @@ function App() {
                   <Route
                     path='/subscribeForAdmin'
                     element={<SubscribeForAdmin />}
+                  />
+
+                  <Route
+                    path='/configureResources'
+                    element={<ConfigureLearningResources />}
                   />
                 </Route>
               </Route>

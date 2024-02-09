@@ -48,7 +48,8 @@ const NavBar = () => {
     { to: '/addJourney', option: 'Add Journey' },
     { to: '/feedbacks', option: 'Feedbacks' },
     { to: '/reviewApplications', option: 'Review Applications' },
-    { to: '/subscribeForAdmin', option: 'Configure subscriptions' },
+    { to: '/subscribeForAdmin', option: 'Configure Subscriptions' },
+    { to: '/configureResources', option: 'Configure Resources' },
   ];
 
   const qhpNavigationMenu = [

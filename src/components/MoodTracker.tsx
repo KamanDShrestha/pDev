@@ -10,6 +10,7 @@ import ErrorMessage from './ErrorMessage';
 import useLogMood from '../services/moods/logMood';
 import useUpdateLoggedMood from '../services/users/updateLoggedMood';
 import setToLocalStorage from '../services/localStorage/setToLocalStorage';
+import { Separator } from './ui/separator';
 
 interface MoodTrackerProps {
   handleModalClose: () => void;
@@ -86,6 +87,7 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
         </span>
         <div>
           <Heading className='mb-3 text-2xl'>How's your mood today?</Heading>
+          <Separator className='my-1' />
           <div className='flex flex-wrap justify-center gap-5'>
             {moods.map((mood, index) => (
               <div
@@ -101,8 +103,8 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
               </div>
             ))}
           </div>
+          <Separator className='my-1' />
         </div>
-
         <div>
           <label className='text-lg font-medium'>
             State your reasoning for your mood today. Reflect on that.
