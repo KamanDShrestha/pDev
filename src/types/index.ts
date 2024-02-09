@@ -1,3 +1,18 @@
+export type AddQuoteData = {
+  category: string;
+  quote: string;
+  author: string;
+};
+
+export type QuotesByCategory = {
+  _id: string;
+  category: string;
+  quotes: {
+    _id: string;
+    quote: string;
+  }[];
+};
+
 export type AddPaymentData = {
   userId: string;
   userName: string;

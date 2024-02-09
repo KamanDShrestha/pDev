@@ -1,5 +1,5 @@
-import { axiosInstance } from '@/src/constants';
-import { ErrorResponse } from '@/src/types';
+import { axiosInstance } from '../../constants';
+import { AddQuoteData, ErrorResponse } from '../../types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 export default function useAddQuote() {
   const queryClient = useQueryClient();
   const response = useMutation({
-    mutationFn: (data) =>
+    mutationFn: (data: AddQuoteData) =>
       axiosInstance.post('/quotes/add', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
