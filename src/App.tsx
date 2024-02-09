@@ -49,6 +49,7 @@ import EditQuestionPromptPage from './pages/admin/EditQuestionPromptPage';
 import SpecificUserPosts from './pages/SpecificUserPosts';
 import EditSubscriptionPlanPage from './pages/admin/EditSubscriptionPlanPage';
 import ConfigureLearningResources from './pages/admin/ConfigureLearningResources';
+import AddQuotes from './pages/admin/AddQuotes';
 
 function App() {
   return (
@@ -146,6 +147,8 @@ function App() {
                     path='/subscribeForAdmin'
                     element={<SubscribeForAdmin />}
                   />
+
+                  <Route path='/configureQuotes' element={<AddQuotes />} />
 
                   <Route
                     path='/configureResources'

@@ -50,6 +50,7 @@ const NavBar = () => {
     { to: '/reviewApplications', option: 'Review Applications' },
     { to: '/subscribeForAdmin', option: 'Configure Subscriptions' },
     { to: '/configureResources', option: 'Configure Resources' },
+    { to: '/configureQuotes', option: 'Configure Quotes' },
   ];
 
   const qhpNavigationMenu = [
