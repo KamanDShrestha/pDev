@@ -51,6 +51,7 @@ import EditSubscriptionPlanPage from './pages/admin/EditSubscriptionPlanPage';
 import ConfigureLearningResources from './pages/admin/ConfigureLearningResources';
 import AddQuotes from './pages/admin/AddQuotes';
 import ConfigureLearningPodcasts from './pages/admin/ConfigureLearningPodcasts';
+import Learn from './pages/Learn';
 
 function App() {
   return (
@@ -99,7 +100,7 @@ function App() {
                   <Route path={'/wellbeing'} element={<WellBeing />} />
                   <Route path={'/profile'} element={<Profile />} />
                   <Route path='/subscribe' element={<Subscribe />} />
-
+                  <Route path='/learn' element={<Learn />} />
                   <Route
                     path='/subscribe/:subscriptionId'
                     element={<SubscriptionConfirmation />}

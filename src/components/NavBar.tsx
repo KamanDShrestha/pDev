@@ -28,6 +28,7 @@ const NavBar = () => {
     { to: '/wellbeing', option: 'Wellbeing' },
     { to: '/journeys', option: 'Journeys' },
     { to: '/community', option: 'Community' },
+    { to: '/learn', option: 'Learn' },
   ];
   const userActionOptions = [
     { to: '/profile', option: 'Profile' },
