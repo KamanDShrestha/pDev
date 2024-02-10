@@ -1,8 +1,21 @@
 import { useAuthContext } from '../context/AuthProvider';
 import Heading from '../components/Heading';
+import useGetSavedContents from '../services/savedContent/getSavedContents';
+import LoadingSpinner from '../components/LoadingSpinner';
+import LearningVideoCard from '../components/LearningVideoCard';
+import LearningPodcastCard from '../components/LearningPodcastCard';
+import PostCard from '../components/PostCard';
+
+import QuestionAnswerCard from '../components/QuestionAnswerCard';
 
 const Profile = () => {
   const { user } = useAuthContext();
+  const { data: savedContents, isLoading: isFetchingSavedContents } =
+    useGetSavedContents(user?.id as string);
+
+  function handleDeletePost(postId: string) {
+    console.log(postId);
+  }
   return (
     <>
       <div className='flex flex-wrap items-center justify-between gap-5'>
@@ -22,6 +35,56 @@ const Profile = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <Heading>Saved contents</Heading>
+        {isFetchingSavedContents && <LoadingSpinner />}
+        {savedContents && (
+          <>
+            <div>
+              <Heading className='text-lg'>Saved videos</Heading>
+              {savedContents.videos.length === 0 && <p>No saved videos</p>}
+              <div>
+                {savedContents.videos.map((video, index) => (
+                  <LearningVideoCard video={video} key={index} />
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <Heading className='text-lg'>Saved podcasts</Heading>
+              {savedContents.podcasts.length === 0 && <p>No saved videos</p>}
+              <div>
+                {savedContents.podcasts.map((podcast, index) => (
+                  <LearningPodcastCard podcast={podcast} key={index} />
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <Heading className='text-lg'>Saved posts</Heading>
+              {savedContents.posts.length === 0 && <p>No saved videos</p>}
+              <div>
+                {savedContents.posts.map((post, index) => (
+                  <PostCard
+                    post={post}
+                    onDeletePost={handleDeletePost}
+                    key={index}
+                  />
+                ))}
+              </div>
+            </div>
+            <div>
+              <Heading className='text-lg'>Saved QAs</Heading>
+              {savedContents.qas.length === 0 && <p>No saved videos</p>}
+              <div>
+                {savedContents.qas.map((question, index) => (
+                  <QuestionAnswerCard question={question} key={index} />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

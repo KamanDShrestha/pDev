@@ -1,3 +1,10 @@
+export type GetSavedContentData = {
+  videos: LearningVideo[];
+  podcasts: LearningPodcast[];
+  posts: PostData[];
+  qas: QAsData[];
+};
+
 export type AddSavedContentData = {
   category: string;
   contentType: string;
