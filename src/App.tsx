@@ -50,6 +50,7 @@ import SpecificUserPosts from './pages/SpecificUserPosts';
 import EditSubscriptionPlanPage from './pages/admin/EditSubscriptionPlanPage';
 import ConfigureLearningResources from './pages/admin/ConfigureLearningResources';
 import AddQuotes from './pages/admin/AddQuotes';
+import ConfigureLearningPodcasts from './pages/admin/ConfigureLearningPodcasts';
 
 function App() {
   return (
@@ -153,6 +154,10 @@ function App() {
                   <Route
                     path='/configureResources'
                     element={<ConfigureLearningResources />}
+                  />
+                  <Route
+                    path='/configureResources/podcasts'
+                    element={<ConfigureLearningPodcasts />}
                   />
                 </Route>
               </Route>

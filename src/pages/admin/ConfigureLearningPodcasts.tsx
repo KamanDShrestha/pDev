@@ -1,6 +1,6 @@
-import useGetAllVideos from '../../services/learningVideos/getLearningVideos';
-import AddLearningVideoCard from '../../components/AddLearningVideoCard';
+import { NavLink } from 'react-router-dom';
 import Heading from '../../components/Heading';
+import { buttonVariants } from '../../components/ui/button';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import {
   Card,
@@ -9,14 +9,10 @@ import {
   CardTitle,
 } from '../../components/ui/card';
 import TruncatedText from '../../components/TruncatedText';
+import AddLearningVideoCard from '../../components/AddLearningVideoCard';
 import { Separator } from '../../components/ui/separator';
-import { NavLink } from 'react-router-dom';
-import { buttonVariants } from '../../components/ui/button';
 
-const ConfigureLearningResources = () => {
-  const { data: learningVideos, isLoading: isFetchingLearningVideos } =
-    useGetAllVideos();
-  console.log(learningVideos);
+const ConfigureLearningPodcasts = () => {
   return (
     <div>
       <Heading>Learning Videos</Heading>
@@ -71,4 +67,4 @@ const ConfigureLearningResources = () => {
   );
 };
 
-export default ConfigureLearningResources;
+export default ConfigureLearningPodcasts;
