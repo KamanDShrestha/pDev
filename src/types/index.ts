@@ -1,3 +1,13 @@
+export type AddLearningPodcastData = {
+  category: string;
+  title: string;
+  url: string;
+  embedUrl: string;
+  host: string;
+  podcastTitle: string;
+  podcastDescription: string;
+};
+
 export type LearningVideo = {
   _id: string;
   url: string;
