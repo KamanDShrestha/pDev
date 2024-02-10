@@ -36,7 +36,7 @@ const ConfigureLearningResources = () => {
                     <Card className='w-[360px]' key={index}>
                       <CardHeader>
                         <CardTitle className='text-md'>
-                          <TruncatedText content={video.title} limit={50} />
+                          <TruncatedText content={video.title} limit={75} />
                         </CardTitle>
                         <Separator />
                       </CardHeader>
