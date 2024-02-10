@@ -47,7 +47,7 @@ const AddLearningVideoCard = () => {
     console.log(data);
     addLearningVideo(
       {
-        title: data.quote,
+        title: data.title,
         url: data.url,
         embedUrl: data.embedUrl,
         author: data.author,
@@ -194,7 +194,7 @@ const AddLearningVideoCard = () => {
       </CardContent>
       <CardFooter>
         <Button onClick={handleSubmit(handleVideoSubmit)}>
-          {isAddingVideo ? <LoadingSpinner /> : 'Add Quote'}
+          {isAddingVideo ? <LoadingSpinner /> : 'Add Video'}
         </Button>
       </CardFooter>
     </Card>
