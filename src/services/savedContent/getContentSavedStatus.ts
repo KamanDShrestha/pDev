@@ -1,0 +1,17 @@
+import { axiosInstance } from '@/src/constants';
+import { useQuery } from '@tanstack/react-query';
+
+export default function useGetContentSavedStatus(
+  userId: string,
+  contentType: string,
+  contentId: string
+) {
+  const response = useQuery<boolean>({
+    queryKey: ['contentSavedStatus', userId, contentType, contentId],
+    queryFn: () =>
+      axiosInstance(
+        `/savedContent/status/${userId}/${contentType}/${contentId}`
+      ).then((res) => res.data.status),
+  });
+  return response;
+}
