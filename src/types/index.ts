@@ -1,3 +1,10 @@
+export type AddSavedContentData = {
+  category: string;
+  contentType: string;
+  contentId: string;
+  userId: string;
+};
+
 export type LearningPodcast = {
   _id: string;
   url: string;

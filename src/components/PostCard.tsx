@@ -42,6 +42,10 @@ import { useState } from 'react';
 import { Checkbox } from './ui/checkbox';
 // import { FaEdit } from 'react-icons/fa';
 
+import { IoBookmarkOutline } from 'react-icons/io5';
+import { IoBookmark } from 'react-icons/io5';
+import useAddSavedContent from '../services/savedContent/addSavedContent';
+
 interface PostCardProps {
   post: PostData;
   onDeletePost: (postId: string) => void;
@@ -54,6 +58,7 @@ const postCategoriesTheme = {
 };
 
 const PostCard = ({ post, onDeletePost }: PostCardProps) => {
+  const [isAnonymousComment, setIsAnonymousComment] = useState(false);
   const { user } = useAuthContext();
   const {
     register,
@@ -63,11 +68,10 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
   } = useForm();
   const { mutate: addComment, isLoading: isCommenting } = useAddComment();
   const { mutate: addLike, isLoading: isLiking } = useLikePost();
+  const { mutate: addSavedContent, isLoading: isSaving } = useAddSavedContent();
 
   const { data: likedStatus, isLoading: gettingLikedStatus } =
     useGetLikedStatus(post._id, user?.id as string);
-
-  const [isAnonymousComment, setIsAnonymousComment] = useState(false);
 
   const queryClient = useQueryClient();
   function handleAddComment(data: FieldValues) {
@@ -121,6 +125,16 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
         },
       }
     );
+  }
+
+  function handleSavePost() {
+    // console.log('Save post');
+    // addSavedContent({
+    //   category: post.postCategory,
+    //   contentId: post._id,
+    //   contentType: 'post',
+    //   userId: user?.id as string,
+    // });
   }
 
   return (
@@ -178,15 +192,24 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
-            <span
-              className={`px-2 py-1 text-xs rounded-full ${
-                postCategoriesTheme[
-                  post.postCategory as keyof typeof postCategoriesTheme
-                ]
-              }`}
-            >
-              {post.postCategory}
-            </span>
+            <div className='flex flex-col items-end gap-2'>
+              <span
+                className='text-xl hover:cursor-pointer'
+                onClick={handleSavePost}
+              >
+                <IoBookmarkOutline />
+              </span>
+
+              <span
+                className={`px-2 py-1 text-xs rounded-full ${
+                  postCategoriesTheme[
+                    post.postCategory as keyof typeof postCategoriesTheme
+                  ]
+                }`}
+              >
+                {post.postCategory}
+              </span>
+            </div>
           </div>
         </div>
         <CardTitle>{post.postTitle}</CardTitle>
