@@ -2,16 +2,10 @@ import useGetAllVideos from '../../services/learningVideos/getLearningVideos';
 import AddLearningVideoCard from '../../components/AddLearningVideoCard';
 import Heading from '../../components/Heading';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '../../components/ui/card';
-import TruncatedText from '../../components/TruncatedText';
-import { Separator } from '../../components/ui/separator';
+
 import { NavLink } from 'react-router-dom';
 import { buttonVariants } from '../../components/ui/button';
+import LearningVideoCard from '../../components/LearningVideoCard';
 
 const ConfigureLearningResources = () => {
   const { data: learningVideos, isLoading: isFetchingLearningVideos } =
@@ -42,24 +36,7 @@ const ConfigureLearningResources = () => {
                 </Heading>
                 <div className='flex flex-wrap items-center justify-center gap-5'>
                   {videoDocument.videos.map((video, index) => (
-                    <Card className='w-[360px]' key={index}>
-                      <CardHeader>
-                        <CardTitle className='text-md'>
-                          <TruncatedText content={video.title} limit={75} />
-                        </CardTitle>
-                        <Separator />
-                      </CardHeader>
-                      <CardContent className='h-[250px]'>
-                        <iframe
-                          className='w-full h-full rounded-lg shadow-md'
-                          src={video.embedUrl}
-                          title={video.title}
-                          style={{ border: 'none' }}
-                          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                          allowFullScreen
-                        ></iframe>
-                      </CardContent>
-                    </Card>
+                    <LearningVideoCard video={video} key={index} />
                   ))}
                 </div>
               </div>
