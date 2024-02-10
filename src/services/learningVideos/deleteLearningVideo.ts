@@ -15,7 +15,7 @@ export default function useDeleteVideo() {
       console.log(response);
       toast.success(response.message);
       queryClient.invalidateQueries(['learningVideos']);
-      queryClient.invalidateQueries(['videoCategories']);
+      queryClient.invalidateQueries(['learningVideoCategories']);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       console.log(error);
