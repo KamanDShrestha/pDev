@@ -9,13 +9,16 @@ import {
   CardTitle,
 } from '../../components/ui/card';
 import TruncatedText from '../../components/TruncatedText';
-import AddLearningVideoCard from '../../components/AddLearningVideoCard';
 import { Separator } from '../../components/ui/separator';
+import AddLearningPodcastCard from '../../components/AddLearningPodcastCard';
+import useGetAllPodcasts from '@/src/services/learningPodcasts/getLearningPodcasts';
 
 const ConfigureLearningPodcasts = () => {
+  const { data: learningPodcasts, isLoading: isFetchingLearningPodcasts } =
+    useGetAllPodcasts();
   return (
     <div>
-      <Heading>Learning Videos</Heading>
+      <Heading>Learning Podcasts</Heading>
       <NavLink
         to='/configureResources/podcasts'
         className={buttonVariants({ variant: 'secondary' })}
@@ -24,32 +27,32 @@ const ConfigureLearningPodcasts = () => {
         Configure learning podcasts
       </NavLink>
       <div className=''>
-        {isFetchingLearningVideos && <LoadingSpinner />}
-        {learningVideos && learningVideos.length === 0 && (
-          <p>No learning videos available</p>
+        {isFetchingLearningPodcasts && <LoadingSpinner />}
+        {learningPodcasts && learningPodcasts.length === 0 && (
+          <p>No learning podcasts available</p>
         )}
 
-        {learningVideos &&
-          learningVideos.map((videoDocument, index) => {
+        {learningPodcasts &&
+          learningPodcasts.map((podcastDocument, index) => {
             return (
               <div key={index} className='p-5 m-5'>
                 <Heading className='text-lg'>
-                  {videoDocument.category} learning videos
+                  {podcastDocument.category} learning podcasts
                 </Heading>
                 <div className='flex flex-wrap items-center justify-center gap-5'>
-                  {videoDocument.videos.map((video, index) => (
+                  {podcastDocument.podcasts.map((podcast, index) => (
                     <Card className='w-[360px]' key={index}>
                       <CardHeader>
                         <CardTitle className='text-md'>
-                          <TruncatedText content={video.title} limit={75} />
+                          <TruncatedText content={podcast.title} limit={75} />
                         </CardTitle>
                         <Separator />
                       </CardHeader>
                       <CardContent className='h-[250px]'>
                         <iframe
                           className='w-full h-full rounded-lg shadow-md'
-                          src={video.embedUrl}
-                          title={video.title}
+                          src={podcast.embedUrl}
+                          title={podcast.title}
                           style={{ border: 'none' }}
                           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                           allowFullScreen
@@ -62,7 +65,7 @@ const ConfigureLearningPodcasts = () => {
             );
           })}
       </div>
-      <AddLearningVideoCard />
+      <AddLearningPodcastCard />
     </div>
   );
 };
