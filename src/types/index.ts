@@ -1,3 +1,17 @@
+export type LearningPodcastDocument = {
+  _id: string;
+  category: string;
+  podcasts: {
+    _id: string;
+    url: string;
+    embedUrl: string;
+    title: string;
+    host: string;
+    podcastTitle: string;
+    podcastDescription: string;
+  }[];
+};
+
 export type AddLearningPodcastData = {
   category: string;
   title: string;
