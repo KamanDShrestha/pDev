@@ -45,6 +45,7 @@ import { Checkbox } from './ui/checkbox';
 import { IoBookmarkOutline } from 'react-icons/io5';
 import { IoBookmark } from 'react-icons/io5';
 import useAddSavedContent from '../services/savedContent/addSavedContent';
+import useGetContentSavedStatus from '../services/savedContent/getContentSavedStatus';
 
 interface PostCardProps {
   post: PostData;
@@ -72,6 +73,8 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
 
   const { data: likedStatus, isLoading: gettingLikedStatus } =
     useGetLikedStatus(post._id, user?.id as string);
+  const { data: savedContentStatus, isLoading: gettingSavedContentStatus } =
+    useGetContentSavedStatus(user?.id as string, 'post', post._id);
 
   const queryClient = useQueryClient();
   function handleAddComment(data: FieldValues) {
@@ -128,13 +131,24 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
   }
 
   function handleSavePost() {
-    // console.log('Save post');
-    // addSavedContent({
-    //   category: post.postCategory,
-    //   contentId: post._id,
-    //   contentType: 'post',
-    //   userId: user?.id as string,
-    // });
+    addSavedContent(
+      {
+        category: post.postCategory,
+        contentId: post._id,
+        contentType: 'post',
+        userId: user?.id as string,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'contentSavedStatus',
+            user?.id as string,
+            'post',
+            post._id,
+          ]);
+        },
+      }
+    );
   }
 
   return (
@@ -197,7 +211,13 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
                 className='text-xl hover:cursor-pointer'
                 onClick={handleSavePost}
               >
-                <IoBookmarkOutline />
+                {gettingSavedContentStatus || isSaving ? (
+                  <LoadingSpinner />
+                ) : savedContentStatus ? (
+                  <IoBookmark />
+                ) : (
+                  <IoBookmarkOutline />
+                )}
               </span>
 
               <span
