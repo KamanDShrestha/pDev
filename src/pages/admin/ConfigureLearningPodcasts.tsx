@@ -11,20 +11,20 @@ import {
 import TruncatedText from '../../components/TruncatedText';
 import { Separator } from '../../components/ui/separator';
 import AddLearningPodcastCard from '../../components/AddLearningPodcastCard';
-import useGetAllPodcasts from '@/src/services/learningPodcasts/getLearningPodcasts';
+import useGetAllPodcasts from '../../services/learningPodcasts/getLearningPodcasts';
 
 const ConfigureLearningPodcasts = () => {
   const { data: learningPodcasts, isLoading: isFetchingLearningPodcasts } =
     useGetAllPodcasts();
+  console.log(learningPodcasts);
   return (
     <div>
       <Heading>Learning Podcasts</Heading>
       <NavLink
-        to='/configureResources/podcasts'
+        to='/configureResources'
         className={buttonVariants({ variant: 'secondary' })}
       >
-        {' '}
-        Configure learning podcasts
+        Configure learning videos
       </NavLink>
       <div className=''>
         {isFetchingLearningPodcasts && <LoadingSpinner />}
@@ -41,21 +41,21 @@ const ConfigureLearningPodcasts = () => {
                 </Heading>
                 <div className='flex flex-wrap items-center justify-center gap-5'>
                   {podcastDocument.podcasts.map((podcast, index) => (
-                    <Card className='w-[360px]' key={index}>
+                    <Card className='w-[360px] h-[200px]' key={index}>
                       <CardHeader>
                         <CardTitle className='text-md'>
                           <TruncatedText content={podcast.title} limit={75} />
                         </CardTitle>
                         <Separator />
                       </CardHeader>
-                      <CardContent className='h-[250px]'>
+                      <CardContent>
                         <iframe
-                          className='w-full h-full rounded-lg shadow-md'
+                          style={{ borderRadius: '12px' }}
                           src={podcast.embedUrl}
-                          title={podcast.title}
-                          style={{ border: 'none' }}
-                          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                          width='100%'
                           allowFullScreen
+                          allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
+                          loading='lazy'
                         ></iframe>
                       </CardContent>
                     </Card>
