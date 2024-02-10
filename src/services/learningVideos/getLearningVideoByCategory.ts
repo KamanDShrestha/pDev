@@ -2,7 +2,7 @@ import { LearningVideo } from '../../types';
 import { axiosInstance } from '../../constants';
 import { useQuery } from '@tanstack/react-query';
 
-export default function useGetQuotesByCategory(category: string) {
+export default function useGetVideosByCategory(category: string) {
   const response = useQuery<LearningVideo[]>({
     queryKey: ['learningVideos', category],
     queryFn: () =>
