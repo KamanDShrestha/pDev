@@ -13,6 +13,7 @@ export default function useAddLearningVideo() {
       console.log(response);
       toast.success(response.message);
       queryClient.invalidateQueries(['learningVideos']);
+      queryClient.invalidateQueries(['learningVideoCategories']);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       console.log(error);

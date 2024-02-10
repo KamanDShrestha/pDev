@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export default function useGetVideoCategories() {
   const response = useQuery<string[]>({
-    queryKey: ['learningVideosategories'],
+    queryKey: ['learningVideoCategories'],
     queryFn: () =>
       axiosInstance
         .get('/learningVideos/categories')
