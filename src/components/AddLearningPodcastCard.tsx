@@ -49,7 +49,7 @@ const AddLearningPodcastCard = () => {
         title: data.title,
         url: data.url,
         embedUrl: data.embedUrl,
-        host: data.author,
+        host: data.host,
         category: isAddingNewCategory ? data.category : selectedCategory,
         podcastTitle: data.podcastTitle,
         podcastDescription: data.podcastDescription,

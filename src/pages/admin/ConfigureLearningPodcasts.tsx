@@ -2,16 +2,9 @@ import { NavLink } from 'react-router-dom';
 import Heading from '../../components/Heading';
 import { buttonVariants } from '../../components/ui/button';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '../../components/ui/card';
-import TruncatedText from '../../components/TruncatedText';
-import { Separator } from '../../components/ui/separator';
 import AddLearningPodcastCard from '../../components/AddLearningPodcastCard';
 import useGetAllPodcasts from '../../services/learningPodcasts/getLearningPodcasts';
+import LearningPodcastCard from '../../components/LearningPodcastCard';
 
 const ConfigureLearningPodcasts = () => {
   const { data: learningPodcasts, isLoading: isFetchingLearningPodcasts } =
@@ -41,24 +34,11 @@ const ConfigureLearningPodcasts = () => {
                 </Heading>
                 <div className='flex flex-wrap items-center justify-center gap-5'>
                   {podcastDocument.podcasts.map((podcast, index) => (
-                    <Card className='w-[360px] h-[200px]' key={index}>
-                      <CardHeader>
-                        <CardTitle className='text-md'>
-                          <TruncatedText content={podcast.title} limit={75} />
-                        </CardTitle>
-                        <Separator />
-                      </CardHeader>
-                      <CardContent>
-                        <iframe
-                          style={{ borderRadius: '12px' }}
-                          src={podcast.embedUrl}
-                          width='100%'
-                          allowFullScreen
-                          allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
-                          loading='lazy'
-                        ></iframe>
-                      </CardContent>
-                    </Card>
+                    <LearningPodcastCard
+                      podcast={podcast}
+                      podcastCategory={podcastDocument.category}
+                      key={index}
+                    />
                   ))}
                 </div>
               </div>
