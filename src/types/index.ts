@@ -74,6 +74,15 @@ export type AddLearningVideoData = {
   author: string;
 };
 
+export type UpdateQuoteData = {
+  category: string;
+  quoteId: string;
+  quote: {
+    quote: string;
+    author: string;
+  };
+};
+
 export type DeleteQuoteData = {
   category: string;
   quoteId: string;

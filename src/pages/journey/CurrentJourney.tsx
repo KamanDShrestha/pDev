@@ -64,12 +64,12 @@ const CurrentJourney = () => {
         <p>{error.response?.data.message}</p>
       ) : (
         <>
-          <div>
+          <div className='p-5'>
             <h2 className='mt-2 mb-5 text-4xl font-semibold'>
               Today's action step
             </h2>
 
-            <div className='p-5 text-xl font-medium'>
+            <div className='p-5 text-2xl font-medium'>
               {/* getting the action step in which the journey is ongoing as only one of the journey would be ongoing*/}
               {isFetchingEmbarkedJourney && <LoadingSpinner />}
 
@@ -82,7 +82,8 @@ const CurrentJourney = () => {
                           embarkedJourney?.actionSteps[day].status === 'ongoing'
                       )[0]
                     ]?.actionStep)) ||
-                'You have completed the action step for the day. 🎉'}
+                (embarkedJourney &&
+                  'You have completed the action step for the day. 🎉')}
             </div>
           </div>
 
