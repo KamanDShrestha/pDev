@@ -44,10 +44,8 @@ const SpecificJourney = () => {
   useEffect(() => {
     //to check if the user have the particular journey as preferred or user's subscribed
     if (
-      !(
-        user?.preferredJourney.toLowerCase() !== params.name ||
-        !user?.hasSubscribed
-      )
+      user?.hasSubscribed === false &&
+      user.preferredJourney !== params.name
     ) {
       navigate('/notSubscribed');
     }
