@@ -55,7 +55,11 @@ const Learn = () => {
                 </Heading>
                 <div className='flex flex-wrap items-center justify-center gap-5'>
                   {podcastDocument.podcasts.map((podcast, index) => (
-                    <LearningPodcastCard podcast={podcast} key={index} />
+                    <LearningPodcastCard
+                      podcast={podcast}
+                      key={index}
+                      podcastCategory={podcastDocument.category}
+                    />
                   ))}
                 </div>
               </div>

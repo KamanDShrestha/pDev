@@ -59,11 +59,15 @@ const Profile = () => {
 
             <div>
               <Heading className='text-lg'>Saved podcasts</Heading>
-              {savedContents.podcasts.length === 0 && <p>No saved videos</p>}
+              {savedContents.podcasts.length === 0 && <p>No saved podcasts</p>}
               <div>
                 {savedContents.podcasts.length > 0 &&
                   savedContents.podcasts.map((podcast, index) => (
-                    <LearningPodcastCard podcast={podcast} key={index} />
+                    <LearningPodcastCard
+                      podcast={podcast}
+                      key={index}
+                      podcastCategory={podcast.podcastCategory}
+                    />
                   ))}
               </div>
             </div>
