@@ -31,12 +31,10 @@ const Register = () => {
   });
 
   const providedEmail = watch('email');
-
   const providedPassword = watch('password');
   const providedConfirmPassword = watch('confirmPassword');
   const providedFName = watch('firstName');
   const providedLName = watch('lastName');
-  const providedDOB = watch('dateOfBirth');
 
   const { mutate } = useRegisterUser();
 
@@ -87,7 +85,7 @@ const Register = () => {
                 >
                   First Name
                 </InputFieldLabel>
-                <Input {...register('firstName')} type='text' />
+                <Input {...register('firstName')} type='text' id='firstName' />
                 {errors.firstName && (
                   <ErrorMessage>{errors.firstName.message}</ErrorMessage>
                 )}
@@ -101,7 +99,7 @@ const Register = () => {
                 >
                   Last Name
                 </InputFieldLabel>
-                <Input {...register('lastName')} type='text' />
+                <Input {...register('lastName')} type='text' id='lastName' />
                 {errors.lastName && (
                   <ErrorMessage>{errors.lastName.message}</ErrorMessage>
                 )}
@@ -115,7 +113,7 @@ const Register = () => {
                 >
                   Email
                 </InputFieldLabel>
-                <Input {...register('email')} type='email' />
+                <Input {...register('email')} type='email' id='email' />
                 {errors.email && (
                   <ErrorMessage>{errors.email.message}</ErrorMessage>
                 )}
@@ -130,7 +128,11 @@ const Register = () => {
                 >
                   Password
                 </InputFieldLabel>
-                <Input {...register('password')} type='password' />
+                <Input
+                  {...register('password')}
+                  type='password'
+                  id='password'
+                />
                 {errors.password && (
                   <ErrorMessage>{errors.password.message}</ErrorMessage>
                 )}
@@ -145,16 +147,17 @@ const Register = () => {
                 >
                   Confirm Password
                 </InputFieldLabel>
-                <Input {...register('confirmPassword')} type='password' />
+                <Input
+                  {...register('confirmPassword')}
+                  type='password'
+                  id='confirmPassword'
+                />
                 {errors.confirmPassword && (
                   <ErrorMessage>{errors.confirmPassword.message}</ErrorMessage>
                 )}
               </div>
               <div className='relative group'>
-                <InputFieldLabel
-                  htmlFor='dateOfBirth'
-                  hasContent={providedDOB !== undefined}
-                >
+                <InputFieldLabel htmlFor='dateOfBirth' hasContent={true}>
                   Date of Birth
                 </InputFieldLabel>
                 <Input {...register('dateOfBirth')} type='date' />

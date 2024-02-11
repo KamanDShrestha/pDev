@@ -17,7 +17,7 @@ const InputFieldLabel: FC<InputFieldLabelProps> = ({
   className,
 }) => {
   const baseClasses =
-    'mx-2 px-2 absolute duration-300 bg-transparent left-0 transition-all text-gray-500';
+    'mx-2 px-2 absolute duration-300 left-0 bg-transparent transition-all text-gray-500';
   const hasContentClasses = 'text-sm -top-2';
   const noContentClasses =
     'text-base top-2 group-focus-within:-top-2 group-focus-within:text-sm';

@@ -27,6 +27,7 @@ const Login = () => {
     register,
     watch,
     formState: { errors },
+
     handleSubmit,
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -84,7 +85,7 @@ const Login = () => {
                 >
                   Email
                 </InputFieldLabel>
-                <Input {...register('email')} type='email' />
+                <Input {...register('email')} type='email' id='email' />
                 {errors.email && (
                   <ErrorMessage>{errors.email.message}</ErrorMessage>
                 )}
@@ -100,7 +101,11 @@ const Login = () => {
                 >
                   Password
                 </InputFieldLabel>
-                <Input {...register('password')} type='password' />
+                <Input
+                  {...register('password')}
+                  type='password'
+                  id='password'
+                />
                 {errors.password && (
                   <ErrorMessage>{errors.password.message}</ErrorMessage>
                 )}
