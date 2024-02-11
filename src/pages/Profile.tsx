@@ -42,10 +42,10 @@ const Profile = () => {
         {isFetchingSavedContents && <LoadingSpinner />}
         {savedContents && (
           <>
-            <div>
-              <Heading className='text-lg'>Saved videos</Heading>
+            <div className='p-3'>
+              <Heading className='text-xl'>Saved videos</Heading>
               {savedContents.videos.length === 0 && <p>No saved videos</p>}
-              <div>
+              <div className='flex flex-wrap justify-center gap-5 p-3'>
                 {savedContents.videos.length > 0 &&
                   savedContents.videos.map((video, index) => (
                     <LearningVideoCard
@@ -57,10 +57,10 @@ const Profile = () => {
               </div>
             </div>
 
-            <div>
-              <Heading className='text-lg'>Saved podcasts</Heading>
+            <div className='p-3'>
+              <Heading className='text-xl'>Saved podcasts</Heading>
               {savedContents.podcasts.length === 0 && <p>No saved podcasts</p>}
-              <div>
+              <div className='flex flex-wrap justify-center gap-5 p-3'>
                 {savedContents.podcasts.length > 0 &&
                   savedContents.podcasts.map((podcast, index) => (
                     <LearningPodcastCard
@@ -72,26 +72,28 @@ const Profile = () => {
               </div>
             </div>
 
-            <div>
-              <Heading className='text-lg'>Saved posts</Heading>
-              {savedContents.posts.length === 0 && <p>No saved videos</p>}
-              <div>
-                {savedContents.posts.map((post, index) => (
-                  <PostCard
-                    post={post}
-                    onDeletePost={handleDeletePost}
-                    key={index}
-                  />
-                ))}
+            <div className='p-3'>
+              <Heading className='text-xl'>Saved posts</Heading>
+              {savedContents.posts.length === 0 && <p>No saved posts</p>}
+              <div className='flex flex-wrap justify-center gap-5 p-3'>
+                {savedContents.posts.length > 0 &&
+                  savedContents.posts.map((post, index) => (
+                    <PostCard
+                      post={post}
+                      onDeletePost={handleDeletePost}
+                      key={index}
+                    />
+                  ))}
               </div>
             </div>
-            <div>
+            <div className='p-3'>
               <Heading className='text-lg'>Saved QAs</Heading>
-              {savedContents.qas.length === 0 && <p>No saved videos</p>}
-              <div>
-                {savedContents.qas.map((question, index) => (
-                  <QuestionAnswerCard question={question} key={index} />
-                ))}
+              {savedContents.qas.length === 0 && <p>No saved QAs</p>}
+              <div className='flex flex-wrap justify-center gap-5 p-3'>
+                {savedContents.qas.length > 0 &&
+                  savedContents.qas.map((question, index) => (
+                    <QuestionAnswerCard question={question} key={index} />
+                  ))}
               </div>
             </div>
           </>
