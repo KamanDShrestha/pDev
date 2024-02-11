@@ -46,6 +46,21 @@ export type AddLearningPodcastData = {
   podcastDescription: string;
 };
 
+
+
+export type UpdateLearningPodcastData = {}
+
+
+export type UpdateLearningVideoData = {
+  category: string;
+  videoId: string;
+  video: {
+    url: string;
+    embedUrl: string;
+    title: string;
+    author: string;
+}
+
 export type LearningVideo = {
   _id: string;
   url: string;
