@@ -8,18 +8,25 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogTrigger,
 } from '../../components/ui/dialog';
 import { Button } from '../../components/ui/button';
 import useUpdateActionCompletion from '../../services/embarkedJourneys/updateActionCompletion';
 import { useQueryClient } from '@tanstack/react-query';
-
+import TruncatedText from '../../components/TruncatedText';
+import { FaCheck, FaRegCalendarCheck } from 'react-icons/fa';
+import { CiCircleCheck } from 'react-icons/ci';
+import { MdBlock } from 'react-icons/md';
+import { TbCalendarDue } from 'react-icons/tb';
+import { Card, CardContent } from '../../components/ui/card';
+import LoadingSpinner from '../../components/LoadingSpinner';
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
   const {
     data: embarkedJourney,
-    isLoading,
+    isLoading: isFetchingEmbarkedJourney,
     error,
   } = useGetEmbarkedJourney(user?.id as string, journeyId?.id as string);
 
@@ -62,24 +69,30 @@ const CurrentJourney = () => {
               Today's action step
             </h2>
 
-            <div className='text-xl font-medium'>
+            <div className='p-5 text-xl font-medium'>
               {/* getting the action step in which the journey is ongoing as only one of the journey would be ongoing*/}
+              {isFetchingEmbarkedJourney && <LoadingSpinner />}
+
               {(embarkedJourney &&
-                embarkedJourney.actionSteps[
-                  Object.keys(embarkedJourney.actionSteps).filter(
-                    (day) =>
-                      embarkedJourney?.actionSteps[day].status === 'ongoing'
-                  )[0]
-                ]?.actionStep) ||
-                'You have completed all the action steps'}
+                (embarkedJourney.isJourneyCompleted
+                  ? 'You have completed the whole journey. 🎉'
+                  : embarkedJourney.actionSteps[
+                      Object.keys(embarkedJourney.actionSteps).filter(
+                        (day) =>
+                          embarkedJourney?.actionSteps[day].status === 'ongoing'
+                      )[0]
+                    ]?.actionStep)) ||
+                'You have completed the action step for the day. 🎉'}
             </div>
           </div>
 
           <div className='p-10'>
-            <h2 className='mt-2 mb-5 text-4xl font-semibold'>Your journey</h2>
+            <h2 className='mt-2 mb-5 text-4xl font-semibold'>
+              Ongoing journey
+            </h2>
             <div>
               <div className='flex flex-col gap-8'>
-                {isLoading &&
+                {isFetchingEmbarkedJourney &&
                   Array.from(Array(7)).map((_, index) => (
                     <div className='flex gap-4' key={index}>
                       <Skeleton className='w-8 h-8 rounded-full' />
@@ -93,30 +106,28 @@ const CurrentJourney = () => {
                   (day: string, index) => (
                     <div className='flex items-center gap-4 p-3 text-lg font-medium'>
                       <Dialog>
-                        <DialogTrigger>
-                          {embarkedJourney.actionSteps[day].status === 'due' ||
-                          embarkedJourney.actionSteps[day].status ===
-                            'ongoing' ? (
-                            <Checkbox
-                              defaultChecked={
-                                embarkedJourney.actionSteps[day].isCompleted
-                              }
-                              checked={
-                                embarkedJourney.actionSteps[day].isCompleted ||
-                                isActionStepChecked
-                              }
-                              disabled={
-                                embarkedJourney.actionSteps[day].isCompleted
-                              }
-                            />
-                          ) : (
-                            <Checkbox
-                              disabled
-                              checked={
-                                embarkedJourney.actionSteps[day].isCompleted
-                              }
-                            />
-                          )}
+                        <DialogTrigger
+                          disabled={
+                            embarkedJourney.actionSteps[day].isCompleted ||
+                            embarkedJourney.actionSteps[day].status ===
+                              'idle' ||
+                            embarkedJourney.actionSteps[day].status ===
+                              'blocked'
+                          }
+                          className='text-2xl'
+                        >
+                          {embarkedJourney.actionSteps[day].status ===
+                            'completed' && <FaCheck />}
+
+                          {embarkedJourney.actionSteps[day].status ===
+                            'ongoing' && <CiCircleCheck />}
+
+                          {embarkedJourney.actionSteps[day].status ===
+                            'idle' && <FaRegCalendarCheck />}
+                          {embarkedJourney.actionSteps[day].status ===
+                            'blocked' && <MdBlock />}
+                          {embarkedJourney.actionSteps[day].status ===
+                            'due' && <TbCalendarDue />}
                         </DialogTrigger>
                         <DialogContent>
                           <div className='space-y-5'>
@@ -152,11 +163,19 @@ const CurrentJourney = () => {
                       >
                         <Dialog>
                           <DialogTrigger>
-                            <span className='text-xl'>{`Day ${
-                              index + 1
-                            }`}</span>
-                            <span> - </span>
-                            {embarkedJourney.actionSteps[day].actionStep}
+                            <Card>
+                              <CardContent className='flex items-center justify-center p-5'>
+                                <p className='text-xl'>{`Day ${index + 1}`}</p>
+                                <span className='whitespace-pre '> - </span>
+
+                                <TruncatedText
+                                  content={
+                                    embarkedJourney.actionSteps[day].actionStep
+                                  }
+                                  limit={75}
+                                />
+                              </CardContent>
+                            </Card>
                           </DialogTrigger>
 
                           <DialogContent>
@@ -164,78 +183,81 @@ const CurrentJourney = () => {
                               <h1 className='text-2xl font-semibold'>
                                 Day {selectedJourneyDay}
                               </h1>
-                              <span className='text-lg font-medium'>
+                              <DialogDescription className='text-lg font-medium'>
                                 Level up your day
-                              </span>
-
-                              <div>
-                                <h2 className='text-xl font-semibold'>
-                                  Action step for the day
-                                </h2>
-                                <p>
-                                  {
-                                    embarkedJourney.actionSteps[
-                                      `day${selectedJourneyDay}`
-                                    ].actionStep
-                                  }
-                                </p>
-                              </div>
-
-                              <div>
-                                <h2 className='text-xl font-semibold'>
-                                  Description
-                                </h2>
-                                <p>
-                                  {
-                                    embarkedJourney.actionSteps[
-                                      `day${selectedJourneyDay}`
-                                    ].description
-                                  }
-                                </p>
-                              </div>
-                              {embarkedJourney.actionSteps[
-                                `day${selectedJourneyDay}`
-                              ].additionalSteps && (
+                              </DialogDescription>
+                              <div className='p-3'>
                                 <div>
                                   <h2 className='text-xl font-semibold'>
-                                    Additional Steps
+                                    Action step for the day
                                   </h2>
-                                  <p>
-                                    {embarkedJourney.actionSteps[
-                                      `day${selectedJourneyDay}`
-                                    ].additionalSteps.map(
-                                      (step: string, index) => (
-                                        <p key={index}>
-                                          {index + 1}. {step}
-                                        </p>
-                                      )
-                                    )}
+                                  <p className='px-3 py-2 text-sm'>
+                                    {
+                                      embarkedJourney.actionSteps[
+                                        `day${selectedJourneyDay}`
+                                      ].actionStep
+                                    }
                                   </p>
                                 </div>
-                              )}
 
-                              {embarkedJourney.actionSteps[
-                                `day${selectedJourneyDay}`
-                              ].evidences && (
                                 <div>
                                   <h2 className='text-xl font-semibold'>
-                                    Evidences
+                                    Description
                                   </h2>
-                                  {embarkedJourney.actionSteps[
-                                    `day${selectedJourneyDay}`
-                                  ].evidences.map((link: string, index) => (
-                                    <p>
-                                      <Link
-                                        key={index}
-                                        to={link}
-                                        target='_blank'
-                                      >
-                                        {index + 1}. {link}
-                                      </Link>
-                                    </p>
-                                  ))}
+                                  <p className='px-3 py-2 text-sm'>
+                                    {
+                                      embarkedJourney.actionSteps[
+                                        `day${selectedJourneyDay}`
+                                      ].description
+                                    }
+                                  </p>
                                 </div>
-                              )}
+                                {embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].additionalSteps && (
+                                  <div>
+                                    <h2 className='text-xl font-semibold'>
+                                      Additional Steps
+                                    </h2>
+                                    <p className='px-3 py-2 text-sm'>
+                                      {embarkedJourney.actionSteps[
+                                        `day${selectedJourneyDay}`
+                                      ].additionalSteps.map(
+                                        (step: string, index) => (
+                                          <p key={index}>
+                                            {index + 1}. {step}
+                                          </p>
+                                        )
+                                      )}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].evidences && (
+                                  <div>
+                                    <h2 className='text-xl font-semibold'>
+                                      Evidences
+                                    </h2>
+                                    <p className='px-3 py-2 text-sm font-medium'>
+                                      {embarkedJourney.actionSteps[
+                                        `day${selectedJourneyDay}`
+                                      ].evidences.map((link: string, index) => (
+                                        <p>
+                                          <Link
+                                            key={index}
+                                            to={link}
+                                            target='_blank'
+                                          >
+                                            {index + 1}. {link}
+                                          </Link>
+                                        </p>
+                                      ))}
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
 
                               {embarkedJourney.actionSteps[
                                 `day${selectedJourneyDay}`

@@ -10,7 +10,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from './ui/accordion';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import {
   Card,
   CardHeader,
@@ -27,8 +27,9 @@ import useDeleteSpecificJourney from '../services/journey/deleteSpecificJourney'
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
 import { FaLock } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
+import { cn } from '../lib/utils';
 
 interface ActionSteps {
   description: string;
@@ -126,7 +127,18 @@ const JourneyCard = ({
                     user.hasSubscribed) && (
                     <>
                       <Button onClick={onBrowseClick}>Browse</Button>
-                      {!embarkedJourney && <Button>Begin</Button>}
+                      {!embarkedJourney ? (
+                        <Button>Begin</Button>
+                      ) : (
+                        <NavLink
+                          to={`/currentJourney/${embarkedJourney?.journeyId}`}
+                          className={cn(
+                            buttonVariants({ variant: 'secondary' })
+                          )}
+                        >
+                          Navigate to the journey
+                        </NavLink>
+                      )}
                     </>
                   )}
                 {user &&
