@@ -28,7 +28,11 @@ const Learn = () => {
                 </Heading>
                 <div className='flex flex-wrap items-center justify-center gap-5'>
                   {videoDocument.videos.map((video, index) => (
-                    <LearningVideoCard video={video} key={index} />
+                    <LearningVideoCard
+                      video={video}
+                      key={index}
+                      videoCategory={videoDocument.category}
+                    />
                   ))}
                 </div>
               </div>

@@ -146,6 +146,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             'post',
             post._id,
           ]);
+          queryClient.invalidateQueries(['savedContents', user?.id as string]);
         },
       }
     );

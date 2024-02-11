@@ -10,9 +10,10 @@ import QuestionAnswerCard from '../components/QuestionAnswerCard';
 
 const Profile = () => {
   const { user } = useAuthContext();
+  console.log(user);
   const { data: savedContents, isLoading: isFetchingSavedContents } =
     useGetSavedContents(user?.id as string);
-
+  console.log(savedContents);
   function handleDeletePost(postId: string) {
     console.log(postId);
   }
@@ -45,9 +46,14 @@ const Profile = () => {
               <Heading className='text-lg'>Saved videos</Heading>
               {savedContents.videos.length === 0 && <p>No saved videos</p>}
               <div>
-                {savedContents.videos.map((video, index) => (
-                  <LearningVideoCard video={video} key={index} />
-                ))}
+                {savedContents.videos.length > 0 &&
+                  savedContents.videos.map((video, index) => (
+                    <LearningVideoCard
+                      video={video}
+                      key={index}
+                      videoCategory={video.videoCategory}
+                    />
+                  ))}
               </div>
             </div>
 
@@ -55,9 +61,10 @@ const Profile = () => {
               <Heading className='text-lg'>Saved podcasts</Heading>
               {savedContents.podcasts.length === 0 && <p>No saved videos</p>}
               <div>
-                {savedContents.podcasts.map((podcast, index) => (
-                  <LearningPodcastCard podcast={podcast} key={index} />
-                ))}
+                {savedContents.podcasts.length > 0 &&
+                  savedContents.podcasts.map((podcast, index) => (
+                    <LearningPodcastCard podcast={podcast} key={index} />
+                  ))}
               </div>
             </div>
 

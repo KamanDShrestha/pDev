@@ -1,6 +1,6 @@
 export type GetSavedContentData = {
-  videos: LearningVideo[];
-  podcasts: LearningPodcast[];
+  videos: (LearningVideo & { videoCategory: string })[];
+  podcasts: (LearningPodcast & { podcastCategory: string })[];
   posts: PostData[];
   qas: QAsData[];
 };
