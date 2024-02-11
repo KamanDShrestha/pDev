@@ -25,6 +25,7 @@ import { Button } from './ui/button';
 import { FieldValues, useForm } from 'react-hook-form';
 import useAddQuote from '../services/quotes/addQuote';
 import ErrorMessage from './ErrorMessage';
+import removeWhitespace from '../services/removeWhitespace';
 
 const AddQuoteCard = () => {
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
@@ -42,11 +43,16 @@ const AddQuoteCard = () => {
   } = useForm();
 
   function handleQuoteSubmit(data: FieldValues) {
+    if (isAddingNewCategory) {
+      if (!selectedCategory) return;
+    }
     addQuote(
       {
-        quote: data.quote,
-        author: data.author,
-        category: isAddingNewCategory ? data.category : selectedCategory,
+        quote: removeWhitespace(data.quote),
+        author: removeWhitespace(data.author),
+        category: isAddingNewCategory
+          ? removeWhitespace(data.category)
+          : (selectedCategory as string),
       },
       {
         onSuccess: () => {

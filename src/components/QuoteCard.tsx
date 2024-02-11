@@ -18,6 +18,7 @@ import { Input } from './ui/input';
 
 import useUpdateQuote from '../services/quotes/updateQuote';
 import { Textarea } from './ui/textarea';
+import removeWhitespace from '../services/removeWhitespace';
 
 interface QuoteCardProps {
   quote: {
@@ -45,7 +46,10 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
 
   function handleQuoteUpdate(data: FieldValues) {
     updateQuote({
-      quote: { quote: data.quote, author: data.author },
+      quote: {
+        quote: removeWhitespace(data.quote),
+        author: removeWhitespace(data.author),
+      },
       category,
       quoteId: quote._id,
     });
