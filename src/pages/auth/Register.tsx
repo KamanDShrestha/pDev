@@ -19,6 +19,7 @@ import { useRegisterUser } from '../../services/userAuth/registerUser';
 import { NavLink } from 'react-router-dom';
 import { BACKEND_URL } from '../../constants';
 import { FcGoogle } from 'react-icons/fc';
+import useDocumentTitle from '../../services/getTitle';
 
 const Register = () => {
   const {
@@ -37,6 +38,8 @@ const Register = () => {
   const providedLName = watch('lastName');
 
   const { mutate } = useRegisterUser();
+
+  useDocumentTitle('Register - SelfSync');
 
   async function handleRegister(values: z.infer<typeof registerSchema>) {
     console.log(values);

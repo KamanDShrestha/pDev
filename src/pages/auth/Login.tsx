@@ -21,6 +21,7 @@ import { useLoginUser } from '../../services/userAuth/loginUser';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { BACKEND_URL } from '../../constants';
 import { FcGoogle } from 'react-icons/fc';
+import useDocumentTitle from '../../services/getTitle';
 
 const Login = () => {
   const {
@@ -38,6 +39,8 @@ const Login = () => {
 
   console.log(errors);
   const { mutate: loginUser, isLoading: isLoggingIn } = useLoginUser();
+
+  useDocumentTitle('Login - SelfSync');
 
   function handleLogin(values: z.infer<typeof loginSchema>) {
     console.log(values);
