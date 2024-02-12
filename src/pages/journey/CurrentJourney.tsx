@@ -21,6 +21,7 @@ import { MdBlock } from 'react-icons/md';
 import { TbCalendarDue } from 'react-icons/tb';
 import { Card, CardContent } from '../../components/ui/card';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import useDocumentTitle from '../../services/getTitle';
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
@@ -35,6 +36,8 @@ const CurrentJourney = () => {
   const queryClient = useQueryClient();
   const [selectedJourneyDay, setSelectedJourneyDay] = useState(1);
   const [isActionStepChecked, setIsActionStepChecked] = useState(false);
+
+  useDocumentTitle('Current Journey - SelfSync');
 
   function handleConfirmActionStepCompletion(day: string) {
     mutate(

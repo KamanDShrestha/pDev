@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from '../../components/ui/dialog';
 import JourneyFeedback from '../../components/JourneyFeedback';
+import useDocumentTitle from '@/src/services/getTitle';
 
 const validJourneys = [
   'mindfulness',
@@ -40,6 +41,8 @@ const SpecificJourney = () => {
     user?.id as string,
     journey?._id as string
   );
+
+  useDocumentTitle(`${journey?.name} - SelfSync`);
 
   useEffect(() => {
     //to check if the user have the particular journey as preferred or user's subscribed

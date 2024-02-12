@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthProvider';
 import useGetAllEmbarkedJourneys from '../../services/embarkedJourneys/getAllEmbarkedJourneys';
 import RetrospectionCard from '../../components/RetrospectionCard';
+import useDocumentTitle from '../../services/getTitle';
 
 const Journey = () => {
   const { user } = useAuthContext();
@@ -18,6 +19,8 @@ const Journey = () => {
   const navigate = useNavigate();
 
   console.log(journeys);
+
+  useDocumentTitle('Journeys - SelfSync');
 
   function handleJourneyBrowseClick(name: string) {
     navigate('/journeys/' + name.toLowerCase());
