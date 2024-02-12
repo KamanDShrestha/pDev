@@ -36,7 +36,7 @@ const VerifyKhaltiSubscription = () => {
   console.log(verificationStatus);
   console.log(subscriptionId);
 
-  useDocumentTitle('Subscription Confirmation - SelfSync');
+  useDocumentTitle('Subscription Verification - SelfSync');
 
   useEffect(() => {
     if (searchParams.get('status') === 'Canceled') {

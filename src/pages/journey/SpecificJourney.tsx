@@ -1,5 +1,5 @@
 import JourneyCardSkeleton from '../../components/JourneyCardSkeleton';
-import { Skeleton } from '../../components/ui/skeleton';
+
 import useGetSpecificJourney from '../../services/journey/getSpecificJourney';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,6 +15,8 @@ import {
 } from '../../components/ui/dialog';
 import JourneyFeedback from '../../components/JourneyFeedback';
 import useDocumentTitle from '../../services/getTitle';
+import useGetRandomQuote from '../../services/quotes/getRandomQuote';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const validJourneys = [
   'mindfulness',
@@ -41,8 +43,11 @@ const SpecificJourney = () => {
     user?.id as string,
     journey?._id as string
   );
-
+  const { data: randomQuote, isLoading: isGettingRandomQuote } =
+    useGetRandomQuote(params.name as string);
   useDocumentTitle(`${journey?.name} - SelfSync`);
+
+  console.log(randomQuote);
 
   useEffect(() => {
     //to check if the user have the particular journey as preferred or user's subscribed
@@ -77,8 +82,15 @@ const SpecificJourney = () => {
   return (
     <div>
       <div className='w-screen h-[80vh] bg-gray-200 flex items-center '>
-        <div className='p-4 text-3xl'>
-          {journey ? journey.name : <Skeleton className='h-4 w-[450px]' />}
+        {/* <div className='p-4 text-3xl'></div> */}
+        <div className='p-10'>
+          {isGettingRandomQuote && <LoadingSpinner />}
+          {randomQuote && (
+            <div className='space-y-5'>
+              <p className='text-2xl'>{randomQuote.quote}</p>
+              <p className='text-lg text-right'> - {randomQuote.author}</p>
+            </div>
+          )}
         </div>
       </div>
       <div className='p-3'>
