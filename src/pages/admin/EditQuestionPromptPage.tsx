@@ -17,6 +17,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { useEffect } from 'react';
 import useUpdateQuestionPrompt from '../../services/questionPrompts/updateQuestionPrompt';
 import { useQueryClient } from '@tanstack/react-query';
+import useDocumentTitle from '../../services/getTitle';
 
 const EditQuestionPromptPage = () => {
   const { id } = useParams();
@@ -42,6 +43,8 @@ const EditQuestionPromptPage = () => {
       tags: questionPrompt?.questions.map((question) => question.tag),
     },
   });
+
+  useDocumentTitle('Edit Question Prompt - SelfSync');
 
   useEffect(() => {
     reset({

@@ -27,6 +27,7 @@ import {
 import JourneyCard from '../../components/JourneyCard';
 import { useAddNewJourney } from '../../services/journey/addNewJourney';
 import { ActionSteps } from '../../types';
+import useDocumentTitle from '../../services/getTitle';
 
 const AddJourneyPage = () => {
   const {
@@ -48,6 +49,8 @@ const AddJourneyPage = () => {
   const providedLightIconImage = watch('journeyIconImageLight');
 
   const { mutate } = useAddNewJourney();
+
+  useDocumentTitle('Add Journey - SelfSync');
 
   function handleJourneySubmit(data: FieldValues) {
     journeyImportance.current = [];

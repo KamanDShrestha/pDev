@@ -4,9 +4,12 @@ import FeedbackSection from '../../components/FeedbackSection';
 import ActionStepFeedbackSection from '../../components/ActionStepFeedbackSection';
 import { buttonVariants } from '../../components/ui/button';
 import { NavLink } from 'react-router-dom';
+import useDocumentTitle from '../../services/getTitle';
 
 const Feedbacks = () => {
   const { data: journeyFeedbacks, isLoading } = useGetJourneyFeedbacks();
+
+  useDocumentTitle('Feedbacks - SelfSync');
 
   return (
     <>

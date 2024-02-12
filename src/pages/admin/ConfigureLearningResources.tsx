@@ -6,11 +6,13 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import { NavLink } from 'react-router-dom';
 import { buttonVariants } from '../../components/ui/button';
 import LearningVideoCard from '../../components/LearningVideoCard';
+import useDocumentTitle from '../../services/getTitle';
 
 const ConfigureLearningResources = () => {
   const { data: learningVideos, isLoading: isFetchingLearningVideos } =
     useGetAllVideos();
   console.log(learningVideos);
+  useDocumentTitle('Learning Resources - Configure - SelfSync');
   return (
     <div>
       <Heading>Learning Videos</Heading>

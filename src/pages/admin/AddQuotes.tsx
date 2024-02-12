@@ -5,9 +5,11 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import AddQuoteCard from '../../components/AddQuoteCard';
 
 import QuoteCard from '../../components/QuoteCard';
+import useDocumentTitle from '../../services/getTitle';
 
 const AddQuotes = () => {
   const { data: quotes, isLoading: isFetchingQuotes } = useGetAllQuotes();
+  useDocumentTitle('Add Quotes - SelfSync');
   return (
     <>
       <Heading>Quotes</Heading>

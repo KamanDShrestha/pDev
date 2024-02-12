@@ -2,10 +2,13 @@ import useGetAllApplications from '../../services/qhpApplications/getAllApplicat
 import Heading from '../../components/Heading';
 
 import ApplicationCard from '../../components/ApplicationCard';
+import useDocumentTitle from '../../services/getTitle';
 
 const Review = () => {
   const { data: applications } = useGetAllApplications();
   console.log(applications);
+
+  useDocumentTitle('Review Applications - SelfSync');
 
   return (
     <div className='space-y-20'>

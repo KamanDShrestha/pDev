@@ -17,6 +17,7 @@ import {
 } from '../../components/ui/dialog';
 import useEditJourney from '../../services/journey/editJourney';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import useDocumentTitle from '../../services/getTitle';
 
 const EditJourneyPage = () => {
   const { id } = useParams();
@@ -37,6 +38,8 @@ const EditJourneyPage = () => {
   });
   const { mutate, isLoading: isUpdating } = useEditJourney();
 
+  useDocumentTitle('Edit Journey - SelfSync');
+
   useEffect(() => {
     if (journey) {
       reset({
@@ -51,6 +54,7 @@ const EditJourneyPage = () => {
       });
     }
   }, [journey, reset]);
+
   console.log(getValues());
   console.log(journey);
 

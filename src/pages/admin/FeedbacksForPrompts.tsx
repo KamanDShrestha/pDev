@@ -5,10 +5,12 @@ import useGetPromptFeedbacks from '../../services/promptFeedbacks/getPromptFeedb
 
 import LoadingSpinner from '../../components/LoadingSpinner';
 import PromptFeedbackCard from '../../components/PromptFeedbackCard';
+import useDocumentTitle from '../../services/getTitle';
 
 const FeedbacksForPrompts = () => {
   const { data: promptFeedbacks, isLoading } = useGetPromptFeedbacks();
 
+  useDocumentTitle('Feedbacks - Question Prompts - SelfSync');
   return (
     <>
       <div className='flex flex-wrap justify-between'>

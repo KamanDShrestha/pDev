@@ -5,11 +5,13 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import AddLearningPodcastCard from '../../components/AddLearningPodcastCard';
 import useGetAllPodcasts from '../../services/learningPodcasts/getLearningPodcasts';
 import LearningPodcastCard from '../../components/LearningPodcastCard';
+import useDocumentTitle from '../../services/getTitle';
 
 const ConfigureLearningPodcasts = () => {
   const { data: learningPodcasts, isLoading: isFetchingLearningPodcasts } =
     useGetAllPodcasts();
   console.log(learningPodcasts);
+  useDocumentTitle('Learning Podcasts - Configure - SelfSync');
   return (
     <div>
       <Heading>Learning Podcasts</Heading>

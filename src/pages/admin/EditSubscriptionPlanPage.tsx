@@ -11,6 +11,7 @@ import { Button } from '../../components/ui/button';
 import useUpdateSubscriptionPlan from '../../services/subscriptionPlans/updateSubscriptionPlan';
 
 import { MdOutlineArrowLeft } from 'react-icons/md';
+import useDocumentTitle from '../../services/getTitle';
 const EditSubscriptionPlanPage = () => {
   const { id } = useParams();
   console.log(id);
@@ -34,6 +35,8 @@ const EditSubscriptionPlanPage = () => {
       subscriptionFeatures: subscriptionPlan?.subscriptionFeatures,
     },
   });
+
+  useDocumentTitle('Edit Subscription Plan - SelfSync');
 
   useEffect(() => {
     reset({

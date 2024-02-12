@@ -26,6 +26,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { useGetAllJourneys } from '../../services/journey/getAllJourneys';
 import { useState } from 'react';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import useDocumentTitle from '../../services/getTitle';
 
 const AddCommunity = () => {
   const { mutate: addCommunity, isLoading: isCreatingCommunity } =
@@ -45,6 +46,8 @@ const AddCommunity = () => {
   const providedDescription = watch('communityDescription');
   const providedDarkIconImage = watch('communityIconImageDark');
   const providedLightIconImage = watch('communityIconImageLight');
+
+  useDocumentTitle('Add Community - SelfSync');
 
   function handleAddCommunity(data: FieldValues) {
     if (selectedJourney === '') {

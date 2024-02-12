@@ -9,6 +9,7 @@ import QuestionPromptAddSection from '../../components/QuestionPromptAddSection'
 import { NavLink } from 'react-router-dom';
 import { buttonVariants } from '../../components/ui/button';
 import { cn } from '../../lib/utils';
+import useDocumentTitle from '../../services/getTitle';
 
 // a seperate section for question prompts
 // rendering all the question prompts along with their title, description and questions
@@ -19,6 +20,8 @@ import { cn } from '../../lib/utils';
 
 const WellbeingForAdmin = () => {
   const { data: questionPrompts, isLoading } = useGetQuestionPrompts();
+
+  useDocumentTitle('Admin Wellbeing - SelfSync');
   return (
     <>
       <div className='space-y-3'>
