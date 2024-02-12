@@ -1,3 +1,4 @@
+import useDocumentTitle from '../../services/getTitle';
 import QuestionAnswerCard from '../../components/QuestionAnswerCard';
 import useGetQAs from '../../services/QAs/getQAs';
 
@@ -5,6 +6,8 @@ const QAs = () => {
   const { data: QAs, error } = useGetQAs();
   console.log(QAs);
   console.log(error);
+
+  useDocumentTitle('QAs - SelfSync');
 
   return (
     <div className='flex flex-wrap justify-center gap-5'>

@@ -3,9 +3,12 @@ import Heading from '../../components/Heading';
 import useGetQuestionPrompts from '../../services/questionPrompts/getQuestionPrompts';
 import QuestionPromptCard from '../../components/QuestionPromptCard';
 import QuestionPromptsCard from '../../components/QuestionPromptsCard';
+import useDocumentTitle from '../../services/getTitle';
 
 const VerifyQuestionPromptsPage = () => {
   const { data: questionPrompts, isLoading } = useGetQuestionPrompts();
+
+  useDocumentTitle('Verify Question Prompts - SelfSync');
 
   return (
     <div>

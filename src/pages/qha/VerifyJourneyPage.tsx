@@ -5,10 +5,13 @@ import JourneyCardSkeleton from '../../components/JourneyCardSkeleton';
 import ReviewJourneyCard from '../../components/ReviewJourneyCard';
 import useUpdateJourneyVerification from '../../services/journey/updateJourneyVerification';
 import JourneyCard from '../../components/JourneyCard';
+import useDocumentTitle from '../../services/getTitle';
 
 const VerifyJourneyPage = () => {
   const { data: journeys, isLoading } = useGetAllJourneys();
   const { mutate } = useUpdateJourneyVerification();
+
+  useDocumentTitle('Verify Journeys - SelfSync');
 
   function handleVerification(journeyId: string) {
     mutate(journeyId);

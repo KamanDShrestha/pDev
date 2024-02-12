@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from '../../components/ui/dialog';
 import JourneyFeedback from '../../components/JourneyFeedback';
-import useDocumentTitle from '@/src/services/getTitle';
+import useDocumentTitle from '../../services/getTitle';
 
 const validJourneys = [
   'mindfulness',
