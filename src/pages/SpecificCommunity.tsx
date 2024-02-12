@@ -24,6 +24,7 @@ import { useState } from 'react';
 import QuestionAnswerCard from '../components/QuestionAnswerCard';
 import { PostData, QAsData } from '../types';
 import useDeletePost from '../services/posts/deletePost';
+import useDocumentTitle from '../services/getTitle';
 
 const SpecificCommunity = () => {
   const { communityId } = useParams<{ communityId: string }>();
@@ -44,6 +45,8 @@ const SpecificCommunity = () => {
   const { data: posts } = useGetPosts(communityId as string, {
     category: selectedCategory,
   });
+
+  useDocumentTitle(`${community?.communityName} - SelfSync`);
 
   console.log(posts);
   console.log(community);

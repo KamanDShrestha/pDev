@@ -2,9 +2,12 @@ import { useEffect } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
+import useDocumentTitle from '../services/getTitle';
 const Loading = () => {
   const { user, isLoading } = useAuthContext();
   const navigate = useNavigate();
+
+  useDocumentTitle('Loading - SelfSync');
 
   useEffect(() => {
     if (!isLoading && user) {

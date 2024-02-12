@@ -15,6 +15,7 @@ import { Textarea } from '../components/ui/textarea';
 import { Button } from '../components/ui/button';
 import useApplyForQHP from '../services/qhpApplications/applyForQHP';
 import LoadingSpinner from '../components/LoadingSpinner';
+import useDocumentTitle from '../services/getTitle';
 
 const ApplyForQHP = () => {
   const { user } = useAuthContext();
@@ -29,6 +30,8 @@ const ApplyForQHP = () => {
 
   const providedLicense = watch('workingLicense');
   const providedAdditionalInfo = watch('additionalInformation');
+
+  useDocumentTitle('Apply for QHP - SelfSync');
 
   function handleApplicationSubmit(data: FieldValues) {
     const experiences = [];

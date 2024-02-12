@@ -8,12 +8,15 @@ import MoodTracker from '../components/MoodTracker';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
+import useDocumentTitle from '../services/getTitle';
 
 const Home = () => {
   const { mutate, isLoading: isLoggingOut } = useLogoutUser();
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const [moodTrackerModal, setMoodTrackerModal] = useState(false);
+
+  useDocumentTitle('Home - SelfSync');
 
   console.log(user);
   useEffect(() => {

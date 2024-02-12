@@ -4,10 +4,13 @@ import SubscriptionPlanAddSection from '../components/SubscriptionPlanAddSection
 import SubscriptionPlanCard from '../components/SubscriptionPlanCard';
 import { Button } from '../components/ui/button';
 import useGetSubscriptionPlans from '../services/subscriptionPlans/getSubscriptionPlans';
+import useDocumentTitle from '../services/getTitle';
 
 const SubscribeForAdmin = () => {
   const { data: subscriptionPlans } = useGetSubscriptionPlans();
   const navigate = useNavigate();
+
+  useDocumentTitle('Subscribe - Admin - SelfSync');
   return (
     <>
       <div className='flex flex-wrap justify-between'>

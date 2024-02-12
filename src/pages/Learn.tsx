@@ -2,6 +2,7 @@ import Heading from '../components/Heading';
 import LearningPodcastCard from '../components/LearningPodcastCard';
 import LearningVideoCard from '../components/LearningVideoCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import useDocumentTitle from '../services/getTitle';
 import useGetAllPodcasts from '../services/learningPodcasts/getLearningPodcasts';
 import useGetAllVideos from '../services/learningVideos/getLearningVideos';
 
@@ -10,6 +11,8 @@ const Learn = () => {
     useGetAllVideos();
   const { data: learningPodcasts, isLoading: isFetchingLearningPodcasts } =
     useGetAllPodcasts();
+
+  useDocumentTitle('Learning Resources - SelfSync');
   return (
     <>
       <Heading>Learning Resources</Heading>

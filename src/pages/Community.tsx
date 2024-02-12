@@ -5,12 +5,15 @@ import useGetCommunities from '../services/community/getCommunities';
 import { useNavigate } from 'react-router-dom';
 import CommunityCard from '../components/CommunityCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import useDocumentTitle from '../services/getTitle';
 
 const Community = () => {
   const { user } = useAuthContext();
   const { data: communities, isLoading } = useGetCommunities();
 
   const navigate = useNavigate();
+
+  useDocumentTitle('Communities - SelfSync');
 
   return (
     <>

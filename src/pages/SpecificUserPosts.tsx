@@ -9,6 +9,7 @@ import useGetQAsByUserInCommunity from '../services/QAs/getQAsByUserInCommunity'
 import PostCard from '../components/PostCard';
 import useDeletePost from '../services/posts/deletePost';
 import QuestionAnswerCard from '../components/QuestionAnswerCard';
+import useDocumentTitle from '../services/getTitle';
 
 const SpecificUserPosts = () => {
   const { communityId, userId } = useParams();
@@ -29,6 +30,8 @@ const SpecificUserPosts = () => {
     communityId as string,
     userId as string
   );
+
+  useDocumentTitle(`Posts - ${community?.communityName} SelfSync`);
 
   const navigate = useNavigate();
 

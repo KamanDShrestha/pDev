@@ -10,6 +10,7 @@ import khaltiLogo from '../assets/paymentsGateway/khalti-logo.png';
 import eSewaLogo from '../assets/paymentsGateway/esewa-icon.png';
 import usePayViaKhalti from '../services/payments/payViaKhalti';
 import usePayViaEsewa from '../services/payments/payViaEsewa';
+import useDocumentTitle from '../services/getTitle';
 const SubscriptionConfirmation = () => {
   const { subscriptionId } = useParams();
   const { user } = useAuthContext();
@@ -31,6 +32,8 @@ const SubscriptionConfirmation = () => {
     subscriptionPlan &&
     subscriptionPlan.subscriptionPrice +
       parseFloat((subscriptionPlan.subscriptionPrice * 0.13).toFixed(2));
+
+  useDocumentTitle('Checkout - SelfSync');
 
   async function handlePaymentViaKhalti() {
     console.log('Payment via Khalti');

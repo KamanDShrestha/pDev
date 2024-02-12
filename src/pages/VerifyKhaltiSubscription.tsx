@@ -11,6 +11,7 @@ import Heading from '../components/Heading';
 
 import subscriptionConfirmation from '../assets/tick.png';
 import subscriptionError from '../assets/cross.png';
+import useDocumentTitle from '../services/getTitle';
 const VerifyKhaltiSubscription = () => {
   const [isNavigating, setIsNavigating] = useState(false);
 
@@ -34,6 +35,8 @@ const VerifyKhaltiSubscription = () => {
   const navigate = useNavigate();
   console.log(verificationStatus);
   console.log(subscriptionId);
+
+  useDocumentTitle('Subscription Confirmation - SelfSync');
 
   useEffect(() => {
     if (searchParams.get('status') === 'Canceled') {

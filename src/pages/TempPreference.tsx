@@ -12,6 +12,7 @@ import useAddPreferredJourney from '../services/journey/addPreferredJourney';
 import { useAuthContext } from '../context/AuthProvider';
 import setToLocalStorage from '../services/localStorage/setToLocalStorage';
 import getFromLocalStorage from '../services/localStorage/getFromLocalStorage';
+import useDocumentTitle from '../services/getTitle';
 
 const journeyCategories = [
   'Mindfulness',
@@ -45,6 +46,8 @@ const TempPreference = () => {
   function handleSelection(index: number) {
     setSelectedCategory(() => index);
   }
+
+  useDocumentTitle('Choose Preferred Journey -  SelfSync');
 
   function handleSubmit() {
     console.log(journeyCategories[selectedCategory]);

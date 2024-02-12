@@ -1,8 +1,11 @@
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
 import { Link } from 'react-router-dom';
+import useDocumentTitle from '../services/getTitle';
 
 const JourneyNotFound = () => {
+  useDocumentTitle('Journey Not Found - SelfSync');
+
   return (
     <div className='flex flex-col items-center justify-center w-screen h-screen gap-10'>
       <div className='flex flex-col items-center'>

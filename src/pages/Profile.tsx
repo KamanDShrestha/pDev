@@ -7,6 +7,7 @@ import LearningPodcastCard from '../components/LearningPodcastCard';
 import PostCard from '../components/PostCard';
 
 import QuestionAnswerCard from '../components/QuestionAnswerCard';
+import useDocumentTitle from '../services/getTitle';
 
 const Profile = () => {
   const { user } = useAuthContext();
@@ -14,6 +15,9 @@ const Profile = () => {
   const { data: savedContents, isLoading: isFetchingSavedContents } =
     useGetSavedContents(user?.id as string);
   console.log(savedContents);
+
+  useDocumentTitle('Profile - SelfSync');
+
   function handleDeletePost(postId: string) {
     console.log(postId);
   }

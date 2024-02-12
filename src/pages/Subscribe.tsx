@@ -1,10 +1,12 @@
 import Heading from '../components/Heading';
 import useGetSubscriptionPlans from '../services/subscriptionPlans/getSubscriptionPlans';
 import SubscriptionPlanCard from '../components/SubscriptionPlanCard';
+import useDocumentTitle from '../services/getTitle';
 
 const Subscribe = () => {
   const { data: subscriptionPlans } = useGetSubscriptionPlans();
 
+  useDocumentTitle('Subscribe - SelfSync');
   return (
     <>
       <div className='flex flex-wrap justify-between'>

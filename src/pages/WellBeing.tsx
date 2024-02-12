@@ -21,6 +21,7 @@ import useGetGratitudeJournals from '../services/gratitudeJournals/getGratitudeJ
 import GratitudeJournalCard from '../components/GratitudeJournalCard';
 import useGetQuestionPrompts from '../services/questionPrompts/getQuestionPrompts';
 import QuestionPromptsCard from '../components/QuestionPromptsCard';
+import useDocumentTitle from '../services/getTitle';
 
 const WellBeing = () => {
   const { user } = useAuthContext();
@@ -36,6 +37,8 @@ const WellBeing = () => {
   console.log(gratitudeJournals);
 
   console.log(journals);
+
+  useDocumentTitle('Wellbeing - SelfSync');
   return (
     <div className='flex flex-col gap-10'>
       <div>

@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import useUpdateUserDOB from '../services/users/updateUserDOB';
 import setToLocalStorage from '../services/localStorage/setToLocalStorage';
 import getFromLocalStorage from '../services/localStorage/getFromLocalStorage';
+import useDocumentTitle from '../services/getTitle';
 
 type ProfileCompletion = {
   question: string;
@@ -96,6 +97,8 @@ const NewUser = () => {
 
   const { mutate } = useProfileCompletion();
   const { mutate: updateDOB } = useUpdateUserDOB();
+
+  useDocumentTitle('Complete Profile - SelfSync');
 
   useEffect(() => {
     if (!user?.isNewUser) navigate('/home');
