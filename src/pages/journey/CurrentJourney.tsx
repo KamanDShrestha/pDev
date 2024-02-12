@@ -22,6 +22,8 @@ import { TbCalendarDue } from 'react-icons/tb';
 import { Card, CardContent } from '../../components/ui/card';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import useDocumentTitle from '../../services/getTitle';
+
+import ProgressBar from '../../components/ProgressBar';
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
@@ -38,6 +40,14 @@ const CurrentJourney = () => {
   const [isActionStepChecked, setIsActionStepChecked] = useState(false);
 
   useDocumentTitle('Current Journey - SelfSync');
+
+  const completionPercentage =
+    embarkedJourney &&
+    (Object.keys(embarkedJourney.actionSteps).filter(
+      (day) => embarkedJourney.actionSteps[day].isCompleted === true
+    ).length /
+      Object.keys(embarkedJourney.actionSteps).length) *
+      100;
 
   function handleConfirmActionStepCompletion(day: string) {
     mutate(
@@ -94,6 +104,8 @@ const CurrentJourney = () => {
             <h2 className='mt-2 mb-5 text-4xl font-semibold'>
               Ongoing journey
             </h2>
+
+            <ProgressBar completion={completionPercentage!} />
             <div>
               <div className='flex flex-col gap-8'>
                 {isFetchingEmbarkedJourney &&
