@@ -24,6 +24,10 @@ import ErrorMessage from './ErrorMessage';
 import useUpdatePromptVerificationStatus from '../services/questionPrompts/updatePromptVerificationStatus';
 import useAddPromptFeedback from '../services/promptFeedbacks/addPromptFeedback';
 import LoadingSpinner from './LoadingSpinner';
+import { FaPen, FaTrash } from 'react-icons/fa';
+
+import useDeleteQuestionPrompt from '../services/questionPrompts/deleteQuestionPrompt';
+import { useNavigate } from 'react-router-dom';
 
 interface QuestionPromptCardProps {
   questionPrompt: QuestionPrompt;
@@ -38,9 +42,14 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
     reset,
   } = useForm();
 
+  const { mutate: deletePrompt, isLoading: isDeleting } =
+    useDeleteQuestionPrompt();
   const { mutate: updateStatus, isLoading: isUpdating } =
     useUpdatePromptVerificationStatus();
   const { mutate: addFeedback, isLoading: isAdding } = useAddPromptFeedback();
+
+  const navigate = useNavigate();
+
   function handleFeedbackSubmit(data: FieldValues) {
     console.log(data);
     addFeedback(
@@ -67,6 +76,10 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
     });
   }
 
+  function handlePromptDelete() {
+    deletePrompt({ promptId: questionPrompt._id });
+  }
+
   return (
     <Card className='lg:w-[600px] w-[400px]'>
       <CardHeader>
@@ -83,6 +96,32 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
             </div>
           ))}
       </CardContent>
+      {user?.role === 'admin' && (
+        <CardFooter className='space-x-3'>
+          <Button
+            className='space-x-2'
+            variant={'destructive'}
+            onClick={handlePromptDelete}
+          >
+            {isDeleting ? (
+              <LoadingSpinner />
+            ) : (
+              <>
+                <span>Move to trash</span>
+                <FaTrash />
+              </>
+            )}
+          </Button>
+          <Button
+            className='space-x-2'
+            onClick={() => navigate(`/prompts/edit/${questionPrompt._id}`)}
+          >
+            <span>Update</span>
+            <FaPen />
+          </Button>
+        </CardFooter>
+      )}
+
       {user?.role === 'qha' && (
         <CardFooter className='flex gap-3'>
           <Button
