@@ -415,6 +415,14 @@ export type PostData = {
   createdAt: Date;
 };
 
+export type PostCountData = {
+  [key: string]: {
+    communityId: string;
+    count: number;
+    communityName: string;
+  };
+};
+
 export type AddPostData = {
   userId: string;
   communityId: string;
@@ -561,6 +569,7 @@ export type EmbarkedJourney = {
   _id: string;
   userId: string;
   journeyId: string;
+  journeyName: string;
   keyLearning: [string];
   reflection: [string];
   isJourneyCompleted: boolean;

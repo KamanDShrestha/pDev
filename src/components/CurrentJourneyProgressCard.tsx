@@ -5,6 +5,7 @@ import ProgressBar from './ProgressBar';
 import { buttonVariants } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { EmbarkedJourney } from '../types';
+import { Separator } from './ui/separator';
 
 interface CurrentJourneyProgressCardProps {
   currentJourney: EmbarkedJourney | null | undefined;
@@ -17,9 +18,11 @@ const CurrentJourneyProgressCard = ({
 }: CurrentJourneyProgressCardProps) => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Your journey</CardTitle>
+      <CardHeader className='pb-0'>
+        <CardTitle>Ongoing journey</CardTitle>
       </CardHeader>
+      <Separator className='my-3' />
+
       <CardContent>
         {isFetchingCurrentJourney && <LoadingSpinner />}
         {currentJourney === null && (
@@ -33,7 +36,7 @@ const CurrentJourneyProgressCard = ({
           <div className='space-y-5'>
             <p>
               You are currently on the journey of{' '}
-              <strong>{currentJourney.journeyId}</strong>. Keep going!
+              <strong>{currentJourney.journeyName}</strong>. Keep going!
             </p>
             <ProgressBar
               completion={
