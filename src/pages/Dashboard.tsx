@@ -7,7 +7,7 @@ import useDocumentTitle from '../services/getTitle';
 
 import CurrentJourneyProgressCard from '../components/CurrentJourneyProgressCard';
 import useGetCompletedEmbarkedJourneys from '../services/embarkedJourneys/getCompletedEmbarkedJourneys';
-import { Card } from '../components/ui/card';
+import { Card, CardContent } from '../components/ui/card';
 
 import CompletedJourneysCard from '../components/CompletedJourneysCard';
 import useGetPostsCount from '../services/posts/getPostsCount';
@@ -23,6 +23,7 @@ import PromptEntriesCountCard from '../components/PromptEntriesCountCard';
 import useGetSavedContentCount from '../services/savedContent/getSavedContentCount';
 
 import SavedContentCountCard from '../components/SavedContentCountCard';
+import MoodDisplay from '../components/MoodDisplay';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -69,6 +70,13 @@ const Dashboard = () => {
             isFetchingCompletedJourneys={isFetchingCompletedJourneys}
           />
         </Card>
+
+        <Card>
+          <CardContent className='flex items-center justify-center'>
+            <MoodDisplay />
+          </CardContent>
+        </Card>
+
         <div className='flex flex-wrap gap-5'>
           <PostsCountCard
             postsCount={postsCount}
