@@ -24,6 +24,7 @@ import useGetSavedContentCount from '../services/savedContent/getSavedContentCou
 
 import SavedContentCountCard from '../components/SavedContentCountCard';
 import MoodDisplay from '../components/MoodDisplay';
+import MoodsChartSection from '../components/MoodsChartSection';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -72,6 +73,8 @@ const Dashboard = () => {
         </Card>
 
         <MoodDisplay />
+
+        <MoodsChartSection />
 
         <div className='flex flex-wrap gap-5'>
           <PostsCountCard
