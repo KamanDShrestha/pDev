@@ -21,6 +21,7 @@ import useGetPostsCount from '../services/posts/getPostsCount';
 import useGetGratitudeJournalCount from '../services/gratitudeJournals/getGratitudeJournalCount';
 
 import useGetQuestionPromptEntriesCount from '../services/questionPromptEntries/getQuestionPromptEntriesCount';
+import useGetJournalCount from '../services/journals/getJournalCounts';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -37,11 +38,13 @@ const Dashboard = () => {
   const { data: questionPromptEntriesCount } = useGetQuestionPromptEntriesCount(
     user?.id as string
   );
+  const { data: journalCount } = useGetJournalCount(user?.id as string);
 
   console.log(currentJourney);
   console.log(completedJourneys);
   console.log(gratitudeJournalCount);
   console.log(questionPromptEntriesCount);
+  console.log(journalCount);
 
   useDocumentTitle('Dashboard - SelfSync');
   return (
