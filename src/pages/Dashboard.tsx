@@ -27,6 +27,8 @@ import { cn } from '../lib/utils';
 import { buttonVariants } from '../components/ui/button';
 import PostsCountCard from '../components/PostsCountCard';
 import JournalsCountCard from '../components/JournalsCountCard';
+import GratitudeJournalsCountCard from '../components/GratitudeJournalsCountCard';
+import PromptEntriesCountCard from '../components/PromptEntriesCountCard';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -41,9 +43,10 @@ const Dashboard = () => {
     data: gratitudeJournalCount,
     isLoading: isFetchingGratitudeJournalCount,
   } = useGetGratitudeJournalCount(user?.id as string);
-  const { data: questionPromptEntriesCount } = useGetQuestionPromptEntriesCount(
-    user?.id as string
-  );
+  const {
+    data: questionPromptEntriesCount,
+    isLoading: isFetchingPromptEntriesCount,
+  } = useGetQuestionPromptEntriesCount(user?.id as string);
   const { data: journalCount, isLoading: isFetchingJournalCount } =
     useGetJournalCount(user?.id as string);
 
@@ -69,7 +72,7 @@ const Dashboard = () => {
             isFetchingCompletedJourneys={isFetchingCompletedJourneys}
           />
         </Card>
-        <div className='flex gap-5'>
+        <div className='flex flex-wrap gap-5'>
           <PostsCountCard
             postsCount={postsCount}
             isFetchingPostsCount={isFetchingPostsCount}
@@ -78,34 +81,14 @@ const Dashboard = () => {
             journalCount={journalCount}
             isFetchingJournalCount={isFetchingJournalCount}
           />
-          <Card className='max-w-[400px]'>
-            <CardHeader>
-              <CardTitle>Gratitude Journals</CardTitle>
-              <CardDescription>
-                Finding number of journal entries
-              </CardDescription>
-            </CardHeader>
-            <CardContent className='flex items-center justify-center'>
-              {isFetchingGratitudeJournalCount && <LoadingSpinner />}
-              {(!gratitudeJournalCount || gratitudeJournalCount === 0) && (
-                <p>No journal entries has been logged.</p>
-              )}
-              {gratitudeJournalCount !== undefined &&
-                gratitudeJournalCount > 0 && (
-                  <div className='flex flex-col items-center'>
-                    <p className='text-3xl font-semibold'>
-                      {gratitudeJournalCount > 0 && gratitudeJournalCount}
-                    </p>
-                    <NavLink
-                      to={`/wellbeing`}
-                      className={cn(buttonVariants({ variant: 'link' }))}
-                    >
-                      See my entries
-                    </NavLink>
-                  </div>
-                )}
-            </CardContent>
-          </Card>
+          <GratitudeJournalsCountCard
+            gratitudeJournalCount={gratitudeJournalCount}
+            isFetchingGratitudeJournalCount={isFetchingGratitudeJournalCount}
+          />
+          <PromptEntriesCountCard
+            promptEntriesCount={questionPromptEntriesCount}
+            isFetchingPromptEntriesCount={isFetchingPromptEntriesCount}
+          />
         </div>
       </div>
     </>
