@@ -36,3 +36,19 @@ export const statusColoring = {
   resolved: 'bg-green-100 text-green-500',
   rejected: 'bg-red-100 text-red-500',
 };
+
+export const moods = [
+  { mood: 'Terrible', emoji: '😰', score: 1 },
+  { mood: 'Bad', emoji: '👎', score: 2 },
+  { mood: 'Alright', emoji: '🙂', score: 3 },
+  { mood: 'Good', emoji: '😁', score: 4 },
+  { mood: 'Fantastic', emoji: '🥳', score: 5 },
+];
+
+export const moodEmoji = {
+  1: '😰',
+  2: '👎',
+  3: '🙂',
+  4: '😁',
+  5: '🥳',
+};

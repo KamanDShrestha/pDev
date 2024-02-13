@@ -71,11 +71,7 @@ const Dashboard = () => {
           />
         </Card>
 
-        <Card>
-          <CardContent className='flex items-center justify-center'>
-            <MoodDisplay />
-          </CardContent>
-        </Card>
+        <MoodDisplay />
 
         <div className='flex flex-wrap gap-5'>
           <PostsCountCard

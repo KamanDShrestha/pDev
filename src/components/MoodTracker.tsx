@@ -11,6 +11,7 @@ import useLogMood from '../services/moods/logMood';
 import useUpdateLoggedMood from '../services/users/updateLoggedMood';
 import setToLocalStorage from '../services/localStorage/setToLocalStorage';
 import { Separator } from './ui/separator';
+import { moods } from '../constants';
 
 interface MoodTrackerProps {
   handleModalClose: () => void;
@@ -26,13 +27,6 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
   const { mutate } = useLogMood();
   const { mutate: updateMood } = useUpdateLoggedMood();
   const { user, setUser } = useAuthContext();
-  const moods = [
-    { mood: 'Terrible', emoji: '😰', score: 1 },
-    { mood: 'Bad', emoji: '👎', score: 2 },
-    { mood: 'Alright', emoji: '🙂', score: 3 },
-    { mood: 'Good', emoji: '😁', score: 4 },
-    { mood: 'Fantastic', emoji: '🥳', score: 5 },
-  ];
 
   function handleMoodSelection(index: number) {
     setSelectedMood(index);

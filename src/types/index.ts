@@ -531,6 +531,12 @@ export type LogMoodData = {
     loggedDate: Date;
   };
 };
+export type Mood = {
+  _id: string;
+  mood: number;
+  reasoning: string;
+  loggedDate: Date;
+};
 
 export type QhpDetails = {
   userId: string;
