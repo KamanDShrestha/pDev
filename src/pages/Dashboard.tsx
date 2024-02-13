@@ -18,6 +18,7 @@ import { NavLink } from 'react-router-dom';
 import { Separator } from '../components/ui/separator';
 import CompletedJourneysCard from '../components/CompletedJourneysCard';
 import useGetPostsCount from '../services/posts/getPostsCount';
+import useGetGratitudeJournalCount from '../services/gratitudeJournals/getGratitudeJournalCount';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -26,12 +27,15 @@ const Dashboard = () => {
     useGetCurrentEmbarkedJourney(user?.id as string);
   const { data: completedJourneys, isLoading: isFetchingCompletedJourneys } =
     useGetCompletedEmbarkedJourneys(user?.id as string);
-
   const { data: postsCount } = useGetPostsCount(user?.id as string);
   console.log(postsCount);
+  const { data: gratitudeJournalCount } = useGetGratitudeJournalCount(
+    user?.id as string
+  );
 
   console.log(currentJourney);
   console.log(completedJourneys);
+  console.log(gratitudeJournalCount);
 
   useDocumentTitle('Dashboard - SelfSync');
   return (
