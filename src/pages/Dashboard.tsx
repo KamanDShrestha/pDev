@@ -7,15 +7,7 @@ import useDocumentTitle from '../services/getTitle';
 
 import CurrentJourneyProgressCard from '../components/CurrentJourneyProgressCard';
 import useGetCompletedEmbarkedJourneys from '../services/embarkedJourneys/getCompletedEmbarkedJourneys';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../components/ui/card';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { NavLink } from 'react-router-dom';
+import { Card } from '../components/ui/card';
 
 import CompletedJourneysCard from '../components/CompletedJourneysCard';
 import useGetPostsCount from '../services/posts/getPostsCount';
@@ -23,12 +15,14 @@ import useGetGratitudeJournalCount from '../services/gratitudeJournals/getGratit
 
 import useGetQuestionPromptEntriesCount from '../services/questionPromptEntries/getQuestionPromptEntriesCount';
 import useGetJournalCount from '../services/journals/getJournalCounts';
-import { cn } from '../lib/utils';
-import { buttonVariants } from '../components/ui/button';
+
 import PostsCountCard from '../components/PostsCountCard';
 import JournalsCountCard from '../components/JournalsCountCard';
 import GratitudeJournalsCountCard from '../components/GratitudeJournalsCountCard';
 import PromptEntriesCountCard from '../components/PromptEntriesCountCard';
+import useGetSavedContentCount from '../services/savedContent/getSavedContentCount';
+
+import SavedContentCountCard from '../components/SavedContentCountCard';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -49,6 +43,8 @@ const Dashboard = () => {
   } = useGetQuestionPromptEntriesCount(user?.id as string);
   const { data: journalCount, isLoading: isFetchingJournalCount } =
     useGetJournalCount(user?.id as string);
+  const { data: savedContentCount, isLoading: isFetchingSavedContentCount } =
+    useGetSavedContentCount(user?.id as string);
 
   console.log(postsCount);
   console.log(currentJourney);
@@ -56,6 +52,7 @@ const Dashboard = () => {
   console.log(gratitudeJournalCount);
   console.log(questionPromptEntriesCount);
   console.log(journalCount);
+  console.log(savedContentCount);
 
   useDocumentTitle('Dashboard - SelfSync');
   return (
@@ -88,6 +85,12 @@ const Dashboard = () => {
           <PromptEntriesCountCard
             promptEntriesCount={questionPromptEntriesCount}
             isFetchingPromptEntriesCount={isFetchingPromptEntriesCount}
+          />
+        </div>
+        <div>
+          <SavedContentCountCard
+            savedContentCount={savedContentCount}
+            isFetchingSavedContentCount={isFetchingSavedContentCount}
           />
         </div>
       </div>

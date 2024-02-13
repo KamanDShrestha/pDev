@@ -1,3 +1,10 @@
+export type SavedContentCountData = {
+  posts: number;
+  qas: number;
+  podcasts: number;
+  videos: number;
+};
+
 export type GetSavedContentData = {
   videos: (LearningVideo & { videoCategory: string })[];
   podcasts: (LearningPodcast & { podcastCategory: string })[];
