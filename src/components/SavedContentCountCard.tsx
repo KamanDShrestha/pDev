@@ -29,9 +29,7 @@ const SavedContentCountCard = ({
       </CardHeader>
       <CardContent className='flex flex-wrap justify-around gap-5'>
         {isFetchingSavedContentCount && <LoadingSpinner />}
-        {savedContentCount && savedContentCount === null && (
-          <p>No content has been saved.</p>
-        )}
+        {savedContentCount === null && <p>No content has been saved.</p>}
         {savedContentCount &&
           Object.keys(savedContentCount).map((content, index) => (
             <Card key={index}>
@@ -41,7 +39,7 @@ const SavedContentCountCard = ({
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className='text-xl font-semibold text-right'>
+                <p className='text-xl font-semibold text-center lg:text-right'>
                   {savedContentCount[content as keyof SavedContentCountData]}
                 </p>
               </CardContent>

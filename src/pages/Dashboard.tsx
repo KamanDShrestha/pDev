@@ -7,7 +7,7 @@ import useDocumentTitle from '../services/getTitle';
 
 import CurrentJourneyProgressCard from '../components/CurrentJourneyProgressCard';
 import useGetCompletedEmbarkedJourneys from '../services/embarkedJourneys/getCompletedEmbarkedJourneys';
-import { Card, CardContent } from '../components/ui/card';
+import { Card } from '../components/ui/card';
 
 import CompletedJourneysCard from '../components/CompletedJourneysCard';
 import useGetPostsCount from '../services/posts/getPostsCount';

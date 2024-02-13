@@ -52,10 +52,10 @@ const MoodDisplay = () => {
                 <span className='m-auto text-3xl'>
                   {moodEmoji[loggedMood.mood as keyof typeof moodEmoji]}
                 </span>
-                <p>
+                <p className='text-center'>
                   <span className='text-lg font-semibold'>Reasoning</span>{' '}
                   <br />
-                  <span className='p-3'>{loggedMood.reasoning}</span>
+                  <span>{loggedMood.reasoning}</span>
                 </p>
               </CardContent>
             </Card>
