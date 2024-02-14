@@ -5,7 +5,7 @@ import { useAuthContext } from '../context/AuthProvider';
 import { DatePicker } from './DatePicker';
 import MoodsChart from './MoodsChart';
 import getDateRange from '../services/getDateRange';
-
+import { format } from 'date-fns';
 import { Card, CardContent } from './ui/card';
 
 const MoodsChartSection = () => {
@@ -23,21 +23,30 @@ const MoodsChartSection = () => {
   console.log(isFetchingMoodsInRange, 'fetching when changing date');
 
   const moods = dateRange.map((date) => {
-    const mood = moodsInRange?.find((mood) => mood.loggedDate === date);
+    console.log(format(date, 'PP'), 'date');
+
+    const mood = moodsInRange?.find(
+      (mood) => format(mood.loggedDate, 'PP') === format(date, 'PP')
+    );
+    console.log(mood, 'mood');
+
     return mood
       ? {
-          loggedDate: date.toDateString(),
+          loggedDate: format(date, 'MMM do'),
           mood: mood.mood,
+          noLoggedMood: null,
           reasoning: mood.reasoning,
         }
-      : { loggedDate: date.toDateString(), mood: NaN, reasoning: '' };
+      : {
+          loggedDate: format(date, 'MMM do'),
+          mood: null,
+          noLoggedMood: 3,
+          reasoning: 'Mood has not been logged.',
+        };
   });
-
-  const missingMoods = moods.filter((mood) => isNaN(mood.mood));
 
   console.log(moods);
   console.log(moodsInRange);
-  console.log(missingMoods);
 
   return (
     <Card className=''>
@@ -57,7 +66,7 @@ const MoodsChartSection = () => {
             <p>No moods in this range</p>
           )}
           {moodsInRange && moodsInRange.length !== 0 && (
-            <MoodsChart moods={moods} missingValues={missingMoods} />
+            <MoodsChart moodData={moods} />
           )}
         </div>
       </CardContent>

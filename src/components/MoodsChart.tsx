@@ -8,78 +8,20 @@ import {
   Scatter,
   ComposedChart,
   TooltipProps,
+  ResponsiveContainer,
 } from 'recharts';
 
-export default function MoodsChart() {
-  const moodData = [
-    {
-      loggedDate: '2022-01-01',
-      moodScore: 4,
-      noLoggedMood: null,
-      reasoning: 'Had a great day!',
-    },
-    {
-      loggedDate: '2022-01-02',
-      moodScore: 3,
-      noLoggedMood: null,
+interface MoodsChartProps {
+  moodData: {
+    loggedDate: string;
+    mood: number | null;
+    noLoggedMood: number | null;
+    reasoning: string;
+  }[];
+}
 
-      reasoning: 'Feeling neutral.',
-    },
-    {
-      loggedDate: '2022-01-03',
-      moodScore: null,
-      noLoggedMood: 3,
-
-      reasoning: 'Did not log mood.',
-    },
-    {
-      loggedDate: '2022-01-04',
-      moodScore: 2,
-      noLoggedMood: null,
-
-      reasoning: 'Not a good day.',
-    },
-    {
-      loggedDate: '2022-01-05',
-      moodScore: 5,
-      noLoggedMood: null,
-
-      reasoning: 'Feeling fantastic!',
-    },
-    {
-      loggedDate: '2022-01-06',
-      moodScore: null,
-      noLoggedMood: 3,
-      reasoning: 'Did not log mood.',
-    },
-    {
-      loggedDate: '2022-01-07',
-      moodScore: 1,
-      noLoggedMood: null,
-
-      reasoning: 'Worst day ever.',
-    },
-    {
-      loggedDate: '2022-01-08',
-      moodScore: 1,
-      noLoggedMood: null,
-
-      reasoning: 'Worst day ever.',
-    },
-    {
-      loggedDate: '2022-01-09',
-      moodScore: 1,
-      noLoggedMood: null,
-      reasoning: 'Worst day ever.',
-    },
-    {
-      loggedDate: '2022-01-10',
-      moodScore: 3,
-      noLoggedMood: null,
-      reasoning: 'Worst day ever.',
-    },
-  ];
-
+export default function MoodsChart({ moodData }: MoodsChartProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip: React.FC<TooltipProps<any, string>> = ({
     active,
     payload,
@@ -104,18 +46,25 @@ export default function MoodsChart() {
   };
 
   return (
-    <ComposedChart width={730} height={250} data={moodData}>
-      <XAxis dataKey='loggedDate' />
-      <YAxis />
-      <Tooltip content={<CustomTooltip />} />
-      <Legend />
-      <CartesianGrid stroke='#f5f5f5' />
+    <ResponsiveContainer width={730} height={250}>
+      <ComposedChart data={moodData}>
+        <XAxis dataKey='loggedDate' />
+        <YAxis domain={[1, 5]} />
+        <Tooltip content={<CustomTooltip />} />
+        <Legend />
+        <CartesianGrid stroke='#f5f5f5' />
 
-      <Scatter dataKey={'moodScore'} shape='cross' />
+        <Scatter
+          dataKey={'mood'}
+          shape='cross'
+          stroke='#A9A9A9'
+          fill='#A9A9A9'
+        />
 
-      <Scatter dataKey={'noLoggedMood'} shape='star' fill='#FF0000' />
+        <Scatter dataKey={'noLoggedMood'} shape='star' fill='#FF0000' />
 
-      <Line type='monotone' dataKey='moodScore' stroke='#040403' dot={false} />
-    </ComposedChart>
+        <Line type='monotone' dataKey='mood' stroke='#A9A9A9' dot={false} />
+      </ComposedChart>
+    </ResponsiveContainer>
   );
 }
