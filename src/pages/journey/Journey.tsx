@@ -35,20 +35,22 @@ const Journey = () => {
             ))}
 
           {journeys &&
-            journeys.map((journey) => (
-              <>
-                <JourneyCard
-                  journeyId={journey._id}
-                  journeyName={journey.name}
-                  journeyDescription={journey.description}
-                  journeyIcon={journey.imageLinks}
-                  journeyLength={journey.length}
-                  key={journey.name}
-                  importance={journey.importance}
-                  usages={journey.usages}
-                />
-              </>
-            ))}
+            journeys
+              .filter((journey) => journey.isVerified === true)
+              .map((journey) => (
+                <>
+                  <JourneyCard
+                    journeyId={journey._id}
+                    journeyName={journey.name}
+                    journeyDescription={journey.description}
+                    journeyIcon={journey.imageLinks}
+                    journeyLength={journey.length}
+                    key={journey.name}
+                    importance={journey.importance}
+                    usages={journey.usages}
+                  />
+                </>
+              ))}
         </div>
       </div>
       <div className='mt-8'>
