@@ -8,7 +8,7 @@ export default function useGetMoodsWithinRange(
   endDate: Date
 ) {
   const response = useQuery<Mood[]>({
-    queryKey: ['moodsWithinRange'],
+    queryKey: ['moodsWithinRange', userId, startDate, endDate],
     queryFn: () =>
       axiosInstance
         .get(`/moods/getWithinRange/${userId}/${startDate}/${endDate}`)

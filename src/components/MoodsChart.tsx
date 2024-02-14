@@ -1,136 +1,121 @@
-// import {
-//   Chart as ChartJS,
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   LineElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-// } from 'chart.js';
-// import { Line } from 'react-chartjs-2';
-
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   LineElement,
-//   Title,
-//   Tooltip,
-//   Legend
-// );
-
-// export const options = {
-//   responsive: true,
-//   plugins: {
-//     title: {
-//       display: true,
-//       text: 'Moods over time',
-//     },
-//   },
-// };
-
-// export function MoodsChart({
-//   labels,
-//   moodData,
-// }: {
-//   labels: string[];
-//   moodData: number[];
-// }) {
-//   console.log(labels, moodData);
-//   const data = {
-//     labels,
-//     datasets: [
-//       {
-//         data: moodData,
-//         borderColor: 'rgb(255, 99, 132)',
-//         backgroundColor: 'rgba(255, 99, 132, 0.5)',
-//       },
-//     ],
-//   };
-//   return <Line options={options} data={data} />;
-// }
-
 import {
-  LineChart,
   Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
+  Scatter,
+  ComposedChart,
+  TooltipProps,
 } from 'recharts';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
-
 export default function MoodsChart() {
+  const moodData = [
+    {
+      loggedDate: '2022-01-01',
+      moodScore: 4,
+      noLoggedMood: null,
+      reasoning: 'Had a great day!',
+    },
+    {
+      loggedDate: '2022-01-02',
+      moodScore: 3,
+      noLoggedMood: null,
+
+      reasoning: 'Feeling neutral.',
+    },
+    {
+      loggedDate: '2022-01-03',
+      moodScore: null,
+      noLoggedMood: 3,
+
+      reasoning: 'Did not log mood.',
+    },
+    {
+      loggedDate: '2022-01-04',
+      moodScore: 2,
+      noLoggedMood: null,
+
+      reasoning: 'Not a good day.',
+    },
+    {
+      loggedDate: '2022-01-05',
+      moodScore: 5,
+      noLoggedMood: null,
+
+      reasoning: 'Feeling fantastic!',
+    },
+    {
+      loggedDate: '2022-01-06',
+      moodScore: null,
+      noLoggedMood: 3,
+      reasoning: 'Did not log mood.',
+    },
+    {
+      loggedDate: '2022-01-07',
+      moodScore: 1,
+      noLoggedMood: null,
+
+      reasoning: 'Worst day ever.',
+    },
+    {
+      loggedDate: '2022-01-08',
+      moodScore: 1,
+      noLoggedMood: null,
+
+      reasoning: 'Worst day ever.',
+    },
+    {
+      loggedDate: '2022-01-09',
+      moodScore: 1,
+      noLoggedMood: null,
+      reasoning: 'Worst day ever.',
+    },
+    {
+      loggedDate: '2022-01-10',
+      moodScore: 3,
+      noLoggedMood: null,
+      reasoning: 'Worst day ever.',
+    },
+  ];
+
+  const CustomTooltip: React.FC<TooltipProps<any, string>> = ({
+    active,
+    payload,
+    label,
+  }) => {
+    console.log(payload);
+    if (active && payload && payload.length) {
+      return (
+        <div className='p-3 bg-slate-300'>
+          <p className='label'>{`Date : ${label}`}</p>
+          <p className='intro'>
+            {payload[0].name !== 'noLoggedMood'
+              ? `Mood Score : ${payload[0].value}`
+              : 'No mood logged'}
+          </p>
+          <p className='desc'>{`Reasoning : ${payload[0].payload.reasoning}`}</p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
-    <LineChart
-      width={500}
-      height={300}
-      data={data}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray='3 3' />
-      <XAxis dataKey='name' />
+    <ComposedChart width={730} height={250} data={moodData}>
+      <XAxis dataKey='loggedDate' />
       <YAxis />
-      <Tooltip />
+      <Tooltip content={<CustomTooltip />} />
       <Legend />
-      <Line
-        type='monotone'
-        dataKey='pv'
-        stroke='#8884d8'
-        activeDot={{ r: 8 }}
-      />
-      <Line type='monotone' dataKey='uv' stroke='#82ca9d' />
-    </LineChart>
+      <CartesianGrid stroke='#f5f5f5' />
+
+      <Scatter dataKey={'moodScore'} shape='cross' />
+
+      <Scatter dataKey={'noLoggedMood'} shape='star' fill='#FF0000' />
+
+      <Line type='monotone' dataKey='moodScore' stroke='#040403' dot={false} />
+    </ComposedChart>
   );
 }

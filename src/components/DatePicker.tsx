@@ -31,7 +31,7 @@ export function DatePicker({
         <Calendar
           mode='single'
           selected={date}
-          onSelect={(value) => setDate(value!)}
+          onSelect={(value) => setDate(() => value!)}
           initialFocus
           disabled={{ after: new Date() }}
         />
