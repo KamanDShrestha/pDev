@@ -661,6 +661,13 @@ export type AddJourneyData = {
   actionSteps: object;
 };
 
+export type UsersCountInJourney = {
+  [key: string]: {
+    journeyName: string;
+    userCount: number;
+  };
+};
+
 export type LoginData = {
   email: string;
   password: string;
