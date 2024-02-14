@@ -40,9 +40,7 @@ const MoodDisplay = () => {
         </div>
         <div>
           {isFetchingMood && <LoadingSpinner />}
-          {(!loggedMood || loggedMood === null) && (
-            <p>No mood has been logged at this date.</p>
-          )}
+          {loggedMood === null && <p>No mood has been logged at this date.</p>}
           {loggedMood && loggedMood !== null && (
             <Card>
               <CardContent className='flex flex-col items-center gap-3 p-3 min-w-[300px]'>

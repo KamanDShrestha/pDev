@@ -383,7 +383,7 @@ const AddJourneyPage = () => {
                   </div>
                 </div>
                 <div className='relative group'>
-                  <label htmlFor='journeyQuotes' className='font-medium'>
+                  <label htmlFor='journeyQuote' className='font-medium'>
                     Journey Quotes
                   </label>
                   <div className='relative flex flex-col gap-2 group'>
@@ -391,14 +391,14 @@ const AddJourneyPage = () => {
                       <>
                         <Input
                           key={index}
-                          {...register(`journeyQuotes${index + 1}`, {
+                          {...register(`journeyQuote${index + 1}`, {
                             required: 'Please provide quotes for this journey',
                           })}
                         />
-                        {errors[`journeyQuotes${index + 1}`] && (
+                        {errors[`journeyQuote${index + 1}`] && (
                           <ErrorMessage>
                             {
-                              errors[`journeyQuotes${index + 1}`]
+                              errors[`journeyQuote${index + 1}`]
                                 ?.message as string
                             }
                           </ErrorMessage>
@@ -408,7 +408,7 @@ const AddJourneyPage = () => {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor='journeyQuotes' className='font-medium'>
+                  <label htmlFor='journeyLength' className='font-medium'>
                     Select the length of journey
                   </label>
                   <Select
