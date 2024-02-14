@@ -263,9 +263,9 @@ const EditJourneyPage = () => {
                                       index + 1
                                     }.additionalSteps[${thisIndex}]`
                                   )}
-                                  value={
+                                  defaultValue={
                                     journey.actionSteps[`day${index + 1}`]
-                                      .additionalSteps[thisIndex]
+                                      ?.additionalSteps?.[thisIndex]
                                   }
                                 />
                               )
@@ -285,9 +285,9 @@ const EditJourneyPage = () => {
                                       index + 1
                                     }.evidences[${thisIndex}]`
                                   )}
-                                  value={
+                                  defaultValue={
                                     journey.actionSteps[`day${index + 1}`]
-                                      .evidences[thisIndex]
+                                      ?.evidences?.[thisIndex] || ''
                                   }
                                 />
                               )

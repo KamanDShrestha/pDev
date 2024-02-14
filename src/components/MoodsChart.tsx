@@ -10,6 +10,7 @@ import {
   TooltipProps,
   ResponsiveContainer,
 } from 'recharts';
+import { useTheme } from './ThemeProvider';
 
 interface MoodsChartProps {
   moodData: {
@@ -21,6 +22,8 @@ interface MoodsChartProps {
 }
 
 export default function MoodsChart({ moodData }: MoodsChartProps) {
+  const { theme } = useTheme();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip: React.FC<TooltipProps<any, string>> = ({
     active,
@@ -52,7 +55,7 @@ export default function MoodsChart({ moodData }: MoodsChartProps) {
         <YAxis domain={[1, 5]} />
         <Tooltip content={<CustomTooltip />} />
         <Legend />
-        <CartesianGrid stroke='#f5f5f5' />
+        {/* <CartesianGrid stroke='#f5f5f5' /> */}
 
         <Scatter
           dataKey={'mood'}
