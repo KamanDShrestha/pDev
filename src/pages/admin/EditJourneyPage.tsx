@@ -64,14 +64,18 @@ const EditJourneyPage = () => {
     const actionSteps = Object.keys(data.actionSteps).reduce((acc, key) => {
       const { actionStep, description, evidences, additionalSteps } =
         data.actionSteps[key];
+      console.log(evidences);
       return {
         ...acc,
         [key]: {
           actionStep,
           description,
-          evidences: evidences.filter((evidence: string) => evidence !== null),
+          evidences: evidences.filter(
+            (evidence: string) => evidence !== null && evidence !== ''
+          ),
           additionalSteps: additionalSteps.filter(
-            (additionalStep: string) => additionalStep !== null
+            (additionalStep: string) =>
+              additionalStep !== null && additionalStep !== ''
           ),
         },
       };

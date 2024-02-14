@@ -57,7 +57,8 @@ const SpecificJourney = () => {
     //to check if the user have the particular journey as preferred or user's subscribed
     if (
       user?.hasSubscribed === false &&
-      user.preferredJourney !== params.name
+      user.preferredJourney !== params.name &&
+      user.role === 'user'
     ) {
       navigate('/notSubscribed');
     }
@@ -72,6 +73,7 @@ const SpecificJourney = () => {
     params.name,
     user?.hasSubscribed,
     user?.preferredJourney,
+    user?.role,
   ]);
 
   function handleBeginButton() {

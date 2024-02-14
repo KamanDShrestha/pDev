@@ -18,6 +18,8 @@ import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 
 import { Link } from 'react-router-dom';
 
+import { LucideDot } from 'lucide-react';
+
 interface ActionStepShowcaseProps {
   actionStep: ActionStep;
   day: number;
@@ -43,7 +45,7 @@ const ActionStepShowcase = ({
             <CardTitle className='text-xl font-medium'>
               Major action Step
             </CardTitle>
-            <p>{actionStep.actionStep}</p>
+            <p className='p-2'>{actionStep.actionStep}</p>
           </div>
           <div>
             <Accordion type='single' collapsible>
@@ -51,7 +53,9 @@ const ActionStepShowcase = ({
                 <AccordionTrigger className='text-lg'>
                   Description
                 </AccordionTrigger>
-                <AccordionContent>{actionStep.description}</AccordionContent>
+                <AccordionContent className='p-2'>
+                  {actionStep.description}
+                </AccordionContent>
               </AccordionItem>
             </Accordion>
           </div>
@@ -61,9 +65,18 @@ const ActionStepShowcase = ({
                 <CardTitle className='text-lg font-medium'>
                   Additional Steps
                 </CardTitle>
-                {actionStep.additionalSteps.map((step, index) => (
-                  <p key={index}>• {step}</p>
-                ))}
+                {actionStep.additionalSteps
+                  .filter((step) => step !== null)
+                  .map((step: string, index) =>
+                    step !== '' && step !== null ? (
+                      <p key={index} className='flex'>
+                        <span>
+                          <LucideDot />
+                        </span>
+                        <span>{step}</span>
+                      </p>
+                    ) : null
+                  )}
               </>
             )}
           </div>
@@ -99,13 +112,18 @@ const ActionStepShowcase = ({
                         Additional Steps
                       </h2>
                       <p>
-                        {actionStep.additionalSteps.map(
-                          (step: string, index) => (
-                            <p key={index}>
-                              {index + 1}. {step}
-                            </p>
-                          )
-                        )}
+                        {actionStep.additionalSteps
+                          .filter((step) => step !== null)
+                          .map((step: string, index) =>
+                            step !== '' && step !== null ? (
+                              <p key={index} className='flex'>
+                                <span>
+                                  <LucideDot />
+                                </span>
+                                <span>{step}</span>
+                              </p>
+                            ) : null
+                          )}
                       </p>
                     </div>
                   )}
@@ -113,13 +131,20 @@ const ActionStepShowcase = ({
                   {actionStep.evidences && (
                     <div>
                       <h2 className='text-xl font-semibold'>Evidences</h2>
-                      {actionStep.evidences.map((link: string, index) => (
-                        <p>
-                          <Link key={index} to={link} target='_blank'>
-                            {index + 1}. {link}
-                          </Link>
-                        </p>
-                      ))}
+                      {actionStep.evidences.map(
+                        (link: string, index) =>
+                          link !== '' &&
+                          link !== null && (
+                            <p key={index} className='flex'>
+                              <span>
+                                <LucideDot />
+                              </span>
+                              <Link key={index} to={link} target='_blank'>
+                                {link}
+                              </Link>
+                            </p>
+                          )
+                      )}
                     </div>
                   )}
                 </div>

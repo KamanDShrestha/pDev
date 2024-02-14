@@ -24,6 +24,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import useDocumentTitle from '../../services/getTitle';
 
 import ProgressBar from '../../components/ProgressBar';
+import { LucideDot } from 'lucide-react';
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
@@ -235,15 +236,19 @@ const CurrentJourney = () => {
                                     <h2 className='text-xl font-semibold'>
                                       Additional Steps
                                     </h2>
-                                    <p className='px-3 py-2 text-sm'>
+                                    <p className='px-1 py-2 text-sm'>
                                       {embarkedJourney.actionSteps[
                                         `day${selectedJourneyDay}`
                                       ].additionalSteps.map(
-                                        (step: string, index) => (
-                                          <p key={index}>
-                                            {index + 1}. {step}
-                                          </p>
-                                        )
+                                        (step: string, index) =>
+                                          step && (
+                                            <p key={index} className='flex'>
+                                              <span>
+                                                <LucideDot />
+                                              </span>
+                                              <span>{step}</span>
+                                            </p>
+                                          )
                                       )}
                                     </p>
                                   </div>
@@ -256,20 +261,26 @@ const CurrentJourney = () => {
                                     <h2 className='text-xl font-semibold'>
                                       Evidences
                                     </h2>
-                                    <p className='px-3 py-2 text-sm font-medium'>
+                                    <p className='px-1 py-2 text-sm font-medium'>
                                       {embarkedJourney.actionSteps[
                                         `day${selectedJourneyDay}`
-                                      ].evidences.map((link: string, index) => (
-                                        <p>
-                                          <Link
-                                            key={index}
-                                            to={link}
-                                            target='_blank'
-                                          >
-                                            {index + 1}. {link}
-                                          </Link>
-                                        </p>
-                                      ))}
+                                      ].evidences.map(
+                                        (link: string, index) =>
+                                          link && (
+                                            <p key={index} className='flex'>
+                                              <span>
+                                                <LucideDot />
+                                              </span>
+                                              <Link
+                                                key={index}
+                                                to={link}
+                                                target='_blank'
+                                              >
+                                                {link}
+                                              </Link>
+                                            </p>
+                                          )
+                                      )}
                                     </p>
                                   </div>
                                 )}

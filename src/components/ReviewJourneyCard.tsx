@@ -101,11 +101,7 @@ const ReviewJourneyCard = ({
               </CardContent>
               <CardFooter className='flex justify-between'>
                 <Button onClick={() => onVerifyClick(journeyId)}>Verify</Button>
-                <Button
-                  onClick={() =>
-                    navigate(`/journeys/${journeyName.toLowerCase()}`)
-                  }
-                >
+                <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
                   Browse
                 </Button>
 
