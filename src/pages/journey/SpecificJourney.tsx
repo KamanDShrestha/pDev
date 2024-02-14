@@ -1,6 +1,5 @@
 import JourneyCardSkeleton from '../../components/JourneyCardSkeleton';
 
-import useGetSpecificJourney from '../../services/journey/getSpecificJourney';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ActionStepShowcase from '../../components/ActionStepShowcase';
@@ -17,20 +16,22 @@ import JourneyFeedback from '../../components/JourneyFeedback';
 import useDocumentTitle from '../../services/getTitle';
 import useGetRandomQuote from '../../services/quotes/getRandomQuote';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import useGetSpecificJourneyByID from '../../services/journey/getSpecificJourneyByID';
+import useGetJourneyExistence from '../../services/journey/getJourneyExistence';
 
-const validJourneys = [
-  'mindfulness',
-  'mindset',
-  'beatingProcrastination',
-  'personalProductivity',
-  'stoicism',
-];
+// const validJourneys = [
+//   'mindfulness',
+//   'mindset',
+//   'beating procrastination',
+//   'personalProductivity',
+//   'stoicism',
+// ];
 
 const SpecificJourney = () => {
   const params = useParams();
 
-  const { data: journey, isLoading } = useGetSpecificJourney(
-    params.name as string
+  const { data: journey, isLoading } = useGetSpecificJourneyByID(
+    params.id as string
   );
   console.log(journey);
   const navigate = useNavigate();
@@ -45,6 +46,9 @@ const SpecificJourney = () => {
   );
   const { data: randomQuote, isLoading: isGettingRandomQuote } =
     useGetRandomQuote(params.name as string);
+  const { data: journeyExistence, isLoading: isJourneyExistenceLoading } =
+    useGetJourneyExistence(params.id as string);
+
   useDocumentTitle(`${journey?.name} - SelfSync`);
 
   console.log(randomQuote);
@@ -58,10 +62,17 @@ const SpecificJourney = () => {
       navigate('/notSubscribed');
     }
 
-    if (!validJourneys.includes(params.name as string)) {
+    if (!isJourneyExistenceLoading && journeyExistence === false) {
       navigate('/journeyNotFound');
     }
-  }, [navigate, params.name, user?.hasSubscribed, user?.preferredJourney]);
+  }, [
+    isJourneyExistenceLoading,
+    journeyExistence,
+    navigate,
+    params.name,
+    user?.hasSubscribed,
+    user?.preferredJourney,
+  ]);
 
   function handleBeginButton() {
     console.log(user?.id, journey?._id);
@@ -82,7 +93,6 @@ const SpecificJourney = () => {
   return (
     <div>
       <div className='w-screen h-[80vh] bg-gray-200 flex items-center '>
-        {/* <div className='p-4 text-3xl'></div> */}
         <div className='p-10'>
           {isGettingRandomQuote && <LoadingSpinner />}
           {randomQuote && (
@@ -96,7 +106,7 @@ const SpecificJourney = () => {
       <div className='p-3'>
         <div className='flex flex-wrap items-center justify-between'>
           <h2 className='mt-2 mb-5 text-4xl font-semibold'>
-            Action Steps for Stoicism
+            Action Steps for {journey?.name}
           </h2>
           <div className='space-x-2'>
             {user?.role === 'qha' && (

@@ -88,7 +88,7 @@ function App() {
 
                   <Route path={'/journeys'} element={<Journey />} />
                   <Route
-                    path={'/journeys/:name'}
+                    path={'/journeys/:id'}
                     element={<SpecificJourney />}
                     errorElement={<JourneyNotFound />}
                   />

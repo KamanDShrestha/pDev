@@ -49,7 +49,6 @@ export interface JourneyCardProps {
   usages: string[];
   learningQuotes?: string[];
   actionSteps?: ActionSteps[];
-  onBrowseClick?: () => void;
 }
 
 const JourneyCard = ({
@@ -60,7 +59,6 @@ const JourneyCard = ({
   journeyLength,
   importance,
   usages,
-  onBrowseClick,
 }: JourneyCardProps) => {
   const { theme } = useTheme();
   const { user } = useAuthContext();
@@ -126,7 +124,11 @@ const JourneyCard = ({
                   (user.preferredJourney === journeyName ||
                     user.hasSubscribed) && (
                     <>
-                      <Button onClick={onBrowseClick}>Browse</Button>
+                      <Button
+                        onClick={() => navigate(`/journeys/${journeyId}`)}
+                      >
+                        Browse
+                      </Button>
                       {!embarkedJourney ? (
                         <Button>Begin</Button>
                       ) : (
@@ -160,11 +162,7 @@ const JourneyCard = ({
                   )}
                 {user && user.role === 'admin' && (
                   <>
-                    <Button
-                      onClick={() =>
-                        navigate(`/journeys/${journeyName.toLowerCase()}`)
-                      }
-                    >
+                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
                       Browse
                     </Button>
                     <Button
@@ -182,11 +180,7 @@ const JourneyCard = ({
                 )}
                 {user && user.role === 'qha' && (
                   <>
-                    <Button
-                      onClick={() =>
-                        navigate(`/journeys/${journeyName.toLowerCase()}`)
-                      }
-                    >
+                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
                       Browse
                     </Button>
                   </>

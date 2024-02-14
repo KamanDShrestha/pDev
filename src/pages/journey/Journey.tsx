@@ -2,7 +2,7 @@ import { useGetAllJourneys } from '../../services/journey/getAllJourneys';
 
 import JourneyCardSkeleton from '../../components/JourneyCardSkeleton';
 import JourneyCard from '../../components/JourneyCard';
-import { useNavigate } from 'react-router-dom';
+
 import { useAuthContext } from '../../context/AuthProvider';
 import useGetAllEmbarkedJourneys from '../../services/embarkedJourneys/getAllEmbarkedJourneys';
 import RetrospectionCard from '../../components/RetrospectionCard';
@@ -16,15 +16,11 @@ const Journey = () => {
   );
 
   console.log('embarkedJourneys', embarkedJourneys);
-  const navigate = useNavigate();
 
   console.log(journeys);
 
   useDocumentTitle('Journeys - SelfSync');
 
-  function handleJourneyBrowseClick(name: string) {
-    navigate('/journeys/' + name.toLowerCase());
-  }
   return (
     <div className='mt-5 mb-5 '>
       <div className='w-screen h-[80vh] bg-gray-200'>
@@ -50,7 +46,6 @@ const Journey = () => {
                   key={journey.name}
                   importance={journey.importance}
                   usages={journey.usages}
-                  onBrowseClick={() => handleJourneyBrowseClick(journey.name)}
                 />
               </>
             ))}
