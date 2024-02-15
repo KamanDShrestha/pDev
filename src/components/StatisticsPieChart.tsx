@@ -1,6 +1,6 @@
 import { PieChart, Pie, Tooltip, ResponsiveContainer } from 'recharts';
 
-const EmbarkationStatisticsChart = ({
+const StatisticsPieChart = ({
   countStats,
 }: {
   countStats: { name: string; count: number }[];
@@ -23,4 +23,4 @@ const EmbarkationStatisticsChart = ({
   );
 };
 
-export default EmbarkationStatisticsChart;
+export default StatisticsPieChart;

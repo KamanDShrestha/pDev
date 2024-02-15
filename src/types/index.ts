@@ -455,6 +455,13 @@ export type CommunityMemberData = {
   ];
 };
 
+export type MembersCount = {
+  [key: string]: {
+    memberCount: number;
+    communityName: string;
+  };
+};
+
 export type AddCommunityData = {
   journeyId: string;
   communityName: string;
