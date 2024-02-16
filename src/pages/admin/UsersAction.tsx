@@ -166,6 +166,27 @@ const UsersAction = () => {
             </Select>
           </div>
         </CardContent>
+        <CardContent className='flex justify-center'>
+          <div className='max-w-[330px]'>
+            <p className='font-medium'>Number of users</p>
+
+            <Select onValueChange={(value) => setLimit(parseInt(value))}>
+              <SelectTrigger>
+                <SelectValue placeholder='Select number of users to fetch' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel placeholder='Number of users' />
+                  {Array.from({ length: 10 }, (_, i) => i + 1).map((number) => (
+                    <SelectItem value={number.toString()} key={number}>
+                      {number}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
       </Card>
       <div className='flex flex-wrap justify-center gap-5'>
         {isFetchingUsers && <LoadingSpinner />}
@@ -191,6 +212,7 @@ const UsersAction = () => {
                 <PaginationLink
                   isActive={page === pageNumber}
                   onClick={() => setPageNumber(page)}
+                  key={page}
                 >
                   {page}
                 </PaginationLink>
