@@ -12,7 +12,7 @@ function useGetAllUsers(
   field: string | undefined,
   direction: string | undefined
 ) {
-  const response = useQuery<User[]>({
+  const response = useQuery<{ users: User[]; totalUsers: number }>({
     queryKey: [
       'users',
       name,
@@ -36,7 +36,7 @@ function useGetAllUsers(
             direction,
           },
         })
-        .then((res) => res.data.users),
+        .then((res) => res.data.data),
   });
   return response;
 }

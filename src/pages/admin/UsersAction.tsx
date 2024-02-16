@@ -25,7 +25,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '../../components/ui/pagination';
-import useGetTotalNumberOfUsers from '../../services/users/getTotalNumberOfUsers';
 
 const UsersAction = () => {
   const [searchName, setSearchName] = useState<string | undefined>();
@@ -45,12 +44,7 @@ const UsersAction = () => {
     user: 'User',
   };
 
-  const { data: totalUsers, isLoading: isFetchingTotalUsers } =
-    useGetTotalNumberOfUsers();
-
-  const numberOfPages = (totalUsers && Math.ceil(totalUsers / limit)) || 0;
-
-  const { data: users, isLoading: isFetchingUsers } = useGetAllUsers(
+  const { data, isLoading: isFetchingUsers } = useGetAllUsers(
     searchName,
     role,
     preferredJourney,
@@ -59,6 +53,9 @@ const UsersAction = () => {
     sortBy,
     sortOrder
   );
+
+  const { users, totalUsers } = data || {};
+  const numberOfPages = (totalUsers && Math.ceil(totalUsers / limit)) || 0;
   const { data: journeyNames, isLoading: isFetchingJourneyNames } =
     useGetJourneyNames();
 
@@ -68,7 +65,7 @@ const UsersAction = () => {
   return (
     <>
       <Heading>Users</Heading>
-      <Card className=' max-w-[600px] mx-auto my-5 '>
+      <Card className=' max-w-[900px] mx-auto my-5 '>
         <CardContent className='flex flex-wrap items-center justify-around gap-5 p-3 my-3'>
           <div className='flex items-center gap-3'>
             <Input
@@ -196,7 +193,7 @@ const UsersAction = () => {
       <Pagination className='flex flex-col items-center justify-center gap-3 my-10'>
         <p>
           Showing {1 + skip} to {skip + (users ? users?.length : skip)} of{' '}
-          {isFetchingTotalUsers ? <LoadingSpinner /> : `${totalUsers}`} users
+          {isFetchingUsers ? <LoadingSpinner /> : `${totalUsers}`} users
         </p>
         <PaginationContent>
           {pageNumber !== 1 && (
