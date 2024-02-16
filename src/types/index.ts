@@ -493,7 +493,7 @@ export type EditCommunityData = {
       dark: string;
       light: string;
     };
-    journeyId: string;
+    // journeyId: string;
   };
 };
 

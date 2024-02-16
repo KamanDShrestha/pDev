@@ -20,6 +20,8 @@ import useDeleteCommunity from '../services/community/deleteCommunity';
 import LoadingSpinner from './LoadingSpinner';
 import ExpandableText from './ExpandableText';
 
+import EditCommunityDialog from './EditCommunityDialog';
+
 interface CommunityCardProps {
   community: CommunityData;
 }
@@ -90,18 +92,18 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
           </p>
         )}
       </CardContent>
-      <CardFooter className='space-x-3'>
+      <CardFooter className='flex flex-col gap-3'>
         {isChecking ? (
           <LoadingSpinner />
         ) : !joinedStatus ? (
-          <>
+          <div className='flex gap-3'>
             <Button onClick={handleUserJoinCommunity}>
               Join the community
             </Button>
             <Button onClick={() => navigate(`/community/${community._id}`)}>
               Browse
             </Button>
-          </>
+          </div>
         ) : (
           <Button onClick={() => navigate(`/community/${community._id}`)}>
             Checkout this community
@@ -109,12 +111,15 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         )}
 
         {user?.role === 'admin' && (
-          <Button
-            variant={'destructive'}
-            onClick={() => handleDeleteCommunity(community._id)}
-          >
-            Delete this community
-          </Button>
+          <div className='flex items-center justify-center gap-3'>
+            <Button
+              variant={'destructive'}
+              onClick={() => handleDeleteCommunity(community._id)}
+            >
+              Delete this community
+            </Button>
+            <EditCommunityDialog community={community} />
+          </div>
         )}
       </CardFooter>
     </Card>
