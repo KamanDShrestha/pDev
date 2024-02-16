@@ -4,7 +4,7 @@ import useGetAllUsers from '../../services/users/getAllUsers';
 import Heading from '../../components/Heading';
 import { Input } from '../../components/ui/input';
 import { FaSearch } from 'react-icons/fa';
-import { Card, CardContent, CardTitle } from '../../components/ui/card';
+import { Card, CardContent } from '../../components/ui/card';
 import {
   Select,
   SelectContent,
@@ -17,6 +17,15 @@ import {
 import { useState } from 'react';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import useGetJourneyNames from '../../services/journey/getJourneyNames';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '../../components/ui/pagination';
+import useGetTotalNumberOfUsers from '../../services/users/getTotalNumberOfUsers';
 
 const UsersAction = () => {
   const [searchName, setSearchName] = useState<string | undefined>();
@@ -26,14 +35,20 @@ const UsersAction = () => {
   >();
   const [sortBy, setSortBy] = useState<string | undefined>();
   const [sortOrder, setSortOrder] = useState('asc');
-  const [limit, setLimit] = useState(10);
-  const skip = (1 - 1) * limit;
+  const [limit, setLimit] = useState(3);
+  const [pageNumber, setPageNumber] = useState(1);
+  const skip = (pageNumber - 1) * limit;
 
   const roles = {
     qha: 'Qualified Health Personnel',
     admin: 'Admin',
     user: 'User',
   };
+
+  const { data: totalUsers, isLoading: isFetchingTotalUsers } =
+    useGetTotalNumberOfUsers();
+
+  const numberOfPages = (totalUsers && Math.ceil(totalUsers / limit)) || 0;
 
   const { data: users, isLoading: isFetchingUsers } = useGetAllUsers(
     searchName,
@@ -53,7 +68,7 @@ const UsersAction = () => {
   return (
     <>
       <Heading>Users</Heading>
-      <Card className='my-5'>
+      <Card className=' max-w-[600px] mx-auto my-5 '>
         <CardContent className='flex flex-wrap items-center justify-around gap-5 p-3 my-3'>
           <div className='flex items-center gap-3'>
             <Input
@@ -157,6 +172,37 @@ const UsersAction = () => {
         {users &&
           users.map((user) => <UserProfile user={user} key={user._id} />)}
       </div>
+      <Pagination className='flex flex-col items-center justify-center gap-3 my-10'>
+        <p>
+          Showing {1 + skip} to {skip + (users ? users?.length : skip)} of{' '}
+          {isFetchingTotalUsers ? <LoadingSpinner /> : `${totalUsers}`} users
+        </p>
+        <PaginationContent>
+          {pageNumber !== 1 && (
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setPageNumber(pageNumber - 1)}
+              />
+            </PaginationItem>
+          )}
+          {totalUsers &&
+            Array.from({ length: numberOfPages }, (_, i) => i + 1).map(
+              (page) => (
+                <PaginationLink
+                  isActive={page === pageNumber}
+                  onClick={() => setPageNumber(page)}
+                >
+                  {page}
+                </PaginationLink>
+              )
+            )}
+          {pageNumber !== numberOfPages && (
+            <PaginationItem>
+              <PaginationNext onClick={() => setPageNumber(pageNumber + 1)} />
+            </PaginationItem>
+          )}
+        </PaginationContent>
+      </Pagination>
     </>
   );
 };

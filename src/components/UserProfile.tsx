@@ -43,7 +43,7 @@ const UserProfile = ({ user }: UserProfileProps) => {
   } as UpdateUserRoleData);
 
   return (
-    <Card key={user._id} className='flex flex-wrap max-w-[500px]'>
+    <Card key={user._id} className='flex flex-wrap max-w-[450px]'>
       <CardHeader>
         <img src='https://picsum.photos/200' alt='user' className='w-20 h-20' />
         <CardTitle>
