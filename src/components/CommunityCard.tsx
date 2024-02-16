@@ -18,6 +18,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 import useDeleteCommunity from '../services/community/deleteCommunity';
 import LoadingSpinner from './LoadingSpinner';
+import ExpandableText from './ExpandableText';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -73,7 +74,12 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
             className='w-32'
           />
         </div>
-        <CardDescription>{community.communityDescription}</CardDescription>
+        <CardDescription>
+          <ExpandableText
+            content={community.communityDescription}
+            length={150}
+          />
+        </CardDescription>
       </CardHeader>
       <CardContent className='text-xs'>
         {!communityMembers ? (

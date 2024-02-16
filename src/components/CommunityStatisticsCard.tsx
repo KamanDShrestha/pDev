@@ -57,7 +57,9 @@ const CommunityStatisticsCard = ({
                   </CardTitle>
                   <Separator />
                   <CardTitle className='text-xl'>
-                    {membersCount[community].memberCount} users
+                    {membersCount[community].memberCount === 1
+                      ? `${membersCount[community].memberCount} member`
+                      : `${membersCount[community].memberCount} members`}
                   </CardTitle>
                 </CardContent>
               </Card>

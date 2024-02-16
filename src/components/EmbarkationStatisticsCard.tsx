@@ -56,7 +56,9 @@ const EmbarkationStatisticsCard = ({
                   </CardTitle>
                   <Separator />
                   <CardTitle className='text-xl'>
-                    {usersCountInJourney[journey].userCount} users
+                    {usersCountInJourney[journey].userCount === 1
+                      ? `${usersCountInJourney[journey].userCount} user`
+                      : `${usersCountInJourney[journey].userCount} users`}
                   </CardTitle>
                 </CardContent>
               </Card>

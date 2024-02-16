@@ -25,7 +25,7 @@ const Community = () => {
           </Button>
         )}
       </div>
-      <div className='flex flex-wrap justify-center gap-3'>
+      <div className='flex flex-wrap items-center justify-center gap-3'>
         <div>{isLoading && <LoadingSpinner />}</div>
         {communities && communities.length === 0 ? (
           <p>No communities found</p>

@@ -76,7 +76,7 @@ const Dashboard = () => {
 
         <MoodsChartSection />
 
-        <div className='flex flex-wrap gap-5'>
+        <div className='flex flex-wrap justify-center gap-5'>
           <PostsCountCard
             postsCount={postsCount}
             isFetchingPostsCount={isFetchingPostsCount}

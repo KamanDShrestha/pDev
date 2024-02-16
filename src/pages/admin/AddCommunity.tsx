@@ -36,6 +36,7 @@ const AddCommunity = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm();
 
   const { data: journeys } = useGetAllJourneys();
@@ -55,15 +56,27 @@ const AddCommunity = () => {
       return;
     }
 
-    addCommunity({
-      journeyId: selectedJourney,
-      communityName: data.communityName,
-      communityDescription: data.communityDescription,
-      communityIcon: {
-        dark: data.communityIconImageDark,
-        light: data.communityIconImageLight,
+    addCommunity(
+      {
+        journeyId: selectedJourney,
+        communityName: data.communityName,
+        communityDescription: data.communityDescription,
+        communityIcon: {
+          dark: data.communityIconImageDark,
+          light: data.communityIconImageLight,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          reset({
+            communityName: '',
+            communityDescription: '',
+            communityIconImageDark: '',
+            communityIconImageLight: '',
+          });
+        },
+      }
+    );
   }
 
   return (
