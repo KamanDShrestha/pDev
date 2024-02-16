@@ -47,6 +47,8 @@ import { IoBookmark } from 'react-icons/io5';
 import useAddSavedContent from '../services/savedContent/addSavedContent';
 import useGetContentSavedStatus from '../services/savedContent/getContentSavedStatus';
 
+import ExpandableText from './ExpandableText';
+
 interface PostCardProps {
   post: PostData;
   onDeletePost: (postId: string) => void;
@@ -235,8 +237,8 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
         </div>
         <CardTitle>{post.postTitle}</CardTitle>
       </CardHeader>
-      <CardContent className='m-5'>
-        <p>{post.post}</p>
+      <CardContent className='m-5 whitespace-pre-wrap'>
+        <ExpandableText content={post.post} length={300} />
       </CardContent>
       <CardFooter className='flex flex-col gap-3 text-sm font-medium'>
         <Separator />
