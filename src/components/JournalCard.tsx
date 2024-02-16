@@ -60,7 +60,7 @@ const JournalCard = ({ journal }: JournalCardProps) => {
             </span>
             <Badge>{journal.journalCategory}</Badge>
           </div>
-          <div>
+          <div className='whitespace-pre-wrap '>
             <p>{journal.journalContent}</p>
           </div>
           <DialogFooter>

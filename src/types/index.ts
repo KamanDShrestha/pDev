@@ -484,6 +484,19 @@ export type CommunityData = {
   createdDate: Date;
 };
 
+export type EditCommunityData = {
+  communityId: string;
+  communityFields: {
+    communityName: string;
+    communityDescription: string;
+    communityIcon: {
+      dark: string;
+      light: string;
+    };
+    journeyId: string;
+  };
+};
+
 export type UpdateJourneyFeedbackStatusData = {
   feedbackDocumentId: string;
   feedbackId: string;
