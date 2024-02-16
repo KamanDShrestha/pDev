@@ -10,7 +10,6 @@ import { CommunityData } from '../types';
 import { useTheme } from './ThemeProvider';
 import { Button } from './ui/button';
 import useGetCommunityMembers from '../services/communityMembers/getCommunityMembers';
-
 import useAddMembers from '../services/communityMembers/addMembers';
 import { useAuthContext } from '../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';

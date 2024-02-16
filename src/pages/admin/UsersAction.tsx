@@ -1,14 +1,159 @@
 import useDocumentTitle from '../../services/getTitle';
 import UserProfile from '../../components/UserProfile';
 import useGetAllUsers from '../../services/users/getAllUsers';
+import Heading from '../../components/Heading';
+import { Input } from '../../components/ui/input';
+import { FaSearch } from 'react-icons/fa';
+import { Card, CardContent, CardTitle } from '../../components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../../components/ui/select';
+import { useState } from 'react';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import useGetJourneyNames from '../../services/journey/getJourneyNames';
 
 const UsersAction = () => {
-  const { data: users } = useGetAllUsers();
+  const [searchName, setSearchName] = useState<string | undefined>();
+  const [role, setRole] = useState<string | undefined>();
+  const [preferredJourney, setPreferredJourney] = useState<
+    string | undefined
+  >();
+  const [sortBy, setSortBy] = useState<string | undefined>();
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [limit, setLimit] = useState(10);
+  const skip = (1 - 1) * limit;
+
+  const roles = {
+    qha: 'Qualified Health Personnel',
+    admin: 'Admin',
+    user: 'User',
+  };
+
+  const { data: users, isLoading: isFetchingUsers } = useGetAllUsers(
+    searchName,
+    role,
+    preferredJourney,
+    limit,
+    skip,
+    sortBy,
+    sortOrder
+  );
+  const { data: journeyNames, isLoading: isFetchingJourneyNames } =
+    useGetJourneyNames();
+
+  console.log(users);
 
   useDocumentTitle('Users - SelfSync');
   return (
     <>
+      <Heading>Users</Heading>
+      <Card className='my-5'>
+        <CardContent className='flex flex-wrap items-center justify-around gap-5 p-3 my-3'>
+          <div className='flex items-center gap-3'>
+            <Input
+              className='w-[400px]'
+              placeholder='Search for users'
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+            />
+            <span className='text-2xl hover:cursor-pointer'>
+              <FaSearch />
+            </span>
+          </div>
+          <div className='max-w-[300px]'>
+            <Select
+              onValueChange={(chosenRole) => {
+                setRole(() => chosenRole);
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder='Select a role' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Roles</SelectLabel>
+                  <SelectItem value={'all'}>All</SelectItem>
+                  {Object.entries(roles).map(
+                    (role) =>
+                      role[0] !== 'admin' && (
+                        <SelectItem value={role[0]} key={role[0]}>
+                          {role[1]}
+                        </SelectItem>
+                      )
+                  )}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className='max-w-[300px]'>
+            {isFetchingJourneyNames ? (
+              <LoadingSpinner />
+            ) : (
+              <Select
+                onValueChange={(chosenPreferredJourney) => {
+                  setPreferredJourney(() => chosenPreferredJourney);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Select a preferred journey' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Preferred Journey</SelectLabel>
+                    <SelectItem value={'all'}>All</SelectItem>
+                    {journeyNames?.map((journey, index) => (
+                      <SelectItem value={journey} key={index}>
+                        {journey}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          </div>
+        </CardContent>
+        <CardContent className='flex justify-center gap-5'>
+          <div className='max-w-[300px]'>
+            <p className='font-medium'>Sort by</p>
+            <Select onValueChange={(value) => setSortBy(() => value)}>
+              <SelectTrigger>
+                <SelectValue placeholder='Sort by' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fields</SelectLabel>
+                  <SelectItem value='firstName'>Name</SelectItem>
+                  <SelectItem value='createdAt'>Sign-up date</SelectItem>
+                  <SelectItem value='dateOfBirth'>Date of birth</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className='max-w-[300px]'>
+            <p className='font-medium'>Sorting order</p>
+            <Select onValueChange={(value) => setSortOrder(() => value)}>
+              <SelectTrigger>
+                <SelectValue placeholder='Sorting order' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fields</SelectLabel>
+                  <SelectItem value='asc'>Ascending order</SelectItem>
+                  <SelectItem value='desc'>Descending order</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
       <div className='flex flex-wrap justify-center gap-5'>
+        {isFetchingUsers && <LoadingSpinner />}
         {users &&
           users.map((user) => <UserProfile user={user} key={user._id} />)}
       </div>

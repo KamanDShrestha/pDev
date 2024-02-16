@@ -20,6 +20,9 @@ import useUpdateUserRole from '../services/users/updateUserRole';
 import { useState } from 'react';
 import useDeleteUser from '../services/users/deleteUser';
 import LoadingSpinner from './LoadingSpinner';
+import { format } from 'date-fns';
+import { LucideDot } from 'lucide-react';
+import { Badge } from './ui/badge';
 
 interface UserProfileProps {
   user: User;
@@ -47,17 +50,29 @@ const UserProfile = ({ user }: UserProfileProps) => {
           {user.firstName} {user.lastName}
         </CardTitle>
       </CardHeader>
-      <CardContent className='flex flex-col p-5'>
-        <div>Email: {user.email}</div>
-        <div>DOB: {user.dateOfBirth?.split('T')[0] ?? ''}</div>
-        <div>Preferred Journey: {user.preferredJourney}</div>
-        <div>Joined Date: {user.createdAt.split('T')[0]}</div>
+      <CardContent className='flex flex-col gap-2 p-5'>
+        <div className='space-x-3'>
+          <span className='font-medium'>Email:</span>
+          <span>{user.email}</span>
+        </div>
+        <div className='space-x-3'>
+          <span className='font-medium'>DOB:</span>
+          <span className=''>{format(user.dateOfBirth, 'PPP')}</span>
+        </div>
+        <div className='space-x-3'>
+          <span className='font-medium'>Preferred Journey:</span>
+          <span className=''>{user.preferredJourney}</span>
+        </div>
+        <div className='space-x-3'>
+          <span className='font-medium'>Joined Date:</span>
+          <span>{format(user.createdAt, 'PPP')}</span>
+        </div>
         <div>
           <div>
-            The user is currently listed as{' '}
-            {roles[user.role as keyof typeof roles]}
+            The user is currently acknowledged as
+            <strong> {roles[user.role as keyof typeof roles]}.</strong>
           </div>
-          <div className='m-3 space-y-1'>
+          <div className='m-3 space-y-2'>
             <p>Select the required option to change the role:</p>
             <Select
               onValueChange={(chosenRole) => {
@@ -96,8 +111,11 @@ const UserProfile = ({ user }: UserProfileProps) => {
           {user.completedJourney.length !== 0 ? (
             <p>
               The user have completed following journeys:
-              {user.completedJourney.map((journey) => (
-                <span>{journey}</span>
+              {user.completedJourney.map((journey, index) => (
+                <span className='flex' key={index}>
+                  <LucideDot className='' />
+                  <span>{journey}</span>
+                </span>
               ))}
             </p>
           ) : (
@@ -105,9 +123,11 @@ const UserProfile = ({ user }: UserProfileProps) => {
           )}
         </div>
         <div className='text-sm'>
-          {user.hasSubscribed
-            ? 'The user has subscribed to the service.'
-            : 'The user has not subscribed yet.'}
+          {user.hasSubscribed ? (
+            <Badge variant={'default'}> Subscribed</Badge>
+          ) : (
+            <Badge variant={'default'}> Not Subscribed</Badge>
+          )}
         </div>
       </CardContent>
       <CardFooter>
