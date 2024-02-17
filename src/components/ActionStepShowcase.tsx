@@ -95,58 +95,62 @@ const ActionStepShowcase = ({
                   <h1 className='text-2xl font-semibold'>Day {day}</h1>
                   <span className='text-lg font-medium'>Level up your day</span>
 
-                  <div>
-                    <h2 className='text-xl font-semibold'>
-                      Action step for the day
-                    </h2>
-                    <p>{actionStep.actionStep}</p>
-                  </div>
-
-                  <div>
-                    <h2 className='text-xl font-semibold'>Description</h2>
-                    <p>{actionStep.description}</p>
-                  </div>
-                  {actionStep.additionalSteps && (
+                  <div className='p-3'>
                     <div>
                       <h2 className='text-xl font-semibold'>
-                        Additional Steps
+                        Action step for the day
                       </h2>
-                      <p>
-                        {actionStep.additionalSteps
-                          .filter((step) => step !== null)
-                          .map((step: string, index) =>
-                            step !== '' && step !== null ? (
+                      <p>{actionStep.actionStep}</p>
+                    </div>
+
+                    <div>
+                      <h2 className='text-xl font-semibold whitespace-pre-line'>
+                        Description
+                      </h2>
+                      <p>{actionStep.description}</p>
+                    </div>
+                    {actionStep.additionalSteps && (
+                      <div>
+                        <h2 className='text-xl font-semibold'>
+                          Additional Steps
+                        </h2>
+                        <p>
+                          {actionStep.additionalSteps
+                            .filter((step) => step !== null)
+                            .map((step: string, index) =>
+                              step !== '' && step !== null ? (
+                                <p key={index} className='flex'>
+                                  <span>
+                                    <LucideDot />
+                                  </span>
+                                  <span>{step}</span>
+                                </p>
+                              ) : null
+                            )}
+                        </p>
+                      </div>
+                    )}
+
+                    {actionStep.evidences && (
+                      <div>
+                        <h2 className='text-xl font-semibold'>Evidences</h2>
+                        {actionStep.evidences.map(
+                          (link: string, index) =>
+                            link !== '' &&
+                            link !== null && (
                               <p key={index} className='flex'>
                                 <span>
                                   <LucideDot />
                                 </span>
-                                <span>{step}</span>
+                                <Link key={index} to={link} target='_blank'>
+                                  {link}
+                                </Link>
                               </p>
-                            ) : null
-                          )}
-                      </p>
-                    </div>
-                  )}
-
-                  {actionStep.evidences && (
-                    <div>
-                      <h2 className='text-xl font-semibold'>Evidences</h2>
-                      {actionStep.evidences.map(
-                        (link: string, index) =>
-                          link !== '' &&
-                          link !== null && (
-                            <p key={index} className='flex'>
-                              <span>
-                                <LucideDot />
-                              </span>
-                              <Link key={index} to={link} target='_blank'>
-                                {link}
-                              </Link>
-                            </p>
-                          )
-                      )}
-                    </div>
-                  )}
+                            )
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>

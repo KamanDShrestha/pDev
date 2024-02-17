@@ -25,8 +25,25 @@ import QuestionAnswerCard from '../components/QuestionAnswerCard';
 import { PostData, QAsData } from '../types';
 import useDeletePost from '../services/posts/deletePost';
 import useDocumentTitle from '../services/getTitle';
+import { Card, CardContent } from '../components/ui/card';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '../components/ui/pagination';
 
 const SpecificCommunity = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortBy, setSortBy] = useState<string | undefined>();
+  const [sortDirection, setSortDirection] = useState<string | undefined>();
+  const [limit, setLimit] = useState<number>(5);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+
+  const skip = (pageNumber - 1) * limit;
+
   const { communityId } = useParams<{ communityId: string }>();
   const { user } = useAuthContext();
   const { data: communityMembers } = useGetCommunityMembers(
@@ -36,16 +53,22 @@ const SpecificCommunity = () => {
 
   const { data: community } = useGetSpecificCommunity(communityId as string);
 
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const { mutate: deletePost } = useDeletePost(
     communityId as string,
     selectedCategory
   );
 
-  const { data: posts } = useGetPosts(communityId as string, {
+  const { data } = useGetPosts(communityId as string, {
     category: selectedCategory,
+    sortBy: sortBy,
+    sortDirection: sortDirection,
+    limit: limit,
+    skip: skip,
   });
 
+  const { posts, total } = data || {};
+
+  const numberOfPages = Math.ceil((total && total / limit) || 1);
   useDocumentTitle(`${community?.communityName} - SelfSync`);
 
   console.log(posts);
@@ -124,27 +147,73 @@ const SpecificCommunity = () => {
           <Separator className='my-10' />
           <div className=''>
             <Heading>Our posts</Heading>
-            <Select
-              defaultValue={selectedCategory}
-              onValueChange={(value) => setSelectedCategory(value)}
-            >
-              <SelectTrigger className='max-w-[300px] my-5'>
-                <SelectValue placeholder='Categorized by' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Sort by</SelectLabel>
-                  <SelectItem value='all'>All posts</SelectItem>
-                  {categories.map((category, index) => (
-                    <>
-                      <SelectItem key={index} value={category.value}>
-                        {category.label}
-                      </SelectItem>
-                    </>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <Card className='my-10'>
+              <CardContent className='flex flex-wrap justify-around p-3'>
+                <Select
+                  defaultValue={selectedCategory}
+                  onValueChange={(value) => setSelectedCategory(value)}
+                >
+                  <SelectTrigger className='max-w-[300px] my-5'>
+                    <SelectValue placeholder='Categorized by' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Sort by</SelectLabel>
+                      <SelectItem value='all'>All posts</SelectItem>
+                      {categories.map((category, index) => (
+                        <>
+                          <SelectItem key={index} value={category.value}>
+                            {category.label}
+                          </SelectItem>
+                        </>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Select onValueChange={(value) => setSortBy(value)}>
+                  <SelectTrigger className='max-w-[300px] my-5'>
+                    <SelectValue placeholder='Sort by' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Sort by</SelectLabel>
+                      <SelectItem value='createdAt'>Sort by Date</SelectItem>
+                      {/* <SelectItem value='likes'>Likes</SelectItem>
+                      <SelectItem value='comments'>Comments</SelectItem> */}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Select onValueChange={(value) => setSortDirection(value)}>
+                  <SelectTrigger className='max-w-[300px] my-5'>
+                    <SelectValue placeholder='Sort Direction' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Sort Direction</SelectLabel>
+                      <SelectItem value='asc'>Ascending Order</SelectItem>
+                      <SelectItem value='desc'>Descending Order</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </CardContent>
+              <CardContent className='flex flex-col items-center justify-center p-3'>
+                <Select onValueChange={(value) => setLimit(parseInt(value))}>
+                  <SelectTrigger className='max-w-[300px] my-5'>
+                    <SelectValue placeholder='Number of posts' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Number of posts</SelectLabel>
+                      {Array.from({ length: 10 }, (_, index) => (
+                        <SelectItem key={index} value={(index + 1).toString()}>
+                          {index + 1}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </CardContent>
+            </Card>
             <div className='flex flex-col gap-5'>
               {posts &&
                 posts.map((post, index) =>
@@ -162,11 +231,47 @@ const SpecificCommunity = () => {
                   )
                 )}
 
-              {posts === null && <p>No posts found</p>}
+              {posts && (posts === null || posts.length === 0) && (
+                <p>No posts found</p>
+              )}
             </div>
           </div>
 
-          {/* <Button className='absolute right-4'>Create Post</Button> */}
+          <Pagination className='flex flex-col items-center justify-center gap-3 my-10'>
+            <p>
+              Showing {1 + skip} to {skip + ((posts && posts.length) || 0)} of{' '}
+              {total && total} posts
+            </p>
+            <PaginationContent>
+              {pageNumber > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() => setPageNumber(pageNumber - 1)}
+                  />
+                </PaginationItem>
+              )}
+
+              {Array.from({ length: numberOfPages }, (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    key={index}
+                    isActive={index + 1 === pageNumber}
+                    onClick={() => setPageNumber(index + 1)}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              {pageNumber !== numberOfPages && (
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => setPageNumber(pageNumber + 1)}
+                  />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
         </div>
         {/* <div>
           <Dialog>
