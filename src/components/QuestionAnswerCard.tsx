@@ -139,19 +139,21 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
     <>
       <Card className='max-w-[550px]'>
         <CardHeader>
-          <div className='flex items-center gap-4 my-3'>
-            <img
-              src='https://picsum.photos/200'
-              alt='user'
-              className='w-12 h-12 rounded-full'
-            />
-            <div className='flex flex-col'>
-              <span className='font-medium'>
-                {question._id === user?.id ? 'You' : question.userName}
-              </span>
-              <span className='text-xs'>
-                Questioned at {new Date(question.createdAt).toLocaleString()}
-              </span>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-4 my-3'>
+              <img
+                src='https://picsum.photos/200'
+                alt='user'
+                className='w-12 h-12 rounded-full'
+              />
+              <div className='flex flex-col'>
+                <span className='font-medium'>
+                  {question._id === user?.id ? 'You' : question.userName}
+                </span>
+                <span className='text-xs'>
+                  Questioned at {new Date(question.createdAt).toLocaleString()}
+                </span>
+              </div>
             </div>
             <div className='flex flex-col items-end'>
               {user?.id === question.userId && (
@@ -173,8 +175,14 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                         className='flex items-center gap-2'
                         onClick={() => handleDeleteQA()}
                       >
-                        <FaTrashAlt />
-                        <span>Move to Trash</span>
+                        {isDeleting ? (
+                          <LoadingSpinner />
+                        ) : (
+                          <>
+                            <FaTrashAlt />
+                            <span>Move to Trash</span>
+                          </>
+                        )}
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>

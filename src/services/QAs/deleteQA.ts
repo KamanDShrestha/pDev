@@ -23,6 +23,8 @@ export default function useDeleteQA(communityId: string) {
     onSuccess: (response) => {
       toast.success(response.message);
       console.log(response, 'response after deleting');
+      queryClient.invalidateQueries(['QAs', communityId]);
+      queryClient.invalidateQueries(['posts']);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       toast.error(error.response?.data.message || 'An error occured.');

@@ -14,6 +14,8 @@ export default function useAddQA() {
     onSuccess: (response) => {
       toast.success(response.message);
       queryClient.invalidateQueries(['QAs']);
+      queryClient.invalidateQueries(['posts']);
+
       console.log(response);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
