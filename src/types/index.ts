@@ -371,6 +371,14 @@ export type QAsData = {
       userName: string;
     }
   ];
+
+  likes: [
+    {
+      userId: string;
+      likedDate: Date;
+    }
+  ];
+  isAnonymous: boolean;
   createdAt: Date;
 };
 
@@ -379,6 +387,11 @@ export type AddQAData = {
   communityId: string;
   questionTitle: string;
   question: string;
+};
+
+export type AddQALikeData = {
+  QAId: string;
+  userId: string;
 };
 
 export type AddPostLikeData = {

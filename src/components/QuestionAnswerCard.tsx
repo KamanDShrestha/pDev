@@ -16,6 +16,10 @@ import QuestionAnswerCardWithComments from './QuestionAnswerCardWithComments';
 import useAddAnswer from '../services/QAs/addAnswer';
 import { Separator } from './ui/separator';
 import LoadingSpinner from './LoadingSpinner';
+import useLikeQA from '../services/QAs/likeQA';
+import useGetLikedStatus from '../services/QAs/getLikedStatus';
+import { useQueryClient } from '@tanstack/react-query';
+import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 
 // import { FcLikePlaceholder } from 'react-icons/fc';
 
@@ -27,8 +31,13 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
   const { user } = useAuthContext();
   const { register, handleSubmit, setValue } = useForm();
 
+  const { mutate: addLike, isLoading: isLiking } = useLikeQA();
+  const { data: likedStatus, isLoading: gettingLikedStatus } =
+    useGetLikedStatus(question._id, user?.id as string);
+
   const { mutate: addAnswer, isLoading: isCommenting } = useAddAnswer();
 
+  const queryClient = useQueryClient();
   function handleSubmitAnswer(data: FieldValues) {
     addAnswer(
       {
@@ -50,33 +59,33 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
     );
   }
 
-  // function handleLikePost() {
-  //   addLike(
-  //     {
-  //       userId: user?.id as string,
-  //       postId: post._id,
-  //     },
-  //     {
-  //       onSuccess: (response) => {
-  //         queryClient.invalidateQueries([
-  //           'likedStatus',
-  //           post._id,
-  //           user?.id as string,
-  //         ]);
+  function handleLikeQA() {
+    addLike(
+      {
+        userId: user?.id as string,
+        QAId: question._id,
+      },
+      {
+        onSuccess: (response) => {
+          queryClient.invalidateQueries([
+            'likedStatus',
+            question._id,
+            user?.id as string,
+          ]);
 
-  //         if (response.message.split(' ').includes('unliked')) {
-  //           post.postLikes.pop();
-  //           return;
-  //         } else {
-  //           post.postLikes.push({
-  //             userId: user?.id as string,
-  //             likedDate: new Date(),
-  //           });
-  //         }
-  //       },
-  //     }
-  //   );
-  // }
+          if (response.message.split(' ').includes('unliked')) {
+            question.likes.pop();
+            return;
+          } else {
+            question.likes.push({
+              userId: user?.id as string,
+              likedDate: new Date(),
+            });
+          }
+        },
+      }
+    );
+  }
 
   return (
     <>
@@ -101,13 +110,13 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
           <CardTitle>{question.questionTitle}</CardTitle>
         </CardHeader>
         <CardContent className='m-5'>{question.question}</CardContent>
-        <CardFooter className='flex flex-col gap-3'>
+        <CardFooter className='flex flex-col gap-3 text-sm'>
           <Separator />
           <div className='relative flex items-center gap-10'>
-            {/* <div className='flex items-center gap-3'>
+            <div className='flex items-center gap-3'>
               <span
                 style={{ fontSize: '25px' }}
-                onClick={handleLikePost}
+                onClick={handleLikeQA}
                 className='hover:cursor-pointer'
               >
                 {gettingLikedStatus || isLiking ? (
@@ -119,13 +128,13 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                 )}
               </span>
               <span>
-                {post.postLikes.length > 0
-                  ? post.postLikes.length === 1
+                {question.likes.length > 0
+                  ? question.likes.length === 1
                     ? '1 like'
-                    : `${post.postLikes.length} likes`
+                    : `${question.likes.length} likes`
                   : 'No likes'}
               </span>
-            </div> */}
+            </div>
             <p className='text-sm font-medium'>
               {question.answers.length <= 0 ? (
                 'No one has answered the question'
@@ -145,6 +154,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
               )}
             </p>
           </div>
+
           <Separator />
 
           <Dialog>

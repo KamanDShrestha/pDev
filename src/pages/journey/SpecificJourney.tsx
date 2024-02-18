@@ -45,7 +45,7 @@ const SpecificJourney = () => {
     journey?._id as string
   );
   const { data: randomQuote, isLoading: isGettingRandomQuote } =
-    useGetRandomQuote(params.name as string);
+    useGetRandomQuote(journey?.name as string);
   const { data: journeyExistence, isLoading: isJourneyExistenceLoading } =
     useGetJourneyExistence(params.id as string);
 
@@ -94,7 +94,7 @@ const SpecificJourney = () => {
 
   return (
     <div>
-      <div className='w-screen h-[80vh] bg-gray-200 flex items-center '>
+      <div className='w-[full] h-[80vh] bg-gray-200 flex items-center '>
         <div className='p-10'>
           {isGettingRandomQuote && <LoadingSpinner />}
           {randomQuote && (

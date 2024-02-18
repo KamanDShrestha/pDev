@@ -34,6 +34,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '../components/ui/pagination';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const SpecificCommunity = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -58,13 +59,16 @@ const SpecificCommunity = () => {
     selectedCategory
   );
 
-  const { data } = useGetPosts(communityId as string, {
-    category: selectedCategory,
-    sortBy: sortBy,
-    sortDirection: sortDirection,
-    limit: limit,
-    skip: skip,
-  });
+  const { data, isLoading: isFetchingPosts } = useGetPosts(
+    communityId as string,
+    {
+      category: selectedCategory,
+      sortBy: sortBy,
+      sortDirection: sortDirection,
+      limit: limit,
+      skip: skip,
+    }
+  );
 
   const { posts, total } = data || {};
 
@@ -178,8 +182,8 @@ const SpecificCommunity = () => {
                     <SelectGroup>
                       <SelectLabel>Sort by</SelectLabel>
                       <SelectItem value='createdAt'>Sort by Date</SelectItem>
-                      {/* <SelectItem value='likes'>Likes</SelectItem>
-                      <SelectItem value='comments'>Comments</SelectItem> */}
+                      <SelectItem value='likeCount'>Likes</SelectItem>
+                      <SelectItem value='commentCount'>Comments</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -215,6 +219,10 @@ const SpecificCommunity = () => {
               </CardContent>
             </Card>
             <div className='flex flex-col gap-5'>
+              <div className='flex items-center justify-center'>
+                {isFetchingPosts && <LoadingSpinner />}
+              </div>
+
               {posts &&
                 posts.map((post, index) =>
                   selectedCategory === 'question' ? (
