@@ -48,17 +48,12 @@ import useAddSavedContent from '../services/savedContent/addSavedContent';
 import useGetContentSavedStatus from '../services/savedContent/getContentSavedStatus';
 
 import ExpandableText from './ExpandableText';
+import { postCategoriesTheme } from '../constants';
 
 interface PostCardProps {
   post: PostData;
   onDeletePost: (postId: string) => void;
 }
-
-const postCategoriesTheme = {
-  reflection: 'bg-blue-300 text-blue-800',
-  learning: 'bg-green-300 text-green-800',
-  question: 'bg-gray-300 text-gray-800',
-};
 
 const PostCard = ({ post, onDeletePost }: PostCardProps) => {
   const [isAnonymousComment, setIsAnonymousComment] = useState(false);

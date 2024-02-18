@@ -37,6 +37,12 @@ export const statusColoring = {
   rejected: 'bg-red-100 text-red-500',
 };
 
+export const postCategoriesTheme = {
+  reflection: 'bg-blue-300 text-blue-800',
+  learning: 'bg-green-300 text-green-800',
+  question: 'bg-gray-300 text-gray-800',
+};
+
 export const moods = [
   { mood: 'Terrible', emoji: '😰', score: 1 },
   { mood: 'Bad', emoji: '👎', score: 2 },

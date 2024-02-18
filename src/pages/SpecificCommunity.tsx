@@ -182,8 +182,10 @@ const SpecificCommunity = () => {
                     <SelectGroup>
                       <SelectLabel>Sort by</SelectLabel>
                       <SelectItem value='createdAt'>Sort by Date</SelectItem>
-                      <SelectItem value='likeCount'>Likes</SelectItem>
-                      <SelectItem value='commentCount'>Comments</SelectItem>
+                      <SelectItem value='likeCount'>Sort by Likes</SelectItem>
+                      <SelectItem value='commentCount'>
+                        Sort by Comments
+                      </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>

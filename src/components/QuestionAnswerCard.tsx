@@ -20,6 +20,22 @@ import useLikeQA from '../services/QAs/likeQA';
 import useGetLikedStatus from '../services/QAs/getLikedStatus';
 import { useQueryClient } from '@tanstack/react-query';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import { BsThreeDots } from 'react-icons/bs';
+import { FaTrashAlt } from 'react-icons/fa';
+import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
+import useAddSavedContent from '../services/savedContent/addSavedContent';
+import useGetContentSavedStatus from '../services/savedContent/getContentSavedStatus';
+import useDeleteQA from '../services/QAs/deleteQA';
+import { postCategoriesTheme } from '../constants';
 
 // import { FcLikePlaceholder } from 'react-icons/fc';
 
@@ -32,11 +48,17 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
   const { register, handleSubmit, setValue } = useForm();
 
   const { mutate: addLike, isLoading: isLiking } = useLikeQA();
+  const { mutate: addSavedContent, isLoading: isSaving } = useAddSavedContent();
+  const { data: savedContentStatus, isLoading: gettingSavedContentStatus } =
+    useGetContentSavedStatus(user?.id as string, 'qa', question._id);
+
   const { data: likedStatus, isLoading: gettingLikedStatus } =
     useGetLikedStatus(question._id, user?.id as string);
 
   const { mutate: addAnswer, isLoading: isCommenting } = useAddAnswer();
-
+  const { mutate: deleteQA, isLoading: isDeleting } = useDeleteQA(
+    question.communityId
+  );
   const queryClient = useQueryClient();
   function handleSubmitAnswer(data: FieldValues) {
     addAnswer(
@@ -87,6 +109,32 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
     );
   }
 
+  function handleSavePost() {
+    addSavedContent(
+      {
+        category: 'question',
+        contentId: question._id,
+        contentType: 'qa',
+        userId: user?.id as string,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'contentSavedStatus',
+            user?.id as string,
+            'qa',
+            question._id,
+          ]);
+          queryClient.invalidateQueries(['savedContents', user?.id as string]);
+        },
+      }
+    );
+  }
+
+  function handleDeleteQA() {
+    deleteQA(question._id);
+  }
+
   return (
     <>
       <Card className='max-w-[550px]'>
@@ -104,6 +152,54 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
               <span className='text-xs'>
                 Questioned at {new Date(question.createdAt).toLocaleString()}
               </span>
+            </div>
+            <div className='flex flex-col items-end'>
+              {user?.id === question.userId && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <span className='text-2xl'>
+                      <BsThreeDots />
+                    </span>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      {/* <DropdownMenuItem className='flex items-center gap-2'>
+                      <FaEdit />
+                      <span>Edit this post</span>
+                    </DropdownMenuItem> */}
+                      <DropdownMenuItem
+                        className='flex items-center gap-2'
+                        onClick={() => handleDeleteQA()}
+                      >
+                        <FaTrashAlt />
+                        <span>Move to Trash</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+              <div className='flex flex-col items-end gap-2'>
+                <span
+                  className='text-xl hover:cursor-pointer'
+                  onClick={handleSavePost}
+                >
+                  {gettingSavedContentStatus || isSaving ? (
+                    <LoadingSpinner />
+                  ) : savedContentStatus ? (
+                    <IoBookmark />
+                  ) : (
+                    <IoBookmarkOutline />
+                  )}
+                </span>
+
+                <span
+                  className={`px-2 py-1 text-xs rounded-full ${postCategoriesTheme['question']}`}
+                >
+                  question
+                </span>
+              </div>
             </div>
           </div>
 
