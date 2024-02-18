@@ -87,8 +87,10 @@ const ReviewJourneyCard = ({
                   <p>
                     {importance.map((item) => (
                       <p className='flex gap-3'>
-                        <BsDot />
-                        {item}
+                        <span className='text-2xl'>
+                          <BsDot />
+                        </span>
+                        <span>{item}</span>
                       </p>
                     ))}
                   </p>

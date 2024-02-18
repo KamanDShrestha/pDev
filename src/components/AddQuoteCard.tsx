@@ -32,7 +32,7 @@ const AddQuoteCard = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { data: categories, isLoading: isCategoryFetching } =
     useGetQuoteCategories();
-  console.log(categories);
+
   const { mutate: addQuote, isLoading: isAddingQuote } = useAddQuote();
 
   const {
@@ -44,7 +44,7 @@ const AddQuoteCard = () => {
 
   function handleQuoteSubmit(data: FieldValues) {
     if (isAddingNewCategory) {
-      if (!selectedCategory) return;
+      if (!data.category) return;
     }
     addQuote(
       {

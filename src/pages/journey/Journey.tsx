@@ -7,6 +7,8 @@ import { useAuthContext } from '../../context/AuthProvider';
 import useGetAllEmbarkedJourneys from '../../services/embarkedJourneys/getAllEmbarkedJourneys';
 import RetrospectionCard from '../../components/RetrospectionCard';
 import useDocumentTitle from '../../services/getTitle';
+import useGetRandomQuote from '../../services/quotes/getRandomQuote';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const Journey = () => {
   const { user } = useAuthContext();
@@ -15,16 +17,27 @@ const Journey = () => {
     user?.id as string
   );
 
+  const { data: randomQuote, isLoading: isFetchingRandomQuote } =
+    useGetRandomQuote('Progress');
+
   console.log('embarkedJourneys', embarkedJourneys);
 
   console.log(journeys);
-
+  console.log(randomQuote);
   useDocumentTitle('Journeys - SelfSync');
 
   return (
-    <div className='mt-5 mb-5 '>
-      <div className='w-screen h-[80vh] bg-gray-200'>
-        Placeholder for quotes
+    <div>
+      <div className='w-full h-[80vh] bg-gray-200  flex items-center justify-center'>
+        <div className='p-10'>
+          {isFetchingRandomQuote && <LoadingSpinner />}
+          {randomQuote && (
+            <div className='space-y-5'>
+              <p className='text-2xl'>{randomQuote.quote}</p>
+              <p className='text-lg text-right'> - {randomQuote.author}</p>
+            </div>
+          )}
+        </div>
       </div>
       <div className='mt-8'>
         <h2 className='mt-2 mb-5 text-4xl font-semibold'>Journeys</h2>

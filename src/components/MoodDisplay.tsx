@@ -30,11 +30,17 @@ const MoodDisplay = () => {
       <CardContent className='flex flex-col items-center gap-5 p-3'>
         <Heading className='mb-1 text-2xl'>Mood</Heading>
         <div className='flex items-center gap-3'>
-          <span className='text-3xl' onClick={decreaseDate}>
+          <span
+            className='text-3xl hover:cursor-pointer'
+            onClick={decreaseDate}
+          >
             <IoChevronBack />
           </span>
           <DatePicker date={date} setDate={setDate} />
-          <span className='text-3xl' onClick={increaseDate}>
+          <span
+            className='text-3xl hover:cursor-pointer'
+            onClick={increaseDate}
+          >
             <IoChevronForward />
           </span>
         </div>
