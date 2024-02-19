@@ -631,6 +631,7 @@ export type EmbarkedJourney = {
       status: 'idle' | 'completed' | 'due' | 'blocked' | 'ongoing';
     };
   };
+  journeyStatus: 'ongoing' | 'completed' | 'discontinued';
 };
 
 export type UpdateActionCompletionData = {
