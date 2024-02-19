@@ -18,6 +18,8 @@ import useGetRandomQuote from '../../services/quotes/getRandomQuote';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import useGetSpecificJourneyByID from '../../services/journey/getSpecificJourneyByID';
 import useGetJourneyExistence from '../../services/journey/getJourneyExistence';
+import useContinueJourney from '../../services/embarkedJourneys/continueJourney';
+import { useQueryClient } from '@tanstack/react-query';
 
 // const validJourneys = [
 //   'mindfulness',
@@ -48,6 +50,11 @@ const SpecificJourney = () => {
     useGetRandomQuote(journey?.name as string);
   const { data: journeyExistence, isLoading: isJourneyExistenceLoading } =
     useGetJourneyExistence(params.id as string);
+
+  const { mutate: continueJourney, isLoading: isContinuing } =
+    useContinueJourney();
+
+  const queryClient = useQueryClient();
 
   useDocumentTitle(`${journey?.name} - SelfSync`);
 
@@ -92,6 +99,23 @@ const SpecificJourney = () => {
     );
   }
 
+  function handleContinueJourney() {
+    continueJourney(
+      {
+        userId: user?.id as string,
+        journeyId: journey?._id as string,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'embarkedJourney',
+            user?.id as string,
+            journey?._id as string,
+          ]);
+        },
+      }
+    );
+  }
   return (
     <div>
       <div className='w-[full] h-[80vh] bg-gray-200 flex items-center '>
@@ -121,17 +145,28 @@ const SpecificJourney = () => {
                 </DialogContent>
               </Dialog>
             )}
-            {embarkedJourney &&
-            !embarkedJourney.isJourneyCompleted &&
-            embarkedJourney.journeyStatus === 'ongoing' ? (
-              <Button
-                onClick={() => navigate(`/currentJourney/${journey?._id}`)}
-              >
-                Navigate to current journey
-              </Button>
-            ) : (
+
+            {embarkedJourney === null && (
               <Button onClick={handleBeginButton}>Begin the journey</Button>
             )}
+
+            {embarkedJourney &&
+              !embarkedJourney.isJourneyCompleted &&
+              embarkedJourney.journeyStatus === 'ongoing' && (
+                <Button
+                  onClick={() => navigate(`/currentJourney/${journey?._id}`)}
+                >
+                  Navigate to current journey
+                </Button>
+              )}
+
+            {embarkedJourney &&
+              !embarkedJourney.isJourneyCompleted &&
+              embarkedJourney.journeyStatus === 'discontinued' && (
+                <Button onClick={() => handleContinueJourney()}>
+                  {isContinuing ? <LoadingSpinner /> : 'Continue the journey'}
+                </Button>
+              )}
           </div>
         </div>
         <div className='flex flex-wrap justify-center gap-5 p-3'>
