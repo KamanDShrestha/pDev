@@ -651,6 +651,13 @@ export type AddEmbarkedJourneyData = {
   journeyId: string;
 };
 
+export type EmbarkedJourneyCount = {
+  [key: string]: {
+    journeyName: string;
+    xount: number;
+  };
+};
+
 export type JourneyData = {
   _id: string;
   name: string;
