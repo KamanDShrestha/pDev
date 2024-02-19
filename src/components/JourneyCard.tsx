@@ -30,6 +30,8 @@ import { FaLock } from 'react-icons/fa';
 import { NavLink, useNavigate } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import { cn } from '../lib/utils';
+import useDiscontinueJourney from '../services/embarkedJourneys/discontinueJourney';
+import Loading from '../pages/Loading';
 
 interface ActionSteps {
   description: string;
@@ -69,6 +71,8 @@ const JourneyCard = ({
   );
   const { mutate: deleteJourney, isLoading: isDeleting } =
     useDeleteSpecificJourney();
+  const { mutate: discontinueJourney, isLoading: isDiscontinuing } =
+    useDiscontinueJourney();
 
   return (
     <div>
@@ -132,14 +136,34 @@ const JourneyCard = ({
                       {!embarkedJourney ? (
                         <Button>Begin</Button>
                       ) : (
-                        <NavLink
-                          to={`/currentJourney/${embarkedJourney?.journeyId}`}
-                          className={cn(
-                            buttonVariants({ variant: 'secondary' })
-                          )}
-                        >
-                          Navigate to the journey
-                        </NavLink>
+                        <>
+                          <NavLink
+                            to={`/currentJourney/${embarkedJourney?.journeyId}`}
+                            className={cn(
+                              buttonVariants({ variant: 'secondary' })
+                            )}
+                          >
+                            Navigate to the journey
+                          </NavLink>
+
+                          {embarkedJourney.isJourneyCompleted === false &&
+                            embarkedJourney.journeyStatus === 'ongoing' && (
+                              <Button
+                                onClick={() =>
+                                  discontinueJourney({
+                                    userId: user.id as string,
+                                    journeyId: journeyId,
+                                  })
+                                }
+                              >
+                                {isDiscontinuing ? (
+                                  <LoadingSpinner />
+                                ) : (
+                                  'Discontinue journey'
+                                )}
+                              </Button>
+                            )}
+                        </>
                       )}
                     </>
                   )}
