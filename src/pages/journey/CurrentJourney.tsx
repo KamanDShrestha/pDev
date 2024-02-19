@@ -25,6 +25,7 @@ import useDocumentTitle from '../../services/getTitle';
 
 import ProgressBar from '../../components/ProgressBar';
 import { LucideDot } from 'lucide-react';
+import useGetRandomQuote from '../../services/quotes/getRandomQuote';
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
@@ -33,6 +34,9 @@ const CurrentJourney = () => {
     isLoading: isFetchingEmbarkedJourney,
     error,
   } = useGetEmbarkedJourney(user?.id as string, journeyId?.id as string);
+
+  const { data: randomQuote, isLoading: isFetchingRandomQuote } =
+    useGetRandomQuote(embarkedJourney?.journeyName as string);
 
   console.log(error);
   const { mutate } = useUpdateActionCompletion();
@@ -70,8 +74,16 @@ const CurrentJourney = () => {
 
   return (
     <div>
-      <div className='w-screen h-[80vh] bg-gray-200'>
-        Placeholder for quotes for current journey
+      <div className='w-[full] h-[80vh] bg-gray-200 flex items-center '>
+        <div className='flex items-center justify-center w-full h-full p-10'>
+          {isFetchingRandomQuote && <LoadingSpinner />}
+          {randomQuote && (
+            <div className='space-y-5'>
+              <p className='text-2xl'>{randomQuote.quote}</p>
+              <p className='text-lg text-right'> - {randomQuote.author}</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {error ? (

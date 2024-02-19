@@ -35,6 +35,7 @@ import {
   PaginationPrevious,
 } from '../components/ui/pagination';
 import LoadingSpinner from '../components/LoadingSpinner';
+import useGetRandomQuote from '../services/quotes/getRandomQuote';
 
 const SpecificCommunity = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -53,6 +54,8 @@ const SpecificCommunity = () => {
   console.log(communityMembers);
 
   const { data: community } = useGetSpecificCommunity(communityId as string);
+  const { data: randomQuote, isLoading: isFetchingRandomQuote } =
+    useGetRandomQuote(community?.communityName as string);
 
   const { mutate: deletePost } = useDeletePost(
     communityId as string,
@@ -73,7 +76,7 @@ const SpecificCommunity = () => {
   const { posts, total } = data || {};
 
   const numberOfPages = Math.ceil((total && total / limit) || 1);
-  useDocumentTitle(`${community?.communityName} - SelfSync`);
+  useDocumentTitle(`${community?.communityName} - Community - SelfSync`);
 
   console.log(posts);
   console.log(community);
@@ -94,8 +97,16 @@ const SpecificCommunity = () => {
 
   return (
     <>
-      <div className='bg-slate-100 w-full h-[90vh]'>
-        Placeholder for images and quotes? Some chill, relaxing camp fire art?
+      <div className='w-[full] h-[80vh] bg-gray-200 flex items-center '>
+        <div className='flex items-center justify-center w-full h-full p-10'>
+          {isFetchingRandomQuote && <LoadingSpinner />}
+          {randomQuote && (
+            <div className='space-y-5'>
+              <p className='text-2xl'>{randomQuote.quote}</p>
+              <p className='text-lg text-right'> - {randomQuote.author}</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className='grid lg:grid-cols-[300px_minmax(440px,_1fr)_100px] gap-5 mt-8 grid-cols-1 '>

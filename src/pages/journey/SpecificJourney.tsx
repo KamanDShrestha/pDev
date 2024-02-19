@@ -95,7 +95,7 @@ const SpecificJourney = () => {
   return (
     <div>
       <div className='w-[full] h-[80vh] bg-gray-200 flex items-center '>
-        <div className='p-10'>
+        <div className='flex items-center justify-center w-full h-full p-10'>
           {isGettingRandomQuote && <LoadingSpinner />}
           {randomQuote && (
             <div className='space-y-5'>
