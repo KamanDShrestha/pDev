@@ -121,7 +121,9 @@ const SpecificJourney = () => {
                 </DialogContent>
               </Dialog>
             )}
-            {embarkedJourney && !embarkedJourney.isJourneyCompleted ? (
+            {embarkedJourney &&
+            !embarkedJourney.isJourneyCompleted &&
+            embarkedJourney.journeyStatus === 'ongoing' ? (
               <Button
                 onClick={() => navigate(`/currentJourney/${journey?._id}`)}
               >

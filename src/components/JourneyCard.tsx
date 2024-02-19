@@ -31,7 +31,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import { cn } from '../lib/utils';
 import useDiscontinueJourney from '../services/embarkedJourneys/discontinueJourney';
-import Loading from '../pages/Loading';
+import useContinueJourney from '../services/embarkedJourneys/continueJourney';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ActionSteps {
   description: string;
@@ -73,6 +74,46 @@ const JourneyCard = ({
     useDeleteSpecificJourney();
   const { mutate: discontinueJourney, isLoading: isDiscontinuing } =
     useDiscontinueJourney();
+  const { mutate: continueJourney, isLoading: isContinuing } =
+    useContinueJourney();
+
+  const queryClient = useQueryClient();
+
+  function handleContinueJourney() {
+    continueJourney(
+      {
+        userId: user?.id as string,
+        journeyId: journeyId,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'embarkedJourney',
+            user?.id as string,
+            journeyId,
+          ]);
+        },
+      }
+    );
+  }
+
+  function handleDiscontinueJourney() {
+    discontinueJourney(
+      {
+        userId: user?.id as string,
+        journeyId: journeyId,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'embarkedJourney',
+            user?.id as string,
+            journeyId,
+          ]);
+        },
+      }
+    );
+  }
 
   return (
     <div>
@@ -133,37 +174,42 @@ const JourneyCard = ({
                       >
                         Browse
                       </Button>
+
+                      {embarkedJourney &&
+                        embarkedJourney.journeyStatus === 'discontinued' && (
+                          <Button onClick={() => handleContinueJourney()}>
+                            {isContinuing ? (
+                              <LoadingSpinner />
+                            ) : (
+                              'Continue the journey'
+                            )}
+                          </Button>
+                        )}
+
                       {!embarkedJourney ? (
                         <Button>Begin</Button>
                       ) : (
-                        <>
-                          <NavLink
-                            to={`/currentJourney/${embarkedJourney?.journeyId}`}
-                            className={cn(
-                              buttonVariants({ variant: 'secondary' })
-                            )}
-                          >
-                            Navigate to the journey
-                          </NavLink>
+                        embarkedJourney.isJourneyCompleted === false &&
+                        embarkedJourney.journeyStatus === 'ongoing' && (
+                          <>
+                            <NavLink
+                              to={`/currentJourney/${embarkedJourney?.journeyId}`}
+                              className={cn(
+                                buttonVariants({ variant: 'secondary' })
+                              )}
+                            >
+                              Navigate to the journey
+                            </NavLink>
 
-                          {embarkedJourney.isJourneyCompleted === false &&
-                            embarkedJourney.journeyStatus === 'ongoing' && (
-                              <Button
-                                onClick={() =>
-                                  discontinueJourney({
-                                    userId: user.id as string,
-                                    journeyId: journeyId,
-                                  })
-                                }
-                              >
-                                {isDiscontinuing ? (
-                                  <LoadingSpinner />
-                                ) : (
-                                  'Discontinue journey'
-                                )}
-                              </Button>
-                            )}
-                        </>
+                            <Button onClick={() => handleDiscontinueJourney()}>
+                              {isDiscontinuing ? (
+                                <LoadingSpinner />
+                              ) : (
+                                'Discontinue journey'
+                              )}
+                            </Button>
+                          </>
+                        )
                       )}
                     </>
                   )}
