@@ -9,7 +9,7 @@ const ProgressBar = ({ completion = 0 }: ProgressBarProps) => {
         className='p-1.5 text-xs font-medium leading-none text-center text-blue-100 bg-blue-600 rounded-full ease-in-out'
         style={{ width: `${completion}%` }}
       >
-        {completion.toFixed(2)}%
+        {completion ? completion.toFixed(2) : 0}%
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Button } from '../components/ui/button';
+// import { Button } from '../components/ui/button';
 
 import { useAuthContext } from '../context/AuthProvider';
 import useLogoutUser from '../services/userAuth/logoutUser';
@@ -7,12 +7,12 @@ import { IoIosArrowRoundForward } from 'react-icons/io';
 import MoodTracker from '../components/MoodTracker';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
-import LoadingSpinner from '../components/LoadingSpinner';
+// import LoadingSpinner from '../components/LoadingSpinner';
 import useDocumentTitle from '../services/getTitle';
 import HomeImage from '../assets/home-icon.png';
 
 const Home = () => {
-  const { mutate, isLoading: isLoggingOut } = useLogoutUser();
+  // const { mutate, isLoading: isLoggingOut } = useLogoutUser();
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const [moodTrackerModal, setMoodTrackerModal] = useState(false);
