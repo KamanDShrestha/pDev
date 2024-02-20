@@ -19,6 +19,7 @@ import { Input } from './ui/input';
 import useUpdateQuote from '../services/quotes/updateQuote';
 import { Textarea } from './ui/textarea';
 import removeWhitespace from '../services/removeWhitespace';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface QuoteCardProps {
   quote: {
@@ -40,8 +41,18 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
     },
   });
 
+  const queryClient = useQueryClient();
+
   function handleQuoteDeletion() {
-    deleteQuote({ quoteId: quote._id, category: category });
+    deleteQuote(
+      { quoteId: quote._id, category: category },
+      {
+        onSuccess: () => {
+          console.log('Quote deleted');
+          queryClient.invalidateQueries(['quotes', category]);
+        },
+      }
+    );
   }
 
   function handleQuoteUpdate(data: FieldValues) {

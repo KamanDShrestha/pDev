@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import useDocumentTitle from '../services/getTitle';
+import HomeImage from '../assets/home-icon.png';
 
 const Home = () => {
   const { mutate, isLoading: isLoggingOut } = useLogoutUser();
@@ -63,7 +64,9 @@ const Home = () => {
           </div>,
           document.body
         )}
-      <div className='absolute p-5 mt-20 '>
+      <div className='flex h-[80vh] justify-around items-center flex-wrap'>
+        <img src={HomeImage} alt='home-page-image' className='h-[300px]' />
+
         <div className='flex flex-col gap-5 mb-3'>
           <h1 className='text-7xl'>Sync yourself.</h1>
           <h2 className='text-4xl'>
@@ -76,9 +79,10 @@ const Home = () => {
             </span>
           </NavLink>
         </div>
-        <Button onClick={handleLogout}>
+
+        {/* <Button onClick={handleLogout}>
           {isLoggingOut ? <LoadingSpinner /> : 'Logout'}
-        </Button>
+        </Button> */}
       </div>
 
       {/* {createPortal(

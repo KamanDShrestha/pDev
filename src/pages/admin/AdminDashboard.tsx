@@ -19,7 +19,7 @@ import CommunityStatisticsCard from '../../components/CommunityStatisticsCard';
 import useGetDiscontinuedJourneysCount from '../../services/embarkedJourneys/getDiscontinuedJourneysCount';
 import useGetOngoingJourneysCount from '../../services/embarkedJourneys/getOngoingJourneysCount';
 import useGetCompletedJourneysCount from '../../services/embarkedJourneys/getCompletedJourneysCount';
-import JourneyStatisticsCard from '@/src/components/JourneyStatisticsCard';
+import JourneyStatisticsCard from '../../components/JourneyStatisticsCard';
 
 const AdminDashboard = () => {
   const {

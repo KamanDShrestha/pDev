@@ -1,11 +1,10 @@
 import { axiosInstance } from '../../constants';
 import { DeleteQuoteData, ErrorResponse } from '../../types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
 export default function useDeleteQuote() {
-  const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: DeleteQuoteData) =>
       axiosInstance
@@ -14,7 +13,6 @@ export default function useDeleteQuote() {
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);
-      queryClient.invalidateQueries(['quotes']);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       console.log(error);
