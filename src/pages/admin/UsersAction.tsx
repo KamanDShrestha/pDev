@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../components/ui/select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import useGetJourneyNames from '../../services/journey/getJourneyNames';
 import {
@@ -53,6 +53,10 @@ const UsersAction = () => {
     sortBy,
     sortOrder
   );
+
+  useEffect(() => {
+    setPageNumber(1);
+  }, [role, preferredJourney, sortBy, sortOrder, limit, searchName]);
 
   const { users, totalUsers } = data || {};
   const numberOfPages = (totalUsers && Math.ceil(totalUsers / limit)) || 0;

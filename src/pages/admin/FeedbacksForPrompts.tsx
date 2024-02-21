@@ -14,7 +14,7 @@ const FeedbacksForPrompts = () => {
   return (
     <>
       <div className='flex flex-wrap justify-between'>
-        <Heading>Feedbacks for journeys</Heading>
+        <Heading>Feedbacks for prompts</Heading>
         <NavLink
           to={'/feedbacks'}
           className={buttonVariants({ variant: 'outline' })}
@@ -24,7 +24,7 @@ const FeedbacksForPrompts = () => {
       </div>
 
       <div className='p-5'>
-        <Heading>Pending feedbacks</Heading>
+        <Heading className='text-3xl'>Pending feedbacks</Heading>
         {promptFeedbacks
           ?.filter((feedback) => feedback.feedbackStatus === 'pending')
           .map((feedback, index) => (
@@ -37,7 +37,7 @@ const FeedbacksForPrompts = () => {
         ).length === 0 && <p>No pending feedbacks for question prompts</p>}
       </div>
       <div className='p-5'>
-        <Heading>Resolved feedbacks</Heading>
+        <Heading className='text-3xl'>Resolved feedbacks</Heading>
         {promptFeedbacks
           ?.filter((feedback) => feedback.feedbackStatus === 'resolved')
           .map((feedback, index) => (
@@ -50,7 +50,7 @@ const FeedbacksForPrompts = () => {
         ).length === 0 && <p>No resolved feedbacks for question prompts</p>}
       </div>
       <div className='p-5'>
-        <Heading>Rejected feedbacks</Heading>
+        <Heading className='text-3xl'>Rejected feedbacks</Heading>
         {promptFeedbacks
           ?.filter((feedback) => feedback.feedbackStatus === 'rejected')
           .map((feedback, index) => (
