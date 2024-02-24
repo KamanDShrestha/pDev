@@ -24,6 +24,7 @@ import { Button } from '../components/ui/button';
 
 import EditPersonalDetailsDialog from '../components/EditPersonalDetailsDialog';
 import ProfileProfessionalDetailsCard from '../components/ProfileProfessionalDetailsCard';
+import EditProfessionalDetailsDialog from '../components/EditProfessionalDetailsDialog';
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
@@ -64,6 +65,7 @@ const Profile = () => {
             <>
               <Heading>Professional Details</Heading>
               <ProfileProfessionalDetailsCard />
+              <EditProfessionalDetailsDialog />
             </>
           )}
         </div>
