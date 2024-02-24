@@ -27,7 +27,7 @@ export function useLoginUser() {
         email: response.user.email,
         role: response.user.role,
         isNewUser: response?.user.isNewUser,
-        accessToken: response.token,
+
         hasSubscribed: response.user.hasSubscribed,
         preferredJourney: response.user.preferredJourney,
         loggedMood: response.user.loggedMood,

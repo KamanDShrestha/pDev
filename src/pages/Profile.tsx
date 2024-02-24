@@ -8,10 +8,25 @@ import PostCard from '../components/PostCard';
 
 import QuestionAnswerCard from '../components/QuestionAnswerCard';
 import useDocumentTitle from '../services/getTitle';
-
+import { format } from 'date-fns';
+import { Badge } from '../components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '../components/ui/card';
+import ProfilePersonalDetailsCard from '../components/ProfilePersonalDetailsCard';
+import { Separator } from '../components/ui/separator';
+import useGetSpecificUser from '../services/users/getSpecificUser';
+import { LucideDot } from 'lucide-react';
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
+
+  const { data: userDetails, isLoading: isFetchingUserDetails } =
+    useGetSpecificUser(user?.id as string);
+  console.log(userDetails);
   const { data: savedContents, isLoading: isFetchingSavedContents } =
     useGetSavedContents(user?.id as string);
   console.log(savedContents);
@@ -23,24 +38,87 @@ const Profile = () => {
   }
   return (
     <>
-      <div className='flex flex-wrap items-center justify-between gap-5'>
-        <div>
-          <span style={{ fontSize: '200px' }}>👦🏻</span>
-        </div>
-        <div>
-          <Heading>Personal Details</Heading>
+      <div className='flex flex-col gap-5'>
+        <div className='flex flex-wrap items-center justify-around gap-5'>
           <div>
-            <div>
-              <span>Name: </span>
-              <span>{user?.firstName}</span>
-            </div>
-            <div>
-              <span>Email: </span>
-              <span>{user?.email}</span>
-            </div>
+            <span style={{ fontSize: '200px' }}>👦🏻</span>
+          </div>
+          <div>
+            <Heading>Personal Details</Heading>
+            {user && <ProfilePersonalDetailsCard />}
           </div>
         </div>
+        <div>
+          {user && user.role === 'qha' && (
+            <div>
+              <Heading>Professional Details</Heading>
+              <Card></Card>
+            </div>
+          )}
+        </div>
+        <div>
+          <Heading>Aspirations details</Heading>
+          {isFetchingUserDetails && <LoadingSpinner />}
+          {userDetails && (
+            <div className='flex flex-wrap justify-around gap-3'>
+              <Card className='max-w-[350px]'>
+                <CardHeader>
+                  <CardTitle>Challenges to overcome</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {userDetails.challenges.length === 0 &&
+                    'No challenges to overcome are provided.'}
+                  {userDetails.challenges.map((challenge, index) => (
+                    <p key={index} className='flex'>
+                      <span>
+                        <LucideDot />
+                      </span>
+                      <span>{challenge}</span>
+                    </p>
+                  ))}
+                </CardContent>
+              </Card>
+              <Card className='max-w-[350px]'>
+                <CardHeader>
+                  <CardTitle>Personal values</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {userDetails.values.length === 0 &&
+                    'No personal values are provided.'}
+                  {userDetails.values.map((value, index) => (
+                    <p key={index} className='flex'>
+                      <span>
+                        <LucideDot />
+                      </span>
+                      <span>{value}</span>
+                    </p>
+                  ))}
+                </CardContent>
+              </Card>
+              <Card className='max-w-[350px]'>
+                <CardHeader>
+                  <CardTitle>Personal goals</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {' '}
+                  {userDetails.goals.length === 0 &&
+                    'No personal goals are provided.'}
+                  {userDetails.goals.map((goal, index) => (
+                    <p key={index} className='flex'>
+                      <span>
+                        <LucideDot />
+                      </span>
+                      <span>{goal}</span>
+                    </p>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
       </div>
+
+      <Separator className='my-5' />
       <div>
         <Heading>Saved contents</Heading>
         {isFetchingSavedContents && <LoadingSpinner />}
