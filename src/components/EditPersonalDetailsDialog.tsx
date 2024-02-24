@@ -1,5 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useAuthContext } from '../context/AuthProvider';
 import { cn } from '../lib/utils';
+import useUpdateUserDetails from '../services/users/updateUserDetails';
 import { Button, buttonVariants } from './ui/button';
 import {
   Dialog,
@@ -10,18 +12,42 @@ import {
   DialogTrigger,
 } from './ui/dialog';
 import { Input } from './ui/input';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
+import getFormattedDate from '../services/getFormattedDate';
 
 const EditPersonalDetailsDialog = () => {
   const { user } = useAuthContext();
-  const { register } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       firstName: user?.firstName,
       lastName: user?.lastName,
       email: user?.email,
-      dateOfBirth: user?.dateOfBirth,
+      dateOfBirth: getFormattedDate(new Date(user?.dateOfBirth as string)),
     },
   });
+
+  const { mutate: updatePersonalUserDetails } = useUpdateUserDetails();
+
+  const queryClient = useQueryClient();
+
+  function handleUpdatePersonalDetails(data: FieldValues) {
+    updatePersonalUserDetails(
+      {
+        userId: user?.id as string,
+        updatedUserFields: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          dateOfBirth: new Date(data.dateOfBirth),
+        },
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['user', user?.id as string]);
+        },
+      }
+    );
+  }
 
   return (
     <Dialog>
@@ -69,7 +95,9 @@ const EditPersonalDetailsDialog = () => {
           </div>
         </div>
 
-        <Button>Edit personal details</Button>
+        <Button onClick={handleSubmit(handleUpdatePersonalDetails)}>
+          Edit personal details
+        </Button>
       </DialogContent>
     </Dialog>
   );
