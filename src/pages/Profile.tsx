@@ -25,6 +25,7 @@ import { Button } from '../components/ui/button';
 import EditPersonalDetailsDialog from '../components/EditPersonalDetailsDialog';
 import ProfileProfessionalDetailsCard from '../components/ProfileProfessionalDetailsCard';
 import EditProfessionalDetailsDialog from '../components/EditProfessionalDetailsDialog';
+import EditAspirationDetailsDialog from '../components/EditAspirationDetailsDialog';
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
@@ -44,7 +45,7 @@ const Profile = () => {
   }
   return (
     <>
-      <div className='flex flex-col gap-5'>
+      <div className='flex flex-col gap-14'>
         <div className='flex flex-wrap items-center justify-around gap-5'>
           <div>
             <span style={{ fontSize: '200px' }}>👦🏻</span>
@@ -60,16 +61,18 @@ const Profile = () => {
             )}
           </div>
         </div>
-        <div>
+        <div className='space-y-3 '>
           {user && user.role === 'qha' && (
             <>
               <Heading>Professional Details</Heading>
               <ProfileProfessionalDetailsCard />
-              <EditProfessionalDetailsDialog />
+              <div className='flex justify-center'>
+                <EditProfessionalDetailsDialog />
+              </div>
             </>
           )}
         </div>
-        <div>
+        <div className='space-y-3'>
           <Heading>Aspirations details</Heading>
           {isFetchingUserDetails && <LoadingSpinner />}
           {userDetails && (
@@ -128,10 +131,11 @@ const Profile = () => {
               </Card>
             </div>
           )}
+          <EditAspirationDetailsDialog />
         </div>
       </div>
 
-      <Separator className='my-5' />
+      <Separator className='my-10' />
       <div>
         <Heading>Saved contents</Heading>
         {isFetchingSavedContents && <LoadingSpinner />}
