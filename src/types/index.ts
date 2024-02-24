@@ -583,6 +583,20 @@ export type QhpDetails = {
   jobTitle: string;
 };
 
+export type UpdateQhpDetailsData = {
+  userId: string;
+  updatedQhpFields: {
+    workingLicense?: string;
+    qualifications?: string[];
+    experiences?: string[];
+    proficientFields?: string[];
+    additionalSkills?: string[];
+    additionalInformation?: string;
+    employerName?: string;
+    jobTitle?: string;
+  };
+};
+
 export type UpdateApplicationStatusData = {
   id: string;
   status: 'Approved' | 'Rejected' | 'Pending';

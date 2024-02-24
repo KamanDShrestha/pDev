@@ -19,21 +19,11 @@ import ProfilePersonalDetailsCard from '../components/ProfilePersonalDetailsCard
 import { Separator } from '../components/ui/separator';
 import useGetSpecificUser from '../services/users/getSpecificUser';
 import { LucideDot } from 'lucide-react';
-import useGetQhpDetails from '../services/qhpDetails/getQhpDetails';
-import { Button, buttonVariants } from '../components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../components/ui/dialog';
-import { cn } from '../lib/utils';
-import { Input } from '../components/ui/input';
-import { useForm } from 'react-hook-form';
+
+import { Button } from '../components/ui/button';
+
 import EditPersonalDetailsDialog from '../components/EditPersonalDetailsDialog';
+import ProfileProfessionalDetailsCard from '../components/ProfileProfessionalDetailsCard';
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
@@ -41,9 +31,6 @@ const Profile = () => {
   const { data: userDetails, isLoading: isFetchingUserDetails } =
     useGetSpecificUser(user?.id as string);
   console.log(userDetails);
-  const { data: qhpDetails, isLoading: isFetchingQhpDetails } =
-    useGetQhpDetails(user?.id as string);
-  console.log(qhpDetails);
 
   const { data: savedContents, isLoading: isFetchingSavedContents } =
     useGetSavedContents(user?.id as string);
@@ -76,102 +63,7 @@ const Profile = () => {
           {user && user.role === 'qha' && (
             <>
               <Heading>Professional Details</Heading>
-              {isFetchingQhpDetails && <LoadingSpinner />}
-              <div className='flex items-center justify-center'>
-                {qhpDetails && (
-                  <Card className='max-w-[600px]'>
-                    <CardHeader>
-                      <CardTitle>Details regarding professional life</CardTitle>
-                    </CardHeader>
-                    <CardContent className='flex flex-col gap-3'>
-                      <div className='flex justify-between'>
-                        <label className='font-medium'>Working License: </label>
-                        <span>{qhpDetails.workingLicense}</span>
-                      </div>
-                      <div className='flex justify-between'>
-                        <label className='font-medium'>Working as: </label>
-                        <span>{qhpDetails.jobTitle}</span>
-                      </div>
-                      <div className='flex justify-between'>
-                        <label className='font-medium'>Working at: </label>
-                        <span>{qhpDetails.employerName}</span>
-                      </div>
-                      <div>
-                        <label className='font-medium'>
-                          Relevant qualifications:
-                        </label>
-                        {qhpDetails.qualifications.length === 0 &&
-                          'No relevant qualifications are provided.'}
-                        {qhpDetails.qualifications.map(
-                          (qualification, index) => (
-                            <p key={index} className='flex'>
-                              <span>
-                                <LucideDot />
-                              </span>
-                              <span>{qualification}</span>
-                            </p>
-                          )
-                        )}
-                      </div>
-                      <div>
-                        <label className='font-medium'>
-                          Relevant experiences:
-                        </label>
-                        {qhpDetails.experiences.length === 0 &&
-                          'No relevant experiences are provided.'}
-                        {qhpDetails.experiences.map((experience, index) => (
-                          <p key={index} className='flex'>
-                            <span>
-                              <LucideDot />
-                            </span>
-                            <span>{experience}</span>
-                          </p>
-                        ))}
-                      </div>
-                      <div>
-                        <label className='font-medium'>
-                          Proficient fields:
-                        </label>
-                        {qhpDetails.proficientFields.length === 0 &&
-                          'No relevant experiences are provided.'}
-                        {qhpDetails.proficientFields.map(
-                          (proficientField, index) => (
-                            <p key={index} className='flex'>
-                              <span>
-                                <LucideDot />
-                              </span>
-                              <span>{proficientField}</span>
-                            </p>
-                          )
-                        )}
-                      </div>
-                      <div>
-                        <label className='font-medium'>
-                          Additional Skills:
-                        </label>
-                        {qhpDetails.additionalSkills.length === 0 &&
-                          'No relevant experiences are provided.'}
-                        {qhpDetails.additionalSkills.map(
-                          (additionalSkill, index) => (
-                            <p key={index} className='flex'>
-                              <span>
-                                <LucideDot />
-                              </span>
-                              <span>{additionalSkill}</span>
-                            </p>
-                          )
-                        )}
-                      </div>
-                      <div>
-                        <label className='font-medium'>Additional info:</label>
-                        <p className='px-7'>
-                          {qhpDetails.additionalInformation}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-              </div>
+              <ProfileProfessionalDetailsCard />
             </>
           )}
         </div>
