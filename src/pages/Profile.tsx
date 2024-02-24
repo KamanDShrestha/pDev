@@ -8,8 +8,7 @@ import PostCard from '../components/PostCard';
 
 import QuestionAnswerCard from '../components/QuestionAnswerCard';
 import useDocumentTitle from '../services/getTitle';
-import { format } from 'date-fns';
-import { Badge } from '../components/ui/badge';
+
 import {
   Card,
   CardContent,
@@ -21,6 +20,20 @@ import { Separator } from '../components/ui/separator';
 import useGetSpecificUser from '../services/users/getSpecificUser';
 import { LucideDot } from 'lucide-react';
 import useGetQhpDetails from '../services/qhpDetails/getQhpDetails';
+import { Button, buttonVariants } from '../components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../components/ui/dialog';
+import { cn } from '../lib/utils';
+import { Input } from '../components/ui/input';
+import { useForm } from 'react-hook-form';
+import EditPersonalDetailsDialog from '../components/EditPersonalDetailsDialog';
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
@@ -48,16 +61,22 @@ const Profile = () => {
           <div>
             <span style={{ fontSize: '200px' }}>👦🏻</span>
           </div>
-          <div>
+          <div className='space-y-3'>
             <Heading>Personal Details</Heading>
             {user && <ProfilePersonalDetailsCard />}
+            {user && (
+              <div className='flex gap-3'>
+                <EditPersonalDetailsDialog />
+                <Button>Change password</Button>
+              </div>
+            )}
           </div>
         </div>
         <div>
           {user && user.role === 'qha' && (
             <>
               <Heading>Professional Details</Heading>
-
+              {isFetchingQhpDetails && <LoadingSpinner />}
               <div className='flex items-center justify-center'>
                 {qhpDetails && (
                   <Card className='max-w-[600px]'>

@@ -767,6 +767,23 @@ export type User = {
   __v: number;
 };
 
+export type UpdateUserDetailsData = {
+  userId: string;
+  updatedUserFields: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    role?: string;
+    dateOfBirth?: Date;
+    challenges?: string[];
+    goals?: string[];
+    values?: string[];
+    preferredJourney?: string;
+    embarkedJourney?: string;
+    completedJourney?: string[];
+  };
+};
+
 export type UpdateUserRoleData = {
   userId: string;
   role: string;
