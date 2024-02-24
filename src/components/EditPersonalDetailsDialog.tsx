@@ -14,10 +14,17 @@ import {
 import { Input } from './ui/input';
 import { FieldValues, useForm } from 'react-hook-form';
 import getFormattedDate from '../services/getFormattedDate';
+import ErrorMessage from './ErrorMessage';
+import { useEffect } from 'react';
 
 const EditPersonalDetailsDialog = () => {
-  const { user } = useAuthContext();
-  const { register, handleSubmit } = useForm({
+  const { user, setUser } = useAuthContext();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
     defaultValues: {
       firstName: user?.firstName,
       lastName: user?.lastName,
@@ -25,6 +32,15 @@ const EditPersonalDetailsDialog = () => {
       dateOfBirth: getFormattedDate(new Date(user?.dateOfBirth as string)),
     },
   });
+
+  useEffect(() => {
+    reset({
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      email: user?.email,
+      dateOfBirth: getFormattedDate(new Date(user?.dateOfBirth as string)),
+    });
+  }, [reset, user?.dateOfBirth, user?.email, user?.firstName, user?.lastName]);
 
   const { mutate: updatePersonalUserDetails } = useUpdateUserDetails();
 
@@ -44,6 +60,14 @@ const EditPersonalDetailsDialog = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries(['user', user?.id as string]);
+          setUser &&
+            setUser((prevUser) => ({
+              ...prevUser,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              email: data.email,
+              dateOfBirth: new Date(data.dateOfBirth).toISOString(),
+            }));
         },
       }
     );
@@ -64,19 +88,61 @@ const EditPersonalDetailsDialog = () => {
             <label htmlFor='firstName' className='font-medium'>
               First Name
             </label>
-            <Input id='firstName' {...register('firstName')} />
+            <Input
+              id='firstName'
+              {...register('firstName', {
+                required: {
+                  value: true,
+                  message: 'Please provide your first name',
+                },
+                minLength: {
+                  value: 3,
+                  message: 'First name should be at least 3 characters long',
+                },
+              })}
+            />
+            {errors.firstName && (
+              <ErrorMessage>{errors.firstName.message}</ErrorMessage>
+            )}
           </div>
           <div>
             <label htmlFor='lastName' className='font-medium'>
               Last Name
             </label>
-            <Input id='lastName' {...register('lastName')} />
+            <Input
+              id='lastName'
+              {...register('lastName', {
+                required: {
+                  value: true,
+                  message: 'Please provide your last name',
+                },
+                minLength: {
+                  value: 3,
+                  message: 'Last name should be at least 3 characters long',
+                },
+              })}
+            />
+            {errors.lastName && (
+              <ErrorMessage>{errors.lastName.message}</ErrorMessage>
+            )}
           </div>
           <div>
             <label htmlFor='email' className='font-medium'>
               Email
             </label>
-            <Input id='email' {...register('email')} />
+            <Input
+              id='email'
+              type='email'
+              {...register('email', {
+                required: {
+                  value: true,
+                  message: 'Please provide your email address',
+                },
+              })}
+            />
+            {errors.email && (
+              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
           </div>
           <div>
             <label htmlFor='dateOfBirth' className='font-medium'>
@@ -92,6 +158,9 @@ const EditPersonalDetailsDialog = () => {
                 },
               })}
             />
+            {errors.dateOfBirth && (
+              <ErrorMessage>{errors.dateOfBirth.message}</ErrorMessage>
+            )}
           </div>
         </div>
 
