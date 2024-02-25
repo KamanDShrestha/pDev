@@ -28,15 +28,18 @@ import EditProfessionalDetailsDialog from '../components/EditProfessionalDetails
 import EditAspirationDetailsDialog from '../components/EditAspirationDetailsDialog';
 import {
   Dialog,
+  DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '../components/ui/dialog';
-import { DialogContent, DialogTrigger } from '@radix-ui/react-dialog';
+
 import { cn } from '../lib/utils';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../components/ErrorMessage';
 import { Input } from '../components/ui/input';
+import UpdatePasswordDialog from '../components/UpdatePasswordDialog';
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
@@ -49,10 +52,6 @@ const Profile = () => {
     useGetSavedContents(user?.id as string);
   console.log(savedContents);
 
-  const {
-    register,
-    formState: { errors },
-  } = useForm();
   useDocumentTitle('Profile - SelfSync');
 
   function handleDeletePost(postId: string) {
@@ -71,101 +70,7 @@ const Profile = () => {
             {user && (
               <div className='flex gap-3'>
                 <EditPersonalDetailsDialog />
-                <Dialog>
-                  <DialogTrigger
-                    className={cn(buttonVariants({ variant: 'default' }))}
-                  >
-                    Change password
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Update your password</DialogTitle>
-                      <DialogDescription>
-                        You can update your password here.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div>
-                      <div>
-                        <label
-                          htmlFor='currentPassword'
-                          className='font-medium'
-                        >
-                          Current Password
-                        </label>
-                        <Input
-                          id='currentPassword'
-                          {...register('currentPassword', {
-                            required: {
-                              value: true,
-                              message: 'Please provide your current password',
-                            },
-                            minLength: {
-                              value: 3,
-                              message:
-                                'Current Password should be at least 3 characters long',
-                            },
-                          })}
-                        />
-                        {errors.currentPassword && (
-                          <ErrorMessage>
-                            {errors.currentPassword.message as string}
-                          </ErrorMessage>
-                        )}
-                      </div>
-                      <div>
-                        <label htmlFor='newPassword' className='font-medium'>
-                          New Password
-                        </label>
-                        <Input
-                          id='newPassword'
-                          {...register('newPassword', {
-                            required: {
-                              value: true,
-                              message: 'Please provide your new password',
-                            },
-                            minLength: {
-                              value: 3,
-                              message:
-                                'new Password should be at least 3 characters long',
-                            },
-                          })}
-                        />
-                        {errors.newPassword && (
-                          <ErrorMessage>
-                            {errors.newPassword.message as string}
-                          </ErrorMessage>
-                        )}
-                      </div>
-                      <div>
-                        <label
-                          htmlFor='confirmNewPassword'
-                          className='font-medium'
-                        >
-                          Confirm New Password
-                        </label>
-                        <Input
-                          id='confirmNewPassword'
-                          {...register('confirmNewPassword', {
-                            required: {
-                              value: true,
-                              message: 'Please provide your new password',
-                            },
-                            minLength: {
-                              value: 3,
-                              message:
-                                'New Password should be at least 3 characters long',
-                            },
-                          })}
-                        />
-                        {errors.confirmNewPassword && (
-                          <ErrorMessage>
-                            {errors.confirmNewPassword.message as string}
-                          </ErrorMessage>
-                        )}
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <UpdatePasswordDialog />
               </div>
             )}
           </div>

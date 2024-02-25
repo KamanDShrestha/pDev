@@ -42,7 +42,7 @@ const EditAspirationDetailsDialog = () => {
       goals: userDetails?.goals,
       values: userDetails?.values,
     });
-  }, [reset]);
+  }, [reset, userDetails?.challenges, userDetails?.goals, userDetails?.values]);
 
   const { mutate: updateAspirationUserDetails } = useUpdateUserDetails();
 
