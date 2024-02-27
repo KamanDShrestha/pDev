@@ -776,6 +776,7 @@ export type User = {
   preferredJourney: string;
   loggedMood: boolean;
   role: string;
+  image: string;
   updatedAt: string;
   values: string[];
   __v: number;

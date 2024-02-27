@@ -21,6 +21,7 @@ export type AuthContextType = {
   preferredJourney: string;
   loggedMood: boolean;
   dateOfBirth?: string;
+  image: string;
 };
 
 const AuthContext = createContext(
@@ -58,6 +59,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
               hasSubscribed: authenticatedUser.hasSubscribed,
               preferredJourney: authenticatedUser.preferredJourney,
               loggedMood: authenticatedUser.loggedMood,
+              image: authenticatedUser.image,
               dateOfBirth: authenticatedUser.dateOfBirth,
             } as AuthContextType)
         );

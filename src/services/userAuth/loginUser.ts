@@ -27,7 +27,7 @@ export function useLoginUser() {
         email: response.user.email,
         role: response.user.role,
         isNewUser: response?.user.isNewUser,
-
+        image: response.user.image,
         hasSubscribed: response.user.hasSubscribed,
         preferredJourney: response.user.preferredJourney,
         loggedMood: response.user.loggedMood,
@@ -46,6 +46,7 @@ export function useLoginUser() {
           preferredJourney: response.user.preferredJourney,
           loggedMood: response.user.loggedMood,
           dateOfBirth: response.user.dateOfBirth,
+          image: response.user.image,
         } as AuthContextType);
         if (response.user.isNewUser) navigate('/newUser');
         else navigate(from, { replace: true });

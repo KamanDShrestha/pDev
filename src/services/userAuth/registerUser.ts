@@ -2,13 +2,13 @@ import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { ErrorResponse, RegisterData } from '../../types';
+import { ErrorResponse } from '../../types';
 import toast from 'react-hot-toast';
 
 export function useRegisterUser() {
   const navigate = useNavigate();
   const response = useMutation({
-    mutationFn: (data: RegisterData) =>
+    mutationFn: (data: FormData) =>
       axiosInstance
         .post('/auth/register', data)
         .then((response) => response.data),

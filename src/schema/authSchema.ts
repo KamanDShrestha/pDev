@@ -28,6 +28,32 @@ export const registerSchema = z
     confirmPassword: z
       .string({ required_error: 'Confirm Password is required' })
       .min(7, { message: 'The password must be at least 7 characters.' }),
+    image: z
+      .object({
+        0: z
+          .object({
+            lastModified: z.number(),
+            lastModifiedDate: z.date(),
+            name: z.string(),
+            size: z.number(),
+            type: z.string(),
+            webkitRelativePath: z.string().optional(),
+          })
+          .refine((data) => data.size <= 5 * 1024 * 1024, {
+            message: 'File size should not exceed 5MB',
+            path: ['image', '0', 'size'], // specify the path of the error
+          })
+          .refine(
+            (data) =>
+              ['image/jpeg', 'image/png', 'image/gif'].includes(data.type),
+            {
+              message:
+                'Invalid file type. Only JPEG, PNG, and GIF types are allowed.',
+              path: ['image', '0', 'type'], // specify the path of the error
+            }
+          ),
+      })
+      .optional(),
     dateOfBirth: z.coerce.date(),
   })
   .refine((data) => data.password === data.confirmPassword, {

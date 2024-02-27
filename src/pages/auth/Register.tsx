@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from '../../schema/authSchema';
@@ -36,20 +36,53 @@ const Register = () => {
   const providedConfirmPassword = watch('confirmPassword');
   const providedFName = watch('firstName');
   const providedLName = watch('lastName');
+  const providedImage = watch('image');
 
   const { mutate } = useRegisterUser();
 
   useDocumentTitle('Register - SelfSync');
 
-  async function handleRegister(values: z.infer<typeof registerSchema>) {
-    console.log(values);
-    mutate(values);
+  console.log(errors);
+  console.log(providedImage);
+
+  async function handleRegister(values: FieldValues) {
+    const formData = new FormData();
+
+    const file = providedImage?.[0]; // get the File object
+    console.log(file instanceof File);
+    console.log(typeof file);
+    if (file instanceof File) {
+      // check if file is a File object
+      formData.append('image', file); // append the File object directly
+    }
+    delete values.image;
+    console.log(formData.entries());
+    // values = { ...values, thisImage: values.image[0].name };
+    formData.append('data', JSON.stringify(values));
+
+    // Log FormData entries
+    for (const pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
+    mutate(formData);
   }
 
   function handleGoogleAuthLogin() {
     window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
   }
 
+  // function handleRenderImage(){
+
+  // }
+
+  function getFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    console.log(files);
+    const file = e.target.files && e.target.files[0];
+    console.log(file instanceof File);
+    console.log(typeof file);
+    console.log(e.target.files && e.target.files[0]);
+  }
   return (
     <>
       <Card className='w-[400px]'>
@@ -59,7 +92,7 @@ const Register = () => {
             Register to your account to get started
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className='overflow-scroll h-[60vh]'>
           <div className='flex flex-col items-center gap-2'>
             <Button
               onClick={handleGoogleAuthLogin}
@@ -159,6 +192,11 @@ const Register = () => {
                   <ErrorMessage>{errors.confirmPassword.message}</ErrorMessage>
                 )}
               </div>
+              <div>
+                <label>Upload image</label>
+                <Input type='file' {...register('image')} />
+              </div>
+
               <div className='relative group'>
                 <InputFieldLabel htmlFor='dateOfBirth' hasContent={true}>
                   Date of Birth

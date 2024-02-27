@@ -33,6 +33,7 @@ import { cn } from '../lib/utils';
 import useDiscontinueJourney from '../services/embarkedJourneys/discontinueJourney';
 import useContinueJourney from '../services/embarkedJourneys/continueJourney';
 import { useQueryClient } from '@tanstack/react-query';
+import useAddEmbarkedJourney from '../services/embarkedJourneys/addEmbarkedJourney';
 
 interface ActionSteps {
   description: string;
@@ -76,8 +77,17 @@ const JourneyCard = ({
     useDiscontinueJourney();
   const { mutate: continueJourney, isLoading: isContinuing } =
     useContinueJourney();
+  const { mutate: embarkJourney, isLoading: isEmbarking } =
+    useAddEmbarkedJourney();
 
   const queryClient = useQueryClient();
+
+  function handleEmbarkJourney() {
+    embarkJourney({
+      userId: user?.id as string,
+      journeyId: journeyId,
+    });
+  }
 
   function handleContinueJourney() {
     continueJourney(
@@ -187,7 +197,9 @@ const JourneyCard = ({
                         )}
 
                       {!embarkedJourney ? (
-                        <Button>Begin</Button>
+                        <Button onClick={handleEmbarkJourney}>
+                          {isEmbarking ? <LoadingSpinner /> : 'Begin'}
+                        </Button>
                       ) : (
                         embarkedJourney.isJourneyCompleted === false &&
                         embarkedJourney.journeyStatus === 'ongoing' && (

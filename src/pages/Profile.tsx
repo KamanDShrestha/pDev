@@ -20,29 +20,31 @@ import { Separator } from '../components/ui/separator';
 import useGetSpecificUser from '../services/users/getSpecificUser';
 import { LucideDot } from 'lucide-react';
 
-import { Button, buttonVariants } from '../components/ui/button';
+// import { Button, buttonVariants } from '../components/ui/button';
 
 import EditPersonalDetailsDialog from '../components/EditPersonalDetailsDialog';
 import ProfileProfessionalDetailsCard from '../components/ProfileProfessionalDetailsCard';
 import EditProfessionalDetailsDialog from '../components/EditProfessionalDetailsDialog';
 import EditAspirationDetailsDialog from '../components/EditAspirationDetailsDialog';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../components/ui/dialog';
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogHeader,
+//   DialogTitle,
+//   DialogTrigger,
+// } from '../components/ui/dialog';
 
-import { cn } from '../lib/utils';
-import { useForm } from 'react-hook-form';
-import ErrorMessage from '../components/ErrorMessage';
-import { Input } from '../components/ui/input';
+// import { cn } from '../lib/utils';
+// import { useForm } from 'react-hook-form';
+// import ErrorMessage from '../components/ErrorMessage';
+// import { Input } from '../components/ui/input';
 import UpdatePasswordDialog from '../components/UpdatePasswordDialog';
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
+
+  console.log('profile image', user?.image);
 
   const { data: userDetails, isLoading: isFetchingUserDetails } =
     useGetSpecificUser(user?.id as string);
@@ -62,7 +64,11 @@ const Profile = () => {
       <div className='flex flex-col gap-14'>
         <div className='flex flex-wrap items-center justify-around gap-5'>
           <div>
-            <span style={{ fontSize: '200px' }}>👦🏻</span>
+            <img
+              src={user?.image}
+              alt='profile-picture'
+              className='h-[200px] w-[200px] rounded-full object-center'
+            />
           </div>
           <div className='space-y-3'>
             <Heading>Personal Details</Heading>
