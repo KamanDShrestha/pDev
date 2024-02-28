@@ -14,11 +14,7 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
   return (
     <div>
       <div className='flex items-center gap-4'>
-        <img
-          src='https://picsum.photos/200'
-          alt='user'
-          className='w-12 h-12 rounded-full'
-        />
+        <img src={post?.image} alt='user' className='w-12 h-12 rounded-full' />
         <div className='flex flex-col'>
           <div className='flex items-center gap-2'>
             <span className='font-medium'>
@@ -52,8 +48,8 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
                 <div className='p-3 border rounded-lg'>
                   <div className='flex items-center gap-4'>
                     <img
-                      src='https://picsum.photos/200'
-                      alt='user'
+                      src={comment.image}
+                      alt='user-image'
                       className='w-8 h-8 rounded-full'
                     />
                     <div className='flex flex-col'>

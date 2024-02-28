@@ -45,7 +45,7 @@ const UserProfile = ({ user }: UserProfileProps) => {
   return (
     <Card key={user._id} className='flex flex-wrap max-w-[450px]'>
       <CardHeader>
-        <img src='https://picsum.photos/200' alt='user' className='w-20 h-20' />
+        <img src={user.image} alt='user' className='w-20 h-20 rounded-full' />
         <CardTitle>
           {user.firstName} {user.lastName}
         </CardTitle>

@@ -20,6 +20,7 @@ import { NavLink } from 'react-router-dom';
 import { BACKEND_URL } from '../../constants';
 import { FcGoogle } from 'react-icons/fc';
 import useDocumentTitle from '../../services/getTitle';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const Register = () => {
   const {
@@ -36,17 +37,16 @@ const Register = () => {
   const providedConfirmPassword = watch('confirmPassword');
   const providedFName = watch('firstName');
   const providedLName = watch('lastName');
-  const providedImage = watch('image');
 
-  const { mutate } = useRegisterUser();
+  const { mutate, isLoading: isRegistering } = useRegisterUser();
 
   useDocumentTitle('Register - SelfSync');
 
   console.log(errors);
-  console.log(providedImage);
 
   async function handleRegister(values: FieldValues) {
     const formData = new FormData();
+    const providedImage = watch('image');
 
     const file = providedImage?.[0]; // get the File object
     console.log(file instanceof File);
@@ -71,18 +71,6 @@ const Register = () => {
     window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
   }
 
-  // function handleRenderImage(){
-
-  // }
-
-  function getFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = e.target.files;
-    console.log(files);
-    const file = e.target.files && e.target.files[0];
-    console.log(file instanceof File);
-    console.log(typeof file);
-    console.log(e.target.files && e.target.files[0]);
-  }
   return (
     <>
       <Card className='w-[400px]'>
@@ -194,7 +182,10 @@ const Register = () => {
               </div>
               <div>
                 <label>Upload image</label>
-                <Input type='file' {...register('image')} />
+                <Input
+                  type='file'
+                  {...register('image', { required: false })}
+                />
               </div>
 
               <div className='relative group'>
@@ -206,7 +197,7 @@ const Register = () => {
                   <ErrorMessage>{errors.dateOfBirth.message}</ErrorMessage>
                 )}
               </div>
-              <Button>Register</Button>
+              <Button>{isRegistering ? <LoadingSpinner /> : 'Register'}</Button>
             </div>
           </form>
         </CardContent>

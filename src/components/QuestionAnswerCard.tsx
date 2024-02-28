@@ -74,6 +74,8 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
             userId: user?.id as string,
             answer: data.answer,
             answerDate: new Date(),
+            image: user?.image as string,
+            userRole: user?.role as string,
           });
           setValue('answer', '');
         },
@@ -142,8 +144,8 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-4 my-3'>
               <img
-                src='https://picsum.photos/200'
-                alt='user'
+                src={user?.image}
+                alt='user-image'
                 className='w-12 h-12 rounded-full'
               />
               <div className='flex flex-col'>

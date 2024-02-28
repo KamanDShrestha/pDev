@@ -26,20 +26,23 @@ import EditPersonalDetailsDialog from '../components/EditPersonalDetailsDialog';
 import ProfileProfessionalDetailsCard from '../components/ProfileProfessionalDetailsCard';
 import EditProfessionalDetailsDialog from '../components/EditProfessionalDetailsDialog';
 import EditAspirationDetailsDialog from '../components/EditAspirationDetailsDialog';
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogTrigger,
-// } from '../components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../components/ui/dialog';
 
 // import { cn } from '../lib/utils';
 // import { useForm } from 'react-hook-form';
 // import ErrorMessage from '../components/ErrorMessage';
 // import { Input } from '../components/ui/input';
 import UpdatePasswordDialog from '../components/UpdatePasswordDialog';
+import { Button, buttonVariants } from '../components/ui/button';
+import { cn } from '../lib/utils';
+import { Input } from '../components/ui/input';
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
@@ -62,21 +65,34 @@ const Profile = () => {
   return (
     <>
       <div className='flex flex-col gap-14'>
-        <div className='flex flex-wrap items-center justify-around gap-5'>
+        <div className='flex flex-wrap items-center justify-center gap-5 md:justify-around '>
           <div>
             <img
               src={user?.image}
               alt='profile-picture'
-              className='h-[200px] w-[200px] rounded-full object-center'
+              className='h-[200px] w-[200px] rounded-full'
             />
           </div>
-          <div className='space-y-3'>
+          <div className='flex flex-col space-y-3'>
             <Heading>Personal Details</Heading>
             {user && <ProfilePersonalDetailsCard />}
             {user && (
               <div className='flex gap-3'>
                 <EditPersonalDetailsDialog />
                 <UpdatePasswordDialog />
+                <Dialog>
+                  <DialogTrigger
+                    className={cn(buttonVariants({ variant: 'default' }))}
+                  >
+                    Update profile picture
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>Update your profile picture</DialogHeader>
+                    <div>
+                      <Input type='file' />
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             )}
           </div>

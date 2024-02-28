@@ -113,7 +113,7 @@ const SpecificCommunity = () => {
         <div className='flex items-center justify-center'>
           <div className='flex flex-col items-center justify-center p-4 border-4 rounded-xl border-slate-300'>
             <img
-              src='https://picsum.photos/200'
+              src={user?.image}
               alt='user'
               className='w-20 h-20 rounded-full'
             />

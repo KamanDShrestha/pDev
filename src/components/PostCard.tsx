@@ -91,6 +91,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             commentDate: new Date(),
             userRole: user?.role as string,
             isAnonymous: isAnonymousComment,
+            image: user?.image as string,
           });
           setValue('comment', '');
           setIsAnonymousComment(false);
@@ -155,8 +156,8 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-4 mb-5'>
             <img
-              src='https://picsum.photos/200'
-              alt='user'
+              src={post?.image}
+              alt='user-image'
               className='w-12 h-12 rounded-full'
             />
             <div className='flex flex-col'>

@@ -360,6 +360,8 @@ export type QAsData = {
   _id: string;
   userId: string;
   userName: string;
+  userRole: string;
+  image: string;
   communityId: string;
   questionTitle: string;
   question: string;
@@ -369,6 +371,8 @@ export type QAsData = {
       answer: string;
       answerDate: Date;
       userName: string;
+      userRole: string;
+      image: string;
     }
   ];
 
@@ -413,12 +417,14 @@ export type PostData = {
   communityId: string;
   postTitle: string;
   post: string;
+  image: string;
   userRole: string;
   postCategory: string;
   postComments: [
     {
       userId: string;
       comment: string;
+      image: string;
       commentDate: Date;
       userName: string;
       userRole: string;

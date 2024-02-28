@@ -16,7 +16,7 @@ const QuestionAnswerCardWithComments = ({
     <div>
       <div className='flex items-center gap-4'>
         <img
-          src='https://picsum.photos/200'
+          src={question.image}
           alt='user'
           className='w-12 h-12 rounded-full'
         />
@@ -44,7 +44,7 @@ const QuestionAnswerCardWithComments = ({
                 <div className='p-3 border'>
                   <div className='flex items-center gap-4'>
                     <img
-                      src='https://picsum.photos/200'
+                      src={answer.image}
                       alt='user'
                       className='w-8 h-8 rounded-full'
                     />

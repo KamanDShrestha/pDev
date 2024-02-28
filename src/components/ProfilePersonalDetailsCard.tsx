@@ -9,7 +9,7 @@ const ProfilePersonalDetailsCard = () => {
   return (
     <>
       {user && (
-        <Card className='p-5 w-[300px] lg:w-[600px] flex flex-col gap-2 flex-wrap transition-transform'>
+        <Card className='p-5 lg:w-[600px] flex flex-col gap-2 flex-wrap transition-transform'>
           <div className='flex justify-between'>
             <label className='font-medium'>Name: </label>
             <span>
