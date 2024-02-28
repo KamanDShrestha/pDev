@@ -20,29 +20,13 @@ import { Separator } from '../components/ui/separator';
 import useGetSpecificUser from '../services/users/getSpecificUser';
 import { LucideDot } from 'lucide-react';
 
-// import { Button, buttonVariants } from '../components/ui/button';
-
 import EditPersonalDetailsDialog from '../components/EditPersonalDetailsDialog';
 import ProfileProfessionalDetailsCard from '../components/ProfileProfessionalDetailsCard';
 import EditProfessionalDetailsDialog from '../components/EditProfessionalDetailsDialog';
 import EditAspirationDetailsDialog from '../components/EditAspirationDetailsDialog';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../components/ui/dialog';
-
-// import { cn } from '../lib/utils';
-// import { useForm } from 'react-hook-form';
-// import ErrorMessage from '../components/ErrorMessage';
-// import { Input } from '../components/ui/input';
 import UpdatePasswordDialog from '../components/UpdatePasswordDialog';
-import { Button, buttonVariants } from '../components/ui/button';
-import { cn } from '../lib/utils';
-import { Input } from '../components/ui/input';
+import UpdateProfilePictureDialog from '../components/UpdateProfilePictureDialog';
+
 const Profile = () => {
   const { user } = useAuthContext();
   console.log(user);
@@ -80,19 +64,7 @@ const Profile = () => {
               <div className='flex gap-3'>
                 <EditPersonalDetailsDialog />
                 <UpdatePasswordDialog />
-                <Dialog>
-                  <DialogTrigger
-                    className={cn(buttonVariants({ variant: 'default' }))}
-                  >
-                    Update profile picture
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>Update your profile picture</DialogHeader>
-                    <div>
-                      <Input type='file' />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <UpdateProfilePictureDialog previousImage={user.image} />
               </div>
             )}
           </div>
