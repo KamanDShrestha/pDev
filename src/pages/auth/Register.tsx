@@ -1,4 +1,4 @@
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from '../../schema/authSchema';
@@ -21,8 +21,13 @@ import { BACKEND_URL } from '../../constants';
 import { FcGoogle } from 'react-icons/fc';
 import useDocumentTitle from '../../services/getTitle';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { useEffect, useState } from 'react';
+import { cn } from '../../lib/utils';
 
 const Register = () => {
+  const [imageURL, setImageURL] = useState<string | undefined>();
+  const [image, setImage] = useState<File | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
   const {
     register,
     watch,
@@ -44,26 +49,45 @@ const Register = () => {
 
   console.log(errors);
 
-  async function handleRegister(values: FieldValues) {
-    const formData = new FormData();
-    const providedImage = watch('image');
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    // checking if the image is provided or not
+    setImageError(null);
 
-    const file = providedImage?.[0]; // get the File object
-    console.log(file instanceof File);
-    console.log(typeof file);
-    if (file instanceof File) {
-      // check if file is a File object
-      formData.append('image', file); // append the File object directly
+    if (e.target.files) {
+      if (e.target.files[0].type.split('/')[0] !== 'image') {
+        setImageError('Please provide a valid image file');
+        return;
+      }
+
+      // check if the image is within 5MB limit
+      if (e.target.files[0].size > 5000000) {
+        setImageError('Image size should be less than 5MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageURL(reader.result as string);
+      };
+      setImage(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
     }
-    delete values.image;
+  }
+
+  function handleRegister(values: z.infer<typeof registerSchema>) {
+    const formData = new FormData();
+
+    if (image instanceof File) {
+      // check if file is a File object
+      formData.append('image', image); // append the File object directly
+    }
     console.log(formData.entries());
-    // values = { ...values, thisImage: values.image[0].name };
+
+    //trimming and changing the email to lowercase
+    values.firstName = values.firstName.trim();
+    values.lastName = values.lastName.trim();
+    values.email = values.email.trim().toLowerCase();
     formData.append('data', JSON.stringify(values));
 
-    // Log FormData entries
-    for (const pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
     mutate(formData);
   }
 
@@ -180,12 +204,17 @@ const Register = () => {
                   <ErrorMessage>{errors.confirmPassword.message}</ErrorMessage>
                 )}
               </div>
-              <div>
+              <div className='flex flex-col'>
                 <label>Upload image</label>
-                <Input
-                  type='file'
-                  {...register('image', { required: false })}
-                />
+                {imageURL && (
+                  <img
+                    src={imageURL}
+                    alt='user-image'
+                    className={cn(imageURL ? `w-20 h-20 rounded-full` : '')}
+                  />
+                )}
+                <Input type='file' onChange={handleImageChange} />
+                {imageError && <ErrorMessage>{imageError}</ErrorMessage>}
               </div>
 
               <div className='relative group'>
