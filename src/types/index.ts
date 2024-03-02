@@ -508,10 +508,7 @@ export type EditCommunityData = {
   communityFields: {
     communityName: string;
     communityDescription: string;
-    communityIcon: {
-      dark: string;
-      light: string;
-    };
+
     // journeyId: string;
   };
 };

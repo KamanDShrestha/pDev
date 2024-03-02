@@ -21,7 +21,7 @@ import { BACKEND_URL } from '../../constants';
 import { FcGoogle } from 'react-icons/fc';
 import useDocumentTitle from '../../services/getTitle';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { cn } from '../../lib/utils';
 
 const Register = () => {

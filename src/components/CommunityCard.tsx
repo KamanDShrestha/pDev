@@ -20,6 +20,7 @@ import LoadingSpinner from './LoadingSpinner';
 import ExpandableText from './ExpandableText';
 
 import EditCommunityDialog from './EditCommunityDialog';
+import UpdateCommunityIconDialog from './UpdateCommunityIconDialog';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -110,7 +111,7 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         )}
 
         {user?.role === 'admin' && (
-          <div className='flex items-center justify-center gap-3'>
+          <div className='flex flex-wrap items-center justify-center gap-3'>
             <Button
               variant={'destructive'}
               onClick={() => handleDeleteCommunity(community._id)}
@@ -118,6 +119,7 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
               Delete this community
             </Button>
             <EditCommunityDialog community={community} />
+            <UpdateCommunityIconDialog community={community} />
           </div>
         )}
       </CardFooter>

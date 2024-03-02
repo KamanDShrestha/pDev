@@ -24,8 +24,6 @@ const EditCommunityDialog = ({ community }: EditCommunityDialogProps) => {
     defaultValues: {
       communityName: community.communityName,
       communityDescription: community.communityDescription,
-      communityIconDark: community.communityIcon.dark,
-      communityIconLight: community.communityIcon.light,
     },
   });
   const { mutate: updateCommunity, isLoading: isEditing } =
@@ -37,10 +35,6 @@ const EditCommunityDialog = ({ community }: EditCommunityDialogProps) => {
       communityFields: {
         communityName: data.communityName,
         communityDescription: data.communityDescription,
-        communityIcon: {
-          dark: data.communityIconDark,
-          light: data.communityIconLight,
-        },
       },
     });
   }
@@ -57,7 +51,7 @@ const EditCommunityDialog = ({ community }: EditCommunityDialogProps) => {
             You can edit the community details here.{' '}
           </DialogDescription>
         </DialogHeader>
-        <div className='p-3 space-y-3'>
+        <div className='p-3 space-y-3 overflow-scroll'>
           <div>
             <label htmlFor='communityName'>Community Name</label>
             <Input
@@ -85,26 +79,6 @@ const EditCommunityDialog = ({ community }: EditCommunityDialogProps) => {
                 },
               })}
             />
-          </div>
-          <div className='space-y-1'>
-            <div>
-              <label htmlFor='communityIconDark'>Community Icon- Dark</label>
-              <Input
-                id='communityIconDark'
-                {...register('communityIconDark', {
-                  required: 'Community Icon Dark is required',
-                })}
-              />
-            </div>
-            <div>
-              <label htmlFor='communityIconLight'>Community Icon - Light</label>
-              <Input
-                id='communityIconLight'
-                {...register('communityIconLight', {
-                  required: 'Community Icon Light is required',
-                })}
-              />
-            </div>
           </div>
         </div>
         <Button onClick={handleSubmit(handleCommunityEdit)}>
