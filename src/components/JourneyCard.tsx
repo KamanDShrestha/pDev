@@ -46,7 +46,7 @@ interface ActionSteps {
 export interface JourneyCardProps {
   journeyId: string;
   journeyName: string;
-  journeyIcon: { light: string; dark: string };
+  journeyIcon: { light?: string; dark?: string };
   journeyDescription: string;
   journeyLength: number;
   importance: string[];
@@ -134,12 +134,18 @@ const JourneyCard = ({
               <CardHeader>
                 <div className='flex items-center justify-around gap-10'>
                   <CardTitle>{journeyName}</CardTitle>
-                  <img
-                    src={
-                      theme === 'dark' ? journeyIcon.dark : journeyIcon.light
-                    }
-                    className='w-32'
-                  />
+                  {journeyIcon.dark && journeyIcon.light && (
+                    <img
+                      src={
+                        journeyIcon.dark &&
+                        journeyIcon.light &&
+                        theme === 'dark'
+                          ? journeyIcon.dark
+                          : journeyIcon.light
+                      }
+                      className='w-32'
+                    />
+                  )}
                 </div>
                 <CardDescription>
                   <Accordion type='single' collapsible>

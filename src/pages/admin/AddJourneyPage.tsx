@@ -28,8 +28,14 @@ import JourneyCard from '../../components/JourneyCard';
 import { useAddNewJourney } from '../../services/journey/addNewJourney';
 import { ActionSteps } from '../../types';
 import useDocumentTitle from '../../services/getTitle';
+import IconAdd from '../../components/IconAdd';
 
 const AddJourneyPage = () => {
+  const [lightImage, setLightImage] = useState<File | null>(null);
+  const [darkImage, setDarkImage] = useState<File | null>(null);
+  const [lightImageURL, setLightImageURL] = useState<string | undefined>();
+  const [darkImageURL, setDarkImageURL] = useState<string | undefined>();
+
   const {
     register,
     handleSubmit,
@@ -45,14 +51,21 @@ const AddJourneyPage = () => {
 
   const providedName = watch('journeyName');
   const providedDescription = watch('journeyDescription');
-  const providedDarkIconImage = watch('journeyIconImageDark');
-  const providedLightIconImage = watch('journeyIconImageLight');
 
   const { mutate } = useAddNewJourney();
 
   useDocumentTitle('Add Journey - SelfSync');
 
   function handleJourneySubmit(data: FieldValues) {
+    if (!(lightImage instanceof File)) {
+      return;
+    }
+    if (!(darkImage instanceof File)) {
+      return;
+    }
+
+    const formData = new FormData();
+
     journeyImportance.current = [];
     journeyQuotes.current = [];
     journeyUsages.current = [];
@@ -89,19 +102,23 @@ const AddJourneyPage = () => {
       }
     });
 
-    mutate({
-      name: providedName,
-      description: providedDescription,
-      length: numberOfActionSteps,
-      imageLinks: {
-        light: providedLightIconImage,
-        dark: providedDarkIconImage,
-      },
-      importance: journeyImportance.current,
-      learningQuotes: journeyQuotes.current,
-      usages: journeyUsages.current,
-      actionSteps: actionSteps.current,
-    });
+    formData.append('darkIcon', darkImage);
+    formData.append('lightIcon', darkImage);
+    formData.append(
+      'journeyDetails',
+      JSON.stringify({
+        name: providedName,
+        description: providedDescription,
+        length: numberOfActionSteps,
+
+        importance: journeyImportance.current,
+        learningQuotes: journeyQuotes.current,
+        usages: journeyUsages.current,
+        actionSteps: actionSteps.current,
+      })
+    );
+
+    mutate(formData);
   }
 
   function handleSaveButton(data: FieldValues) {
@@ -201,8 +218,8 @@ const AddJourneyPage = () => {
           journeyName={providedName}
           journeyDescription={providedDescription}
           journeyIcon={{
-            dark: providedDarkIconImage,
-            light: providedLightIconImage,
+            dark: darkImageURL,
+            light: lightImageURL,
           }}
           journeyLength={numberOfActionSteps}
           importance={journeyImportance.current}
@@ -210,6 +227,7 @@ const AddJourneyPage = () => {
         />
       </div>
       <div className='flex flex-wrap items-center justify-around gap-5'>
+        {/* <form onSubmit={handleSubmit(handleJourneySubmit)}> */}
         <form onSubmit={handleSubmit(handleJourneySubmit)}>
           <Card>
             <CardHeader>
@@ -280,54 +298,14 @@ const AddJourneyPage = () => {
                   <label htmlFor='iconImageLinks' className='font-medium'>
                     Icon Image Links
                   </label>
-                  <div className='space-y-2'>
-                    <div className='relative group'>
-                      <InputFieldLabel
-                        htmlFor='journeyDescription'
-                        hasContent={
-                          providedDarkIconImage !== undefined &&
-                          providedDarkIconImage?.length !== 0
-                        }
-                      >
-                        For Dark Mode
-                      </InputFieldLabel>
-                      <Input
-                        {...register('journeyIconImageDark', {
-                          required:
-                            'Image link for dark mode need to be provided',
-                        })}
-                        type='text'
-                      />
-                      {errors.journeyIconImageDark && (
-                        <ErrorMessage>
-                          {errors.journeyIconImageDark.message as string}
-                        </ErrorMessage>
-                      )}
-                    </div>
-                    <div className='relative group'>
-                      <InputFieldLabel
-                        htmlFor='journeyDescription'
-                        hasContent={
-                          providedLightIconImage !== undefined &&
-                          providedLightIconImage?.length !== 0
-                        }
-                      >
-                        For Light Mode
-                      </InputFieldLabel>
-                      <Input
-                        {...register('journeyIconImageLight', {
-                          required:
-                            'Image link for light mode need to be provided',
-                        })}
-                        type='text'
-                      />
-                      {errors.journeyIconImageLight && (
-                        <ErrorMessage>
-                          {errors.journeyIconImageLight.message as string}
-                        </ErrorMessage>
-                      )}
-                    </div>
-                  </div>
+                  <IconAdd
+                    setDarkImage={setDarkImage}
+                    setLightImage={setLightImage}
+                    setDarkImageURL={setDarkImageURL}
+                    setLightImageURL={setLightImageURL}
+                    lightImageURL={lightImageURL}
+                    darkImageURL={darkImageURL}
+                  />
                 </div>
 
                 <div className='relative group'>

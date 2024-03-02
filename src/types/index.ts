@@ -712,7 +712,7 @@ export type AddJourneyData = {
   name: string;
   description: string;
   length: number;
-  imageLinks: { dark: string; light: string };
+
   importance: string[];
   learningQuotes: string[];
   usages: string[];

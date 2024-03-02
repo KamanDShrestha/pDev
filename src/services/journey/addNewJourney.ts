@@ -1,11 +1,11 @@
-import { AddJourneyData, ErrorResponse } from '../../types';
+import { ErrorResponse } from '../../types';
 import { axiosInstance } from '../../constants';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 export function useAddNewJourney() {
   const response = useMutation({
-    mutationFn: (data: AddJourneyData) =>
+    mutationFn: (data: FormData) =>
       axiosInstance
         .post('/journeys/addNewJourney', data)
         .then((response) => response.data),
