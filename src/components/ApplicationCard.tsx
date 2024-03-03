@@ -8,7 +8,7 @@ import {
 } from './ui/card';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import ApplicationDetails from './ApplicationDetails';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import { ApplicationData } from '../types';
 import { useSearchParams } from 'react-router-dom';
 import useUpdateApplicationStatus from '../services/qhpApplications/updateApplicationStatus';
@@ -89,16 +89,16 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
           </div>
           <div>
             <span className='font-medium'>Current job position: </span>
-            application.jobPosition
+            {application.jobTitle}
           </div>
           <div>
             <span className='font-medium'>Working at: </span>
-            application.employer
+            {application.employerName}
           </div>
           <div>
             <span className='font-medium'>Qualifications: </span>
-            {application.qualifications.map((qualification) => (
-              <p>• {qualification}</p>
+            {application.qualifications.map((qualification, index) => (
+              <p key={index}>• {qualification}</p>
             ))}
           </div>
         </div>
@@ -140,6 +140,12 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
               Reject
             </Button>
           )}
+          <Button
+            className={buttonVariants({ variant: 'secondary' })}
+            onClick={() => window.open(application.cvURL, '_blank')}
+          >
+            Download CV
+          </Button>
         </div>
       </CardFooter>
     </Card>

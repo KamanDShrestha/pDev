@@ -615,6 +615,9 @@ export type ApplicationData = {
   additionalSkills: string[];
   status: 'Approved' | 'Rejected' | 'Pending';
   additionalInformation: string;
+  cvURL: string;
+  employerName: string;
+  jobTitle: string;
   appliedDate: Date;
 };
 
