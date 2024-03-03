@@ -18,6 +18,7 @@ import {
 import useEditJourney from '../../services/journey/editJourney';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import useDocumentTitle from '../../services/getTitle';
+import UpdateJourneyIconDialog from '../../components/UpdateJourneyIconDialog';
 
 const EditJourneyPage = () => {
   const { id } = useParams();
@@ -122,19 +123,10 @@ const EditJourneyPage = () => {
               <Heading className='mb-2 text-2xl'>
                 Length of the journey: {journey.length}
               </Heading>
+              <UpdateJourneyIconDialog journey={journey} />
             </div>
           </div>
-          <div>
-            <Heading className='mb-2 text-2xl'>Image links</Heading>
-            <div>
-              <Heading className='mb-2 text-xl'>Light Mode</Heading>
-              <Input {...register('light')} className='text-lg w-[80vw]' />
-            </div>
-            <div>
-              <Heading className='mb-2 text-xl'>Dark Mode</Heading>
-              <Input {...register('dark')} className='text-lg w-[80vw]' />
-            </div>
-          </div>
+
           <div className='flex flex-wrap justify-around gap-5'>
             <div>
               <Heading className='mb-2 text-2xl'>Importance</Heading>

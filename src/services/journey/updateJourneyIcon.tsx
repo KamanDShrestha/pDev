@@ -1,23 +1,21 @@
-import { AxiosError } from 'axios';
 import { axiosInstance } from '../../constants';
 import { ErrorResponse } from '../../types';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
-function useApplyForQHP() {
+export default function useUpdateJourneyIcon() {
   const response = useMutation({
     mutationFn: (data: FormData) =>
-      axiosInstance.post('/qhpPost/apply', data).then((res) => res.data),
+      axiosInstance.patch('/journeys/editIcon', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      console.log(error.response?.data.message);
+      console.log(error.response?.data);
       toast.error(error.response?.data.message || 'An error occurred');
     },
   });
   return response;
 }
-
-export default useApplyForQHP;

@@ -16,8 +16,11 @@ import { Button } from '../components/ui/button';
 import useApplyForQHP from '../services/qhpApplications/applyForQHP';
 import LoadingSpinner from '../components/LoadingSpinner';
 import useDocumentTitle from '../services/getTitle';
+import { useState } from 'react';
 
 const ApplyForQHP = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
   const { user } = useAuthContext();
   const {
     register,
@@ -34,6 +37,16 @@ const ApplyForQHP = () => {
   useDocumentTitle('Apply for QHP - SelfSync');
 
   function handleApplicationSubmit(data: FieldValues) {
+    const formData = new FormData();
+    if (!(file instanceof File)) {
+      setFileError('Please provide a valid document file');
+      return;
+    }
+    if (fileError) {
+      return;
+    }
+    formData.append('cv', file);
+
     const experiences = [];
     const qualifications = [];
     const proficientFields = [];
@@ -58,27 +71,55 @@ const ApplyForQHP = () => {
     console.log(proficientFields);
     console.log(additionalSkills);
 
-    applyForQHP({
-      userId: user?.id as string,
-      workingLicense: data.workingLicense,
-      additionalInformation: data.additionalInformation,
-      experiences,
-      qualifications,
-      proficientFields,
-      additionalSkills,
-    });
+    formData.append(
+      'data',
+      JSON.stringify({
+        userId: user?.id as string,
+        workingLicense: data.workingLicense,
+        additionalInformation: data.additionalInformation,
+        experiences,
+        qualifications,
+        proficientFields,
+        additionalSkills,
+      })
+    );
+
+    applyForQHP(formData);
   }
+
+  function handleCVUpdate(e: React.ChangeEvent<HTMLInputElement>) {
+    console.log(e.target.files);
+    setFileError(null);
+    if (e.target.files === null) return;
+    if (e.target.files[0].type.split('/')[0] !== 'application') {
+      setFileError('Please provide a valid document file');
+      return;
+    }
+    if (e.target.files[0].type.split('/')[1] !== 'pdf') {
+      setFileError('Please provide a valid PDF file');
+      return;
+    }
+    setFile(e.target.files[0]);
+  }
+
   return (
     <>
       <Heading>Apply for QHP</Heading>
       <div>
-        <p className='text-lg'>
+        <p className='my-5 text-lg'>
           You are currently applying as{' '}
           <strong className=''>
             {user?.firstName} {user?.lastName}
           </strong>
         </p>
-        <div className='flex items-center justify-center'>
+        <div className='flex flex-wrap items-center justify-around gap-10'>
+          <div className='flex flex-col'>
+            <label htmlFor='' className='font-medium'>
+              Upload your CV
+            </label>
+            <Input type='file' onChange={handleCVUpdate} />
+            {fileError && <ErrorMessage>{fileError}</ErrorMessage>}
+          </div>
           <Card className='w-[400px]'>
             <CardHeader>
               <CardTitle>Your info</CardTitle>
@@ -209,7 +250,7 @@ const ApplyForQHP = () => {
               </div>
               <div className='relative group'>
                 <InputFieldLabel
-                  htmlFor='journeyDescription'
+                  htmlFor='additionalInformation'
                   hasContent={
                     providedAdditionalInfo !== undefined &&
                     providedAdditionalInfo?.length !== 0
@@ -218,6 +259,7 @@ const ApplyForQHP = () => {
                   Additional info
                 </InputFieldLabel>
                 <Textarea
+                  id='additionalInformation'
                   {...register('additionalInformation', {
                     required: 'Additional info need to be provided',
                     minLength: {
