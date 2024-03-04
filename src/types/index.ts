@@ -52,6 +52,7 @@ export type AddLearningPodcastData = {
   host: string;
   podcastTitle: string;
   podcastDescription: string;
+  moodSpecific: string;
 };
 
 export type UpdateLearningPodcastData = {

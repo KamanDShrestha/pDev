@@ -31,9 +31,16 @@ const AddLearningPodcastCard = () => {
 
   const { mutate: addLearningPodcast, isLoading: isAddingPodcast } =
     useAddLearningPodcast();
+  const [selectedCategoryError, setSelectedCategoryError] = useState<string>();
 
   const { data: categories, isLoading: isCategoryFetching } =
     useGetPodcastCategories();
+
+  const [selectedMoodSpecific, setSelectedMoodSpecific] = useState<
+    string | null
+  >();
+  const [selectedMoodSpecificError, setSelectedMoodSpecificError] =
+    useState<string>();
 
   const {
     register,
@@ -43,7 +50,14 @@ const AddLearningPodcastCard = () => {
   } = useForm();
 
   function handlePodcastSubmit(data: FieldValues) {
-    console.log(data);
+    if (!isAddingNewCategory && !selectedCategory) {
+      setSelectedCategoryError('Category is required');
+      return;
+    }
+    if (!selectedMoodSpecific) {
+      setSelectedMoodSpecificError('Mood specific is required');
+      return;
+    }
     addLearningPodcast(
       {
         title: data.title,
@@ -53,6 +67,7 @@ const AddLearningPodcastCard = () => {
         category: isAddingNewCategory ? data.category : selectedCategory,
         podcastTitle: data.podcastTitle,
         podcastDescription: data.podcastDescription,
+        moodSpecific: selectedMoodSpecific,
       },
       {
         onSuccess: () => {
@@ -180,21 +195,26 @@ const AddLearningPodcastCard = () => {
           {categories && categories.length === 0 ? (
             <p>No existing categories found.</p>
           ) : (
-            <Select
-              disabled={isAddingNewCategory}
-              onValueChange={(category) => setSelectedCategory(category)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Category' />
-              </SelectTrigger>
-              <SelectContent>
-                {categories?.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <>
+              <Select
+                disabled={isAddingNewCategory}
+                onValueChange={(category) => setSelectedCategory(category)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Category' />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories?.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {!isAddingNewCategory && selectedCategoryError && (
+                <ErrorMessage>{selectedCategoryError}</ErrorMessage>
+              )}
+            </>
           )}
           <div className='space-y-3'>
             <div className='flex items-center gap-3'>
@@ -230,6 +250,24 @@ const AddLearningPodcastCard = () => {
             )}
           </div>
         </div>
+        <Select
+          onValueChange={(e) => {
+            setSelectedMoodSpecific(e);
+            setSelectedMoodSpecificError('');
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder='Mood Specific' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='low'>Low</SelectItem>
+            <SelectItem value='neutral'>Neutral</SelectItem>
+            <SelectItem value='high'>High</SelectItem>
+          </SelectContent>
+        </Select>
+        {selectedMoodSpecificError && (
+          <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+        )}
       </CardContent>
       <CardFooter>
         <Button onClick={handleSubmit(handlePodcastSubmit)}>
