@@ -34,7 +34,7 @@ import useUpdateLearningVideo from '../services/learningVideos/updateLearningVid
 
 interface LearningVideoCardProps {
   video: LearningVideo;
-  videoCategory: string;
+  videoCategory?: string;
 }
 
 const LearningVideoCard = ({
@@ -59,6 +59,9 @@ const LearningVideoCard = ({
 
   const queryClient = useQueryClient();
   function handleSavePost() {
+    if (!videoCategory) {
+      return;
+    }
     saveVideo(
       {
         userId: user?.id as string,
@@ -81,6 +84,9 @@ const LearningVideoCard = ({
   }
 
   function handleVideoUpdate(data: FieldValues) {
+    if (!videoCategory) {
+      return;
+    }
     updateVideo({
       category: videoCategory,
       videoId: video._id,
@@ -112,110 +118,112 @@ const LearningVideoCard = ({
           allowFullScreen
         ></iframe>
       </CardContent>
-      <CardFooter className='space-x-3'>
-        <span
-          className='right-0 text-xl hover:cursor-pointer'
-          onClick={handleSavePost}
-        >
-          {gettingSavedContentStatus || isSaving ? (
-            <LoadingSpinner />
-          ) : savedContentStatus ? (
-            <IoBookmark />
-          ) : (
-            <IoBookmarkOutline />
-          )}
-        </span>
-        <div>
-          <Dialog>
-            <DialogTrigger
-              className={cn(
-                buttonVariants({ variant: 'default', size: 'xs' }),
-                'space-x-2'
-              )}
-            >
-              <span>Update Video</span>
-              <FaPen />
-            </DialogTrigger>
-            <DialogContent>
-              <DialogTitle>Update this video</DialogTitle>
-              <DialogDescription>
-                You can update this video here.
-              </DialogDescription>
-              <div className='space-y-2'>
-                <div>
-                  <label htmlFor='title'>Title</label>
-                  <Input
-                    id='title'
-                    {...register('title', {
-                      required: 'Title must be provided.',
-                      min: {
-                        value: 10,
-                        message: 'Title must be at least 10 characters.',
-                      },
-                    })}
-                  />
+      {user?.role === 'admin' && videoCategory && (
+        <CardFooter className='space-x-3'>
+          <span
+            className='right-0 text-xl hover:cursor-pointer'
+            onClick={handleSavePost}
+          >
+            {gettingSavedContentStatus || isSaving ? (
+              <LoadingSpinner />
+            ) : savedContentStatus ? (
+              <IoBookmark />
+            ) : (
+              <IoBookmarkOutline />
+            )}
+          </span>
+          <div>
+            <Dialog>
+              <DialogTrigger
+                className={cn(
+                  buttonVariants({ variant: 'default', size: 'xs' }),
+                  'space-x-2'
+                )}
+              >
+                <span>Update Video</span>
+                <FaPen />
+              </DialogTrigger>
+              <DialogContent>
+                <DialogTitle>Update this video</DialogTitle>
+                <DialogDescription>
+                  You can update this video here.
+                </DialogDescription>
+                <div className='space-y-2'>
+                  <div>
+                    <label htmlFor='title'>Title</label>
+                    <Input
+                      id='title'
+                      {...register('title', {
+                        required: 'Title must be provided.',
+                        min: {
+                          value: 10,
+                          message: 'Title must be at least 10 characters.',
+                        },
+                      })}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor='url'>URL</label>
+                    <Input
+                      id='url'
+                      {...register('url', {
+                        required: 'URL must be provided.',
+                        min: {
+                          value: 10,
+                          message: 'URL must be at least 10 characters.',
+                        },
+                      })}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor='embedUrl'>Embed URL</label>
+                    <Input
+                      id='embedUrl'
+                      {...register('embedUrl', {
+                        required: 'Embed URL must be provided.',
+                        min: {
+                          value: 10,
+                          message: 'Embed URL must be at least 10 characters.',
+                        },
+                      })}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor='author'>Author</label>
+                    <Input
+                      {...register('author', {
+                        required: 'Author must be provided.',
+                        min: {
+                          value: 10,
+                          message: 'Author must be at least 10 characters.',
+                        },
+                      })}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor='url'>URL</label>
-                  <Input
-                    id='url'
-                    {...register('url', {
-                      required: 'URL must be provided.',
-                      min: {
-                        value: 10,
-                        message: 'URL must be at least 10 characters.',
-                      },
-                    })}
-                  />
-                </div>
-                <div>
-                  <label htmlFor='embedUrl'>Embed URL</label>
-                  <Input
-                    id='embedUrl'
-                    {...register('embedUrl', {
-                      required: 'Embed URL must be provided.',
-                      min: {
-                        value: 10,
-                        message: 'Embed URL must be at least 10 characters.',
-                      },
-                    })}
-                  />
-                </div>
-                <div>
-                  <label htmlFor='author'>Author</label>
-                  <Input
-                    {...register('author', {
-                      required: 'Author must be provided.',
-                      min: {
-                        value: 10,
-                        message: 'Author must be at least 10 characters.',
-                      },
-                    })}
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  className={cn(
-                    buttonVariants({ variant: 'default', size: 'xs' }),
-                    'space-x-2'
-                  )}
-                  onClick={handleSubmit(handleVideoUpdate)}
-                >
-                  {isUpdating ? (
-                    <LoadingSpinner />
-                  ) : (
-                    <>
-                      <span>Update this video</span>
-                      <FaPen />
-                    </>
-                  )}
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </CardFooter>
+                <DialogFooter>
+                  <Button
+                    className={cn(
+                      buttonVariants({ variant: 'default', size: 'xs' }),
+                      'space-x-2'
+                    )}
+                    onClick={handleSubmit(handleVideoUpdate)}
+                  >
+                    {isUpdating ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <>
+                        <span>Update this video</span>
+                        <FaPen />
+                      </>
+                    )}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </CardFooter>
+      )}
     </Card>
   );
 };

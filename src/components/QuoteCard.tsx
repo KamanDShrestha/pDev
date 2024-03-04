@@ -27,7 +27,7 @@ interface QuoteCardProps {
     quote: string;
     author: string;
   };
-  category: string;
+  category?: string;
 }
 const QuoteCard = ({ quote, category }: QuoteCardProps) => {
   const { user } = useAuthContext();
@@ -44,6 +44,7 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
   const queryClient = useQueryClient();
 
   function handleQuoteDeletion() {
+    if (!category) return;
     deleteQuote(
       { quoteId: quote._id, category: category },
       {
@@ -56,6 +57,7 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
   }
 
   function handleQuoteUpdate(data: FieldValues) {
+    if (!category) return;
     updateQuote({
       quote: {
         quote: removeWhitespace(data.quote),
@@ -72,7 +74,7 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
         <p className='text-sm font-medium'>{quote.quote}</p>
         <p className='text-sm'>- {quote.author}</p>
       </CardContent>
-      {user?.role === 'admin' && (
+      {user?.role === 'admin' && category && (
         <CardFooter className='space-x-2'>
           <Button
             variant={'destructive'}
