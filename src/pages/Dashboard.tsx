@@ -25,6 +25,8 @@ import useGetSavedContentCount from '../services/savedContent/getSavedContentCou
 import SavedContentCountCard from '../components/SavedContentCountCard';
 import MoodDisplay from '../components/MoodDisplay';
 import MoodsChartSection from '../components/MoodsChartSection';
+import SuggestionsForMood from '../components/SuggestionsForMood';
+import useGetMoodByLoggedDate from '../services/moods/getMoodByLoggedDate';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -73,6 +75,7 @@ const Dashboard = () => {
         </Card>
 
         <MoodDisplay />
+        <SuggestionsForMood />
 
         <MoodsChartSection />
 
