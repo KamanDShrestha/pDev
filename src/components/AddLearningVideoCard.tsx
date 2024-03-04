@@ -28,6 +28,12 @@ import useGetVideoCategories from '../services/learningVideos/getVideoCategories
 const AddLearningVideoCard = () => {
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategoryError, setSelectedCategoryError] = useState<string>();
+  const [selectedMoodSpecific, setSelectedMoodSpecific] = useState<
+    string | null
+  >();
+  const [selectedMoodSpecificError, setSelectedMoodSpecificError] =
+    useState<string>();
 
   const { mutate: addLearningVideo, isLoading: isAddingVideo } =
     useAddLearningVideo();
@@ -43,6 +49,14 @@ const AddLearningVideoCard = () => {
   } = useForm();
 
   function handleVideoSubmit(data: FieldValues) {
+    if (!isAddingNewCategory && !selectedCategory) {
+      setSelectedCategoryError('Category is required');
+      return;
+    }
+    if (!selectedMoodSpecific) {
+      setSelectedMoodSpecificError('Mood specific is required');
+      return;
+    }
     console.log(data);
     addLearningVideo(
       {
@@ -51,6 +65,7 @@ const AddLearningVideoCard = () => {
         embedUrl: data.embedUrl,
         author: data.author,
         category: isAddingNewCategory ? data.category : selectedCategory,
+        moodSpecific: selectedMoodSpecific,
       },
       {
         onSuccess: () => {
@@ -140,21 +155,26 @@ const AddLearningVideoCard = () => {
           {categories && categories.length === 0 ? (
             <p>No existing categories found.</p>
           ) : (
-            <Select
-              disabled={isAddingNewCategory}
-              onValueChange={(category) => setSelectedCategory(category)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Category' />
-              </SelectTrigger>
-              <SelectContent>
-                {categories?.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <>
+              <Select
+                disabled={isAddingNewCategory}
+                onValueChange={(category) => setSelectedCategory(category)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Category' />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories?.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {!isAddingNewCategory && selectedCategoryError && (
+                <ErrorMessage>{selectedCategoryError}</ErrorMessage>
+              )}
+            </>
           )}
           <div className='space-y-3'>
             <div className='flex items-center gap-3'>
@@ -190,6 +210,24 @@ const AddLearningVideoCard = () => {
             )}
           </div>
         </div>
+        <Select
+          onValueChange={(e) => {
+            setSelectedMoodSpecific(e);
+            setSelectedMoodSpecificError('');
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder='Mood Specific' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='low'>Low</SelectItem>
+            <SelectItem value='neutral'>Neutral</SelectItem>
+            <SelectItem value='high'>High</SelectItem>
+          </SelectContent>
+        </Select>
+        {selectedMoodSpecificError && (
+          <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+        )}
       </CardContent>
       <CardFooter>
         <Button onClick={handleSubmit(handleVideoSubmit)}>

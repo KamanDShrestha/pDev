@@ -105,6 +105,7 @@ export type AddLearningVideoData = {
   url: string;
   embedUrl: string;
   author: string;
+  moodSpecific: string;
 };
 
 export type UpdateQuoteData = {
