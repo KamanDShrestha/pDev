@@ -27,6 +27,7 @@ export type LearningPodcast = {
   host: string;
   podcastTitle: string;
   podcastDescription: string;
+  moodSpecific: string;
 };
 
 export type LearningPodcastDocument = {
@@ -83,6 +84,7 @@ export type LearningVideo = {
   embedUrl: string;
   title: string;
   author: string;
+  moodSpecific: string;
 };
 
 export type LearningVideoDocument = {
@@ -123,6 +125,7 @@ export type Quote = {
   _id: string;
   quote: string;
   author: string;
+  moodSpecific: string;
 };
 
 export type AddQuoteData = {
