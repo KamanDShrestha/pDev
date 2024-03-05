@@ -68,9 +68,11 @@ const SpecificUserPosts = () => {
         <>
           <div>
             <Heading className='text-xl'>{`QAs by ${qas[0]?.userName} in ${community?.communityName} community`}</Heading>
-            {qas.map((question, index) => (
-              <QuestionAnswerCard question={question} key={index} />
-            ))}
+            <div className='flex flex-wrap items-center justify-center gap-5 p-5'>
+              {qas.map((question, index) => (
+                <QuestionAnswerCard question={question} key={index} />
+              ))}
+            </div>
           </div>
         </>
       )}

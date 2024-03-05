@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { cn } from '../lib/utils';
 
 interface ExpandableTextProps {
   content: string;
   length?: number;
+  className?: string;
 }
 
 // check if the content length is greater than the length prop
@@ -13,7 +15,11 @@ interface ExpandableTextProps {
 // if not, display the truncated content and the expand button
 // length props provides the limit to initial display of the content
 
-const ExpandableText = ({ content, length = 100 }: ExpandableTextProps) => {
+const ExpandableText = ({
+  content,
+  length = 100,
+  className,
+}: ExpandableTextProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const provideExpandButton = content.length > length;
 
@@ -28,7 +34,7 @@ const ExpandableText = ({ content, length = 100 }: ExpandableTextProps) => {
   }
 
   return (
-    <span>
+    <span className={cn(className)}>
       {expandableText}{' '}
       {provideExpandButton && (
         <button

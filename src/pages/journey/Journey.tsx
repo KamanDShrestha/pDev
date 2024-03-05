@@ -41,7 +41,7 @@ const Journey = () => {
       </div>
       <div className='mt-8'>
         <h2 className='mt-2 mb-5 text-4xl font-semibold'>Journeys</h2>
-        <div className='flex flex-wrap justify-center gap-10'>
+        <div className='flex flex-wrap items-center justify-center gap-10'>
           {isLoading &&
             Array.from(Array(4)).map((_, index) => (
               <JourneyCardSkeleton key={index} />

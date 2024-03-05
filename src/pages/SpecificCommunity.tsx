@@ -36,6 +36,7 @@ import {
 } from '../components/ui/pagination';
 import LoadingSpinner from '../components/LoadingSpinner';
 import useGetRandomQuote from '../services/quotes/getRandomQuote';
+import ExpandableText from '../components/ExpandableText';
 
 const SpecificCommunity = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -144,7 +145,12 @@ const SpecificCommunity = () => {
               className='w-32'
               alt='community icon'
             />
-            <span className='text-lg'>{community?.communityDescription}</span>
+
+            <ExpandableText
+              content={community?.communityDescription as string}
+              className='text-lg'
+              length={110}
+            />
           </div>
           <div className='flex justify-center'>
             <Dialog>
