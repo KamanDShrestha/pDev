@@ -3,6 +3,7 @@ import { Separator } from './ui/separator';
 import Heading from './Heading';
 import { useAuthContext } from '../context/AuthProvider';
 import { Badge } from './ui/badge';
+import TruncatedText from './TruncatedText';
 
 interface PostCardWithCommentsProps {
   post: PostData;
@@ -14,7 +15,15 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
   return (
     <div>
       <div className='flex items-center gap-4'>
-        <img src={post?.image} alt='user' className='w-12 h-12 rounded-full' />
+        <img
+          src={
+            post.isAnonymous
+              ? 'https://avatar.iran.liara.run/public'
+              : post?.image
+          }
+          alt='user'
+          className='w-12 h-12 rounded-full'
+        />
         <div className='flex flex-col'>
           <div className='flex items-center gap-2'>
             <span className='font-medium'>
@@ -33,9 +42,9 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
           </span>
         </div>
       </div>
-      <div className='m-4'>
+      <div className='m-4 whitespace-pre-wrap'>
         <Heading className='mb-2 text-xl'>{post.postTitle}</Heading>
-        <p>{post.post}</p>
+        <TruncatedText content={post.post} limit={250} />
       </div>
 
       <Separator className='my-4' />
@@ -48,7 +57,11 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
                 <div className='p-3 border rounded-lg'>
                   <div className='flex items-center gap-4'>
                     <img
-                      src={comment.image}
+                      src={
+                        comment.isAnonymous
+                          ? 'https://avatar.iran.liara.run/public'
+                          : comment?.image
+                      }
                       alt='user-image'
                       className='w-8 h-8 rounded-full'
                     />
