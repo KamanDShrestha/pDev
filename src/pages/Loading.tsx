@@ -3,6 +3,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
 import useDocumentTitle from '../services/getTitle';
+import toast from 'react-hot-toast';
 const Loading = () => {
   const { user, isLoading } = useAuthContext();
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Loading = () => {
   useEffect(() => {
     if (!isLoading && user) {
       navigate('/home'); // replace with your actual home route
+      toast.success('Logged in successfully');
     }
   }, [isLoading, navigate, user]);
 
