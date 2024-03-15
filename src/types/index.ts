@@ -1,3 +1,11 @@
+export type AddGoalSetData = {
+  userId: string;
+  goalSetTitle: string;
+  startDate: Date;
+  remindingDays: number;
+  goals: { goal: string }[];
+};
+
 export type SavedContentCountData = {
   posts: number;
   qas: number;

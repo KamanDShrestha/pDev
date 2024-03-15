@@ -32,7 +32,7 @@ const Journey = () => {
         <div className='flex items-center justify-center w-full h-full p-10'>
           {isFetchingRandomQuote && <LoadingSpinner />}
           {randomQuote && (
-            <div className='space-y-5'>
+            <div className='space-y-5 whitespace-pre-wrap'>
               <p className='text-2xl'>{randomQuote.quote}</p>
               <p className='text-lg text-right'> - {randomQuote.author}</p>
             </div>

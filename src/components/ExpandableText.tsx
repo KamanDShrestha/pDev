@@ -21,7 +21,7 @@ const ExpandableText = ({
   className,
 }: ExpandableTextProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const provideExpandButton = content.length > length;
+  const provideExpandButton = content && content.length > length;
 
   const expandableText = !provideExpandButton
     ? content

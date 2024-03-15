@@ -52,6 +52,7 @@ import ConfigureLearningResources from './pages/admin/ConfigureLearningResources
 import AddQuotes from './pages/admin/AddQuotes';
 import ConfigureLearningPodcasts from './pages/admin/ConfigureLearningPodcasts';
 import Learn from './pages/Learn';
+import GoalSetting from './pages/GoalSetting';
 
 function App() {
   return (
@@ -105,6 +106,8 @@ function App() {
                     path='/subscribe/:subscriptionId'
                     element={<SubscriptionConfirmation />}
                   />
+
+                  <Route path='/goalSetting' element={<GoalSetting />} />
                 </Route>
               </Route>
 

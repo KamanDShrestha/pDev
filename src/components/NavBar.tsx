@@ -32,6 +32,7 @@ const NavBar = () => {
   ];
   const userActionOptions = [
     { to: '/profile', option: 'Profile' },
+    { to: '/goalSetting', option: 'Goal Setting' },
     { to: '/apply', option: 'Apply for QHP' },
     { to: '/subscribe', option: 'Subscribe' },
   ];
