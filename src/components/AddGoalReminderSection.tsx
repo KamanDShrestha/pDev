@@ -1,8 +1,9 @@
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from './ui/card';
@@ -17,10 +18,35 @@ import {
   SelectValue,
 } from './ui/select';
 import { useState } from 'react';
+import { Button } from './ui/button';
+import useAddGoalSet from '../services/goalSetting/addGoalSet';
+import { useAuthContext } from '../context/AuthProvider';
 
 const AddGoalReminderSection = () => {
   const [numberOfGoals, setNumberOfGoals] = useState(5);
-  const { register } = useForm();
+  const { register, handleSubmit } = useForm();
+  const { mutate: addGoalSet } = useAddGoalSet();
+  const { user } = useAuthContext();
+
+  function handleAddGoalSet(data: FieldValues) {
+    console.log(data);
+    console.log(
+      Array.from({ length: numberOfGoals }, (_, index) => {
+        return { goal: data[`goal${index + 1}`] };
+      })
+    );
+
+    addGoalSet({
+      userId: user?.id as string,
+      goalSetTitle: data.goalSetTitle,
+      startDate: new Date(),
+      remindingDays: 5,
+      goals: Array.from({ length: numberOfGoals }, (_, index) => {
+        return { goal: data[`goal${index + 1}`] };
+      }),
+    });
+  }
+
   return (
     <>
       {/* Provided goal set card */}
@@ -88,6 +114,9 @@ const AddGoalReminderSection = () => {
             </div>
           </form>
         </CardContent>
+        <CardFooter>
+          <Button onClick={handleSubmit(handleAddGoalSet)}>Add my goals</Button>
+        </CardFooter>
       </Card>
     </>
   );

@@ -1,3 +1,12 @@
+export type GetGoalSetData =
+  | {
+      _id: string;
+      goal: string;
+      completionStatus: boolean;
+      completionDate: Date;
+    }[]
+  | string;
+
 export type AddGoalSetData = {
   userId: string;
   goalSetTitle: string;
