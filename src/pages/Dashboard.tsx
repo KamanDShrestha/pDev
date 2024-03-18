@@ -26,7 +26,7 @@ import SavedContentCountCard from '../components/SavedContentCountCard';
 import MoodDisplay from '../components/MoodDisplay';
 import MoodsChartSection from '../components/MoodsChartSection';
 import SuggestionsForMood from '../components/SuggestionsForMood';
-import useGetMoodByLoggedDate from '../services/moods/getMoodByLoggedDate';
+import GoalSet from '../components/GoalSet';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -78,6 +78,8 @@ const Dashboard = () => {
         <SuggestionsForMood />
 
         <MoodsChartSection />
+
+        <GoalSet />
 
         <div className='flex flex-wrap justify-center gap-5'>
           <PostsCountCard

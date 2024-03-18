@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
-export default function useCompleteGoalHandler() {
+export default function useCompleteGoal() {
   const response = useMutation({
     mutationFn: (data: { userId: string; goalId: string }) =>
       axiosInstance
