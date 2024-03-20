@@ -21,12 +21,87 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import useAddGoalSet from '../services/goalSetting/addGoalSet';
 import { useAuthContext } from '../context/AuthProvider';
+import { cn } from '../lib/utils';
 
 const AddGoalReminderSection = () => {
   const [numberOfGoals, setNumberOfGoals] = useState(5);
+
+  const [selectedPeriod, setSelectedPeriod] = useState('daily');
+  const [selectedPeriodIndex, setSelectedPeriodIndex] = useState(0);
+
+  const [selectedDuration, setSelectedDuration] = useState(1);
+  const [selectedCountInWeek, setSelectedCountInWeek] = useState(0);
+  const [selectedCountWeeks, setSelectedCountWeeks] = useState(0);
+  const [selectedCountInMonth, setSelectedCountInMonth] = useState(0);
+
+  const [duration, setDuration] = useState(5);
+
   const { register, handleSubmit } = useForm();
   const { mutate: addGoalSet } = useAddGoalSet();
   const { user } = useAuthContext();
+
+  const periodOptions = [
+    { name: 'Daily', value: 'daily' },
+    { name: 'Within a week', value: 'withinWeek' },
+    { name: 'Weekly', value: 'weekly' },
+    { name: 'Monthly', value: 'monthly' },
+  ];
+  const durationOptions = [3, 5, 7];
+
+  function handlePeriodChange({
+    period,
+    index,
+  }: {
+    period: string;
+    index: number;
+  }) {
+    setSelectedPeriod(period);
+    setSelectedPeriodIndex(index);
+  }
+
+  function handleCountInWeekChange({
+    count,
+    index,
+  }: {
+    count: number;
+    index: number;
+  }) {
+    setSelectedCountInWeek(index);
+    setDuration(count);
+  }
+
+  function handleCountWeeksChange({
+    count,
+    index,
+  }: {
+    count: number;
+    index: number;
+  }) {
+    setSelectedCountWeeks(index);
+    setDuration(count);
+  }
+
+  function handleCountInMonthChange({
+    count,
+    index,
+  }: {
+    count: number;
+    index: number;
+  }) {
+    setSelectedCountInMonth(index);
+    setDuration(count);
+  }
+
+  function handleDurationChange({
+    duration,
+    index,
+  }: {
+    duration: number;
+    index: number;
+  }) {
+    setSelectedDuration(index);
+    setDuration(duration);
+  }
 
   function handleAddGoalSet(data: FieldValues) {
     console.log(data);
@@ -39,8 +114,9 @@ const AddGoalReminderSection = () => {
     addGoalSet({
       userId: user?.id as string,
       goalSetTitle: data.goalSetTitle,
+      goalSetType: selectedPeriod,
       startDate: new Date(),
-      remindingDays: 5,
+      remindingCount: duration,
       goals: Array.from({ length: numberOfGoals }, (_, index) => {
         return { goal: data[`goal${index + 1}`] };
       }),
@@ -75,7 +151,142 @@ const AddGoalReminderSection = () => {
               </label>
               <Input id='startDate' {...register('startDate')} type='date' />
             </div>
+
             <div>
+              <label htmlFor='startDate' className='text-lg font-medium'>
+                Select period for reminder:
+              </label>
+              <div className='flex justify-around gap-4 p-4'>
+                {periodOptions.map((option, index) => (
+                  <div
+                    className={cn(
+                      'p-2 text-sm font-medium border border-solid rounded-lg cursor-pointer',
+                      selectedPeriodIndex === index
+                        ? 'bg-blue-500 text-white'
+                        : ''
+                    )}
+                    key={index}
+                    onClick={() =>
+                      handlePeriodChange({ period: option.value, index })
+                    }
+                  >
+                    {option.name}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* add section for selecting the content  */}
+
+            {selectedPeriod === 'daily' && (
+              <div>
+                <label htmlFor='daily' className='text-lg font-medium'>
+                  Select the duration:
+                </label>
+
+                <div className='flex justify-around gap-4 p-4'>
+                  {durationOptions.map((option, index) => (
+                    <div
+                      className={cn(
+                        'p-2 text-sm font-medium border border-solid rounded-lg cursor-pointer',
+                        selectedDuration === index
+                          ? 'bg-blue-500 text-white'
+                          : ''
+                      )}
+                      key={index}
+                      onClick={() =>
+                        handleDurationChange({ duration: option, index })
+                      }
+                    >
+                      {option} days
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedPeriod === 'withinWeek' && (
+              <div>
+                <label htmlFor='withinWeek' className='text-lg font-medium'>
+                  Select the number of times in a week:
+                </label>
+                <div className='flex justify-around gap-4 p-4'>
+                  {Array.from({ length: 3 }, (_, index) => (
+                    <div
+                      className={cn(
+                        'px-3 py-1 text-sm font-medium border border-solid rounded-lg cursor-pointer',
+                        selectedCountInWeek === index
+                          ? 'bg-blue-500 text-white'
+                          : ''
+                      )}
+                      key={index}
+                      onClick={() =>
+                        handleCountInWeekChange({ count: index + 1, index })
+                      }
+                    >
+                      {index + 1}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedPeriod === 'weekly' && (
+              <div>
+                <label htmlFor='weekly' className='text-lg font-medium'>
+                  Select the number of weeks:
+                </label>
+                <div className='flex justify-around gap-4 p-4'>
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <div
+                      className={cn(
+                        'px-3 py-1 text-sm font-medium border border-solid rounded-lg cursor-pointer',
+                        selectedCountWeeks === index
+                          ? 'bg-blue-500 text-white'
+                          : ''
+                      )}
+                      key={index}
+                      onClick={() =>
+                        handleCountWeeksChange({ count: index + 1, index })
+                      }
+                    >
+                      {index + 1}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedPeriod === 'monthly' && (
+              <div>
+                <label htmlFor='monthly' className='text-lg font-medium'>
+                  Select the number of count in a month:
+                </label>
+                <div className='flex justify-around gap-4 p-4'>
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <div
+                      className={cn(
+                        'px-3 py-1 text-sm font-medium border border-solid rounded-lg cursor-pointer',
+                        selectedCountInMonth === index
+                          ? 'bg-blue-500 text-white'
+                          : ''
+                      )}
+                      key={index}
+                      onClick={() =>
+                        handleCountInMonthChange({ count: index + 1, index })
+                      }
+                    >
+                      {index + 1}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label htmlFor='numberOfGoals' className='text-lg font-medium'>
+                Number of goals
+              </label>
               <Select
                 defaultValue='5'
                 onValueChange={(value) => setNumberOfGoals(parseInt(value))}

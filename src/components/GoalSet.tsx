@@ -7,6 +7,7 @@ import { TbCheckbox } from 'react-icons/tb';
 import { FaCheck } from 'react-icons/fa';
 
 import useCompleteGoal from '../services/goalSetting/completeGoal';
+import { useQueryClient } from '@tanstack/react-query';
 
 const GoalSet = () => {
   const { user } = useAuthContext();
@@ -14,10 +15,18 @@ const GoalSet = () => {
     user?.id as string
   );
   const { mutate: completeGoal } = useCompleteGoal();
+  const queryClient = useQueryClient();
   console.log(goalSet);
 
   function updateGoalStatus(goalId: string) {
-    completeGoal({ userId: user?.id as string, goalId });
+    completeGoal(
+      { userId: user?.id as string, goalId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['goalSet', user?.id as string]);
+        },
+      }
+    );
   }
 
   return (

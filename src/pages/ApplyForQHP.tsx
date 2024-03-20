@@ -99,6 +99,12 @@ const ApplyForQHP = () => {
       setFileError('Please provide a valid PDF file');
       return;
     }
+
+    if (e.target.files[0].size > 5000000) {
+      setFileError('File size must not exceed 5MB');
+      return;
+    }
+
     setFile(e.target.files[0]);
   }
 

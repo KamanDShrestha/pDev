@@ -13,8 +13,9 @@ export type GetGoalSetData =
 export type AddGoalSetData = {
   userId: string;
   goalSetTitle: string;
+  goalSetType: string;
   startDate: Date;
-  remindingDays: number;
+  remindingCount: number;
   goals: { goal: string }[];
 };
 
