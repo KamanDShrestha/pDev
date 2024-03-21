@@ -6,7 +6,11 @@ import toast from 'react-hot-toast';
 
 export default function useCompleteGoal() {
   const response = useMutation({
-    mutationFn: (data: { userId: string; goalId: string }) =>
+    mutationFn: (data: {
+      userId: string;
+      goalId: string;
+      goalSetType: string;
+    }) =>
       axiosInstance
         .patch('/goalSetting/completeGoal', data)
         .then((res) => res.data),

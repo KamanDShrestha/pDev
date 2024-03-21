@@ -20,7 +20,7 @@ const GoalSet = () => {
 
   function updateGoalStatus(goalId: string) {
     completeGoal(
-      { userId: user?.id as string, goalId },
+      { userId: user?.id as string, goalId, goalSetType: 'daily' },
       {
         onSuccess: () => {
           queryClient.invalidateQueries(['goalSet', user?.id as string]);
@@ -46,7 +46,7 @@ const GoalSet = () => {
             goalSet && (
               <CardContent className='space-y-3'>
                 <CardTitle>{goalSet.goalSetTitle}</CardTitle>
-                <div className='flex justify-around gap-5'>
+                <div className='flex flex-wrap justify-around gap-5'>
                   {goalSet.goals.map((goal, index) => (
                     <Card key={index}>
                       <CardContent className='p-3 max-w-[400px] flex flex-col items-center'>

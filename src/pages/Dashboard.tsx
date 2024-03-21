@@ -27,6 +27,9 @@ import MoodDisplay from '../components/MoodDisplay';
 import MoodsChartSection from '../components/MoodsChartSection';
 import SuggestionsForMood from '../components/SuggestionsForMood';
 import GoalSet from '../components/GoalSet';
+import WeeklyGoalSet from '../components/WeeklyGoalSet';
+import WithinWeekGoalSet from '../components/WithinWeekGoalSet';
+import MonthlyGoalSet from '../components/MonthlyGoalSet';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -80,6 +83,12 @@ const Dashboard = () => {
         <MoodsChartSection />
 
         <GoalSet />
+
+        <WeeklyGoalSet />
+
+        <WithinWeekGoalSet />
+
+        <MonthlyGoalSet />
 
         <div className='flex flex-wrap justify-center gap-5'>
           <PostsCountCard
