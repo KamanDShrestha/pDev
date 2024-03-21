@@ -4,6 +4,7 @@ export type GetGoalSetData =
       goals: {
         _id: string;
         goal: string;
+        dueDate: string;
         completionStatus: boolean;
         completionDate: Date;
       }[];

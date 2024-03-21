@@ -1,4 +1,3 @@
-import useGetGoalSet from '../services/goalSetting/getGoalSet';
 import { useAuthContext } from '../context/AuthProvider';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import LoadingSpinner from './LoadingSpinner';
@@ -8,10 +7,11 @@ import { FaCheck } from 'react-icons/fa';
 
 import useCompleteGoal from '../services/goalSetting/completeGoal';
 import { useQueryClient } from '@tanstack/react-query';
+import useGetDailyGoalSet from '../services/goalSetting/getDailyGoalSet';
 
 const GoalSet = () => {
   const { user } = useAuthContext();
-  const { data: goalSet, isLoading: isFetchingGoalSet } = useGetGoalSet(
+  const { data: goalSet, isLoading: isFetchingGoalSet } = useGetDailyGoalSet(
     user?.id as string
   );
   const { mutate: completeGoal } = useCompleteGoal();
