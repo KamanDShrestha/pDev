@@ -3,7 +3,7 @@ import { Checkbox } from '../../components/ui/checkbox';
 import { useAuthContext } from '../../context/AuthProvider';
 import useGetEmbarkedJourney from '../../services/embarkedJourneys/getEmbarkedJourney';
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import {
   Dialog,
   DialogClose,
@@ -11,7 +11,7 @@ import {
   DialogDescription,
   DialogTrigger,
 } from '../../components/ui/dialog';
-import { Button } from '../../components/ui/button';
+import { Button, buttonVariants } from '../../components/ui/button';
 import useUpdateActionCompletion from '../../services/embarkedJourneys/updateActionCompletion';
 import { useQueryClient } from '@tanstack/react-query';
 import TruncatedText from '../../components/TruncatedText';
@@ -26,6 +26,7 @@ import useDocumentTitle from '../../services/getTitle';
 import ProgressBar from '../../components/ProgressBar';
 import { LucideDot } from 'lucide-react';
 import useGetRandomQuote from '../../services/quotes/getRandomQuote';
+import { cn } from '../../lib/utils';
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
@@ -241,6 +242,23 @@ const CurrentJourney = () => {
                                     }
                                   </p>
                                 </div>
+
+                                {embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].example || (
+                                  <div>
+                                    <NavLink
+                                      to={`/journeys/${embarkedJourney.journeyId}/actionSteps/examples`}
+                                      className={cn(
+                                        buttonVariants({ variant: 'link' }),
+                                        'underline'
+                                      )}
+                                    >
+                                      View example
+                                    </NavLink>
+                                  </div>
+                                )}
+
                                 {embarkedJourney.actionSteps[
                                   `day${selectedJourneyDay}`
                                 ].additionalSteps && (

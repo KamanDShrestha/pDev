@@ -157,6 +157,8 @@ const JourneyCard = ({
                     </AccordionItem>
                   </Accordion>
                 </CardDescription>
+                {}
+                <div></div>
               </CardHeader>
               <CardContent>
                 <div className='p-2'>

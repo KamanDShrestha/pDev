@@ -63,7 +63,7 @@ const EditJourneyPage = () => {
     console.log(data);
     // handle null values in evidences, additional steps and references in action steps
     const actionSteps = Object.keys(data.actionSteps).reduce((acc, key) => {
-      const { actionStep, description, evidences, additionalSteps } =
+      const { actionStep, description, evidences, additionalSteps, example } =
         data.actionSteps[key];
       console.log(evidences);
       return {
@@ -71,6 +71,7 @@ const EditJourneyPage = () => {
         [key]: {
           actionStep,
           description,
+          example,
           evidences: evidences.filter(
             (evidence: string) => evidence !== null && evidence !== ''
           ),
@@ -231,6 +232,13 @@ const EditJourneyPage = () => {
                       <Heading className='mb-1 text-lg'>Description</Heading>
                       <Textarea
                         {...register(`actionSteps.day${index + 1}.description`)}
+                        className=' h-[100px] w-[450px]'
+                      />
+                    </div>
+                    <div>
+                      <Heading className='mb-1 text-lg'>Example</Heading>
+                      <Textarea
+                        {...register(`actionSteps.day${index + 1}.example`)}
                         className=' h-[100px] w-[450px]'
                       />
                     </div>

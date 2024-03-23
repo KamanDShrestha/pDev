@@ -16,17 +16,21 @@ import { AiTwotoneUpCircle } from 'react-icons/ai';
 import { AuthContextType } from '../context/AuthProvider';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { LucideDot } from 'lucide-react';
+import { buttonVariants } from './ui/button';
+import { cn } from '../lib/utils';
 
 interface ActionStepShowcaseProps {
+  journeyId: string;
   actionStep: ActionStep;
   day: number;
   user?: AuthContextType;
 }
 
 const ActionStepShowcase = ({
+  journeyId,
   day,
   actionStep,
   user,
@@ -59,6 +63,18 @@ const ActionStepShowcase = ({
               </AccordionItem>
             </Accordion>
           </div>
+
+          {actionStep.example && (
+            <NavLink
+              to={`/journeys/${journeyId}/actionSteps/examples`}
+              className={cn(
+                buttonVariants({ variant: 'link' }),
+                'text-right underline'
+              )}
+            >
+              View example{' '}
+            </NavLink>
+          )}
           <div>
             {actionStep.additionalSteps && (
               <>

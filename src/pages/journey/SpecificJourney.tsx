@@ -178,6 +178,7 @@ const SpecificJourney = () => {
           {journey &&
             Array.from(Array(journey.length)).map((_, index) => (
               <ActionStepShowcase
+                journeyId={journey._id}
                 user={user}
                 day={index + 1}
                 actionStep={journey.actionSteps[`day${index + 1}`]}

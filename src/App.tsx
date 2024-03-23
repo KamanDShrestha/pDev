@@ -53,6 +53,7 @@ import AddQuotes from './pages/admin/AddQuotes';
 import ConfigureLearningPodcasts from './pages/admin/ConfigureLearningPodcasts';
 import Learn from './pages/Learn';
 import GoalSetting from './pages/GoalSetting';
+import ActionStepsExamples from './pages/ActionStepsExamples';
 
 function App() {
   return (
@@ -91,6 +92,11 @@ function App() {
                   <Route
                     path={'/journeys/:id'}
                     element={<SpecificJourney />}
+                    errorElement={<JourneyNotFound />}
+                  />
+                  <Route
+                    path={'/journeys/:id/actionSteps/examples'}
+                    element={<ActionStepsExamples />}
                     errorElement={<JourneyNotFound />}
                   />
                   <Route

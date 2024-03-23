@@ -48,6 +48,7 @@ const Journey = () => {
             ))}
 
           {journeys &&
+            user?.role === 'user' &&
             journeys
               .filter((journey) => journey.isVerified === true)
               .map((journey) => (
@@ -64,6 +65,23 @@ const Journey = () => {
                   />
                 </>
               ))}
+
+          {journeys &&
+            user?.role === 'admin' &&
+            journeys.map((journey) => (
+              <>
+                <JourneyCard
+                  journeyId={journey._id}
+                  journeyName={journey.name}
+                  journeyDescription={journey.description}
+                  journeyIcon={journey.imageLinks}
+                  journeyLength={journey.length}
+                  key={journey.name}
+                  importance={journey.importance}
+                  usages={journey.usages}
+                />
+              </>
+            ))}
         </div>
       </div>
       <div className='mt-8'>

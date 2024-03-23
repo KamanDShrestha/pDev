@@ -672,6 +672,7 @@ export type EmbarkedJourney = {
     [key: string]: {
       actionStep: string;
       description: string;
+      example?: string;
       evidences: string[];
       additionalSteps: string[];
       isCompleted: boolean;
@@ -779,6 +780,7 @@ export type ProfileCompletionData = {
 export type ActionStep = {
   actionStep: string;
   description: string;
+  example?: string;
   evidences: string[];
   additionalSteps: string[];
 };

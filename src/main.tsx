@@ -33,23 +33,28 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           className: '',
           duration: 5000,
           style: {
-            background: '#363636',
-            color: '#fff',
+            color: '#000000',
           },
 
           // Default options for specific types
           success: {
             duration: 3000,
+            style: {
+              background: '#BFEA7C',
+            },
             iconTheme: {
               primary: 'green',
-              secondary: 'black',
+              secondary: 'white',
             },
           },
           error: {
             duration: 3000,
+            style: {
+              background: '#FF8E8F',
+            },
             iconTheme: {
               primary: 'red',
-              secondary: 'black',
+              secondary: 'white',
             },
           },
         }}
