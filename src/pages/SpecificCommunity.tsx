@@ -113,11 +113,10 @@ const SpecificCommunity = () => {
       <div className='grid lg:grid-cols-[300px_minmax(440px,_1fr)_100px] gap-5 mt-8 grid-cols-1 '>
         <div className='flex items-center justify-center'>
           <div className='flex flex-col items-center justify-center p-4 border-4 rounded-xl border-slate-300'>
-            <img
-              src={user?.image}
-              alt='user'
-              className='w-20 h-20 rounded-full'
-            />
+            <div
+              style={{ backgroundImage: `url('${user?.image}')` }}
+              className='w-20 h-20 bg-cover rounded-full'
+            ></div>
             <Heading className='text-xl'>
               {user?.firstName} {user?.lastName}
             </Heading>

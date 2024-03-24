@@ -75,10 +75,10 @@ const UpdateProfilePictureDialog = ({
           <DialogTitle>Update your profile picture</DialogTitle>
         </DialogHeader>
         <div className='m-auto'>
-          <img
-            src={imageURL || previousImage}
-            className='rounded-full w-28 h-28'
-          />
+          <div
+            style={{ backgroundImage: `url('${imageURL || previousImage}')` }}
+            className='bg-cover rounded-full w-28 h-28'
+          ></div>
         </div>
         <div>
           <Input type='file' onChange={handleFileImage} />

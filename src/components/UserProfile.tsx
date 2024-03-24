@@ -45,7 +45,11 @@ const UserProfile = ({ user }: UserProfileProps) => {
   return (
     <Card key={user._id} className='flex flex-wrap max-w-[450px]'>
       <CardHeader>
-        <img src={user.image} alt='user' className='w-20 h-20 rounded-full' />
+        <div
+          style={{ backgroundImage: `url('${user?.image}')` }}
+          className='w-20 h-20 bg-cover rounded-full'
+        ></div>
+
         <CardTitle>
           {user.firstName} {user.lastName}
         </CardTitle>

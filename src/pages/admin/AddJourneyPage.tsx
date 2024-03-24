@@ -29,6 +29,7 @@ import { useAddNewJourney } from '../../services/journey/addNewJourney';
 import { ActionSteps } from '../../types';
 import useDocumentTitle from '../../services/getTitle';
 import IconAdd from '../../components/IconAdd';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const AddJourneyPage = () => {
   const [lightImage, setLightImage] = useState<File | null>(null);
@@ -52,7 +53,7 @@ const AddJourneyPage = () => {
   const providedName = watch('journeyName');
   const providedDescription = watch('journeyDescription');
 
-  const { mutate } = useAddNewJourney();
+  const { mutate, isLoading: isAddingJourney } = useAddNewJourney();
 
   useDocumentTitle('Add Journey - SelfSync');
 
@@ -203,6 +204,15 @@ const AddJourneyPage = () => {
                 },
               };
             }
+          } else if (key === `day${index + 1}example`) {
+            const example = data[key];
+            actionSteps.current = {
+              ...actionSteps.current,
+              [`day${index + 1}`]: {
+                ...actionSteps.current[`day${index + 1}`],
+                example,
+              },
+            };
           }
         }
       });
@@ -415,7 +425,9 @@ const AddJourneyPage = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button>Submit</Button>
+              <Button disabled={isAddingJourney}>
+                {isAddingJourney ? <LoadingSpinner /> : 'Submit'}
+              </Button>
             </CardFooter>
           </Card>
         </form>

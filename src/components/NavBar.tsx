@@ -16,7 +16,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTrigger } from './ui/sheet';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import Logo from './Logo';
 import { useAuthContext } from '../context/AuthProvider';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import useLogoutUser from '../services/userAuth/logoutUser';
 const NavBar = () => {
   const { user } = useAuthContext();
@@ -31,7 +31,6 @@ const NavBar = () => {
     { to: '/learn', option: 'Learn' },
   ];
   const userActionOptions = [
-    { to: '/profile', option: 'Profile' },
     { to: '/goalSetting', option: 'Goal Setting' },
     { to: '/apply', option: 'Apply for QHP' },
     { to: '/subscribe', option: 'Subscribe' },
@@ -46,7 +45,6 @@ const NavBar = () => {
     { to: '/wellbeingForAdmin', option: 'Wellbeing' },
   ];
   const adminActionOptions = [
-    { to: '/profile', option: 'Profile' },
     { to: '/addJourney', option: 'Add Journey' },
     { to: '/feedbacks', option: 'Feedbacks' },
     { to: '/reviewApplications', option: 'Review Applications' },
@@ -63,7 +61,6 @@ const NavBar = () => {
   ];
 
   const qhpActionOptions = [
-    { to: '/profile', option: 'Profile' },
     { to: '/verifyJourneys', option: 'Verify Journeys' },
     { to: '/verifyQuestionPrompts', option: 'Verify Question Prompts' },
   ];
@@ -189,12 +186,31 @@ const NavBar = () => {
             ))}
 
           <NavigationMenuItem>
+            <NavLink
+              to='/profile'
+              className={cn(navigationMenuTriggerStyle(), 'flex gap-3')}
+            >
+              <div
+                style={{
+                  backgroundImage: `url('${user?.image}')`,
+                  height: '40px',
+                  width: '40px',
+                }}
+                className='bg-cover rounded-full'
+              ></div>
+
+              {user?.firstName}
+            </NavLink>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger className='border-none'>
                 <p
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    'bg-transparent hover:bg-inherit'
+                    'bg-transparent hover:bg-inherit',
+                    buttonVariants({ variant: 'secondary' })
                   )}
                 >
                   Actions

@@ -51,11 +51,12 @@ const Profile = () => {
       <div className='flex flex-col gap-14'>
         <div className='flex flex-wrap items-center justify-center gap-5 md:justify-around '>
           <div>
-            <img
-              src={user?.image}
-              alt='profile-picture'
-              className='h-[200px] w-[200px] rounded-full'
-            />
+            <div
+              style={{
+                backgroundImage: `url('${user?.image}')`,
+              }}
+              className='bg-cover rounded-full h-[200px] w-[200px]'
+            ></div>
           </div>
           <div className='flex flex-col space-y-3'>
             <Heading>Personal Details</Heading>

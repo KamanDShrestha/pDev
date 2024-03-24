@@ -20,6 +20,7 @@ interface ActionStepProps {
 const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
   const providedActionStep = watch(`day${day}actionStep`);
   const providedDescription = watch(`day${day}description`);
+  const providedExample = watch(`day${day}example`);
 
   console.log(errors);
   return (
@@ -37,9 +38,10 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
               providedActionStep?.length !== 0
             }
           >
-            Action Step
+            Action Step*
           </InputFieldLabel>
           <Input
+            id={`day${day}actionStep`}
             {...register(`day${day}actionStep`, {
               required: 'Action Step need to be provided',
               minLength: {
@@ -64,9 +66,10 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
               providedDescription?.length !== 0
             }
           >
-            Description
+            Description*
           </InputFieldLabel>
           <Textarea
+            id={`day${day}description`}
             {...register(`day${day}description`, {
               required: 'Description need to be provided',
               minLength: {
@@ -78,6 +81,22 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
           {errors[`day${day}description`] && (
             <ErrorMessage>
               {errors[`day${day}description`]?.message as string}
+            </ErrorMessage>
+          )}
+        </div>
+        <div className='relative group'>
+          <InputFieldLabel
+            htmlFor={`day${day}example`}
+            hasContent={
+              providedExample !== undefined && providedExample?.length !== 0
+            }
+          >
+            Example
+          </InputFieldLabel>
+          <Textarea id={`day${day}example`} {...register(`day${day}example`)} />
+          {errors[`day${day}example`] && (
+            <ErrorMessage>
+              {errors[`day${day}example`]?.message as string}
             </ErrorMessage>
           )}
         </div>
