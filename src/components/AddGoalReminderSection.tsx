@@ -22,6 +22,10 @@ import { Button } from './ui/button';
 import useAddGoalSet from '../services/goalSetting/addGoalSet';
 import { useAuthContext } from '../context/AuthProvider';
 import { cn } from '../lib/utils';
+import Heading from './Heading';
+
+import LoadingSpinner from './LoadingSpinner';
+import { FaRegCalendarCheck } from 'react-icons/fa';
 
 const AddGoalReminderSection = () => {
   const [numberOfGoals, setNumberOfGoals] = useState(5);
@@ -36,8 +40,8 @@ const AddGoalReminderSection = () => {
 
   const [duration, setDuration] = useState(5);
 
-  const { register, handleSubmit } = useForm();
-  const { mutate: addGoalSet } = useAddGoalSet();
+  const { register, handleSubmit, watch } = useForm();
+  const { mutate: addGoalSet, isLoading: isAddingGoalSet } = useAddGoalSet();
   const { user } = useAuthContext();
 
   const periodOptions = [
@@ -47,6 +51,12 @@ const AddGoalReminderSection = () => {
     { name: 'Monthly', value: 'monthly' },
   ];
   const durationOptions = [3, 5, 7];
+
+  const providedGoalSetTitle = watch('goalSetTitle');
+  const providedStartDate = watch('startDate');
+  const providedGoals = Array.from({ length: numberOfGoals }, (_, index) => {
+    return watch(`goal${index + 1}`);
+  });
 
   function handlePeriodChange({
     period,
@@ -124,9 +134,39 @@ const AddGoalReminderSection = () => {
   }
 
   return (
-    <>
-      {/* Provided goal set card */}
-      <div></div>
+    <div className='flex flex-wrap items-center justify-around gap-5'>
+      <Card>
+        <CardHeader>
+          <Heading className='mb-0'>Preview</Heading>
+        </CardHeader>
+        <CardContent className='flex flex-col gap-3 text-lg'>
+          <CardTitle>
+            {providedGoalSetTitle || 'Provide a goal set title'}
+          </CardTitle>
+          <p className='font-medium'>
+            {providedStartDate
+              ? `Start Date: ${new Date(providedStartDate).toDateString()}`
+              : 'Provide a goal set start date'}
+          </p>
+          <p className='font-medium'>
+            Reminder period: {selectedPeriod || 'Select a period'}
+          </p>
+          <p className='font-medium'>
+            Reminder duration: {duration || 'Select a duration'}
+          </p>
+
+          <div>
+            {providedGoals.map((goal, index) => (
+              <p key={index} className='flex items-center gap-3'>
+                <span>
+                  <FaRegCalendarCheck />
+                </span>
+                <span>{goal || 'Provide a goal'}</span>
+              </p>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* section for adding goal */}
       <Card className='max-w-[500px]'>
@@ -326,10 +366,15 @@ const AddGoalReminderSection = () => {
           </form>
         </CardContent>
         <CardFooter>
-          <Button onClick={handleSubmit(handleAddGoalSet)}>Add my goals</Button>
+          <Button
+            onClick={handleSubmit(handleAddGoalSet)}
+            disabled={isAddingGoalSet}
+          >
+            {isAddingGoalSet ? <LoadingSpinner /> : 'Add my goals'}
+          </Button>
         </CardFooter>
       </Card>
-    </>
+    </div>
   );
 };
 

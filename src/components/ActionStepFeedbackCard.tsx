@@ -18,6 +18,7 @@ interface ActionStepFeedbackCardProps {
   journeyId: string;
 }
 
+// This component provide a card for the feedbacks of the journey
 const JourneyFeedbackCard = ({
   feedback,
   feedbackId,

@@ -25,7 +25,7 @@ const ActionStepsExamples = () => {
             <>
               {journey?.actionSteps[key].example && (
                 <div>
-                  <Card className='max-w-[500px]'>
+                  <Card className='max-w-[600px]'>
                     <CardHeader>
                       <CardTitle>{`Day ${key.split('day')[1]}`}</CardTitle>
                     </CardHeader>

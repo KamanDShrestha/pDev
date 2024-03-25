@@ -18,7 +18,7 @@ const GoalSetting = () => {
   ];
 
   return (
-    <div>
+    <div className='space-y-10 '>
       <div>
         <Heading>Goal Setting</Heading>
         <p>
@@ -27,7 +27,7 @@ const GoalSetting = () => {
         </p>
       </div>
       {/* Card providing reference for goal setting */}
-      <div>
+      <div className='flex justify-center'>
         <Card className='max-w-[400px]'>
           <CardHeader>
             <CardTitle>Reference Goals</CardTitle>
@@ -44,6 +44,7 @@ const GoalSetting = () => {
           </CardContent>
         </Card>
       </div>
+      <hr />
 
       <div className='m-5'>
         <AddGoalReminderSection />
