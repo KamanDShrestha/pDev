@@ -131,252 +131,261 @@ const CurrentJourney = () => {
                   ))}
               </div>
 
-              {embarkedJourney &&
-                Object.keys(embarkedJourney.actionSteps).map(
-                  (day: string, index) => (
-                    <div className='flex items-center gap-4 p-3 text-lg font-medium'>
-                      <Dialog>
-                        <DialogTrigger
-                          disabled={
-                            embarkedJourney.actionSteps[day].isCompleted ||
-                            embarkedJourney.actionSteps[day].status ===
-                              'idle' ||
-                            embarkedJourney.actionSteps[day].status ===
-                              'blocked'
-                          }
-                          className='text-2xl'
-                        >
-                          {embarkedJourney.actionSteps[day].status ===
-                            'completed' && <FaCheck />}
-
-                          {embarkedJourney.actionSteps[day].status ===
-                            'ongoing' && <CiCircleCheck />}
-
-                          {embarkedJourney.actionSteps[day].status ===
-                            'idle' && <FaRegCalendarCheck />}
-                          {embarkedJourney.actionSteps[day].status ===
-                            'blocked' && <MdBlock />}
-                          {embarkedJourney.actionSteps[day].status ===
-                            'due' && <TbCalendarDue />}
-                        </DialogTrigger>
-                        <DialogContent>
-                          <div className='space-y-5'>
-                            <h1 className='text-2xl font-semibold'>
-                              Do you want to mark this day as completed?
-                            </h1>
-                            <div className='flex justify-between'>
-                              <DialogClose>
-                                <Button
-                                  onClick={() => setIsActionStepChecked(false)}
-                                >
-                                  Cancel
-                                </Button>
-                              </DialogClose>
-                              <DialogClose>
-                                <Button
-                                  onClick={() =>
-                                    handleConfirmActionStepCompletion(day)
-                                  }
-                                >
-                                  Confirm
-                                </Button>
-                              </DialogClose>
-                            </div>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-
-                      {/* modal dialog for providing details of action steps */}
-                      <div
-                        className='hover:cursor-pointer'
-                        onClick={() => setSelectedJourneyDay(index + 1)}
-                      >
+              <div className='flex flex-wrap justify-center gap-5 p-5'>
+                {embarkedJourney &&
+                  Object.keys(embarkedJourney.actionSteps).map(
+                    (day: string, index) => (
+                      <Card className='flex flex-col items-center gap-4 p-3 text-lg font-medium max-w-[500px] justify-center'>
                         <Dialog>
-                          <DialogTrigger>
-                            <Card>
-                              <CardContent className='flex items-center justify-center p-5'>
-                                <p className='text-xl'>{`Day ${index + 1}`}</p>
-                                <span className='whitespace-pre '> - </span>
+                          <DialogTrigger
+                            disabled={
+                              embarkedJourney.actionSteps[day].isCompleted ||
+                              embarkedJourney.actionSteps[day].status ===
+                                'idle' ||
+                              embarkedJourney.actionSteps[day].status ===
+                                'blocked'
+                            }
+                            className='text-2xl'
+                          >
+                            <Card className='p-3'>
+                              {embarkedJourney.actionSteps[day].status ===
+                                'completed' && <FaCheck />}
 
-                                <TruncatedText
-                                  content={
-                                    embarkedJourney.actionSteps[day].actionStep
-                                  }
-                                  limit={75}
-                                />
-                              </CardContent>
+                              {embarkedJourney.actionSteps[day].status ===
+                                'ongoing' && <CiCircleCheck />}
+
+                              {embarkedJourney.actionSteps[day].status ===
+                                'idle' && <FaRegCalendarCheck />}
+                              {embarkedJourney.actionSteps[day].status ===
+                                'blocked' && <MdBlock />}
+                              {embarkedJourney.actionSteps[day].status ===
+                                'due' && <TbCalendarDue />}
                             </Card>
                           </DialogTrigger>
-
                           <DialogContent>
-                            <div>
+                            <div className='space-y-5'>
                               <h1 className='text-2xl font-semibold'>
-                                Day {selectedJourneyDay}
+                                Do you want to mark this day as completed?
                               </h1>
-                              <DialogDescription className='text-lg font-medium'>
-                                Level up your day
-                              </DialogDescription>
-                              <div className='p-3'>
-                                <div>
-                                  <h2 className='text-xl font-semibold'>
-                                    Action step for the day
-                                  </h2>
-                                  <p className='px-3 py-2 text-sm'>
-                                    {
-                                      embarkedJourney.actionSteps[
-                                        `day${selectedJourneyDay}`
-                                      ].actionStep
+                              <div className='flex justify-between'>
+                                <DialogClose>
+                                  <Button
+                                    onClick={() =>
+                                      setIsActionStepChecked(false)
                                     }
-                                  </p>
-                                </div>
-
-                                <div>
-                                  <h2 className='text-xl font-semibold'>
-                                    Description
-                                  </h2>
-                                  <p className='px-3 py-2 text-sm'>
-                                    {
-                                      embarkedJourney.actionSteps[
-                                        `day${selectedJourneyDay}`
-                                      ].description
-                                    }
-                                  </p>
-                                </div>
-
-                                {embarkedJourney.actionSteps[
-                                  `day${selectedJourneyDay}`
-                                ].example || (
-                                  <div>
-                                    <NavLink
-                                      to={`/journeys/${embarkedJourney.journeyId}/actionSteps/examples`}
-                                      className={cn(
-                                        buttonVariants({ variant: 'link' }),
-                                        'underline'
-                                      )}
-                                    >
-                                      View example
-                                    </NavLink>
-                                  </div>
-                                )}
-
-                                {embarkedJourney.actionSteps[
-                                  `day${selectedJourneyDay}`
-                                ].additionalSteps && (
-                                  <div>
-                                    <h2 className='text-xl font-semibold'>
-                                      Additional Steps
-                                    </h2>
-                                    <p className='px-1 py-2 text-sm'>
-                                      {embarkedJourney.actionSteps[
-                                        `day${selectedJourneyDay}`
-                                      ].additionalSteps.map(
-                                        (step: string, index) =>
-                                          step && (
-                                            <p key={index} className='flex'>
-                                              <span>
-                                                <LucideDot />
-                                              </span>
-                                              <span>{step}</span>
-                                            </p>
-                                          )
-                                      )}
-                                    </p>
-                                  </div>
-                                )}
-
-                                {embarkedJourney.actionSteps[
-                                  `day${selectedJourneyDay}`
-                                ].evidences && (
-                                  <div>
-                                    <h2 className='text-xl font-semibold'>
-                                      Evidences
-                                    </h2>
-                                    <p className='px-1 py-2 text-sm font-medium'>
-                                      {embarkedJourney.actionSteps[
-                                        `day${selectedJourneyDay}`
-                                      ].evidences.map(
-                                        (link: string, index) =>
-                                          link && (
-                                            <p key={index} className='flex'>
-                                              <span>
-                                                <LucideDot />
-                                              </span>
-                                              <Link
-                                                key={index}
-                                                to={link}
-                                                target='_blank'
-                                              >
-                                                {link}
-                                              </Link>
-                                            </p>
-                                          )
-                                      )}
-                                    </p>
-                                  </div>
-                                )}
-                              </div>
-
-                              {embarkedJourney.actionSteps[
-                                `day${selectedJourneyDay}`
-                              ].status === 'ongoing' && (
-                                <div className='flex items-center gap-2'>
-                                  <Checkbox
-                                    defaultChecked={
-                                      embarkedJourney.actionSteps[day]
-                                        .isCompleted
-                                    }
-                                    checked={
-                                      embarkedJourney.actionSteps[day]
-                                        .isCompleted || isActionStepChecked
-                                    }
-                                    disabled={
-                                      embarkedJourney.actionSteps[day]
-                                        .isCompleted
-                                    }
+                                  >
+                                    Cancel
+                                  </Button>
+                                </DialogClose>
+                                <DialogClose>
+                                  <Button
                                     onClick={() =>
                                       handleConfirmActionStepCompletion(day)
                                     }
-                                  />
-                                  <span className='font-medium'>
-                                    Yay, I completed the action step for the
-                                    day. 🎉
-                                  </span>
-                                </div>
-                              )}
-
-                              {embarkedJourney.actionSteps[
-                                `day${selectedJourneyDay}`
-                              ].status === 'idle' && (
-                                <span className='font-medium'>
-                                  I will surely complete this on the respective
-                                  day.
-                                </span>
-                              )}
-
-                              {embarkedJourney.actionSteps[
-                                `day${selectedJourneyDay}`
-                              ].status === 'blocked' && (
-                                <span className='font-medium'>
-                                  Please complete previous days action steps to
-                                  unlock this day's action step.
-                                </span>
-                              )}
-
-                              {embarkedJourney.actionSteps[
-                                `day${selectedJourneyDay}`
-                              ].status === 'due' && (
-                                <span className='font-medium'>
-                                  Please complete this day to unlock the next
-                                  day's action step.
-                                </span>
-                              )}
+                                  >
+                                    Confirm
+                                  </Button>
+                                </DialogClose>
+                              </div>
                             </div>
                           </DialogContent>
                         </Dialog>
-                      </div>
-                    </div>
-                  )
-                )}
+
+                        {/* modal dialog for providing details of action steps */}
+                        <div
+                          className='hover:cursor-pointer'
+                          onClick={() => setSelectedJourneyDay(index + 1)}
+                        >
+                          <Dialog>
+                            <DialogTrigger>
+                              <Card>
+                                <CardContent className='flex items-center justify-center p-5'>
+                                  <p className='text-xl'>{`Day ${
+                                    index + 1
+                                  }`}</p>
+                                  <span className='whitespace-pre '> - </span>
+
+                                  <TruncatedText
+                                    content={
+                                      embarkedJourney.actionSteps[day]
+                                        .actionStep
+                                    }
+                                    limit={75}
+                                  />
+                                </CardContent>
+                              </Card>
+                            </DialogTrigger>
+
+                            <DialogContent>
+                              <div>
+                                <h1 className='text-2xl font-semibold'>
+                                  Day {selectedJourneyDay}
+                                </h1>
+                                <DialogDescription className='text-lg font-medium'>
+                                  Level up your day
+                                </DialogDescription>
+                                <div className='p-3'>
+                                  <div>
+                                    <h2 className='text-xl font-semibold'>
+                                      Action step for the day
+                                    </h2>
+                                    <p className='px-3 py-2 text-sm'>
+                                      {
+                                        embarkedJourney.actionSteps[
+                                          `day${selectedJourneyDay}`
+                                        ].actionStep
+                                      }
+                                    </p>
+                                  </div>
+
+                                  <div>
+                                    <h2 className='text-xl font-semibold'>
+                                      Description
+                                    </h2>
+                                    <p className='px-3 py-2 text-sm'>
+                                      {
+                                        embarkedJourney.actionSteps[
+                                          `day${selectedJourneyDay}`
+                                        ].description
+                                      }
+                                    </p>
+                                  </div>
+
+                                  {embarkedJourney.actionSteps[
+                                    `day${selectedJourneyDay}`
+                                  ].example && (
+                                    <div>
+                                      <NavLink
+                                        to={`/journeys/${embarkedJourney.journeyId}/actionSteps/examples`}
+                                        className={cn(
+                                          buttonVariants({ variant: 'link' }),
+                                          'underline'
+                                        )}
+                                      >
+                                        View example
+                                      </NavLink>
+                                    </div>
+                                  )}
+
+                                  {embarkedJourney.actionSteps[
+                                    `day${selectedJourneyDay}`
+                                  ].additionalSteps && (
+                                    <div>
+                                      <h2 className='text-xl font-semibold'>
+                                        Additional Steps
+                                      </h2>
+                                      <p className='px-1 py-2 text-sm'>
+                                        {embarkedJourney.actionSteps[
+                                          `day${selectedJourneyDay}`
+                                        ].additionalSteps.map(
+                                          (step: string, index) =>
+                                            step && (
+                                              <p key={index} className='flex'>
+                                                <span>
+                                                  <LucideDot />
+                                                </span>
+                                                <span>{step}</span>
+                                              </p>
+                                            )
+                                        )}
+                                      </p>
+                                    </div>
+                                  )}
+
+                                  {embarkedJourney.actionSteps[
+                                    `day${selectedJourneyDay}`
+                                  ].evidences && (
+                                    <div>
+                                      <h2 className='text-xl font-semibold'>
+                                        Evidences
+                                      </h2>
+                                      <p className='px-1 py-2 text-sm font-medium'>
+                                        {embarkedJourney.actionSteps[
+                                          `day${selectedJourneyDay}`
+                                        ].evidences.map(
+                                          (link: string, index) =>
+                                            link && (
+                                              <p key={index} className='flex'>
+                                                <span>
+                                                  <LucideDot />
+                                                </span>
+                                                <Link
+                                                  key={index}
+                                                  to={link}
+                                                  target='_blank'
+                                                >
+                                                  {link}
+                                                </Link>
+                                              </p>
+                                            )
+                                        )}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].status === 'ongoing' && (
+                                  <div className='flex items-center gap-2'>
+                                    <Checkbox
+                                      defaultChecked={
+                                        embarkedJourney.actionSteps[day]
+                                          .isCompleted
+                                      }
+                                      checked={
+                                        embarkedJourney.actionSteps[day]
+                                          .isCompleted || isActionStepChecked
+                                      }
+                                      disabled={
+                                        embarkedJourney.actionSteps[day]
+                                          .isCompleted
+                                      }
+                                      onClick={() =>
+                                        handleConfirmActionStepCompletion(day)
+                                      }
+                                    />
+                                    <span className='font-medium'>
+                                      Yay, I completed the action step for the
+                                      day. 🎉
+                                    </span>
+                                  </div>
+                                )}
+
+                                {embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].status === 'idle' && (
+                                  <span className='font-medium'>
+                                    I will surely complete this on the
+                                    respective day.
+                                  </span>
+                                )}
+
+                                {embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].status === 'blocked' && (
+                                  <span className='font-medium'>
+                                    Please complete previous days action steps
+                                    to unlock this day's action step.
+                                  </span>
+                                )}
+
+                                {embarkedJourney.actionSteps[
+                                  `day${selectedJourneyDay}`
+                                ].status === 'due' && (
+                                  <span className='font-medium'>
+                                    Please complete this day to unlock the next
+                                    day's action step.
+                                  </span>
+                                )}
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      </Card>
+                    )
+                  )}
+              </div>
             </div>
           </div>
         </>
