@@ -155,7 +155,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
   }
 
   return (
-    <Card>
+    <Card className='lg:w-[750px] md:w-[500px] min-w-[400px]'>
       <CardHeader>
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-4 mb-5'>
