@@ -79,6 +79,8 @@ const SpecificCommunity = () => {
 
   const { posts, total } = data || {};
 
+  console.log(posts, total);
+
   const numberOfPages = Math.ceil((total && total / limit) || 1);
   useDocumentTitle(`${community?.communityName} - Community - SelfSync`);
 

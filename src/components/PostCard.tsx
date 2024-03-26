@@ -50,6 +50,7 @@ import useGetContentSavedStatus from '../services/savedContent/getContentSavedSt
 import ExpandableText from './ExpandableText';
 import { postCategoriesTheme } from '../constants';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
+import EditPostDialog from './EditPostDialog';
 
 interface PostCardProps {
   post: PostData;
@@ -197,10 +198,6 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    {/* <DropdownMenuItem className='flex items-center gap-2'>
-                      <FaEdit />
-                      <span>Edit this post</span>
-                    </DropdownMenuItem> */}
                     <DropdownMenuItem
                       className='flex items-center gap-2'
                       onClick={() => onDeletePost(post._id)}
@@ -213,18 +210,23 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
               </DropdownMenu>
             )}
             <div className='flex flex-col items-end gap-2'>
-              <span
-                className='text-xl hover:cursor-pointer'
-                onClick={handleSavePost}
-              >
-                {gettingSavedContentStatus || isSaving ? (
-                  <LoadingSpinner />
-                ) : savedContentStatus ? (
-                  <IoBookmark />
-                ) : (
-                  <IoBookmarkOutline />
+              <div className='flex items-center gap-1'>
+                {user?.id === post.userId && membershipStatus && (
+                  <EditPostDialog post={post} />
                 )}
-              </span>
+                <span
+                  className='text-xl hover:cursor-pointer'
+                  onClick={handleSavePost}
+                >
+                  {gettingSavedContentStatus || isSaving ? (
+                    <LoadingSpinner />
+                  ) : savedContentStatus ? (
+                    <IoBookmark />
+                  ) : (
+                    <IoBookmarkOutline />
+                  )}
+                </span>
+              </div>
 
               <span
                 className={`px-2 py-1 text-xs rounded-full ${

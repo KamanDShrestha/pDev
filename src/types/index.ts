@@ -466,6 +466,8 @@ export type PostData = {
   ];
   isAnonymous: boolean;
   createdAt: Date;
+  isEdited: boolean;
+  editCount: number;
 };
 
 export type PostCountData = {
