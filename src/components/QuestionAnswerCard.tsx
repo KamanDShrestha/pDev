@@ -36,6 +36,7 @@ import useAddSavedContent from '../services/savedContent/addSavedContent';
 import useGetContentSavedStatus from '../services/savedContent/getContentSavedStatus';
 import useDeleteQA from '../services/QAs/deleteQA';
 import { postCategoriesTheme } from '../constants';
+import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 
 // import { FcLikePlaceholder } from 'react-icons/fc';
 
@@ -54,6 +55,9 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
 
   const { data: likedStatus, isLoading: gettingLikedStatus } =
     useGetLikedStatus(question._id, user?.id as string);
+
+  const { data: membershipStatus, isLoading: gettingMembershipStatus } =
+    useCheckJoinedStatus(question.communityId, user?.id as string);
 
   const { mutate: addAnswer, isLoading: isCommenting } = useAddAnswer();
   const { mutate: deleteQA, isLoading: isDeleting } = useDeleteQA(
@@ -158,7 +162,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
               </div>
             </div>
             <div className='flex flex-col items-end'>
-              {user?.id === question.userId && (
+              {user?.id === question.userId && membershipStatus && (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <span className='text-2xl'>
@@ -220,19 +224,22 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
           <Separator />
           <div className='relative flex items-center gap-10'>
             <div className='flex items-center gap-3'>
-              <span
-                style={{ fontSize: '25px' }}
-                onClick={handleLikeQA}
-                className='hover:cursor-pointer'
-              >
-                {gettingLikedStatus || isLiking ? (
-                  <LoadingSpinner />
-                ) : likedStatus ? (
-                  <FcLike />
-                ) : (
-                  <FcLikePlaceholder />
-                )}
-              </span>
+              {gettingMembershipStatus && <LoadingSpinner />}
+              {membershipStatus && (
+                <span
+                  style={{ fontSize: '25px' }}
+                  onClick={handleLikeQA}
+                  className='hover:cursor-pointer'
+                >
+                  {gettingLikedStatus || isLiking ? (
+                    <LoadingSpinner />
+                  ) : likedStatus ? (
+                    <FcLike />
+                  ) : (
+                    <FcLikePlaceholder />
+                  )}
+                </span>
+              )}
               <span>
                 {question.likes.length > 0
                   ? question.likes.length === 1
@@ -263,29 +270,31 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
 
           <Separator />
 
-          <Dialog>
-            <DialogTrigger>
-              <Input
-                placeholder='Provide your answer.'
-                className='min-w-[400px]'
-              />
-            </DialogTrigger>
-            <DialogContent>
-              <label className='font-medium'>Provide your answer</label>
-              <div>
-                <Textarea
-                  placeholder='Your answer...'
-                  {...register('answer')}
+          {membershipStatus && (
+            <Dialog>
+              <DialogTrigger>
+                <Input
+                  placeholder='Provide your answer.'
+                  className='min-w-[400px]'
                 />
-              </div>
-              <Button
-                onClick={handleSubmit(handleSubmitAnswer)}
-                disabled={isCommenting}
-              >
-                {isCommenting ? <LoadingSpinner /> : 'Submit your answer'}
-              </Button>
-            </DialogContent>
-          </Dialog>
+              </DialogTrigger>
+              <DialogContent>
+                <label className='font-medium'>Provide your answer</label>
+                <div>
+                  <Textarea
+                    placeholder='Your answer...'
+                    {...register('answer')}
+                  />
+                </div>
+                <Button
+                  onClick={handleSubmit(handleSubmitAnswer)}
+                  disabled={isCommenting}
+                >
+                  {isCommenting ? <LoadingSpinner /> : 'Submit your answer'}
+                </Button>
+              </DialogContent>
+            </Dialog>
+          )}
         </CardFooter>
       </Card>
     </>

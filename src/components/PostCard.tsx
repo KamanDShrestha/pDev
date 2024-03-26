@@ -49,6 +49,7 @@ import useGetContentSavedStatus from '../services/savedContent/getContentSavedSt
 
 import ExpandableText from './ExpandableText';
 import { postCategoriesTheme } from '../constants';
+import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 
 interface PostCardProps {
   post: PostData;
@@ -72,6 +73,8 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
     useGetLikedStatus(post._id, user?.id as string);
   const { data: savedContentStatus, isLoading: gettingSavedContentStatus } =
     useGetContentSavedStatus(user?.id as string, 'post', post._id);
+  const { data: membershipStatus, isLoading: isFetchingMembershipStatus } =
+    useCheckJoinedStatus(post.communityId as string, user?.id as string);
 
   const queryClient = useQueryClient();
   function handleAddComment(data: FieldValues) {
@@ -183,7 +186,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             </div>
           </div>
           <div className='flex flex-col items-end'>
-            {user?.id === post.userId && (
+            {user?.id === post.userId && membershipStatus && (
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <span className='text-2xl'>
@@ -244,19 +247,22 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
         <Separator />
         <div className='relative flex items-center gap-10'>
           <div className='flex items-center gap-3'>
-            <span
-              style={{ fontSize: '25px' }}
-              onClick={handleLikePost}
-              className='hover:cursor-pointer'
-            >
-              {gettingLikedStatus || isLiking ? (
-                <LoadingSpinner />
-              ) : likedStatus ? (
-                <FcLike />
-              ) : (
-                <FcLikePlaceholder />
-              )}
-            </span>
+            {isFetchingMembershipStatus && <LoadingSpinner />}
+            {membershipStatus && (
+              <span
+                style={{ fontSize: '25px' }}
+                onClick={handleLikePost}
+                className='hover:cursor-pointer'
+              >
+                {gettingLikedStatus || isLiking ? (
+                  <LoadingSpinner />
+                ) : likedStatus ? (
+                  <FcLike />
+                ) : (
+                  <FcLikePlaceholder />
+                )}
+              </span>
+            )}
             <span>
               {post.postLikes.length > 0
                 ? post.postLikes.length === 1
@@ -286,48 +292,51 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
         </div>
         <Separator />
 
-        <div>
-          <Dialog>
-            <DialogTrigger>
-              <Input
-                placeholder='Comment on the post.'
-                className='min-w-[400px]'
-              />
-            </DialogTrigger>
-            <DialogContent>
-              <label className='font-medium'>Provide your comment</label>
-              <div>
-                <Textarea
-                  placeholder='Your answer...'
-                  {...register('comment', {
-                    required: 'Please provide your comment before posting.',
-                  })}
+        {isFetchingMembershipStatus && <LoadingSpinner />}
+        {membershipStatus && (
+          <div>
+            <Dialog>
+              <DialogTrigger>
+                <Input
+                  placeholder='Comment on the post.'
+                  className='min-w-[400px]'
                 />
-                {errors.comment && (
-                  <ErrorMessage>
-                    {errors.comment.message as string}
-                  </ErrorMessage>
-                )}
-              </div>
-              <div className='flex items-center gap-1 text-sm'>
-                <Checkbox
-                  placeholder='Make it anonymous'
-                  checked={isAnonymousComment}
-                  onCheckedChange={() =>
-                    setIsAnonymousComment((previous) => !previous)
-                  }
-                />
-                <label>Make it anonymous</label>
-              </div>
-              <Button
-                onClick={handleSubmit(handleAddComment)}
-                disabled={isCommenting}
-              >
-                {isCommenting ? <LoadingSpinner /> : 'Add comment'}
-              </Button>
-            </DialogContent>
-          </Dialog>
-        </div>
+              </DialogTrigger>
+              <DialogContent>
+                <label className='font-medium'>Provide your comment</label>
+                <div>
+                  <Textarea
+                    placeholder='Your answer...'
+                    {...register('comment', {
+                      required: 'Please provide your comment before posting.',
+                    })}
+                  />
+                  {errors.comment && (
+                    <ErrorMessage>
+                      {errors.comment.message as string}
+                    </ErrorMessage>
+                  )}
+                </div>
+                <div className='flex items-center gap-1 text-sm'>
+                  <Checkbox
+                    placeholder='Make it anonymous'
+                    checked={isAnonymousComment}
+                    onCheckedChange={() =>
+                      setIsAnonymousComment((previous) => !previous)
+                    }
+                  />
+                  <label>Make it anonymous</label>
+                </div>
+                <Button
+                  onClick={handleSubmit(handleAddComment)}
+                  disabled={isCommenting}
+                >
+                  {isCommenting ? <LoadingSpinner /> : 'Add comment'}
+                </Button>
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
       </CardFooter>
     </Card>
   );
