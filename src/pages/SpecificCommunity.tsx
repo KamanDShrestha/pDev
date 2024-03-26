@@ -248,22 +248,23 @@ const SpecificCommunity = () => {
               <div className='flex items-center justify-center'>
                 {isFetchingPosts && <LoadingSpinner />}
               </div>
-
-              {posts &&
-                posts.map((post, index) =>
-                  selectedCategory === 'question' ? (
-                    <QuestionAnswerCard
-                      question={post as QAsData}
-                      key={index}
-                    />
-                  ) : (
-                    <PostCard
-                      post={post as PostData}
-                      key={index}
-                      onDeletePost={handleDeletePost}
-                    />
-                  )
-                )}
+              <div className='flex flex-col items-center justify-center gap-5'>
+                {posts &&
+                  posts.map((post, index) =>
+                    selectedCategory === 'question' ? (
+                      <QuestionAnswerCard
+                        question={post as QAsData}
+                        key={index}
+                      />
+                    ) : (
+                      <PostCard
+                        post={post as PostData}
+                        key={index}
+                        onDeletePost={handleDeletePost}
+                      />
+                    )
+                  )}
+              </div>
 
               {posts && (posts === null || posts.length === 0) && (
                 <p>No posts found</p>

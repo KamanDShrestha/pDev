@@ -37,6 +37,8 @@ import useGetContentSavedStatus from '../services/savedContent/getContentSavedSt
 import useDeleteQA from '../services/QAs/deleteQA';
 import { postCategoriesTheme } from '../constants';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
+import { Badge } from './ui/badge';
+import EditQADialog from './EditQADialog';
 
 // import { FcLikePlaceholder } from 'react-icons/fc';
 
@@ -147,15 +149,30 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
         <CardHeader>
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-4 my-3'>
-              <img
-                src={user?.image}
-                alt='user-image'
-                className='w-12 h-12 rounded-full'
-              />
+              <div
+                style={{
+                  backgroundImage: `url(${
+                    question.isAnonymous
+                      ? 'https://avatar.iran.liara.run/public'
+                      : question?.image
+                  }
+                )`,
+                }}
+                className='w-12 h-12 bg-cover rounded-full'
+              ></div>
               <div className='flex flex-col'>
-                <span className='font-medium'>
-                  {question._id === user?.id ? 'You' : question.userName}
-                </span>
+                <div className='flex items-center gap-2'>
+                  <span className='font-medium'>
+                    {question?.userId === user?.id
+                      ? 'You'
+                      : question.isAnonymous
+                      ? 'Anonymous member'
+                      : question?.userName}
+                  </span>
+                  {(!question.isAnonymous || question?.userId === user?.id) && (
+                    <Badge className=''>{question.userRole}</Badge>
+                  )}
+                </div>
                 <span className='text-xs'>
                   Questioned at {new Date(question.createdAt).toLocaleString()}
                 </span>
@@ -173,10 +190,6 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                      {/* <DropdownMenuItem className='flex items-center gap-2'>
-                      <FaEdit />
-                      <span>Edit this post</span>
-                    </DropdownMenuItem> */}
                       <DropdownMenuItem
                         className='flex items-center gap-2'
                         onClick={() => handleDeleteQA()}
@@ -195,19 +208,23 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                 </DropdownMenu>
               )}
               <div className='flex flex-col items-end gap-2'>
-                <span
-                  className='text-xl hover:cursor-pointer'
-                  onClick={handleSavePost}
-                >
-                  {gettingSavedContentStatus || isSaving ? (
-                    <LoadingSpinner />
-                  ) : savedContentStatus ? (
-                    <IoBookmark />
-                  ) : (
-                    <IoBookmarkOutline />
+                <div className='flex items-center gap-1'>
+                  {user?.id === question.userId && membershipStatus && (
+                    <EditQADialog QA={question} />
                   )}
-                </span>
-
+                  <span
+                    className='text-xl hover:cursor-pointer'
+                    onClick={handleSavePost}
+                  >
+                    {gettingSavedContentStatus || isSaving ? (
+                      <LoadingSpinner />
+                    ) : savedContentStatus ? (
+                      <IoBookmark />
+                    ) : (
+                      <IoBookmarkOutline />
+                    )}
+                  </span>
+                </div>
                 <span
                   className={`px-2 py-1 text-xs rounded-full ${postCategoriesTheme['question']}`}
                 >

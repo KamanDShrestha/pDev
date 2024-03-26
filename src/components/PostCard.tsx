@@ -159,15 +159,17 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
       <CardHeader>
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-4 mb-5'>
-            <img
-              src={
-                post.isAnonymous
-                  ? 'https://avatar.iran.liara.run/public'
-                  : post?.image
-              }
-              alt='user-image'
-              className='w-12 h-12 rounded-full'
-            />
+            <div
+              style={{
+                backgroundImage: `url(${
+                  post.isAnonymous
+                    ? 'https://avatar.iran.liara.run/public'
+                    : post?.image
+                }
+                )`,
+              }}
+              className='w-12 h-12 bg-cover rounded-full'
+            ></div>
             <div className='flex flex-col'>
               <div className='flex items-center gap-2'>
                 <span className='font-medium'>

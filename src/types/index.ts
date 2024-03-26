@@ -410,6 +410,8 @@ export type QAsData = {
     }
   ];
   isAnonymous: boolean;
+  isEdited: boolean;
+  editCount: number;
   createdAt: Date;
 };
 

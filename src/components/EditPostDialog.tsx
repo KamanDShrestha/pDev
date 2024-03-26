@@ -10,8 +10,14 @@ import { FaPen } from 'react-icons/fa';
 import { Input } from './ui/input';
 import { FieldValues, useForm } from 'react-hook-form';
 import { Textarea } from './ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select';
-import { SelectValue } from '@radix-ui/react-select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+
 import { useState } from 'react';
 import { Button } from './ui/button';
 import useEditPost from '../services/posts/editPost';

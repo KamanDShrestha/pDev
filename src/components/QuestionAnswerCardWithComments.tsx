@@ -40,8 +40,8 @@ const QuestionAnswerCardWithComments = ({
           <>
             <Heading className='mb-2 text-lg'>Answers</Heading>
             <div className='flex flex-col gap-3 max-h-[400px] overflow-scroll'>
-              {question.answers.map((answer) => (
-                <div className='p-3 border'>
+              {question.answers.map((answer, index) => (
+                <div className='p-3 border' key={index}>
                   <div className='flex items-center gap-4'>
                     <img
                       src={answer.image}
