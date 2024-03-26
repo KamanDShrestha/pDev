@@ -21,6 +21,7 @@ import ExpandableText from './ExpandableText';
 
 import EditCommunityDialog from './EditCommunityDialog';
 import UpdateCommunityIconDialog from './UpdateCommunityIconDialog';
+import useLeaveCommunity from '../services/communityMembers/leaveCommunity';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -38,7 +39,9 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
     user?.id as string
   );
   const { mutate: addMember } = useAddMembers();
-  const { mutate: deleteCommunity } = useDeleteCommunity();
+  const { mutate: deleteCommunity, isLoading: isDeleting } =
+    useDeleteCommunity();
+  const { mutate: leaveCommunity, isLoading: isLeaving } = useLeaveCommunity();
 
   console.log(joinedStatus);
   console.log(communityMembers);
@@ -60,6 +63,21 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
 
   function handleDeleteCommunity(communityId: string) {
     deleteCommunity(communityId);
+  }
+
+  function handleLeaveCommunity(communityId: string) {
+    leaveCommunity(
+      { communityId: communityId, userId: user?.id as string },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'joinedStatus',
+            communityId,
+            user?.id,
+          ]);
+        },
+      }
+    );
   }
 
   return (
@@ -105,9 +123,21 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
             </Button>
           </div>
         ) : (
-          <Button onClick={() => navigate(`/community/${community._id}`)}>
-            Checkout this community
-          </Button>
+          <>
+            <Button
+              onClick={() => navigate(`/community/${community._id}`)}
+              disabled={isLeaving || isDeleting}
+            >
+              Checkout this community
+            </Button>
+            <Button
+              onClick={() => handleLeaveCommunity(community._id)}
+              variant={'destructive'}
+              disabled={isLeaving || isDeleting}
+            >
+              Leave this community
+            </Button>
+          </>
         )}
 
         {user?.role === 'admin' && (
@@ -115,6 +145,7 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
             <Button
               variant={'destructive'}
               onClick={() => handleDeleteCommunity(community._id)}
+              disabled={isDeleting}
             >
               Delete this community
             </Button>
