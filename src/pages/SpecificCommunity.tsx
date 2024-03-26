@@ -37,6 +37,7 @@ import {
 import LoadingSpinner from '../components/LoadingSpinner';
 import useGetRandomQuote from '../services/quotes/getRandomQuote';
 import ExpandableText from '../components/ExpandableText';
+import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 
 const SpecificCommunity = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -52,6 +53,8 @@ const SpecificCommunity = () => {
   const { data: communityMembers } = useGetCommunityMembers(
     communityId as string
   );
+  const { data: membershipStatus, isLoading: isFetchingMembershipStatus } =
+    useCheckJoinedStatus(communityId as string, user?.id as string);
   console.log(communityMembers);
 
   const { data: community } = useGetSpecificCommunity(communityId as string);
@@ -151,19 +154,22 @@ const SpecificCommunity = () => {
               length={110}
             />
           </div>
-          <div className='flex justify-center'>
-            <Dialog>
-              <DialogTrigger className='w-[40vw]'>
-                <Input
-                  className='py-6 border-2 rounded-full'
-                  placeholder="What's on your mind?"
-                />
-              </DialogTrigger>
-              <DialogContent>
-                <AddPostCard />
-              </DialogContent>
-            </Dialog>
-          </div>
+          {isFetchingMembershipStatus && <LoadingSpinner />}
+          {membershipStatus && (
+            <div className='flex justify-center'>
+              <Dialog>
+                <DialogTrigger className='w-[40vw]'>
+                  <Input
+                    className='py-6 border-2 rounded-full'
+                    placeholder="What's on your mind?"
+                  />
+                </DialogTrigger>
+                <DialogContent>
+                  <AddPostCard />
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
           <Separator className='my-10' />
           <div className=''>
             <Heading>Our posts</Heading>
