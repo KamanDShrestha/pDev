@@ -237,6 +237,9 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
           <CardTitle>{question.questionTitle}</CardTitle>
         </CardHeader>
         <CardContent className='m-5'>{question.question}</CardContent>
+        {question.isEdited && (
+          <p className='px-3 py-1 text-xs text-right text-gray-500'>(Edited)</p>
+        )}
         <CardFooter className='flex flex-col gap-3 text-sm'>
           <Separator />
           <div className='relative flex items-center gap-10'>
