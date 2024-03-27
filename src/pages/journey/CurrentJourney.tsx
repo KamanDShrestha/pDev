@@ -135,7 +135,7 @@ const CurrentJourney = () => {
                 {embarkedJourney &&
                   Object.keys(embarkedJourney.actionSteps).map(
                     (day: string, index) => (
-                      <Card className='flex flex-col items-center gap-4 p-3 text-lg font-medium max-w-[500px] justify-center'>
+                      <Card className='flex flex-col items-center gap-4 p-3 text-lg font-medium max-w-[500px] justify-center border-gray-800'>
                         <Dialog>
                           <DialogTrigger
                             disabled={

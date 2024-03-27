@@ -12,12 +12,13 @@ import { FaCircle, FaPlay } from 'react-icons/fa';
 import { Button, buttonVariants } from './ui/button';
 import { Separator } from './ui/separator';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthProvider';
+import { AuthContextType, useAuthContext } from '../context/AuthProvider';
 import useDeleteSubscriptionPlan from '../services/subscriptionPlans/deleteSubscriptionPlan';
 import LoadingSpinner from './LoadingSpinner';
 import useUpdateSubscriptionPlanStatus from '../services/subscriptionPlans/updateSubscriptionPlanStatus';
 import { cn } from '../lib/utils';
 import { statusColoring } from '../constants';
+import useUnsubscribe from '../services/payments/unsubscribe';
 
 interface SubscriptionPlanCardProps {
   subscriptionPlan: SubscriptionPlan;
@@ -26,12 +27,14 @@ interface SubscriptionPlanCardProps {
 const SubscriptionPlanCard = ({
   subscriptionPlan,
 }: SubscriptionPlanCardProps) => {
-  const { user } = useAuthContext();
+  const { user, setUser } = useAuthContext();
 
   const { mutate: deleteSubscriptionPlan, isLoading: isDeleting } =
     useDeleteSubscriptionPlan();
   const { mutate: activateSubscriptionPlan, isLoading: isActivating } =
     useUpdateSubscriptionPlanStatus();
+
+  const { mutate: unsubscribe } = useUnsubscribe();
 
   const navigate = useNavigate();
 
@@ -51,6 +54,18 @@ const SubscriptionPlanCard = ({
       planId: subscriptionPlan._id,
       activeStatus: false,
     });
+  }
+
+  function handleUnsubscribe() {
+    unsubscribe(
+      { userId: user?.id as string },
+      {
+        onSuccess: () => {
+          setUser &&
+            setUser({ ...user, hasSubscribed: false } as AuthContextType);
+        },
+      }
+    );
   }
 
   return (
@@ -137,13 +152,18 @@ const SubscriptionPlanCard = ({
       ) : (
         <CardFooter className='flex items-center justify-center'>
           {user?.hasSubscribed ? (
-            <NavLink
-              to={'/home'}
-              className='text-sm text-center hover:underline'
-            >
-              You have already subscribed to this plan. <br />
-              <span className='text-xs'>Navigate to Home page</span>
-            </NavLink>
+            <div className='flex flex-col gap-2'>
+              <NavLink
+                to={'/home'}
+                className='text-sm text-center hover:underline'
+              >
+                You have already subscribed to this plan. <br />
+                <span className='text-xs'>Navigate to Home page</span>
+              </NavLink>
+              <Button size={'xs'} onClick={handleUnsubscribe}>
+                Unsubscribe
+              </Button>
+            </div>
           ) : (
             <Button
               variant={'outline'}
