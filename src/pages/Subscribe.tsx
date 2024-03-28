@@ -12,7 +12,7 @@ const Subscribe = () => {
       <div className='flex flex-wrap justify-between'>
         <Heading>Subscription Plans</Heading>
       </div>
-      <div className='flex gap-5'>
+      <div className='flex justify-center gap-5'>
         {subscriptionPlans?.length === 0 && (
           <p> No subscription plans are present currently.</p>
         )}
