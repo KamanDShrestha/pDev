@@ -8,7 +8,7 @@ import useGetAllUsers from '../../services/users/getAllUsers';
 import { ColumnDef } from '@tanstack/react-table';
 import { User } from '../../types';
 import useDeleteUser from '../../services/users/deleteUser';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 
 const UsersAction = () => {
   const [view, setView] = useState('list');
@@ -31,36 +31,77 @@ const UsersAction = () => {
     },
     {
       accessorKey: 'firstName',
-      header: 'First Name',
+      header: ({ column }) => {
+        return (
+          <span
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='flex items-center cursor-pointer'
+          >
+            First Name
+            <ArrowUpDown className='w-4 h-4 ml-2' />
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'lastName',
-      header: 'Last Name',
+      header: ({ column }) => {
+        return (
+          <span
+            className='flex items-center cursor-pointer'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Last Name
+            <ArrowUpDown className='w-4 h-4 ml-2' />
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'email',
-      header: 'Email',
+      header: ({ column }) => {
+        return (
+          <span
+            className='flex items-center cursor-pointer'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Email
+            <ArrowUpDown className='w-4 h-4 ml-2' />
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'preferredJourney',
       header: ({ column }) => {
         return (
-          <Button
-            variant='ghost'
+          <p
+            className='flex items-center cursor-pointer'
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Preferred Journey
             <ArrowUpDown className='w-4 h-4 ml-2' />
-          </Button>
+          </p>
         );
       },
     },
     {
       accessorKey: 'role',
-      header: 'Role',
+      header: ({ column }) => {
+        return (
+          <span
+            className='flex items-center cursor-pointer'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Role
+            <ArrowUpDown className='w-4 h-4 ml-2' />
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'actions',
+      header: '',
       cell: ({ row }) => {
         const user = row.original;
         function handleUserDelete(userId: string) {

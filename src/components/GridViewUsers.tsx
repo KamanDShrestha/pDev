@@ -22,6 +22,8 @@ import {
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import Heading from './Heading';
 
 interface GridViewUsersProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,18 +53,40 @@ function GridViewUsers<TData, TValue>({
 
   return (
     <>
-      <div className='flex items-center py-4'>
-        <Input
-          placeholder='Filter emails...'
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('email')?.setFilterValue(event.target.value)
-          }
-          className='max-w-sm'
-        />
-      </div>
+      <Heading>Grid view of users</Heading>
+      <Card className='m-3 border-gray-600 min-h-fit'>
+        <CardHeader className='mb-0'>
+          <CardTitle>Filtering users</CardTitle>
+        </CardHeader>
+        <CardContent className='flex flex-wrap items-center justify-around gap-3 '>
+          <div className='flex items-center py-4'>
+            <Input
+              placeholder='Filter by emails...'
+              value={
+                (table.getColumn('email')?.getFilterValue() as string) ?? ''
+              }
+              onChange={(event) =>
+                table.getColumn('email')?.setFilterValue(event.target.value)
+              }
+              className='lg:w-[600px] xl:w-[650px] md:w-[500px] sm:w-[400px] w-[300px]'
+            />
+          </div>
+          <div className='flex items-center py-4'>
+            <Input
+              placeholder='Filter by names...'
+              value={
+                (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
+              }
+              onChange={(event) =>
+                table.getColumn('firstName')?.setFilterValue(event.target.value)
+              }
+              className='lg:w-[600px] xl:w-[650px] md:w-[500px] sm:w-[400px] w-[300px]'
+            />
+          </div>
+        </CardContent>
+      </Card>
 
-      <div className='border rounded-md'>
+      <div className='mt-10 border rounded-md'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
