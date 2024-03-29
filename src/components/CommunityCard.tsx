@@ -75,6 +75,7 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
             communityId,
             user?.id,
           ]);
+          queryClient.invalidateQueries(['communityMembers', communityId]);
         },
       }
     );

@@ -41,7 +41,9 @@ const GoalReminderDialog = () => {
         </DialogTrigger>
         <DialogContent>
           <DialogTitle>Goal reminders</DialogTitle>{' '}
-          <div className='h-[60vh] overflow-scroll flex flex-col gap-5'>
+          <div className='h-[60vh] overflow-scroll flex flex-col gap-5 justify-center items-center'>
+            {(!goalReminders || goalReminders?.length === 0) &&
+              'No reminders for today. Keep up the good work!'}
             {goalReminders &&
               goalReminders.map((goalReminder, index) => (
                 <Card

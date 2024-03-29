@@ -20,6 +20,7 @@ import useGetDiscontinuedJourneysCount from '../../services/embarkedJourneys/get
 import useGetOngoingJourneysCount from '../../services/embarkedJourneys/getOngoingJourneysCount';
 import useGetCompletedJourneysCount from '../../services/embarkedJourneys/getCompletedJourneysCount';
 import JourneyStatisticsCard from '../../components/JourneyStatisticsCard';
+import UsersCountCard from '../../components/UsersCountCard';
 
 const AdminDashboard = () => {
   const {
@@ -33,6 +34,7 @@ const AdminDashboard = () => {
     data: discontinuedJourneysCount,
     isLoading: isFetchingDiscontinuedJourneysCount,
   } = useGetDiscontinuedJourneysCount();
+
   const {
     data: ongoingJourneysCount,
     isLoading: isFetchingOngoingJourneysCount,
@@ -57,6 +59,8 @@ const AdminDashboard = () => {
           usersCountInJourney={usersCountInJourney}
           isFetchingCount={isFetchingCount}
         />
+
+        <UsersCountCard />
         <CommunityStatisticsCard
           membersCount={membersCountInCommunity}
           isFetchingCount={IsFetchingMembersCount}

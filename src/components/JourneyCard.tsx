@@ -83,10 +83,21 @@ const JourneyCard = ({
   const queryClient = useQueryClient();
 
   function handleEmbarkJourney() {
-    embarkJourney({
-      userId: user?.id as string,
-      journeyId: journeyId,
-    });
+    embarkJourney(
+      {
+        userId: user?.id as string,
+        journeyId: journeyId,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'embarkedJourney',
+            user?.id as string,
+            journeyId,
+          ]);
+        },
+      }
+    );
   }
 
   function handleContinueJourney() {
