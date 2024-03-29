@@ -18,6 +18,8 @@ import Logo from './Logo';
 import { useAuthContext } from '../context/AuthProvider';
 import { Button, buttonVariants } from './ui/button';
 import useLogoutUser from '../services/userAuth/logoutUser';
+
+import GoalReminderDialog from './GoalReminderDialog';
 const NavBar = () => {
   const { user } = useAuthContext();
   const { mutate } = useLogoutUser();
@@ -158,14 +160,24 @@ const NavBar = () => {
 
       <NavigationMenu className='hidden md:block'>
         <NavigationMenuList>
-          {user?.role === 'user' &&
-            userNavigationMenu.map((menu) => (
-              <NavigationMenuItem key={menu.to}>
-                <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
-                  {menu.option}
-                </NavLink>
+          {user?.role === 'user' && (
+            <>
+              {userNavigationMenu.map((menu) => (
+                <NavigationMenuItem key={menu.to}>
+                  <NavLink
+                    to={menu.to}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    {menu.option}
+                  </NavLink>
+                </NavigationMenuItem>
+              ))}
+
+              <NavigationMenuItem>
+                <GoalReminderDialog />
               </NavigationMenuItem>
-            ))}
+            </>
+          )}
 
           {user?.role === 'admin' &&
             adminNavigationMenu.map((menu) => (

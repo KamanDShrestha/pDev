@@ -1,3 +1,11 @@
+export type GoalReminder = {
+  _id: string;
+  userId: string;
+  message: string;
+  reminderDate: Date;
+  readStatus: boolean;
+};
+
 export type GetGoalSetData =
   | {
       goalSetTitle: string;
