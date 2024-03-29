@@ -11,12 +11,14 @@ import { Button } from './ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useUpdateJourneyFeedbackStatus } from '../services/journeyFeedbacks/updateJourneyFeedbackStatus';
 import { statusColoring } from '../constants';
+import { Badge } from './ui/badge';
 
 interface JourneyFeedbackCardProps {
   feedback: JourneyFeedback;
   feedbackId: string;
   userId: string;
   journeyId: string;
+  userRole: string;
 }
 
 const JourneyFeedbackCard = ({
@@ -24,6 +26,7 @@ const JourneyFeedbackCard = ({
   feedbackId,
   userId,
   journeyId,
+  userRole,
 }: JourneyFeedbackCardProps) => {
   const { mutate: updateFeedbackStatus } = useUpdateJourneyFeedbackStatus();
   const navigate = useNavigate();
@@ -47,6 +50,9 @@ const JourneyFeedbackCard = ({
     <Card className='max-w-[550px] '>
       <CardHeader>
         <CardTitle>Feedback</CardTitle>
+        <div className='text-right'>
+          <Badge>{userRole === 'qhp' ? 'QHP Feedback' : 'User Feedback'}</Badge>
+        </div>
       </CardHeader>
       <CardContent className='flex flex-col gap-3'>
         <div>

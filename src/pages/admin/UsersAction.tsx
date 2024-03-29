@@ -124,13 +124,13 @@ const UsersAction = () => {
   useDocumentTitle('Users - SelfSync');
   return (
     <>
-      <div>
+      <div className='text-right'>
         {view === 'list' ? (
           <p
             onClick={() => setView('grid')}
             className={cn(
               buttonVariants({ variant: 'link' }),
-              'text-right items-end'
+              'cursor-pointer'
             )}
           >
             Grid view of users
@@ -140,7 +140,7 @@ const UsersAction = () => {
             onClick={() => setView('list')}
             className={cn(
               buttonVariants({ variant: 'link' }),
-              'text-right items-end'
+              'cursor-pointer'
             )}
           >
             View as list

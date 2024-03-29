@@ -574,6 +574,7 @@ export type ActionStepFeedback = {
 export type JourneyFeedbacks = {
   _id: string;
   userId: string;
+  userRole: string;
   journeyId: string;
   journeyFeedbacks: {
     _id: string;

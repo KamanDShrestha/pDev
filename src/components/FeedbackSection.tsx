@@ -37,6 +37,7 @@ const FeedbackSection = ({
                 userId={feedback.userId}
                 feedbackId={feedback._id}
                 journeyId={feedback.journeyId}
+                userRole={feedback.userRole}
                 key={index}
               />
             ))
