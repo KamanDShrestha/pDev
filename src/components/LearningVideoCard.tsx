@@ -118,21 +118,22 @@ const LearningVideoCard = ({
           allowFullScreen
         ></iframe>
       </CardContent>
-      {user?.role === 'admin' && videoCategory && (
-        <CardFooter className='space-x-3'>
-          <span
-            className='right-0 text-xl hover:cursor-pointer'
-            onClick={handleSavePost}
-          >
-            {gettingSavedContentStatus || isSaving ? (
-              <LoadingSpinner />
-            ) : savedContentStatus ? (
-              <IoBookmark />
-            ) : (
-              <IoBookmarkOutline />
-            )}
-          </span>
-          <div>
+
+      <CardFooter className='space-x-3'>
+        <span
+          className='right-0 text-xl hover:cursor-pointer'
+          onClick={handleSavePost}
+        >
+          {gettingSavedContentStatus || isSaving ? (
+            <LoadingSpinner />
+          ) : savedContentStatus ? (
+            <IoBookmark />
+          ) : (
+            <IoBookmarkOutline />
+          )}
+        </span>
+        <div>
+          {user?.role === 'admin' && videoCategory && (
             <Dialog>
               <DialogTrigger
                 className={cn(
@@ -221,9 +222,9 @@ const LearningVideoCard = ({
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          </div>
-        </CardFooter>
-      )}
+          )}
+        </div>
+      </CardFooter>
     </Card>
   );
 };
