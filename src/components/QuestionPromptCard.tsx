@@ -122,7 +122,7 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
         </CardFooter>
       )}
 
-      {user?.role === 'qha' && (
+      {user?.role === 'qhp' && (
         <CardFooter className='flex gap-3'>
           <Button
             onClick={() => handlePromptStatusChange(true)}

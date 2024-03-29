@@ -47,7 +47,7 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
       { id, status: 'Approved' },
       {
         onSuccess: () => {
-          updateUserRole({ userId: userId, role: 'qha' });
+          updateUserRole({ userId: userId, role: 'qhp' });
           addQhpDetails({
             userId: userId,
             workingLicense: application.workingLicense,

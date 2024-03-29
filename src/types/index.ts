@@ -596,6 +596,7 @@ export type AddJourneyFeedbackData = {
     actionStepDay: string;
     feedback: string;
   };
+  userRole: string;
 };
 
 export type LogMoodData = {

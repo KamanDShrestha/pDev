@@ -98,7 +98,7 @@ const ActionStepShowcase = ({
           </div>
         </CardContent>
         <CardFooter className='relative'>
-          {user?.role === 'qha' && (
+          {user?.role === 'qhp' && (
             <Dialog>
               <DialogTrigger>
                 <span className='absolute text-xs hover:underline bottom-2'>

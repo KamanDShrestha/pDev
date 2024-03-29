@@ -127,7 +127,7 @@ const NavBar = () => {
                 </NavLink>
               ))}
 
-            {user?.role === 'qha' &&
+            {user?.role === 'qhp' &&
               qhpNavigationMenu.map((menu) => (
                 <NavLink
                   to={menu.to}
@@ -138,7 +138,7 @@ const NavBar = () => {
                 </NavLink>
               ))}
 
-            {user?.role === 'qha' &&
+            {user?.role === 'qhp' &&
               qhpActionOptions.map((menu) => (
                 <NavLink
                   to={menu.to}
@@ -188,7 +188,7 @@ const NavBar = () => {
               </NavigationMenuItem>
             ))}
 
-          {user?.role === 'qha' &&
+          {user?.role === 'qhp' &&
             qhpNavigationMenu.map((menu) => (
               <NavigationMenuItem key={menu.to}>
                 <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
@@ -253,7 +253,7 @@ const NavBar = () => {
                     </DropdownMenuItem>
                   ))}
 
-                {user?.role === 'qha' &&
+                {user?.role === 'qhp' &&
                   qhpActionOptions.map((option) => (
                     <DropdownMenuItem key={option.to}>
                       <NavLink

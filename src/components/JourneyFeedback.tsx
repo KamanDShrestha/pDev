@@ -27,6 +27,7 @@ const JourneyFeedback = ({ journeyId }: JourneyFeedbackProps) => {
         actionStepDay: data.actionStepDay || '',
         feedback: data.feedback || '',
       },
+      userRole: user?.role as string,
     });
   }
 

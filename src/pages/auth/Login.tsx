@@ -22,6 +22,9 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import { BACKEND_URL } from '../../constants';
 import { FcGoogle } from 'react-icons/fc';
 import useDocumentTitle from '../../services/getTitle';
+import { useEffect } from 'react';
+
+import { AuthContextType, useAuthContext } from '../../context/AuthProvider';
 
 const Login = () => {
   const {
@@ -34,10 +37,14 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const { setUser } = useAuthContext();
+
+  useEffect(() => {
+    setUser && setUser(() => ({} as AuthContextType));
+  }, []);
+
   const providedEmail = watch('email');
   const providedPassword = watch('password');
-
-  console.log(errors);
   const { mutate: loginUser, isLoading: isLoggingIn } = useLoginUser();
 
   useDocumentTitle('Login - SelfSync');

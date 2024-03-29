@@ -1,5 +1,4 @@
 import JourneyCardSkeleton from '../../components/JourneyCardSkeleton';
-
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ActionStepShowcase from '../../components/ActionStepShowcase';
@@ -135,7 +134,7 @@ const SpecificJourney = () => {
             Action Steps for {journey?.name}
           </h2>
           <div className='space-x-2'>
-            {user?.role === 'qha' && (
+            {(user?.role === 'qhp' || user?.role === 'user') && (
               <Dialog>
                 <DialogTrigger>
                   <Button>Provide feedbacks</Button>

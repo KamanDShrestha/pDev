@@ -25,7 +25,7 @@ import JourneyNotFound from './pages/JourneyNotFound';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import CurrentJourney from './pages/journey/CurrentJourney';
 import UsersAction from './pages/admin/UsersAction';
-import VerifyJourneyPage from './pages/qha/VerifyJourneyPage';
+import VerifyJourneyPage from './pages/qhp/VerifyJourneyPage';
 import NotSubscribed from './pages/NotSubscribed';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import EditJourneyPage from './pages/admin/EditJourneyPage';
@@ -36,14 +36,14 @@ import Review from './pages/admin/Review';
 import Feedbacks from './pages/admin/Feedbacks';
 import AddCommunity from './pages/admin/AddCommunity';
 import SpecificCommunity from './pages/SpecificCommunity';
-import QAs from './pages/qha/QAs';
+import QAs from './pages/qhp/QAs';
 import WellbeingForAdmin from './pages/admin/WellbeingForAdmin';
 import Loading from './pages/Loading';
 import Subscribe from './pages/Subscribe';
 import SubscribeForAdmin from './pages/SubscribeForAdmin';
 import SubscriptionConfirmation from './pages/SubscriptionConfirmation';
 import VerifyKhaltiSubscription from './pages/VerifyKhaltiSubscription';
-import VerifyQuestionPromptsPage from './pages/qha/VerifyQuestionPromptsPage';
+import VerifyQuestionPromptsPage from './pages/qhp/VerifyQuestionPromptsPage';
 import FeedbacksForPrompts from './pages/admin/FeedbacksForPrompts';
 import EditQuestionPromptPage from './pages/admin/EditQuestionPromptPage';
 import SpecificUserPosts from './pages/SpecificUserPosts';
@@ -71,7 +71,7 @@ function App() {
 
               <Route
                 element={
-                  <AuthRequire allowedRoles={['user', 'admin', 'qha']} />
+                  <AuthRequire allowedRoles={['user', 'admin', 'qhp']} />
                 }
               >
                 <Route path={'/preference'} element={<TempPreference />} />
@@ -172,7 +172,7 @@ function App() {
                 </Route>
               </Route>
 
-              <Route element={<AuthRequire allowedRoles={['qha']} />}>
+              <Route element={<AuthRequire allowedRoles={['qhp']} />}>
                 <Route element={<UserLayout />}>
                   <Route
                     path='/verifyJourneys'

@@ -71,7 +71,7 @@ const Profile = () => {
           </div>
         </div>
         <div className='space-y-3 '>
-          {user && user.role === 'qha' && (
+          {user && user.role === 'qhp' && (
             <>
               <Heading>Professional Details</Heading>
               <ProfileProfessionalDetailsCard />

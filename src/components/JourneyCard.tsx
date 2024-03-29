@@ -279,7 +279,7 @@ const JourneyCard = ({
                     </Button>
                   </>
                 )}
-                {user && user.role === 'qha' && (
+                {user && user.role === 'qhp' && (
                   <>
                     <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
                       Browse

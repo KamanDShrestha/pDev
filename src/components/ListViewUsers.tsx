@@ -38,7 +38,7 @@ const ListViewUsers = () => {
   const skip = (pageNumber - 1) * limit;
 
   const roles = {
-    qha: 'Qualified Health Personnel',
+    qhp: 'Qualified Health Personnel',
     admin: 'Admin',
     user: 'User',
   };
