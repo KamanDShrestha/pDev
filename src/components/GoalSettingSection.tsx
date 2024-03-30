@@ -6,10 +6,14 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from './ui/card';
 import useGetOngoingGoalSets from '../services/goalSetting/getOngoingGoalSets';
+import { Button } from './ui/button';
+import useDeleteGoalSet from '../services/goalSetting/deleteGoalSet';
+import { useQueryClient } from '@tanstack/react-query';
 
 const GoalSettingSection = () => {
   const { user } = useAuthContext();
@@ -17,6 +21,17 @@ const GoalSettingSection = () => {
     useGetCompletedGoalSets(user?.id as string);
   const { data: ongoingGoalSets, isLoading: isFetchingOngoingGoalSets } =
     useGetOngoingGoalSets(user?.id as string);
+  const { mutate: deleteGoalSet, isLoading: isDeleting } = useDeleteGoalSet();
+
+  const queryClient = useQueryClient();
+
+  function handleDeleteGoalSet(goalSetId: string) {
+    deleteGoalSet(goalSetId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['ongoingGoalSets', user?.id]);
+      },
+    });
+  }
   return (
     <>
       <Card>
@@ -132,6 +147,16 @@ const GoalSettingSection = () => {
                     </div>
                   </div>
                 </CardContent>
+                <CardFooter>
+                  <Button
+                    onClick={() => handleDeleteGoalSet(goalSet._id)}
+                    variant={'destructive'}
+                    size={'sm'}
+                    disabled={isDeleting}
+                  >
+                    Delete
+                  </Button>
+                </CardFooter>
               </Card>
             ))}
         </CardContent>
