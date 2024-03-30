@@ -14,6 +14,7 @@ import useGetOngoingGoalSets from '../services/goalSetting/getOngoingGoalSets';
 import { Button } from './ui/button';
 import useDeleteGoalSet from '../services/goalSetting/deleteGoalSet';
 import { useQueryClient } from '@tanstack/react-query';
+import { Separator } from './ui/separator';
 
 const GoalSettingSection = () => {
   const { user } = useAuthContext();
@@ -59,7 +60,17 @@ const GoalSettingSection = () => {
                         goalSet.endDate
                       ).toDateString()}`}
                     </p>
-                    <p>{goalSet.goalSetType} goal set</p>
+                    <p className='my-3 text-lg font-medium text-center'>
+                      {goalSet.goalSetType === 'daily'
+                        ? 'Daily Action Plan'
+                        : goalSet.goalSetType === 'monthly'
+                        ? 'Monthly Action Plan'
+                        : goalSet.goalSetType === 'weekly'
+                        ? 'Weekly Milestones'
+                        : goalSet.goalSetType === 'withinWeek'
+                        ? 'Weekly Action Plan'
+                        : ''}
+                    </p>
                     <div>
                       {goalSet.goals
                         .filter((goal) => goal.day === 1)
@@ -73,6 +84,10 @@ const GoalSettingSection = () => {
                         ))}
                     </div>
                   </div>
+                  <Separator
+                    orientation='vertical'
+                    className='hidden h-100 lg:block'
+                  />
                   <div>
                     <CardTitle className='text-lg'>
                       Completion statistics
@@ -132,7 +147,17 @@ const GoalSettingSection = () => {
                         goalSet.endDate
                       ).toDateString()}`}
                     </p>
-                    <p>{goalSet.goalSetType} goal set</p>
+                    <p className='my-3 text-lg font-medium text-center'>
+                      {goalSet.goalSetType === 'daily'
+                        ? 'Daily Action Plan'
+                        : goalSet.goalSetType === 'monthly'
+                        ? 'Monthly Action Plan'
+                        : goalSet.goalSetType === 'weekly'
+                        ? 'Weekly Milestones'
+                        : goalSet.goalSetType === 'withinWeek'
+                        ? 'Weekly Action Plan'
+                        : ''}
+                    </p>
                     <div>
                       {goalSet.goals
                         .filter((goal) => goal.day === 1)
