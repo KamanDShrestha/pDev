@@ -12,6 +12,7 @@ import { Input } from './ui/input';
 import { FieldValues, useForm } from 'react-hook-form';
 import ErrorMessage from './ErrorMessage';
 import useAddPrompt from '../services/gratitudePrompts/addPrompt';
+import { Textarea } from './ui/textarea';
 
 const GratitudeJournalPromptAddCard = () => {
   const {
@@ -51,7 +52,7 @@ const GratitudeJournalPromptAddCard = () => {
         <div className='px-5'>
           <div>
             <Heading className='mb-0 text-lg font-medium'>Prompt</Heading>
-            <Input
+            <Textarea
               placeholder='Provide prompt.'
               {...register('prompt', {
                 required: {
@@ -66,7 +67,7 @@ const GratitudeJournalPromptAddCard = () => {
           </div>
           <div>
             <Heading className='mb-0 text-lg font-medium'>Placeholder</Heading>
-            <Input
+            <Textarea
               placeholder='Provide placeholder.'
               {...register('placeholder', {
                 required: {

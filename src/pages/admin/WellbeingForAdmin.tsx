@@ -34,7 +34,7 @@ const WellbeingForAdmin = () => {
             Wellbeing view for client
           </NavLink>
         </div>
-        <div className='flex flex-wrap justify-center gap-4'>
+        <div className='flex flex-wrap items-center justify-center gap-4'>
           <GratitudeJournalPromptCard />
           <GratitudeJournalPromptAddCard />
         </div>
