@@ -30,6 +30,7 @@ import GoalSet from '../components/GoalSet';
 import WeeklyGoalSet from '../components/WeeklyGoalSet';
 import WithinWeekGoalSet from '../components/WithinWeekGoalSet';
 import MonthlyGoalSet from '../components/MonthlyGoalSet';
+import GoalSettingSection from '../components/GoalSettingSection';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -114,6 +115,7 @@ const Dashboard = () => {
             isFetchingSavedContentCount={isFetchingSavedContentCount}
           />
         </div>
+        <GoalSettingSection />
       </div>
     </>
   );

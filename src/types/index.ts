@@ -7,6 +7,7 @@ export type GoalReminder = {
 };
 
 export type GoalSet = {
+  _id: string;
   userId: string;
   goalSetTitle: string;
   goalSetType: string;
@@ -14,6 +15,7 @@ export type GoalSet = {
   remindingCount: number;
   goals: {
     _id: string;
+    day: number;
     goal: string;
     dueDate: string;
     completionStatus: boolean;

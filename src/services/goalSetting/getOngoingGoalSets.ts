@@ -2,7 +2,7 @@ import { axiosInstance } from '../../constants';
 import { GoalSet } from '../../types';
 import { useQuery } from '@tanstack/react-query';
 
-export async function useGetOngoingGoalSets(userId: string) {
+export default function useGetOngoingGoalSets(userId: string) {
   const response = useQuery<GoalSet[]>({
     queryKey: ['ongoingGoalSets', userId],
     queryFn: () =>
