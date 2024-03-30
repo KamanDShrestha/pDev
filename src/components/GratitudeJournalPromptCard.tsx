@@ -1,3 +1,4 @@
+import useDeletePrompt from '../services/gratitudePrompts/deletePrompt';
 import useGetPrompts from '../services/gratitudePrompts/getPrompts';
 import LoadingSpinner from './LoadingSpinner';
 import UpdateGratitudeJournalPrompt from './UpdateGratitudeJournalPrompt';
@@ -8,6 +9,11 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 const GratitudeJournalPromptCard = () => {
   const { data: prompts, isLoading } = useGetPrompts();
 
+  const { mutate: deletePrompt, isLoading: isDeleting } = useDeletePrompt();
+
+  function handlePromptDelete(promptId: string) {
+    deletePrompt(promptId);
+  }
   return (
     <Card>
       <CardHeader>
@@ -27,8 +33,13 @@ const GratitudeJournalPromptCard = () => {
               </div>
               <div className='space-x-3'>
                 <UpdateGratitudeJournalPrompt prompt={prompt} />
-                <Button size={'xs'} variant={'destructive'}>
-                  Delete
+                <Button
+                  size={'xs'}
+                  variant={'destructive'}
+                  onClick={() => handlePromptDelete(prompt._id)}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? <LoadingSpinner /> : 'Delete'}
                 </Button>
               </div>
             </div>
