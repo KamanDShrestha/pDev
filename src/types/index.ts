@@ -6,6 +6,23 @@ export type GoalReminder = {
   readStatus: boolean;
 };
 
+export type GoalSet = {
+  userId: string;
+  goalSetTitle: string;
+  goalSetType: string;
+  startDate: Date;
+  remindingCount: number;
+  goals: {
+    _id: string;
+    goal: string;
+    dueDate: string;
+    completionStatus: boolean;
+    completionDate: Date;
+  }[];
+  endDate: Date;
+  completionStatus: true;
+};
+
 export type GetGoalSetData =
   | {
       goalSetTitle: string;
