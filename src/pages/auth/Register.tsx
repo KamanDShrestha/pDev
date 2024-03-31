@@ -226,7 +226,9 @@ const Register = () => {
                   <ErrorMessage>{errors.dateOfBirth.message}</ErrorMessage>
                 )}
               </div>
-              <Button>{isRegistering ? <LoadingSpinner /> : 'Register'}</Button>
+              <Button disabled={isRegistering}>
+                {isRegistering ? <LoadingSpinner /> : 'Register'}
+              </Button>
             </div>
           </form>
         </CardContent>

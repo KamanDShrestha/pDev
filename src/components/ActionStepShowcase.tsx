@@ -150,6 +150,11 @@ const ActionStepShowcase = ({
                     {actionStep.evidences && (
                       <div>
                         <h2 className='text-xl font-semibold'>Evidences</h2>
+                        {actionStep.evidences.filter(
+                          (evidence) => evidence !== null
+                        ).length === 0 && (
+                          <p>No evidences have been provided.</p>
+                        )}
                         {actionStep.evidences.map(
                           (link: string, index) =>
                             link !== '' &&

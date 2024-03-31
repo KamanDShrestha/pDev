@@ -120,7 +120,9 @@ const Login = () => {
                   <ErrorMessage>{errors.password.message}</ErrorMessage>
                 )}
               </div>
-              <Button>{isLoggingIn ? <LoadingSpinner /> : 'Login'}</Button>
+              <Button disabled={isLoggingIn}>
+                {isLoggingIn ? <LoadingSpinner /> : 'Login'}
+              </Button>
             </div>
           </form>
         </CardContent>

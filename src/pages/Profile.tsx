@@ -151,7 +151,8 @@ const Profile = () => {
         {savedContents && (
           <>
             <div className='p-3'>
-              <Heading className='text-xl'>Saved videos</Heading>
+              <Heading className='text-2xl'>Saved videos</Heading>
+              <Separator className='mb-2' />
               {savedContents.videos.length === 0 && <p>No saved videos</p>}
               <div className='flex flex-wrap justify-center gap-5 p-3'>
                 {savedContents.videos.length > 0 &&
@@ -166,7 +167,9 @@ const Profile = () => {
             </div>
 
             <div className='p-3'>
-              <Heading className='text-xl'>Saved podcasts</Heading>
+              <Heading className='text-2xl'>Saved podcasts</Heading>
+              <Separator className='mb-2' />
+
               {savedContents.podcasts.length === 0 && <p>No saved podcasts</p>}
               <div className='flex flex-wrap justify-center gap-5 p-3'>
                 {savedContents.podcasts.length > 0 &&
@@ -181,7 +184,9 @@ const Profile = () => {
             </div>
 
             <div className='p-3'>
-              <Heading className='text-xl'>Saved posts</Heading>
+              <Heading className='text-2xl'>Saved posts</Heading>
+              <Separator className='mb-2' />
+
               {savedContents.posts.length === 0 && <p>No saved posts</p>}
               <div className='flex flex-wrap justify-center gap-5 p-3'>
                 {savedContents.posts.length > 0 &&
@@ -195,7 +200,9 @@ const Profile = () => {
               </div>
             </div>
             <div className='p-3'>
-              <Heading className='text-lg'>Saved QAs</Heading>
+              <Heading className='text-2xl'>Saved QAs</Heading>
+              <Separator className='mb-2' />
+
               {savedContents.qas.length === 0 && <p>No saved QAs</p>}
               <div className='flex flex-wrap justify-center gap-5 p-3'>
                 {savedContents.qas.length > 0 &&

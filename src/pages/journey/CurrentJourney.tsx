@@ -96,21 +96,73 @@ const CurrentJourney = () => {
               Today's action step
             </h2>
 
-            <div className='p-5 text-2xl font-medium'>
+            <div className='flex items-center justify-center gap-3 p-5 text-2xl font-medium text-center'>
               {/* getting the action step in which the journey is ongoing as only one of the journey would be ongoing*/}
               {isFetchingEmbarkedJourney && <LoadingSpinner />}
 
-              {(embarkedJourney &&
-                (embarkedJourney.isJourneyCompleted
-                  ? 'You have completed the whole journey. 🎉'
-                  : embarkedJourney.actionSteps[
+              {embarkedJourney &&
+              (embarkedJourney.isJourneyCompleted
+                ? 'You have completed the whole journey. 🎉'
+                : embarkedJourney.actionSteps[
+                    Object.keys(embarkedJourney.actionSteps).filter(
+                      (day) =>
+                        embarkedJourney?.actionSteps[day].status ===
+                          'ongoing' ||
+                        embarkedJourney.actionSteps[day].status === 'due'
+                    )[0]
+                  ]?.actionStep) ? (
+                <Card>
+                  <CardContent className='p-5 space-y-3'>
+                    <p>
+                      {
+                        embarkedJourney.actionSteps[
+                          Object.keys(embarkedJourney.actionSteps).filter(
+                            (day) =>
+                              embarkedJourney?.actionSteps[day].status ===
+                                'ongoing' ||
+                              embarkedJourney.actionSteps[day].status === 'due'
+                          )[0]
+                        ]?.actionStep
+                      }
+                    </p>
+
+                    <p className='text-lg'>
+                      {
+                        embarkedJourney.actionSteps[
+                          Object.keys(embarkedJourney.actionSteps).filter(
+                            (day) =>
+                              embarkedJourney?.actionSteps[day].status ===
+                                'ongoing' ||
+                              embarkedJourney.actionSteps[day].status === 'due'
+                          )[0]
+                        ]?.description
+                      }
+                    </p>
+
+                    {embarkedJourney.actionSteps[
                       Object.keys(embarkedJourney.actionSteps).filter(
                         (day) =>
-                          embarkedJourney?.actionSteps[day].status === 'ongoing'
+                          embarkedJourney?.actionSteps[day].status ===
+                            'ongoing' ||
+                          embarkedJourney.actionSteps[day].status === 'due'
                       )[0]
-                    ]?.actionStep)) ||
-                (embarkedJourney &&
-                  'You have completed the action step for the day. 🎉')}
+                    ]?.example ? (
+                      <NavLink
+                        className={cn(
+                          buttonVariants({ variant: 'link' }),
+                          'text-sm'
+                        )}
+                        to={`/journeys/${embarkedJourney.journeyId}/actionSteps/examples`}
+                      >
+                        View example
+                      </NavLink>
+                    ) : null}
+                  </CardContent>
+                </Card>
+              ) : (
+                embarkedJourney &&
+                'You have completed the action step for the day. 🎉'
+              )}
             </div>
           </div>
 
@@ -216,7 +268,7 @@ const CurrentJourney = () => {
                               </Card>
                             </DialogTrigger>
 
-                            <DialogContent>
+                            <DialogContent className='max-h-[70vh] overflow-scroll'>
                               <div>
                                 <h1 className='text-2xl font-semibold'>
                                   Day {selectedJourneyDay}
@@ -299,6 +351,15 @@ const CurrentJourney = () => {
                                       <h2 className='text-xl font-semibold'>
                                         Evidences
                                       </h2>
+                                      {embarkedJourney.actionSteps[
+                                        `day${selectedJourneyDay}`
+                                      ].evidences.filter(
+                                        (evidence) => evidence !== null
+                                      ).length === 0 && (
+                                        <p className='px-3 text-sm'>
+                                          No evidences have been provided.
+                                        </p>
+                                      )}
                                       <p className='px-1 py-2 text-sm font-medium'>
                                         {embarkedJourney.actionSteps[
                                           `day${selectedJourneyDay}`
