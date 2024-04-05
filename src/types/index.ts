@@ -114,6 +114,7 @@ export type UpdateLearningPodcastData = {
     host: string;
     podcastTitle: string;
     podcastDescription: string;
+    moodSpecific: string;
   };
 };
 
@@ -125,6 +126,7 @@ export type UpdateLearningVideoData = {
     embedUrl: string;
     title: string;
     author: string;
+    moodSpecific: string;
   };
 };
 
@@ -164,6 +166,7 @@ export type UpdateQuoteData = {
   quote: {
     quote: string;
     author: string;
+    moodSpecific: string;
   };
 };
 
@@ -183,6 +186,7 @@ export type AddQuoteData = {
   category: string;
   quote: string;
   author: string;
+  moodSpecific: string;
 };
 
 export type QuotesByCategory = {

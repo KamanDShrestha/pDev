@@ -29,6 +29,15 @@ import { cn } from '../lib/utils';
 import { buttonVariants, Button } from './ui/button';
 import useUpdateLearningPodcast from '../services/learningPodcasts/updateLearningPodcast';
 import { Textarea } from './ui/textarea';
+import { useState } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+import ErrorMessage from './ErrorMessage';
 
 interface LearningPodcastCardProps {
   podcast: LearningPodcast;
@@ -46,6 +55,12 @@ const LearningPodcastCard = ({
     useUpdateLearningPodcast();
   const { data: savedContentStatus, isLoading: gettingSavedContentStatus } =
     useGetContentSavedStatus(user?.id as string, 'podcast', podcast._id);
+
+  const [selectedMoodSpecific, setSelectedMoodSpecific] = useState<
+    string | null
+  >();
+  const [selectedMoodSpecificError, setSelectedMoodSpecificError] =
+    useState<string>();
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -99,6 +114,7 @@ const LearningPodcastCard = ({
         host: data.host,
         podcastTitle: data.podcastTitle,
         podcastDescription: data.podcastDescription,
+        moodSpecific: selectedMoodSpecific as string,
       },
     });
   }
@@ -230,6 +246,27 @@ const LearningPodcastCard = ({
                         },
                       })}
                     />
+                  </div>
+                  <div>
+                    <label>Mood specific</label>
+                    <Select
+                      onValueChange={(e) => {
+                        setSelectedMoodSpecific(e);
+                        setSelectedMoodSpecificError('');
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder='Mood Specific' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value='low'>Low</SelectItem>
+                        <SelectItem value='neutral'>Neutral</SelectItem>
+                        <SelectItem value='high'>High</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {selectedMoodSpecificError && (
+                      <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+                    )}
                   </div>
                 </div>
                 <DialogFooter>

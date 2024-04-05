@@ -1,3 +1,4 @@
+import React from 'react';
 import { LearningVideo } from '../types';
 import {
   Card,
@@ -31,6 +32,15 @@ import { Input } from './ui/input';
 
 import { FieldValues, useForm } from 'react-hook-form';
 import useUpdateLearningVideo from '../services/learningVideos/updateLearningVideo';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+import ErrorMessage from './ErrorMessage';
+import { useState } from 'react';
 
 interface LearningVideoCardProps {
   video: LearningVideo;
@@ -47,6 +57,11 @@ const LearningVideoCard = ({
     useUpdateLearningVideo();
   const { data: savedContentStatus, isLoading: gettingSavedContentStatus } =
     useGetContentSavedStatus(user?.id as string, 'video', video._id);
+  const [selectedMoodSpecific, setSelectedMoodSpecific] = useState(
+    video.moodSpecific
+  );
+  const [selectedMoodSpecificError, setSelectedMoodSpecificError] =
+    useState<string>();
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -87,6 +102,11 @@ const LearningVideoCard = ({
     if (!videoCategory) {
       return;
     }
+
+    if (!selectedMoodSpecific) {
+      setSelectedMoodSpecificError('Mood specific is required');
+      return;
+    }
     updateVideo({
       category: videoCategory,
       videoId: video._id,
@@ -95,6 +115,7 @@ const LearningVideoCard = ({
         url: data.url,
         embedUrl: data.embedUrl,
         author: data.author,
+        moodSpecific: selectedMoodSpecific,
       },
     });
   }
@@ -201,6 +222,29 @@ const LearningVideoCard = ({
                       })}
                     />
                   </div>
+                  <div>
+                    <label htmlFor='moodSpecific'>Mood Specific</label>
+
+                    <Select
+                      onValueChange={(e) => {
+                        setSelectedMoodSpecific(e);
+                        setSelectedMoodSpecificError('');
+                      }}
+                      defaultValue={selectedMoodSpecific}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder='Mood Specific' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value='low'>Low</SelectItem>
+                        <SelectItem value='neutral'>Neutral</SelectItem>
+                        <SelectItem value='high'>High</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {selectedMoodSpecificError && (
+                      <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+                    )}
+                  </div>
                 </div>
                 <DialogFooter>
                   <Button
@@ -229,4 +273,4 @@ const LearningVideoCard = ({
   );
 };
 
-export default LearningVideoCard;
+export default React.memo(LearningVideoCard);

@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 // import { Button } from '../components/ui/button';
 
 import { useAuthContext } from '../context/AuthProvider';
-import useLogoutUser from '../services/userAuth/logoutUser';
+
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import MoodTracker from '../components/MoodTracker';
 import { createPortal } from 'react-dom';
@@ -33,9 +33,6 @@ const Home = () => {
   }, []);
 
   console.log(user);
-  function handleLogout() {
-    mutate(user?.accessToken as string);
-  }
 
   function handleModalClose() {
     setMoodTrackerModal(false);

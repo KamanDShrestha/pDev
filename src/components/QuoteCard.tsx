@@ -20,12 +20,22 @@ import useUpdateQuote from '../services/quotes/updateQuote';
 import { Textarea } from './ui/textarea';
 import removeWhitespace from '../services/removeWhitespace';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+import ErrorMessage from './ErrorMessage';
 
 interface QuoteCardProps {
   quote: {
     _id: string;
     quote: string;
     author: string;
+    moodSpecific: string;
   };
   category?: string;
 }
@@ -40,6 +50,12 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
       author: quote.author,
     },
   });
+
+  const [selectedMoodSpecific, setSelectedMoodSpecific] = useState(
+    quote.moodSpecific
+  );
+  const [selectedMoodSpecificError, setSelectedMoodSpecificError] =
+    useState<string>();
 
   const queryClient = useQueryClient();
 
@@ -58,10 +74,15 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
 
   function handleQuoteUpdate(data: FieldValues) {
     if (!category) return;
+    if (!selectedMoodSpecific) {
+      setSelectedMoodSpecificError('Mood specific is required');
+      return;
+    }
     updateQuote({
       quote: {
         quote: removeWhitespace(data.quote),
         author: removeWhitespace(data.author),
+        moodSpecific: selectedMoodSpecific,
       },
       category,
       quoteId: quote._id,
@@ -130,6 +151,29 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
                       },
                     })}
                   />
+                </div>
+                <div>
+                  <label htmlFor='moodSpecific'>Mood Specific</label>
+
+                  <Select
+                    onValueChange={(e) => {
+                      setSelectedMoodSpecific(e);
+                      setSelectedMoodSpecificError('');
+                    }}
+                    defaultValue={selectedMoodSpecific}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder='Mood Specific' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='low'>Low</SelectItem>
+                      <SelectItem value='neutral'>Neutral</SelectItem>
+                      <SelectItem value='high'>High</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {selectedMoodSpecificError && (
+                    <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+                  )}
                 </div>
               </div>
               <DialogFooter>

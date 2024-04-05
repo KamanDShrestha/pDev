@@ -10,9 +10,7 @@ export default function useUpdateLoggedMood() {
       axiosInstance
         .patch('/users/updateLoggedMood', data)
         .then((response) => response.data),
-    onSuccess: (response) => {
-      toast.success(response.message);
-    },
+
     onError: (error: AxiosError<ErrorResponse>) => {
       console.log(error);
       toast.error(error.response?.data.message || 'An error occured.');

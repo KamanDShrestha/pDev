@@ -250,24 +250,27 @@ const AddLearningPodcastCard = () => {
             )}
           </div>
         </div>
-        <Select
-          onValueChange={(e) => {
-            setSelectedMoodSpecific(e);
-            setSelectedMoodSpecificError('');
-          }}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder='Mood Specific' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value='low'>Low</SelectItem>
-            <SelectItem value='neutral'>Neutral</SelectItem>
-            <SelectItem value='high'>High</SelectItem>
-          </SelectContent>
-        </Select>
-        {selectedMoodSpecificError && (
-          <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
-        )}
+        <div>
+          <label>Mood specific</label>
+          <Select
+            onValueChange={(e) => {
+              setSelectedMoodSpecific(e);
+              setSelectedMoodSpecificError('');
+            }}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder='Mood Specific' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='low'>Low</SelectItem>
+              <SelectItem value='neutral'>Neutral</SelectItem>
+              <SelectItem value='high'>High</SelectItem>
+            </SelectContent>
+          </Select>
+          {selectedMoodSpecificError && (
+            <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+          )}
+        </div>
       </CardContent>
       <CardFooter>
         <Button onClick={handleSubmit(handlePodcastSubmit)}>

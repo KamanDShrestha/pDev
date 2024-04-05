@@ -125,7 +125,7 @@ const AddGoalReminderSection = () => {
       userId: user?.id as string,
       goalSetTitle: data.goalSetTitle,
       goalSetType: selectedPeriod,
-      startDate: new Date(),
+      startDate: data.startDate || new Date(),
       remindingCount: duration,
       goals: Array.from({ length: numberOfGoals }, (_, index) => {
         return { goal: data[`goal${index + 1}`] };
@@ -189,7 +189,12 @@ const AddGoalReminderSection = () => {
               <label htmlFor='startDate' className='text-lg font-medium'>
                 Start Date:
               </label>
-              <Input id='startDate' {...register('startDate')} type='date' />
+              <Input
+                id='startDate'
+                {...register('startDate')}
+                type='date'
+                defaultValue={new Date().toISOString().split('T')[0]}
+              />
             </div>
 
             <div>

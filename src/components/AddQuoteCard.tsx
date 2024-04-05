@@ -32,7 +32,9 @@ const AddQuoteCard = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { data: categories, isLoading: isCategoryFetching } =
     useGetQuoteCategories();
-
+  const [selectedMoodSpecific, setSelectedMoodSpecific] = useState<string>();
+  const [selectedMoodSpecificError, setSelectedMoodSpecificError] =
+    useState<string>();
   const { mutate: addQuote, isLoading: isAddingQuote } = useAddQuote();
 
   const {
@@ -46,6 +48,10 @@ const AddQuoteCard = () => {
     if (isAddingNewCategory) {
       if (!data.category) return;
     }
+    if (!selectedMoodSpecific) {
+      setSelectedMoodSpecificError('Mood specific is required');
+      return;
+    }
     addQuote(
       {
         quote: removeWhitespace(data.quote),
@@ -53,6 +59,7 @@ const AddQuoteCard = () => {
         category: isAddingNewCategory
           ? removeWhitespace(data.category)
           : (selectedCategory as string),
+        moodSpecific: selectedMoodSpecific,
       },
       {
         onSuccess: () => {
@@ -157,6 +164,29 @@ const AddQuoteCard = () => {
                 )}
               </div>
             )}
+            <div>
+              <label htmlFor='moodSpecific'>Mood Specific</label>
+
+              <Select
+                onValueChange={(e) => {
+                  setSelectedMoodSpecific(e);
+                  setSelectedMoodSpecificError('');
+                }}
+                defaultValue={selectedMoodSpecific}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Mood Specific' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='low'>Low</SelectItem>
+                  <SelectItem value='neutral'>Neutral</SelectItem>
+                  <SelectItem value='high'>High</SelectItem>
+                </SelectContent>
+              </Select>
+              {selectedMoodSpecificError && (
+                <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+              )}
+            </div>
           </div>
         </div>
       </CardContent>
