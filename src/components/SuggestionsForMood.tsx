@@ -27,13 +27,6 @@ const SuggestionsForMood = () => {
   const { data: randomPodcast, isLoading: isFetchingRandomPodcast } =
     useGetRandomPodcastForMood(todayMood?.mood as number);
 
-  console.log(todayMood);
-  console.log(randomQuote);
-  console.log(randomVideo);
-  console.log(randomPodcast);
-  console.log(user);
-  console.log(user?.id);
-
   return (
     <>
       <Card>

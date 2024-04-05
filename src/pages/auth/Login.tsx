@@ -22,11 +22,12 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import { BACKEND_URL } from '../../constants';
 import { FcGoogle } from 'react-icons/fc';
 import useDocumentTitle from '../../services/getTitle';
-import { useEffect } from 'react';
 
-import { AuthContextType, useAuthContext } from '../../context/AuthProvider';
+import { useAuthContext } from '../../context/AuthProvider';
+import useLogoutUser from '../../services/userAuth/logoutUser';
 
 const Login = () => {
+  const { user } = useAuthContext();
   const {
     register,
     watch,
@@ -37,12 +38,9 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const { setUser } = useAuthContext();
+  const { mutate: logoutUser } = useLogoutUser();
 
-  useEffect(() => {
-    setUser && setUser(() => ({} as AuthContextType));
-  }, []);
-
+  console.log(user);
   const providedEmail = watch('email');
   const providedPassword = watch('password');
   const { mutate: loginUser, isLoading: isLoggingIn } = useLoginUser();
@@ -50,12 +48,29 @@ const Login = () => {
   useDocumentTitle('Login - SelfSync');
 
   function handleLogin(values: z.infer<typeof loginSchema>) {
-    console.log(values);
-    loginUser(values);
+    console.log(user);
+
+    if (user?.email) {
+      logoutUser(user.id, {
+        onSuccess: () => {
+          loginUser(values);
+        },
+      });
+    } else {
+      loginUser(values);
+    }
   }
 
   function handleGoogleAuthLogin() {
-    window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
+    if (user?.email) {
+      logoutUser(user.id, {
+        onSuccess: () => {
+          window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
+        },
+      });
+    } else {
+      window.open(`${BACKEND_URL}/auth/google/callback`, '_self');
+    }
   }
 
   return (
