@@ -69,12 +69,35 @@ const Home = () => {
           <h2 className='text-4xl'>
             Let your transformation finds its rhythm.
           </h2>
-          <NavLink to={'/journeys'} className='hover:underline'>
-            <span className='flex items-center gap-3'>
-              Embark onto your journey
-              <IoIosArrowRoundForward />
-            </span>
-          </NavLink>
+          <div className='flex flex-wrap justify-around gap-10'>
+            <NavLink
+              to={'/journeys'}
+              className='transition-all hover:underline hover:scale-105'
+            >
+              <span className='flex items-center gap-3'>
+                Embark onto a journey
+                <IoIosArrowRoundForward />
+              </span>
+            </NavLink>
+            <NavLink
+              to={'/community'}
+              className='transition-all hover:underline hover:scale-105'
+            >
+              <span className='flex items-center gap-3'>
+                Find my community
+                <IoIosArrowRoundForward />
+              </span>
+            </NavLink>
+            <NavLink
+              to={'/wellbeing'}
+              className='transition-all hover:underline hover:scale-105'
+            >
+              <span className='flex items-center gap-3'>
+                Achieve optimal wellbeing
+                <IoIosArrowRoundForward />
+              </span>
+            </NavLink>
+          </div>
         </div>
 
         {/* <Button onClick={handleLogout}>

@@ -39,9 +39,9 @@ const GoalReminderDialog = () => {
               </span>
             )}
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className='h-[60vh] overflow-scroll'>
           <DialogTitle>Goal reminders</DialogTitle>{' '}
-          <div className='h-[60vh] overflow-scroll flex flex-col gap-5 justify-center items-center'>
+          <div className='flex flex-col items-center justify-center gap-5 '>
             {(!goalReminders || goalReminders?.length === 0) &&
               'No reminders for today. Keep up the good work!'}
             {goalReminders &&
@@ -50,15 +50,22 @@ const GoalReminderDialog = () => {
                   key={index}
                   className={cn(
                     goalReminder.readStatus
-                      ? ''
-                      : 'dark:bg-[#33415c] bg-[#e6e8e6]'
+                      ? 'w-full'
+                      : 'dark:bg-[#33415c] bg-[#e6e8e6] w-full'
                   )}
                 >
                   <CardContent className='p-2 space-y-3'>
-                    <p>{goalReminder.message}</p>
-                    {goalReminder.readStatus ? null : (
+                    <div>
+                      <p className='font-medium'>{goalReminder.message}</p>
+                      <p className='text-sm'>
+                        {new Date(goalReminder.reminderDate).toLocaleString()}
+                      </p>
+                    </div>
+                    {goalReminder.readStatus ? (
+                      <p className='text-xs font-medium'>Acted on</p>
+                    ) : (
                       <p
-                        className='text-xs hover:cursor-pointer'
+                        className='text-xs font-medium hover:cursor-pointer'
                         onClick={() => handleUpdateReadStatus(goalReminder._id)}
                       >
                         Read

@@ -28,11 +28,16 @@ const Journey = () => {
 
   return (
     <div>
-      <div className='w-full h-[80vh] bg-gray-200  flex items-center justify-center'>
-        <div className='flex items-center justify-center w-full h-full p-10'>
+      <div
+        style={{
+          backgroundImage: `url('/src/assets/coverImages/ontoJourney.jpg')`,
+        }}
+        className='w-full h-[80vh] flex items-center justify-center bg-cover rounded-lg'
+      >
+        <div className='flex items-center justify-center w-full h-full p-3 border bg-opacity-40'>
           {isFetchingRandomQuote && <LoadingSpinner />}
           {randomQuote && (
-            <div className='space-y-5 whitespace-pre-wrap'>
+            <div className='p-3 space-y-5 whitespace-pre-wrap shadow-lg bg-[#f7b267] bg-opacity-60 backdrop-blur-xl rounded-lg'>
               <p className='text-2xl'>{randomQuote.quote}</p>
               <p className='text-lg text-right'> - {randomQuote.author}</p>
             </div>
@@ -51,36 +56,34 @@ const Journey = () => {
             user?.role === 'user' &&
             journeys
               .filter((journey) => journey.isVerified === true)
-              .map((journey) => (
-                <>
+              .map((journey, index) => (
+                <div key={index}>
                   <JourneyCard
                     journeyId={journey._id}
                     journeyName={journey.name}
                     journeyDescription={journey.description}
                     journeyIcon={journey.imageLinks}
                     journeyLength={journey.length}
-                    key={journey.name}
                     importance={journey.importance}
                     usages={journey.usages}
                   />
-                </>
+                </div>
               ))}
 
           {journeys &&
             user?.role === 'admin' &&
-            journeys.map((journey) => (
-              <>
+            journeys.map((journey, index) => (
+              <div key={index}>
                 <JourneyCard
                   journeyId={journey._id}
                   journeyName={journey.name}
                   journeyDescription={journey.description}
                   journeyIcon={journey.imageLinks}
                   journeyLength={journey.length}
-                  key={journey.name}
                   importance={journey.importance}
                   usages={journey.usages}
                 />
-              </>
+              </div>
             ))}
         </div>
       </div>

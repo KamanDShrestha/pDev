@@ -137,176 +137,167 @@ const JourneyCard = ({
   }
 
   return (
-    <div>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Card className='max-w-[500px]'>
-              <CardHeader>
-                <div className='flex items-center justify-around gap-10'>
-                  <CardTitle>{journeyName}</CardTitle>
-                  {journeyIcon.dark && journeyIcon.light && (
-                    <img
-                      src={
-                        journeyIcon.dark &&
-                        journeyIcon.light &&
-                        theme === 'dark'
-                          ? journeyIcon.dark
-                          : journeyIcon.light
-                      }
-                      className='w-32'
-                    />
-                  )}
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Card className='max-w-[500px]'>
+            <CardHeader>
+              <div className='flex items-center justify-around gap-10'>
+                <CardTitle>{journeyName}</CardTitle>
+                {journeyIcon.dark && journeyIcon.light && (
+                  <img
+                    src={
+                      journeyIcon.dark && journeyIcon.light && theme === 'dark'
+                        ? journeyIcon.dark
+                        : journeyIcon.light
+                    }
+                    className='w-32'
+                  />
+                )}
+              </div>
+              <CardDescription>
+                <Accordion type='single' collapsible>
+                  <AccordionItem value='item-1'>
+                    <AccordionTrigger className='text-lg'>
+                      Description
+                    </AccordionTrigger>
+                    <AccordionContent>{journeyDescription}</AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className='p-2'>
+                <h4 className='mb-1 font-semibold'>Importance</h4>
+                <div>
+                  {importance.map((item, index) => (
+                    <p className='flex gap-3' key={index}>
+                      <span className='text-2xl'>
+                        <BsDot />
+                      </span>
+                      <span>{item}</span>
+                    </p>
+                  ))}
                 </div>
-                <CardDescription>
-                  <Accordion type='single' collapsible>
-                    <AccordionItem value='item-1'>
-                      <AccordionTrigger className='text-lg'>
-                        Description
-                      </AccordionTrigger>
-                      <AccordionContent>{journeyDescription}</AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </CardDescription>
-                {}
-                <div></div>
-              </CardHeader>
-              <CardContent>
-                <div className='p-2'>
-                  <h4 className='mb-1 font-semibold'>Importance</h4>
-                  <p>
-                    {importance.map((item) => (
-                      <p className='flex gap-3'>
-                        <span className='text-2xl'>
-                          <BsDot />
-                        </span>
-                        <span>{item}</span>
-                      </p>
-                    ))}
-                  </p>
-                </div>
+              </div>
 
-                <div className='p-2'>
-                  <h4 className='mb-1 font-semibold'>Length of the journey</h4>
-                  <span>{journeyLength}</span>
-                </div>
-              </CardContent>
-              <CardFooter className='space-x-4'>
-                {user &&
-                  user.role === 'user' &&
-                  user.preferredJourney !== '' &&
-                  (user.preferredJourney === journeyName ||
-                    user.hasSubscribed) && (
-                    <>
-                      <Button
-                        onClick={() => navigate(`/journeys/${journeyId}`)}
-                      >
-                        Browse
+              <div className='p-2'>
+                <h4 className='mb-1 font-semibold'>Length of the journey</h4>
+                <span>{journeyLength}</span>
+              </div>
+            </CardContent>
+            <CardFooter className='space-x-4'>
+              {user &&
+                user.role === 'user' &&
+                user.preferredJourney !== '' &&
+                (user.preferredJourney === journeyName ||
+                  user.hasSubscribed) && (
+                  <>
+                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
+                      Browse
+                    </Button>
+
+                    {embarkedJourney &&
+                      embarkedJourney.journeyStatus === 'discontinued' && (
+                        <Button onClick={() => handleContinueJourney()}>
+                          {isContinuing ? (
+                            <LoadingSpinner />
+                          ) : (
+                            'Continue the journey'
+                          )}
+                        </Button>
+                      )}
+
+                    {!embarkedJourney ? (
+                      <Button onClick={handleEmbarkJourney}>
+                        {isEmbarking ? <LoadingSpinner /> : 'Begin'}
                       </Button>
+                    ) : (
+                      embarkedJourney.isJourneyCompleted === false &&
+                      embarkedJourney.journeyStatus === 'ongoing' && (
+                        <>
+                          <NavLink
+                            to={`/currentJourney/${embarkedJourney?.journeyId}`}
+                            className={cn(
+                              buttonVariants({ variant: 'secondary' })
+                            )}
+                          >
+                            Navigate to the journey
+                          </NavLink>
 
-                      {embarkedJourney &&
-                        embarkedJourney.journeyStatus === 'discontinued' && (
-                          <Button onClick={() => handleContinueJourney()}>
-                            {isContinuing ? (
+                          <Button onClick={() => handleDiscontinueJourney()}>
+                            {isDiscontinuing ? (
                               <LoadingSpinner />
                             ) : (
-                              'Continue the journey'
+                              'Discontinue journey'
                             )}
                           </Button>
-                        )}
-
-                      {!embarkedJourney ? (
-                        <Button onClick={handleEmbarkJourney}>
-                          {isEmbarking ? <LoadingSpinner /> : 'Begin'}
-                        </Button>
-                      ) : (
-                        embarkedJourney.isJourneyCompleted === false &&
-                        embarkedJourney.journeyStatus === 'ongoing' && (
-                          <>
-                            <NavLink
-                              to={`/currentJourney/${embarkedJourney?.journeyId}`}
-                              className={cn(
-                                buttonVariants({ variant: 'secondary' })
-                              )}
-                            >
-                              Navigate to the journey
-                            </NavLink>
-
-                            <Button onClick={() => handleDiscontinueJourney()}>
-                              {isDiscontinuing ? (
-                                <LoadingSpinner />
-                              ) : (
-                                'Discontinue journey'
-                              )}
-                            </Button>
-                          </>
-                        )
-                      )}
-                    </>
-                  )}
-                {user &&
-                  user.role === 'user' &&
-                  user.preferredJourney !== journeyName &&
-                  !user.hasSubscribed && (
-                    <>
-                      <FaLock />
-                      <span className='text-sm'>
-                        Subscribe for unlocking the journey!
-                      </span>
-                      <Button
-                        size={'xs'}
-                        onClick={() => navigate('/subscribe')}
-                      >
-                        Subscribe
-                      </Button>
-                    </>
-                  )}
-                {user && user.role === 'admin' && (
-                  <>
-                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
-                      Browse
-                    </Button>
-                    <Button
-                      onClick={() => navigate(`/journeys/edit/${journeyId}`)}
-                    >
-                      Edit this journey
-                    </Button>
-                    <Button
-                      onClick={() => deleteJourney({ id: journeyId })}
-                      variant={'destructive'}
-                    >
-                      {isDeleting ? <LoadingSpinner /> : 'Delete this journey'}
-                    </Button>
+                        </>
+                      )
+                    )}
                   </>
                 )}
-                {user && user.role === 'qhp' && (
+              {user &&
+                user.role === 'user' &&
+                user.preferredJourney !== journeyName &&
+                !user.hasSubscribed && (
                   <>
-                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
-                      Browse
-                    </Button>
-                  </>
-                )}
-              </CardFooter>
-            </Card>
-          </TooltipTrigger>
-          <TooltipContent sideOffset={5} side='left'>
-            <div className='p-4 border bg-slate-50 dark:bg-slate-800 border-slate-200 w-[300px] rounded-xl'>
-              <h2 className='text-lg font-semibold'>Usages</h2>
-              <div>
-                {usages.map((item) => (
-                  <>
-                    <span className='flex gap-2 '>
-                      <GoDotFill />
-                      {item}
+                    <FaLock />
+                    <span className='text-sm'>
+                      Subscribe for unlocking the journey!
                     </span>
+                    <Button size={'xs'} onClick={() => navigate('/subscribe')}>
+                      Subscribe
+                    </Button>
                   </>
-                ))}
-              </div>
-            </div>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </div>
+                )}
+              {user && user.role === 'admin' && (
+                <>
+                  <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
+                    Browse
+                  </Button>
+                  <Button
+                    onClick={() => navigate(`/journeys/edit/${journeyId}`)}
+                  >
+                    Edit this journey
+                  </Button>
+                  <Button
+                    onClick={() => deleteJourney({ id: journeyId })}
+                    variant={'destructive'}
+                  >
+                    {isDeleting ? <LoadingSpinner /> : 'Delete this journey'}
+                  </Button>
+                </>
+              )}
+              {user && user.role === 'qhp' && (
+                <>
+                  <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
+                    Browse
+                  </Button>
+                </>
+              )}
+            </CardFooter>
+          </Card>
+        </TooltipTrigger>
+        <TooltipContent
+          sideOffset={5}
+          side='left'
+          className='p-4 border bg-slate-50 dark:bg-slate-800 border-slate-200 w-[300px] rounded-xl'
+        >
+          <h2 className='text-lg font-semibold'>Usages</h2>
+          <div>
+            {usages.map((item, index) => (
+              <span className='flex gap-2' key={index}>
+                <span className='text-[10px]'>
+                  <GoDotFill />
+                </span>
+                {item}
+              </span>
+            ))}
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 
