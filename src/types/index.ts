@@ -90,6 +90,7 @@ export type LearningPodcastDocument = {
     host: string;
     podcastTitle: string;
     podcastDescription: string;
+    moodSpecific: string;
   }[];
 };
 
@@ -148,6 +149,7 @@ export type LearningVideoDocument = {
     embedUrl: string;
     title: string;
     author: string;
+    moodSpecific: string;
   }[];
 };
 

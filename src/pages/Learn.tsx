@@ -2,6 +2,7 @@ import Heading from '../components/Heading';
 import LearningPodcastCard from '../components/LearningPodcastCard';
 import LearningVideoCard from '../components/LearningVideoCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { Separator } from '../components/ui/separator';
 import useDocumentTitle from '../services/getTitle';
 import useGetAllPodcasts from '../services/learningPodcasts/getLearningPodcasts';
 import useGetAllVideos from '../services/learningVideos/getLearningVideos';
@@ -25,8 +26,8 @@ const Learn = () => {
         {learningVideos &&
           learningVideos.map((videoDocument, index) => {
             return (
-              <div key={index} className='px-5 m-5'>
-                <Heading className='text-lg'>
+              <div key={index} className='px-5 mx-5 my-10'>
+                <Heading className='text-lg underline'>
                   {videoDocument.category} learning videos
                 </Heading>
                 <div className='flex flex-wrap items-center justify-center gap-5'>
@@ -38,6 +39,7 @@ const Learn = () => {
                     />
                   ))}
                 </div>
+                <Separator className='my-5' />
               </div>
             );
           })}
@@ -52,8 +54,8 @@ const Learn = () => {
         {learningPodcasts &&
           learningPodcasts.map((podcastDocument, index) => {
             return (
-              <div key={index} className='px-5 m-5'>
-                <Heading className='text-lg'>
+              <div key={index} className='px-5 mx-5 my-10'>
+                <Heading className='text-lg underline'>
                   {podcastDocument.category} learning podcasts
                 </Heading>
                 <div className='flex flex-wrap items-center justify-center gap-5'>
@@ -65,6 +67,7 @@ const Learn = () => {
                     />
                   ))}
                 </div>
+                <Separator className='my-5' />
               </div>
             );
           })}

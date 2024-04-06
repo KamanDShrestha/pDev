@@ -136,22 +136,19 @@ const LearningPodcastCard = ({
           loading='lazy'
         ></iframe>
       </CardContent>
-      {user?.role === 'admin' && podcastCategory && (
-        <CardFooter className='space-x-3'>
-          <span
-            className='text-xl hover:cursor-pointer'
-            onClick={handleSavePost}
-          >
-            {gettingSavedContentStatus || isSaving ? (
-              <LoadingSpinner />
-            ) : savedContentStatus ? (
-              <IoBookmark />
-            ) : (
-              <IoBookmarkOutline />
-            )}
-          </span>
+      <CardFooter className='space-x-3'>
+        <span className='text-xl hover:cursor-pointer' onClick={handleSavePost}>
+          {gettingSavedContentStatus || isSaving ? (
+            <LoadingSpinner />
+          ) : savedContentStatus ? (
+            <IoBookmark />
+          ) : (
+            <IoBookmarkOutline />
+          )}
+        </span>
 
-          <div>
+        <div>
+          {user?.role === 'admin' && podcastCategory && (
             <Dialog>
               <DialogTrigger
                 className={cn(
@@ -289,9 +286,9 @@ const LearningPodcastCard = ({
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          </div>
-        </CardFooter>
-      )}
+          )}
+        </div>
+      </CardFooter>
     </Card>
   );
 };

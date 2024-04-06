@@ -1,4 +1,3 @@
-import React from 'react';
 import { LearningVideo } from '../types';
 import {
   Card,
@@ -124,7 +123,7 @@ const LearningVideoCard = ({
     <Card className='w-[360px]'>
       <CardHeader>
         <CardTitle className='text-md'>
-          <TruncatedText content={video.title} limit={75} />
+          <TruncatedText content={video.title} limit={50} />
         </CardTitle>
         <Separator />
       </CardHeader>
@@ -140,137 +139,140 @@ const LearningVideoCard = ({
         ></iframe>
       </CardContent>
 
-      <CardFooter className='space-x-3'>
-        <span
-          className='right-0 text-xl hover:cursor-pointer'
-          onClick={handleSavePost}
-        >
-          {gettingSavedContentStatus || isSaving ? (
-            <LoadingSpinner />
-          ) : savedContentStatus ? (
-            <IoBookmark />
-          ) : (
-            <IoBookmarkOutline />
-          )}
-        </span>
-        <div>
-          {user?.role === 'admin' && videoCategory && (
-            <Dialog>
-              <DialogTrigger
-                className={cn(
-                  buttonVariants({ variant: 'default', size: 'xs' }),
-                  'space-x-2'
-                )}
-              >
-                <span>Update Video</span>
-                <FaPen />
-              </DialogTrigger>
-              <DialogContent>
-                <DialogTitle>Update this video</DialogTitle>
-                <DialogDescription>
-                  You can update this video here.
-                </DialogDescription>
-                <div className='space-y-2'>
-                  <div>
-                    <label htmlFor='title'>Title</label>
-                    <Input
-                      id='title'
-                      {...register('title', {
-                        required: 'Title must be provided.',
-                        min: {
-                          value: 10,
-                          message: 'Title must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='url'>URL</label>
-                    <Input
-                      id='url'
-                      {...register('url', {
-                        required: 'URL must be provided.',
-                        min: {
-                          value: 10,
-                          message: 'URL must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='embedUrl'>Embed URL</label>
-                    <Input
-                      id='embedUrl'
-                      {...register('embedUrl', {
-                        required: 'Embed URL must be provided.',
-                        min: {
-                          value: 10,
-                          message: 'Embed URL must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='author'>Author</label>
-                    <Input
-                      {...register('author', {
-                        required: 'Author must be provided.',
-                        min: {
-                          value: 10,
-                          message: 'Author must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='moodSpecific'>Mood Specific</label>
+      {videoCategory && (
+        <CardFooter className='space-x-3'>
+          <span
+            className='right-0 text-xl hover:cursor-pointer'
+            onClick={handleSavePost}
+          >
+            {gettingSavedContentStatus || isSaving ? (
+              <LoadingSpinner />
+            ) : savedContentStatus ? (
+              <IoBookmark />
+            ) : (
+              <IoBookmarkOutline />
+            )}
+          </span>
+          <div>
+            {user?.role === 'admin' && videoCategory && (
+              <Dialog>
+                <DialogTrigger
+                  className={cn(
+                    buttonVariants({ variant: 'default', size: 'xs' }),
+                    'space-x-2'
+                  )}
+                >
+                  <span>Update Video</span>
+                  <FaPen />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogTitle>Update this video</DialogTitle>
+                  <DialogDescription>
+                    You can update this video here.
+                  </DialogDescription>
+                  <div className='space-y-2'>
+                    <div>
+                      <label htmlFor='title'>Title</label>
+                      <Input
+                        id='title'
+                        {...register('title', {
+                          required: 'Title must be provided.',
+                          min: {
+                            value: 10,
+                            message: 'Title must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='url'>URL</label>
+                      <Input
+                        id='url'
+                        {...register('url', {
+                          required: 'URL must be provided.',
+                          min: {
+                            value: 10,
+                            message: 'URL must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='embedUrl'>Embed URL</label>
+                      <Input
+                        id='embedUrl'
+                        {...register('embedUrl', {
+                          required: 'Embed URL must be provided.',
+                          min: {
+                            value: 10,
+                            message:
+                              'Embed URL must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='author'>Author</label>
+                      <Input
+                        {...register('author', {
+                          required: 'Author must be provided.',
+                          min: {
+                            value: 10,
+                            message: 'Author must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='moodSpecific'>Mood Specific</label>
 
-                    <Select
-                      onValueChange={(e) => {
-                        setSelectedMoodSpecific(e);
-                        setSelectedMoodSpecificError('');
-                      }}
-                      defaultValue={selectedMoodSpecific}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder='Mood Specific' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value='low'>Low</SelectItem>
-                        <SelectItem value='neutral'>Neutral</SelectItem>
-                        <SelectItem value='high'>High</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {selectedMoodSpecificError && (
-                      <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
-                    )}
+                      <Select
+                        onValueChange={(e) => {
+                          setSelectedMoodSpecific(e);
+                          setSelectedMoodSpecificError('');
+                        }}
+                        defaultValue={selectedMoodSpecific}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder='Mood Specific' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value='low'>Low</SelectItem>
+                          <SelectItem value='neutral'>Neutral</SelectItem>
+                          <SelectItem value='high'>High</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {selectedMoodSpecificError && (
+                        <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <DialogFooter>
-                  <Button
-                    className={cn(
-                      buttonVariants({ variant: 'default', size: 'xs' }),
-                      'space-x-2'
-                    )}
-                    onClick={handleSubmit(handleVideoUpdate)}
-                  >
-                    {isUpdating ? (
-                      <LoadingSpinner />
-                    ) : (
-                      <>
-                        <span>Update this video</span>
-                        <FaPen />
-                      </>
-                    )}
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          )}
-        </div>
-      </CardFooter>
+                  <DialogFooter>
+                    <Button
+                      className={cn(
+                        buttonVariants({ variant: 'default', size: 'xs' }),
+                        'space-x-2'
+                      )}
+                      onClick={handleSubmit(handleVideoUpdate)}
+                    >
+                      {isUpdating ? (
+                        <LoadingSpinner />
+                      ) : (
+                        <>
+                          <span>Update this video</span>
+                          <FaPen />
+                        </>
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            )}
+          </div>
+        </CardFooter>
+      )}
     </Card>
   );
 };
 
-export default React.memo(LearningVideoCard);
+export default LearningVideoCard;
