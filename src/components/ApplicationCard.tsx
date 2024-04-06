@@ -174,7 +174,7 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
             </>
           )}
 
-          {user?.role === 'user' && (
+          {user?.role === 'user' && application.status === 'Pending' && (
             <Button
               className={buttonVariants({ variant: 'destructive' })}
               onClick={() => handleDiscard(application._id, application.userId)}

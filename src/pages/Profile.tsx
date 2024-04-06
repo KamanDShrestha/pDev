@@ -154,21 +154,25 @@ const Profile = () => {
 
       <Separator className='my-10' />
 
-      <div>
-        <Heading>Applications for QHP</Heading>
-        {isFetchingSpecificApplication && <LoadingSpinner />}
-        <div className='flex flex-wrap items-center justify-around gap-5 p-3'>
-          {specificApplications && specificApplications.length <= 0 ? (
-            <p>You have not applied for Qualified Health Personnel role</p>
-          ) : (
-            specificApplications?.map((application, index) => (
-              <ApplicationCard application={application} key={index} />
-            ))
-          )}
-        </div>
-      </div>
+      {(user?.role === 'user' || user?.role === 'qhp') && (
+        <>
+          <div>
+            <Heading>Applications for QHP</Heading>
+            {isFetchingSpecificApplication && <LoadingSpinner />}
+            <div className='flex flex-wrap items-center justify-around gap-5 p-3'>
+              {specificApplications && specificApplications.length <= 0 ? (
+                <p>You have not applied for Qualified Health Personnel role</p>
+              ) : (
+                specificApplications?.map((application, index) => (
+                  <ApplicationCard application={application} key={index} />
+                ))
+              )}
+            </div>
+          </div>
 
-      <Separator className='my-10' />
+          <Separator className='my-10' />
+        </>
+      )}
 
       <div>
         <Heading>Saved contents</Heading>
