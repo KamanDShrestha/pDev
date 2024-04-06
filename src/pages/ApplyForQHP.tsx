@@ -32,6 +32,8 @@ const ApplyForQHP = () => {
   const { mutate: applyForQHP, isLoading: isApplying } = useApplyForQHP();
 
   const providedLicense = watch('workingLicense');
+  const providedEmployer = watch('employerName');
+  const providedPosition = watch('workingPosition');
   const providedAdditionalInfo = watch('additionalInformation');
 
   useDocumentTitle('Apply for QHP - SelfSync');
@@ -81,6 +83,8 @@ const ApplyForQHP = () => {
         qualifications,
         proficientFields,
         additionalSkills,
+        workingPosition: data.workingPosition,
+        employerName: data.employerName,
       })
     );
 
@@ -130,7 +134,7 @@ const ApplyForQHP = () => {
             <CardHeader>
               <CardTitle>Your info</CardTitle>
             </CardHeader>
-            <CardContent className='mt-3 space-y-3'>
+            <CardContent className='mt-3 space-y-3 h-[75vh] overflow-scroll p-3'>
               <div className='relative group'>
                 <InputFieldLabel
                   htmlFor='workingLicense'
@@ -149,11 +153,67 @@ const ApplyForQHP = () => {
                       message: 'License number must have at least 7 characters',
                     },
                   })}
+                  id='workingLicense'
                   type='text'
                 />
                 {errors.workingLicense && (
                   <ErrorMessage>
                     {errors.workingLicense.message as string}
+                  </ErrorMessage>
+                )}
+              </div>
+              <div className='relative group'>
+                <InputFieldLabel
+                  htmlFor='employerName'
+                  hasContent={
+                    providedEmployer !== undefined &&
+                    providedEmployer?.length !== 0
+                  }
+                >
+                  Employer Name
+                </InputFieldLabel>
+                <Input
+                  {...register('employerName', {
+                    required: 'Employer name need to be provided',
+                    minLength: {
+                      value: 7,
+                      message: 'Employer name must have at least 5 characters',
+                    },
+                  })}
+                  id='employerName'
+                  type='text'
+                />
+                {errors.employerName && (
+                  <ErrorMessage>
+                    {errors.employerName.message as string}
+                  </ErrorMessage>
+                )}
+              </div>
+              <div className='relative group'>
+                <InputFieldLabel
+                  htmlFor='workingPosition'
+                  hasContent={
+                    providedPosition !== undefined &&
+                    providedPosition?.length !== 0
+                  }
+                >
+                  Working Position
+                </InputFieldLabel>
+                <Input
+                  {...register('workingPosition', {
+                    required: 'Working position need to be provided',
+                    minLength: {
+                      value: 7,
+                      message:
+                        'Working position must have at least 5 characters',
+                    },
+                  })}
+                  id='workingPosition'
+                  type='text'
+                />
+                {errors.workingPosition && (
+                  <ErrorMessage>
+                    {errors.workingPosition.message as string}
                   </ErrorMessage>
                 )}
               </div>

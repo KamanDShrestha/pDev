@@ -26,6 +26,8 @@ import EditProfessionalDetailsDialog from '../components/EditProfessionalDetails
 import EditAspirationDetailsDialog from '../components/EditAspirationDetailsDialog';
 import UpdatePasswordDialog from '../components/UpdatePasswordDialog';
 import UpdateProfilePictureDialog from '../components/UpdateProfilePictureDialog';
+import useGetSpecificApplication from '../services/qhpApplications/getSpecificApplications';
+import ApplicationCard from '../components/ApplicationCard';
 
 const Profile = () => {
   const { user } = useAuthContext();
@@ -39,6 +41,12 @@ const Profile = () => {
 
   const { data: savedContents, isLoading: isFetchingSavedContents } =
     useGetSavedContents(user?.id as string);
+
+  const {
+    data: specificApplications,
+    isLoading: isFetchingSpecificApplication,
+  } = useGetSpecificApplication(user?.id as string);
+
   console.log(savedContents);
 
   useDocumentTitle('Profile - SelfSync');
@@ -145,6 +153,23 @@ const Profile = () => {
       </div>
 
       <Separator className='my-10' />
+
+      <div>
+        <Heading>Applications for QHP</Heading>
+        {isFetchingSpecificApplication && <LoadingSpinner />}
+        <div className='flex flex-wrap items-center justify-around gap-5 p-3'>
+          {specificApplications && specificApplications.length <= 0 ? (
+            <p>You have not applied for Qualified Health Personnel role</p>
+          ) : (
+            specificApplications?.map((application, index) => (
+              <ApplicationCard application={application} key={index} />
+            ))
+          )}
+        </div>
+      </div>
+
+      <Separator className='my-10' />
+
       <div>
         <Heading>Saved contents</Heading>
         {isFetchingSavedContents && <LoadingSpinner />}
@@ -152,7 +177,6 @@ const Profile = () => {
           <>
             <div className='p-3'>
               <Heading className='text-2xl'>Saved videos</Heading>
-              <Separator className='mb-2' />
               {savedContents.videos.length === 0 && <p>No saved videos</p>}
               <div className='flex flex-wrap justify-center gap-5 p-3'>
                 {savedContents.videos.length > 0 &&
@@ -164,11 +188,11 @@ const Profile = () => {
                     />
                   ))}
               </div>
+              <Separator className='my-10' />
             </div>
 
             <div className='p-3'>
               <Heading className='text-2xl'>Saved podcasts</Heading>
-              <Separator className='mb-2' />
 
               {savedContents.podcasts.length === 0 && <p>No saved podcasts</p>}
               <div className='flex flex-wrap justify-center gap-5 p-3'>
@@ -181,11 +205,11 @@ const Profile = () => {
                     />
                   ))}
               </div>
+              <Separator className='my-10' />
             </div>
 
             <div className='p-3'>
               <Heading className='text-2xl'>Saved posts</Heading>
-              <Separator className='mb-2' />
 
               {savedContents.posts.length === 0 && <p>No saved posts</p>}
               <div className='flex flex-wrap justify-center gap-5 p-3'>
@@ -198,10 +222,10 @@ const Profile = () => {
                     />
                   ))}
               </div>
+              <Separator className='my-10' />
             </div>
             <div className='p-3'>
               <Heading className='text-2xl'>Saved QAs</Heading>
-              <Separator className='mb-2' />
 
               {savedContents.qas.length === 0 && <p>No saved QAs</p>}
               <div className='flex flex-wrap justify-center gap-5 p-3'>
@@ -210,6 +234,7 @@ const Profile = () => {
                     <QuestionAnswerCard question={question} key={index} />
                   ))}
               </div>
+              <Separator className='my-10' />
             </div>
           </>
         )}

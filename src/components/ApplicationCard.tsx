@@ -14,17 +14,24 @@ import { useSearchParams } from 'react-router-dom';
 import useUpdateApplicationStatus from '../services/qhpApplications/updateApplicationStatus';
 import useUpdateUserRole from '../services/users/updateUserRole';
 import useAddQhpDetails from '../services/qhpDetails/addQhpDetails';
+import { useAuthContext } from '../context/AuthProvider';
+import useDiscardApplication from '../services/qhpApplications/discardApplication';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ApplicationCardProps {
   application: ApplicationData;
 }
 
 const ApplicationCard = ({ application }: ApplicationCardProps) => {
+  const { user } = useAuthContext();
   const { mutate: updateStatus } = useUpdateApplicationStatus();
+  const { mutate: discardApplication } = useDiscardApplication();
   const { mutate: updateUserRole } = useUpdateUserRole();
   const { mutate: addQhpDetails } = useAddQhpDetails();
   const [searchParams, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
+
+  const queryClient = useQueryClient();
 
   function handleSetOpen(userId: string) {
     if (open) {
@@ -40,6 +47,7 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
     Pending: 'bg-yellow-100 text-yellow-500',
     Approved: 'bg-green-100 text-green-500',
     Rejected: 'bg-red-100 text-red-500',
+    Discarded: 'bg-gray-100 text-gray-500',
   };
 
   function handleVerify(id: string, userId: string) {
@@ -51,8 +59,8 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
           addQhpDetails({
             userId: userId,
             workingLicense: application.workingLicense,
-            jobTitle: 'temp job',
-            employerName: 'temp employer',
+            workingPosition: application.workingPosition,
+            employerName: application.employerName,
             qualifications: application.qualifications,
             additionalInformation: application.additionalInformation,
             experiences: application.experiences,
@@ -74,6 +82,18 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
       }
     );
   }
+
+  function handleDiscard(id: string, userId: string) {
+    discardApplication(
+      { id, status: 'Discarded' },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['getSpecificApplication', userId]);
+        },
+      }
+    );
+  }
+
   return (
     <Card className='max-w-[525px]'>
       <CardHeader>
@@ -81,7 +101,12 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
           Application for user: {application.userId}
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className='space-y-3'>
+        <p className='text-sm font-medium text-right'>
+          {application.appliedDate
+            ? new Date(application.appliedDate).toUTCString()
+            : null}
+        </p>
         <div className='space-y-3'>
           <div>
             <span className='font-medium'>Provided license number: </span>
@@ -89,7 +114,7 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
           </div>
           <div>
             <span className='font-medium'>Current job position: </span>
-            {application.jobTitle}
+            {application.workingPosition}
           </div>
           <div>
             <span className='font-medium'>Working at: </span>
@@ -125,21 +150,39 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
           </span>
         </div>
         <div className='space-x-3'>
-          {application.status !== 'Approved' && (
+          {user?.role === 'admin' && (
+            <>
+              {application.status !== 'Approved' && (
+                <Button
+                  onClick={() =>
+                    handleVerify(application._id, application.userId)
+                  }
+                >
+                  Verify
+                </Button>
+              )}
+              {application.status !== 'Rejected' && (
+                <Button
+                  onClick={() =>
+                    handleReject(application._id, application.userId)
+                  }
+                  variant={'destructive'}
+                >
+                  Reject
+                </Button>
+              )}
+            </>
+          )}
+
+          {user?.role === 'user' && (
             <Button
-              onClick={() => handleVerify(application._id, application.userId)}
+              className={buttonVariants({ variant: 'destructive' })}
+              onClick={() => handleDiscard(application._id, application.userId)}
             >
-              Verify
+              Discard
             </Button>
           )}
-          {application.status !== 'Rejected' && (
-            <Button
-              onClick={() => handleReject(application._id, application.userId)}
-              variant={'destructive'}
-            >
-              Reject
-            </Button>
-          )}
+
           <Button
             className={buttonVariants({ variant: 'secondary' })}
             onClick={() => window.open(`${application.cvURL}`, '_blank')}

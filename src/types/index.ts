@@ -649,7 +649,7 @@ export type QhpDetails = {
   additionalSkills: string[];
   additionalInformation: string;
   employerName: string;
-  jobTitle: string;
+  workingPosition: string;
 };
 
 export type UpdateQhpDetailsData = {
@@ -668,7 +668,7 @@ export type UpdateQhpDetailsData = {
 
 export type UpdateApplicationStatusData = {
   id: string;
-  status: 'Approved' | 'Rejected' | 'Pending';
+  status: 'Approved' | 'Rejected' | 'Pending' | 'Discarded';
 };
 
 export type ApplicationData = {
@@ -679,11 +679,11 @@ export type ApplicationData = {
   experiences: string[];
   proficientFields: string[];
   additionalSkills: string[];
-  status: 'Approved' | 'Rejected' | 'Pending';
+  status: 'Approved' | 'Rejected' | 'Pending' | 'Discarded';
   additionalInformation: string;
   cvURL: string;
   employerName: string;
-  jobTitle: string;
+  workingPosition: string;
   appliedDate: Date;
 };
 
