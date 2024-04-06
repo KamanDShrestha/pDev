@@ -198,6 +198,7 @@ export type QuotesByCategory = {
     _id: string;
     quote: string;
     author: string;
+    moodSpecific: string;
   }[];
 };
 

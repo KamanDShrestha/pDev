@@ -6,6 +6,7 @@ import AddQuoteCard from '../../components/AddQuoteCard';
 
 import QuoteCard from '../../components/QuoteCard';
 import useDocumentTitle from '../../services/getTitle';
+import { Separator } from '../../components/ui/separator';
 
 const AddQuotes = () => {
   const { data: quotes, isLoading: isFetchingQuotes } = useGetAllQuotes();
@@ -37,7 +38,13 @@ const AddQuotes = () => {
             );
           })}
       </div>
-      <AddQuoteCard />
+
+      <Separator className='my-20' />
+
+      <Heading>Add new quotes</Heading>
+      <div className='flex items-center justify-center'>
+        <AddQuoteCard />
+      </div>
     </>
   );
 };

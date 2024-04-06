@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { buttonVariants } from '../../components/ui/button';
 import LearningVideoCard from '../../components/LearningVideoCard';
 import useDocumentTitle from '../../services/getTitle';
+import { Separator } from '../../components/ui/separator';
 
 const ConfigureLearningResources = () => {
   const { data: learningVideos, isLoading: isFetchingLearningVideos } =
@@ -49,7 +50,12 @@ const ConfigureLearningResources = () => {
             );
           })}
       </div>
-      <AddLearningVideoCard />
+      <Separator className='my-20' />
+
+      <Heading>Add new learning resources</Heading>
+      <div className='flex items-center justify-center'>
+        <AddLearningVideoCard />
+      </div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import AddLearningPodcastCard from '../../components/AddLearningPodcastCard';
 import useGetAllPodcasts from '../../services/learningPodcasts/getLearningPodcasts';
 import LearningPodcastCard from '../../components/LearningPodcastCard';
 import useDocumentTitle from '../../services/getTitle';
+import { Separator } from '../../components/ui/separator';
 
 const ConfigureLearningPodcasts = () => {
   const { data: learningPodcasts, isLoading: isFetchingLearningPodcasts } =
@@ -47,7 +48,12 @@ const ConfigureLearningPodcasts = () => {
             );
           })}
       </div>
-      <AddLearningPodcastCard />
+      <Separator className='my-20' />
+
+      <Heading>Add new learning podcasts</Heading>
+      <div className='flex items-center justify-center'>
+        <AddLearningPodcastCard />
+      </div>
     </div>
   );
 };

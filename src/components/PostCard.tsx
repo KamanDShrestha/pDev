@@ -189,7 +189,8 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             </div>
           </div>
           <div className='flex flex-col items-end'>
-            {user?.id === post.userId && membershipStatus && (
+            {((user?.id === post.userId && membershipStatus) ||
+              user?.role === 'admin') && (
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <span className='text-2xl'>

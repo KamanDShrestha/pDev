@@ -38,6 +38,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import useGetRandomQuote from '../services/quotes/getRandomQuote';
 import ExpandableText from '../components/ExpandableText';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SpecificCommunity = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -94,11 +95,16 @@ const SpecificCommunity = () => {
     { label: 'Question', value: 'question' },
   ];
 
+  const queryClient = useQueryClient();
+
   function handleDeletePost(postId: string) {
-    deletePost(postId);
+    deletePost(postId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['posts', communityId]);
+      },
+    });
     console.log(postId);
     console.log(posts);
-    posts?.filter((post) => post._id !== postId);
   }
 
   return (

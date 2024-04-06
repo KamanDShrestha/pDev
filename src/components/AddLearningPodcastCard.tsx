@@ -89,9 +89,9 @@ const AddLearningPodcastCard = () => {
   return (
     <Card className='w-[400px] lg:w-[600px]'>
       <CardHeader>
-        <CardTitle>Add new videos for users</CardTitle>
+        <CardTitle>Add new podcasts for users</CardTitle>
         <CardDescription>
-          You can add new learning videos for users
+          You can add new learning podcasts for users
         </CardDescription>
       </CardHeader>
       <CardContent>
