@@ -142,7 +142,7 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
           )}
           <Button
             className={buttonVariants({ variant: 'secondary' })}
-            onClick={() => window.open(application.cvURL, '_blank')}
+            onClick={() => window.open(`${application.cvURL}`, '_blank')}
           >
             Download CV
           </Button>

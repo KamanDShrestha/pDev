@@ -40,41 +40,51 @@ const GoalReminderDialog = () => {
             )}
         </DialogTrigger>
         <DialogContent className='h-[60vh] overflow-scroll'>
-          <DialogTitle>Goal reminders</DialogTitle>{' '}
-          <div className='flex flex-col items-center justify-center gap-5 '>
-            {(!goalReminders || goalReminders?.length === 0) &&
-              'No reminders for today. Keep up the good work!'}
-            {goalReminders &&
-              goalReminders.map((goalReminder, index) => (
-                <Card
-                  key={index}
-                  className={cn(
-                    goalReminder.readStatus
-                      ? 'w-full'
-                      : 'dark:bg-[#33415c] bg-[#e6e8e6] w-full'
-                  )}
-                >
-                  <CardContent className='p-2 space-y-3'>
-                    <div>
-                      <p className='font-medium'>{goalReminder.message}</p>
-                      <p className='text-sm'>
-                        {new Date(goalReminder.reminderDate).toLocaleString()}
-                      </p>
-                    </div>
-                    {goalReminder.readStatus ? (
-                      <p className='text-xs font-medium'>Acted on</p>
-                    ) : (
-                      <p
-                        className='text-xs font-medium hover:cursor-pointer'
-                        onClick={() => handleUpdateReadStatus(goalReminder._id)}
-                      >
-                        Read
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-          </div>
+          {!goalReminders || goalReminders?.length === 0 ? (
+            <div className='flex items-center justify-center'>
+              No reminders. Keep up the good work!
+            </div>
+          ) : (
+            <>
+              <DialogTitle>Goal reminders</DialogTitle>
+              <div className='flex flex-col items-center justify-center h-full gap-5 '>
+                {goalReminders &&
+                  goalReminders.map((goalReminder, index) => (
+                    <Card
+                      key={index}
+                      className={cn(
+                        goalReminder.readStatus
+                          ? 'w-full'
+                          : 'dark:bg-[#33415c] bg-[#e6e8e6] w-full'
+                      )}
+                    >
+                      <CardContent className='p-2 space-y-3'>
+                        <div>
+                          <p className='font-medium'>{goalReminder.message}</p>
+                          <p className='text-sm'>
+                            {new Date(
+                              goalReminder.reminderDate
+                            ).toLocaleString()}
+                          </p>
+                        </div>
+                        {goalReminder.readStatus ? (
+                          <p className='text-xs font-medium'>Acted on</p>
+                        ) : (
+                          <p
+                            className='text-xs font-medium hover:cursor-pointer'
+                            onClick={() =>
+                              handleUpdateReadStatus(goalReminder._id)
+                            }
+                          >
+                            Read
+                          </p>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>

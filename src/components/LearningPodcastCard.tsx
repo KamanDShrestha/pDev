@@ -136,159 +136,166 @@ const LearningPodcastCard = ({
           loading='lazy'
         ></iframe>
       </CardContent>
-      <CardFooter className='space-x-3'>
-        <span className='text-xl hover:cursor-pointer' onClick={handleSavePost}>
-          {gettingSavedContentStatus || isSaving ? (
-            <LoadingSpinner />
-          ) : savedContentStatus ? (
-            <IoBookmark />
-          ) : (
-            <IoBookmarkOutline />
-          )}
-        </span>
 
-        <div>
-          {user?.role === 'admin' && podcastCategory && (
-            <Dialog>
-              <DialogTrigger
-                className={cn(
-                  buttonVariants({ variant: 'default', size: 'xs' }),
-                  'space-x-2'
-                )}
-              >
-                <span>Update Video</span>
-                <FaPen />
-              </DialogTrigger>
-              <DialogContent>
-                <DialogTitle>Update this video</DialogTitle>
-                <DialogDescription>
-                  You can update this video here.
-                </DialogDescription>
-                <div className='space-y-2'>
-                  <div>
-                    <label htmlFor='title'>Title</label>
-                    <Input
-                      id='title'
-                      {...register('title', {
-                        required: 'Title must be provided.',
-                        min: {
-                          value: 10,
-                          message: 'Title must be at least 10 characters.',
-                        },
-                      })}
-                    />
+      {podcastCategory && (
+        <CardFooter className='space-x-3'>
+          <span
+            className='text-xl hover:cursor-pointer'
+            onClick={handleSavePost}
+          >
+            {gettingSavedContentStatus || isSaving ? (
+              <LoadingSpinner />
+            ) : savedContentStatus ? (
+              <IoBookmark />
+            ) : (
+              <IoBookmarkOutline />
+            )}
+          </span>
+
+          <div>
+            {user?.role === 'admin' && podcastCategory && (
+              <Dialog>
+                <DialogTrigger
+                  className={cn(
+                    buttonVariants({ variant: 'default', size: 'xs' }),
+                    'space-x-2'
+                  )}
+                >
+                  <span>Update Video</span>
+                  <FaPen />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogTitle>Update this video</DialogTitle>
+                  <DialogDescription>
+                    You can update this video here.
+                  </DialogDescription>
+                  <div className='space-y-2'>
+                    <div>
+                      <label htmlFor='title'>Title</label>
+                      <Input
+                        id='title'
+                        {...register('title', {
+                          required: 'Title must be provided.',
+                          min: {
+                            value: 10,
+                            message: 'Title must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='url'>URL</label>
+                      <Input
+                        id='url'
+                        {...register('url', {
+                          required: 'URL must be provided.',
+                          min: {
+                            value: 10,
+                            message: 'URL must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='embedUrl'>Embed URL</label>
+                      <Input
+                        id='embedUrl'
+                        {...register('embedUrl', {
+                          required: 'Embed URL must be provided.',
+                          min: {
+                            value: 10,
+                            message:
+                              'Embed URL must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='host'>Host</label>
+                      <Input
+                        {...register('host', {
+                          required: 'Host must be provided.',
+                          min: {
+                            value: 10,
+                            message: 'Host must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='podcastTitle'>Podcast Title</label>
+                      <Input
+                        {...register('podcastTitle', {
+                          required: 'Podcast Title must be provided.',
+                          min: {
+                            value: 10,
+                            message:
+                              'Podcast Title must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor='podcastDescription'>
+                        Podcast Description
+                      </label>
+                      <Textarea
+                        {...register('podcastDescription', {
+                          required: 'Podcast Description must be provided.',
+                          min: {
+                            value: 10,
+                            message:
+                              'Podcast Description must be at least 10 characters.',
+                          },
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <label>Mood specific</label>
+                      <Select
+                        onValueChange={(e) => {
+                          setSelectedMoodSpecific(e);
+                          setSelectedMoodSpecificError('');
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder='Mood Specific' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value='low'>Low</SelectItem>
+                          <SelectItem value='neutral'>Neutral</SelectItem>
+                          <SelectItem value='high'>High</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {selectedMoodSpecificError && (
+                        <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <label htmlFor='url'>URL</label>
-                    <Input
-                      id='url'
-                      {...register('url', {
-                        required: 'URL must be provided.',
-                        min: {
-                          value: 10,
-                          message: 'URL must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='embedUrl'>Embed URL</label>
-                    <Input
-                      id='embedUrl'
-                      {...register('embedUrl', {
-                        required: 'Embed URL must be provided.',
-                        min: {
-                          value: 10,
-                          message: 'Embed URL must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='host'>Host</label>
-                    <Input
-                      {...register('host', {
-                        required: 'Host must be provided.',
-                        min: {
-                          value: 10,
-                          message: 'Host must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='podcastTitle'>Podcast Title</label>
-                    <Input
-                      {...register('podcastTitle', {
-                        required: 'Podcast Title must be provided.',
-                        min: {
-                          value: 10,
-                          message:
-                            'Podcast Title must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='podcastDescription'>
-                      Podcast Description
-                    </label>
-                    <Textarea
-                      {...register('podcastDescription', {
-                        required: 'Podcast Description must be provided.',
-                        min: {
-                          value: 10,
-                          message:
-                            'Podcast Description must be at least 10 characters.',
-                        },
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <label>Mood specific</label>
-                    <Select
-                      onValueChange={(e) => {
-                        setSelectedMoodSpecific(e);
-                        setSelectedMoodSpecificError('');
-                      }}
+                  <DialogFooter>
+                    <Button
+                      className={cn(
+                        buttonVariants({ variant: 'default', size: 'xs' }),
+                        'space-x-2'
+                      )}
+                      onClick={handleSubmit(handlePodcastUpdate)}
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder='Mood Specific' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value='low'>Low</SelectItem>
-                        <SelectItem value='neutral'>Neutral</SelectItem>
-                        <SelectItem value='high'>High</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {selectedMoodSpecificError && (
-                      <ErrorMessage>{selectedMoodSpecificError}</ErrorMessage>
-                    )}
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button
-                    className={cn(
-                      buttonVariants({ variant: 'default', size: 'xs' }),
-                      'space-x-2'
-                    )}
-                    onClick={handleSubmit(handlePodcastUpdate)}
-                  >
-                    {isUpdating ? (
-                      <LoadingSpinner />
-                    ) : (
-                      <>
-                        <span>Update this post</span>
-                        <FaPen />
-                      </>
-                    )}
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          )}
-        </div>
-      </CardFooter>
+                      {isUpdating ? (
+                        <LoadingSpinner />
+                      ) : (
+                        <>
+                          <span>Update this post</span>
+                          <FaPen />
+                        </>
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            )}
+          </div>
+        </CardFooter>
+      )}
     </Card>
   );
 };
