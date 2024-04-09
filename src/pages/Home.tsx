@@ -24,7 +24,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (user && user.loggedMood === false) {
+    if (user && user.loggedMood === false && user.role !== 'admin') {
       setMoodTrackerModal(true);
     }
   }, []);
@@ -96,16 +96,7 @@ const Home = () => {
             </NavLink>
           </div>
         </div>
-
-        {/* <Button onClick={handleLogout}>
-          {isLoggingOut ? <LoadingSpinner /> : 'Logout'}
-        </Button> */}
       </div>
-
-      {/* {createPortal(
-        <MoodTracker open={open} setOpen={setOpen} />,
-        document.body
-      )} */}
     </>
   );
 };

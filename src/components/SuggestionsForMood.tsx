@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card';
-import useGetTodayMood from '../services/moods/getTodayMood';
 import useGetRandomQuoteForMood from '../services/quotes/getRandomQuoteForMood';
 import useGetRandomVideoForMood from '../services/learningVideos/getRandomVideoForMood';
 import useGetRandomPodcastForMood from '../services/learningPodcasts/getRandomPodcastForMood';
@@ -17,15 +16,20 @@ import LearningVideoCard from './LearningVideoCard';
 import LearningPodcastCard from './LearningPodcastCard';
 import Heading from './Heading';
 
-const SuggestionsForMood = () => {
+
+interface SuggestionsForMoodProps {
+  todayMood?: number;
+}
+
+const SuggestionsForMood = function ({ todayMood }: SuggestionsForMoodProps) {
   const { user } = useAuthContext();
-  const { data: todayMood } = useGetTodayMood(user?.id as string);
+  console.log(todayMood);
   const { data: randomQuote, isLoading: isFetchingRandomQuote } =
-    useGetRandomQuoteForMood(todayMood?.mood as number);
+    useGetRandomQuoteForMood(todayMood as number);
   const { data: randomVideo, isLoading: isFetchingRandomVideo } =
-    useGetRandomVideoForMood(todayMood?.mood as number);
+    useGetRandomVideoForMood(todayMood as number);
   const { data: randomPodcast, isLoading: isFetchingRandomPodcast } =
-    useGetRandomPodcastForMood(todayMood?.mood as number);
+    useGetRandomPodcastForMood(todayMood as number);
 
   return (
     <>

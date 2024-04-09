@@ -2,10 +2,11 @@ import { Outlet } from 'react-router-dom';
 import Logo from '../../components/Logo';
 import NavBar from '../..//components/NavBar';
 import { ModeToggle } from '../../components/ThemeToggleButton';
+import Footer from '../../components/Footer';
 
 const UserLayout = () => {
   return (
-    <div>
+    <div className='flex flex-col min-h-screen overflow-hidden'>
       <div className='flex justify-between p-5 '>
         <div className='hidden lg:block'>
           <Logo />
@@ -16,9 +17,10 @@ const UserLayout = () => {
           <ModeToggle />
         </div>
       </div>
-      <div className='relative p-5'>
+      <div className='relative flex-grow p-5'>
         <Outlet />
       </div>
+      {window.location.pathname === '/home' ? null : <Footer />}
     </div>
   );
 };

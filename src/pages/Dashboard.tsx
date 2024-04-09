@@ -31,6 +31,7 @@ import WeeklyGoalSet from '../components/WeeklyGoalSet';
 import WithinWeekGoalSet from '../components/WithinWeekGoalSet';
 import MonthlyGoalSet from '../components/MonthlyGoalSet';
 import GoalSettingSection from '../components/GoalSettingSection';
+import useGetTodayMood from '../services/moods/getTodayMood';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -53,6 +54,8 @@ const Dashboard = () => {
     useGetJournalCount(user?.id as string);
   const { data: savedContentCount, isLoading: isFetchingSavedContentCount } =
     useGetSavedContentCount(user?.id as string);
+
+  const { data: todayMood } = useGetTodayMood(user?.id as string);
 
   console.log(postsCount);
   console.log(currentJourney);
@@ -79,7 +82,7 @@ const Dashboard = () => {
         </Card>
 
         <MoodDisplay />
-        <SuggestionsForMood />
+        <SuggestionsForMood todayMood={todayMood?.mood} />
 
         <MoodsChartSection />
 

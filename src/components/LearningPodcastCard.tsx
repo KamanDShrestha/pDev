@@ -61,6 +61,7 @@ const LearningPodcastCard = ({
   >();
   const [selectedMoodSpecificError, setSelectedMoodSpecificError] =
     useState<string>();
+  console.log(podcast);
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -122,7 +123,7 @@ const LearningPodcastCard = ({
     <Card className='w-[360px] h-[300px]'>
       <CardHeader className='h-[100px]'>
         <CardTitle className='text-md'>
-          <TruncatedText content={podcast.title} limit={75} />
+          <TruncatedText content={podcast ? podcast.title : ''} limit={75} />
         </CardTitle>
         <Separator />
       </CardHeader>

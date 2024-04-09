@@ -38,9 +38,11 @@ const GoalSettingSection = () => {
       <Card>
         <CardHeader>
           <CardTitle>Completed Goal sets</CardTitle>
-          <CardDescription>You can find your goal sets here.</CardDescription>
+          <CardDescription>
+            You can find your completed goal sets here.
+          </CardDescription>
         </CardHeader>
-        <CardContent className='flex flex-col items-center justify-around gap-5'>
+        <CardContent className='flex flex-wrap items-center justify-around gap-5'>
           {isFetchingGoalSets && <LoadingSpinner />}
           {completedGoalSets?.length === 0 && (
             <p>You do not have any completed goals sets.</p>
