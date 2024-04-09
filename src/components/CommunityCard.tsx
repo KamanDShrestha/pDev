@@ -98,7 +98,7 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
         <CardDescription>
           <ExpandableText
             content={community.communityDescription}
-            length={150}
+            length={100}
           />
         </CardDescription>
       </CardHeader>

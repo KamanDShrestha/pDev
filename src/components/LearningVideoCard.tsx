@@ -71,6 +71,8 @@ const LearningVideoCard = ({
     },
   });
 
+  console.log(video);
+
   const queryClient = useQueryClient();
   function handleSavePost() {
     if (!videoCategory) {
