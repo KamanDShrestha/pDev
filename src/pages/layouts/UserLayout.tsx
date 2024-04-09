@@ -1,10 +1,11 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Logo from '../../components/Logo';
 import NavBar from '../..//components/NavBar';
 import { ModeToggle } from '../../components/ThemeToggleButton';
 import Footer from '../../components/Footer';
 
 const UserLayout = () => {
+  const location = useLocation();
   return (
     <div className='flex flex-col min-h-screen overflow-hidden'>
       <div className='flex justify-between p-5 '>
@@ -20,7 +21,7 @@ const UserLayout = () => {
       <div className='relative flex-grow p-5'>
         <Outlet />
       </div>
-      {window.location.pathname === '/home' ? null : <Footer />}
+      {location.pathname === '/home' ? null : <Footer />}
     </div>
   );
 };
