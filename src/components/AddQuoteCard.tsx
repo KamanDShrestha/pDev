@@ -82,8 +82,11 @@ const AddQuoteCard = () => {
       </CardHeader>
       <CardContent>
         <div>
-          <Heading className='mb-1 text-lg font-medium'>Quote</Heading>
+          <label className='mb-1 text-lg font-medium' htmlFor='quote'>
+            Quote
+          </label>
           <Textarea
+            id='quote'
             {...register('quote', {
               required: 'Quote is required',
               minLength: {
@@ -97,8 +100,11 @@ const AddQuoteCard = () => {
           )}
         </div>
         <div>
-          <Heading className='mb-1 text-lg font-medium'>Author</Heading>
+          <label className='mb-1 text-lg font-medium' htmlFor='author'>
+            Author
+          </label>
           <Input
+            id='author'
             {...register('author', {
               required: 'Author is required',
               minLength: {
@@ -116,21 +122,26 @@ const AddQuoteCard = () => {
           {categories && categories.length === 0 ? (
             <p>No existing categories found.</p>
           ) : (
-            <Select
-              disabled={isAddingNewCategory}
-              onValueChange={(category) => setSelectedCategory(category)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Category' />
-              </SelectTrigger>
-              <SelectContent>
-                {categories?.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <>
+              <label className='mb-1 text-lg font-medium' htmlFor='category'>
+                Category
+              </label>
+              <Select
+                disabled={isAddingNewCategory}
+                onValueChange={(category) => setSelectedCategory(category)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Category' />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories?.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </>
           )}
           <div className='space-y-3'>
             <div className='flex items-center gap-3'>
@@ -144,10 +155,14 @@ const AddQuoteCard = () => {
             </div>
             {isAddingNewCategory && (
               <div>
-                <Heading className='mb-0 font-medium text-md'>
+                <label
+                  className='mb-0 font-medium text-md'
+                  htmlFor='newCategory'
+                >
                   New Category
-                </Heading>
+                </label>
                 <Input
+                  id='newCategory'
                   disabled={!isAddingNewCategory}
                   {...register('category', {
                     required: 'Category is required',
