@@ -35,4 +35,19 @@ describe('AddQuoteCard', () => {
     expect(newCategorySwitch).toBeChecked();
     expect(screen.getByLabelText(/new category/i)).toBeInTheDocument(); // provides null if not found
   });
+
+  it('should render multiple categories if the combobox is clicked', async () => {
+    renderComponent();
+
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    const categoryComboBoxes = screen.getAllByRole('combobox');
+    expect(categoryComboBoxes.length).toBeGreaterThan(1); // check that there are multiple comboboxes
+
+    const categoryComboBox = categoryComboBoxes[0];
+
+    // interact with the combobox
+    await userEvent.click(categoryComboBox);
+    const optionElements = await screen.findAllByRole('listbox');
+    expect(optionElements.length).toBeGreaterThan(0);
+  });
 });

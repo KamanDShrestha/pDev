@@ -15,6 +15,9 @@ const Community = () => {
 
   useDocumentTitle('Communities - SelfSync');
 
+  console.log(communities);
+  console.log(communities);
+
   return (
     <>
       <div className='flex flex-wrap items-center justify-between mb-3'>
