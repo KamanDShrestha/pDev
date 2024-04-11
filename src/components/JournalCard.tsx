@@ -65,6 +65,7 @@ const JournalCard = ({ journal }: JournalCardProps) => {
           </div>
           <DialogFooter>
             <DialogClose
+              name='Delete'
               className={cn(
                 buttonVariants({ variant: 'destructive', size: 'xs' }),
                 'space-x-2'

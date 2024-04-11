@@ -13,7 +13,6 @@ describe('ProfilePersonalDetails', () => {
     http.get('/auth/user', () => {
       return HttpResponse.json({
         success: true,
-
         message: 'User authenticated',
         data: {
           dateOfBirth: '2003-02-09T00:00:00.000Z',
@@ -33,7 +32,7 @@ describe('ProfilePersonalDetails', () => {
     })
   );
 
-  it('should render the details', async () => {
+  it('should render the profile details', async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>

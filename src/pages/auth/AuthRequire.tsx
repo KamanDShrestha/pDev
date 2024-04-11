@@ -16,7 +16,7 @@ const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
   //   }
   // }, []);
 
-  console.log(user);
+  console.log('in auth require', user);
   return allowedRoles.find((role: string) => role === user?.role) ? (
     user?.email && user.isNewUser ? (
       <Navigate to={'/newUser'} state={{ from: location }} replace />
