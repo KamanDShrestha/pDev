@@ -22,6 +22,8 @@ import GratitudeJournalCard from '../components/GratitudeJournalCard';
 import useGetQuestionPrompts from '../services/questionPrompts/getQuestionPrompts';
 import QuestionPromptsCard from '../components/QuestionPromptsCard';
 import useDocumentTitle from '../services/getTitle';
+import useGetQuestionPromptEntries from '../services/questionPromptEntries/getQuestionPromptEntries';
+import PromptEntryCard from '../components/PromptEntryCard';
 
 const WellBeing = () => {
   const { user } = useAuthContext();
@@ -34,6 +36,8 @@ const WellBeing = () => {
     useGetGratitudeJournals(user?.id as string);
   const { data: questionPrompts, isLoading: isQuestionPromptsLoading } =
     useGetQuestionPrompts();
+  const { data: promptEntries, isLoading: isPromptEntriesLoading } =
+    useGetQuestionPromptEntries(user?.id as string);
   console.log(gratitudeJournals);
 
   console.log(journals);
@@ -113,6 +117,19 @@ const WellBeing = () => {
             gratitudeJournals.map((journal, index) => (
               <div key={index}>
                 <GratitudeJournalCard gratitudeJournal={journal} key={index} />
+              </div>
+            ))}
+          {gratitudeJournals?.length === 0 && <p>No journals found for you.</p>}
+        </div>
+      </div>
+      <div>
+        <Heading className='text-2xl'>Prompt entries</Heading>
+        <div className='flex flex-wrap items-center justify-center gap-5'>
+          {isPromptEntriesLoading && <LoadingSpinner />}
+          {promptEntries &&
+            promptEntries.map((promptEntry, index) => (
+              <div key={index}>
+                <PromptEntryCard promptEntry={promptEntry} />
               </div>
             ))}
           {gratitudeJournals?.length === 0 && <p>No journals found for you.</p>}

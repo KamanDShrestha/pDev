@@ -25,6 +25,8 @@ import { Button } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import useDeleteQuestionPrompt from '../services/questionPrompts/deleteQuestionPrompt';
 import { cn } from '../lib/utils';
+import removeWhitespace from '../services/removeWhitespace';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface QuestionPromptsCardProps {
   questionPrompt: QuestionPrompt;
@@ -45,6 +47,8 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
   const { mutate: deletePrompt, isLoading: isDeleting } =
     useDeleteQuestionPrompt();
 
+  const queryClient = useQueryClient();
+
   function handleEntrySubmission(data: FieldValues) {
     console.log(data);
     const tags = Object.keys(data);
@@ -55,7 +59,7 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
     );
     const entries = tags.map((tag) => ({
       prompt: entryQuestions[tag],
-      answer: data[tag],
+      answer: removeWhitespace(data[tag]),
     }));
 
     addEntry(
@@ -68,6 +72,7 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
       {
         onSuccess: () => {
           reset();
+          queryClient.invalidateQueries(['questionPromptEntries', user?.id]);
         },
       }
     );
@@ -123,6 +128,10 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
                     required: {
                       value: true,
                       message: 'Provide the details before proceeding.',
+                    },
+                    maxLength: {
+                      value: 400,
+                      message: 'Please keep your answer under 400 characters.',
                     },
                   })}
                 />
