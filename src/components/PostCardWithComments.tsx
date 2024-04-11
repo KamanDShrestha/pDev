@@ -96,13 +96,6 @@ const PostCardWithComments = ({ post }: PostCardWithCommentsProps) => {
           <p className='text-sm'>No comments</p>
         )}
       </div>
-      {/* <label className='font-medium'>Provide your answer</label>
-      <div>
-        <Textarea placeholder='Your answer...' {...register('answer')} />
-      </div>
-      <Button onClick={handleSubmit(handleSubmitAnswer)}>
-        Submit your answer
-      </Button> */}
     </div>
   );
 };

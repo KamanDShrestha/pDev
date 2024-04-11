@@ -39,6 +39,7 @@ import { postCategoriesTheme } from '../constants';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 import { Badge } from './ui/badge';
 import EditQADialog from './EditQADialog';
+import removeWhitespace from '../services/removeWhitespace';
 
 // import { FcLikePlaceholder } from 'react-icons/fc';
 
@@ -71,14 +72,14 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
       {
         qhpId: user?.id as string,
         questionId: question._id,
-        answer: data.answer,
+        answer: removeWhitespace(data.answer),
       },
       {
         onSuccess: () => {
           question.answers.push({
             userName: user?.firstName as string,
             userId: user?.id as string,
-            answer: data.answer,
+            answer: removeWhitespace(data.answer),
             answerDate: new Date(),
             image: user?.image as string,
             userRole: user?.role as string,
@@ -303,7 +304,18 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                 <div>
                   <Textarea
                     placeholder='Your answer...'
-                    {...register('answer')}
+                    {...register('answer', {
+                      required: 'Please provide your answer before posting.',
+                      minLength: {
+                        value: 10,
+                        message: 'Answer must have at least 5 characters.',
+                      },
+                      maxLength: {
+                        value: 250,
+                        message:
+                          'Answer must be provided within 200 characters.',
+                      },
+                    })}
                   />
                 </div>
                 <Button

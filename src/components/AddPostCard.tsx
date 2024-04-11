@@ -21,11 +21,13 @@ import useAddPost from '../services/posts/addPost';
 import useAddQA from '../services/QAs/addQA';
 import LoadingSpinner from './LoadingSpinner';
 import { Checkbox } from './ui/checkbox';
+import removeWhitespace from '../services/removeWhitespace';
 
 const AddPostCard = () => {
   const { user } = useAuthContext();
   const { communityId } = useParams<{ communityId: string }>();
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategoryError, setSelectedCategoryError] = useState('');
   const [isAnonymousChecked, setIsAnonymousChecked] = useState(false);
   const {
     register,
@@ -53,13 +55,25 @@ const AddPostCard = () => {
   ];
 
   function handlePost(data: FieldValues) {
+    if (
+      selectedCategory === '' ||
+      selectedCategory === null ||
+      selectedCategory === undefined
+    ) {
+      setSelectedCategoryError(
+        () => 'Please select a category before posting.'
+      );
+      return;
+    }
+
     if (selectedCategory === 'question') {
       addQA(
         {
           userId: user?.id as string,
           communityId: communityId as string,
-          questionTitle: data.postTitle,
-          question: data.postContent,
+          questionTitle: removeWhitespace(data.postTitle),
+          question: removeWhitespace(data.postContent),
+          isAnonymous: isAnonymousChecked,
         },
         {
           onSuccess: () => {
@@ -76,8 +90,8 @@ const AddPostCard = () => {
           userId: user?.id as string,
           communityId: communityId as string,
           postCategory: selectedCategory,
-          postTitle: data.postTitle,
-          post: data.postContent,
+          postTitle: removeWhitespace(data.postTitle),
+          post: removeWhitespace(data.postContent),
           isAnonymous: isAnonymousChecked,
         },
         {
@@ -85,6 +99,7 @@ const AddPostCard = () => {
             setSelectedCategory('');
             setValue('postTitle', '');
             setValue('postContent', '');
+            setIsAnonymousChecked(false);
           },
         }
       );
@@ -111,7 +126,12 @@ const AddPostCard = () => {
           )}
         </div>
         <div>
-          <Select onValueChange={(value) => setSelectedCategory(value)}>
+          <Select
+            onValueChange={(value) => {
+              setSelectedCategory(value);
+              setSelectedCategoryError('');
+            }}
+          >
             <SelectTrigger>
               <SelectValue placeholder='Select a category' />
             </SelectTrigger>
@@ -126,15 +146,25 @@ const AddPostCard = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
+          {selectedCategoryError && (
+            <ErrorMessage>{selectedCategoryError as string}</ErrorMessage>
+          )}
         </div>
         <div>
-          <label className='font-medium'>Your content</label>
+          <label className='font-medium' htmlFor='content'>
+            Your content
+          </label>
           <Textarea
+            id='content'
             {...register('postContent', {
               required: 'Please provide content for your post.',
               minLength: {
-                value: 5,
-                message: 'Title must be at least 5 characters long',
+                value: 20,
+                message: 'Content must be at least 20 characters long',
+              },
+              maxLength: {
+                value: 400,
+                message: 'Content must be provided within 400 characters.',
               },
             })}
             placeholder='Your content...'

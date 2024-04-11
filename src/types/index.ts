@@ -454,6 +454,7 @@ export type AddQAData = {
   communityId: string;
   questionTitle: string;
   question: string;
+  isAnonymous: boolean;
 };
 
 export type AddQALikeData = {

@@ -51,6 +51,7 @@ import ExpandableText from './ExpandableText';
 import { postCategoriesTheme } from '../constants';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 import EditPostDialog from './EditPostDialog';
+import removeWhitespace from '../services/removeWhitespace';
 
 interface PostCardProps {
   post: PostData;
@@ -81,7 +82,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
   function handleAddComment(data: FieldValues) {
     addComment(
       {
-        comment: data.comment,
+        comment: removeWhitespace(data.comment),
         userId: user?.id as string,
         postId: post._id,
         isAnonymous: isAnonymousComment,
@@ -91,7 +92,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
           post.postComments.push({
             userId: user?.id as string,
             userName: user?.firstName as string,
-            comment: data.comment,
+            comment: removeWhitespace(data.comment),
             commentDate: new Date(),
             userRole: user?.role as string,
             isAnonymous: isAnonymousComment,
@@ -317,6 +318,15 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
                     placeholder='Your answer...'
                     {...register('comment', {
                       required: 'Please provide your comment before posting.',
+                      minLength: {
+                        value: 10,
+                        message: 'Comment must have at least 5 characters.',
+                      },
+                      maxLength: {
+                        value: 200,
+                        message:
+                          'Comment must be provided within 200 characters.',
+                      },
                     })}
                   />
                   {errors.comment && (

@@ -16,16 +16,24 @@ import { Button } from './ui/button';
 import LoadingSpinner from './LoadingSpinner';
 import { useQueryClient } from '@tanstack/react-query';
 import useEditQA from '../services/QAs/editQA';
+import removeWhitespace from '../services/removeWhitespace';
+import { Checkbox } from './ui/checkbox';
+import { useState } from 'react';
+import ErrorMessage from './ErrorMessage';
 
 interface EditQADialogProps {
   QA: QAsData;
 }
 
 const EditQADialog = ({ QA }: EditQADialogProps) => {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: { questionTitle: QA.questionTitle, question: QA.question },
   });
-
+  const [isAnonymousChecked, setIsAnonymousChecked] = useState(QA.isAnonymous);
   const { mutate: updateQA, isLoading: isUpdatingQA } = useEditQA();
 
   const queryClient = useQueryClient();
@@ -36,8 +44,9 @@ const EditQADialog = ({ QA }: EditQADialogProps) => {
         questionId: QA._id,
         questionEditFields: {
           ...QA,
-          questionTitle: data.questionTitle,
-          question: data.question,
+          questionTitle: removeWhitespace(data.questionTitle),
+          question: removeWhitespace(data.question),
+          isAnonymous: isAnonymousChecked,
         },
       },
       {
@@ -64,15 +73,54 @@ const EditQADialog = ({ QA }: EditQADialogProps) => {
             <label htmlFor='title' className='font-medium'>
               Title
             </label>
-            <Input id='title' {...register('questionTitle')} />
+            <Input
+              id='title'
+              {...register('questionTitle', {
+                required: 'Please provide a title',
+                minLength: {
+                  value: 5,
+                  message: 'Title must be at least 5 characters long',
+                },
+              })}
+            />
+            {errors.questionTitle && (
+              <ErrorMessage>
+                {errors.questionTitle.message as string}
+              </ErrorMessage>
+            )}
           </div>
           <div>
             <label htmlFor='content' className='font-medium'>
               Content (Question)
             </label>
-            <Textarea id='content' {...register('question')} />
+            <Textarea
+              id='content'
+              {...register('question', {
+                required: 'Please provide content for your post.',
+                minLength: {
+                  value: 20,
+                  message: 'Content must be at least 20 characters long',
+                },
+                maxLength: {
+                  value: 400,
+                  message: 'Content must be provided within 400 characters.',
+                },
+              })}
+            />
+            {errors.question && (
+              <ErrorMessage>{errors.question.message as string}</ErrorMessage>
+            )}
           </div>
-
+          <div className='flex items-center gap-1 text-sm'>
+            <Checkbox
+              placeholder='Make it anonymous'
+              checked={isAnonymousChecked}
+              onCheckedChange={() =>
+                setIsAnonymousChecked((previous) => !previous)
+              }
+            />
+            <label>Make it anonymous</label>
+          </div>
           <Button
             onClick={handleSubmit(handleUpdateQA)}
             disabled={isUpdatingQA}

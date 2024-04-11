@@ -9,6 +9,7 @@ import RetrospectionCard from '../../components/RetrospectionCard';
 import useDocumentTitle from '../../services/getTitle';
 import useGetRandomQuote from '../../services/quotes/getRandomQuote';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { Separator } from '../../components/ui/separator';
 
 const Journey = () => {
   const { user } = useAuthContext();
@@ -87,6 +88,7 @@ const Journey = () => {
             ))}
         </div>
       </div>
+      <Separator className='my-24' />
       <div className='mt-8'>
         <h2 className='mb-5 text-4xl font-semibold'>Completed Journeys</h2>
         <div className='flex flex-wrap justify-center gap-10'>
