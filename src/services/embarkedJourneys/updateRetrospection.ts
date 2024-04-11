@@ -1,13 +1,18 @@
-import { AddEmbarkedJourneyData, ErrorResponse } from '../../types';
 import { axiosInstance } from '../../constants';
+import { ErrorResponse } from '../../types';
 import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
 
-export default function useAddEmbarkedJourney() {
+export default function useUpdateRetrospection() {
   const response = useMutation({
-    mutationFn: (data: AddEmbarkedJourneyData) =>
-      axiosInstance.post('/progress/add', data).then((res) => res.data),
+    mutationFn: (data: {
+      embarkedJourneyId: string;
+      updatedFields: { reflection?: string; keyLearning?: string };
+    }) =>
+      axiosInstance
+        .patch('/progress/updateRetrospection', data)
+        .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
     },

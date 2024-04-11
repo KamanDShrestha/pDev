@@ -100,9 +100,10 @@ const Journey = () => {
                   embarkedJourney.isJourneyCompleted && (
                     <RetrospectionCard
                       key={embarkedJourney._id}
-                      keyLearnings={embarkedJourney.keyLearning}
+                      keyLearning={embarkedJourney.keyLearning}
                       reflection={embarkedJourney.reflection}
-                      journeyId={embarkedJourney.journeyId}
+                      embarkedJourneyId={embarkedJourney.journeyId}
+                      journeyName={embarkedJourney.journeyName}
                     />
                   )
               )

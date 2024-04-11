@@ -703,8 +703,8 @@ export type EmbarkedJourney = {
   userId: string;
   journeyId: string;
   journeyName: string;
-  keyLearning: [string];
-  reflection: [string];
+  keyLearning: string;
+  reflection: string;
   isJourneyCompleted: boolean;
   dateCompleted: Date;
   currentDay: string;

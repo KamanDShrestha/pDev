@@ -1,4 +1,5 @@
-import useGetSpecificJourneyByID from '../services/journey/getSpecificJourneyByID';
+import KeyLearningCard from './KeyLearningCard';
+import ReflectionCard from './ReflectionCard';
 import {
   Accordion,
   AccordionItem,
@@ -8,23 +9,23 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 
 interface RetrospectionCardProps {
-  journeyId: string;
-  keyLearnings: string[];
-  reflection: string[];
+  embarkedJourneyId: string;
+  keyLearning: string;
+  reflection: string;
+  journeyName: string;
 }
 
 const RetrospectionCard = ({
-  keyLearnings,
+  keyLearning,
   reflection,
-  journeyId,
+  embarkedJourneyId,
+  journeyName,
 }: RetrospectionCardProps) => {
-  const { data: journey } = useGetSpecificJourneyByID(journeyId);
   return (
     <Card className='flex items-center justify-around w-[350px] sm:w-[600px] p-5'>
       <CardHeader>
         <div className='flex flex-col items-center gap-3'>
-          <CardTitle>{journey && journey.name}</CardTitle>
-          <img src={journey && journey.imageLinks.dark} className='w-32' />
+          <CardTitle>{journeyName}</CardTitle>
         </div>
       </CardHeader>
       <CardContent>
@@ -32,24 +33,24 @@ const RetrospectionCard = ({
         <Accordion type='single' collapsible>
           <AccordionItem value='item-1'>
             <AccordionTrigger className='text-lg'>
-              Key Learnings
+              Key Learning
             </AccordionTrigger>
             <AccordionContent>
-              {keyLearnings.map((learning) => (
-                <p>{learning}</p>
-              ))}
+              <KeyLearningCard
+                embarkedJourneyId={embarkedJourneyId}
+                keyLearning={keyLearning}
+              />
             </AccordionContent>
           </AccordionItem>
         </Accordion>
         <Accordion type='single' collapsible>
           <AccordionItem value='item-2'>
-            <AccordionTrigger className='text-lg'>
-              Your reflection
-            </AccordionTrigger>
+            <AccordionTrigger className='text-lg'>Reflection</AccordionTrigger>
             <AccordionContent>
-              {reflection.map((reflection) => (
-                <p>{reflection}</p>
-              ))}
+              <ReflectionCard
+                embarkedJourneyId={embarkedJourneyId}
+                reflection={reflection}
+              />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

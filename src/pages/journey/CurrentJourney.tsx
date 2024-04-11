@@ -19,7 +19,14 @@ import { FaCheck, FaRegCalendarCheck } from 'react-icons/fa';
 import { CiCircleCheck } from 'react-icons/ci';
 import { MdBlock } from 'react-icons/md';
 import { TbCalendarDue } from 'react-icons/tb';
-import { Card, CardContent } from '../../components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '../../components/ui/card';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import useDocumentTitle from '../../services/getTitle';
 
@@ -27,6 +34,11 @@ import ProgressBar from '../../components/ProgressBar';
 import { LucideDot } from 'lucide-react';
 import useGetRandomQuote from '../../services/quotes/getRandomQuote';
 import { cn } from '../../lib/utils';
+import { Textarea } from '../../components/ui/textarea';
+import { FieldValues, useForm } from 'react-hook-form';
+import useUpdateRetrospection from '../../services/embarkedJourneys/updateRetrospection';
+import ReflectionCard from '../../components/ReflectionCard';
+import KeyLearningCard from '../../components/KeyLearningCard';
 const CurrentJourney = () => {
   const { user } = useAuthContext();
   const journeyId = useParams();
@@ -38,6 +50,10 @@ const CurrentJourney = () => {
 
   const { data: randomQuote, isLoading: isFetchingRandomQuote } =
     useGetRandomQuote(embarkedJourney?.journeyName as string);
+
+  const { register, handleSubmit } = useForm();
+
+  const { mutate: updateRetrospection } = useUpdateRetrospection();
 
   console.log(error);
   const { mutate } = useUpdateActionCompletion();
@@ -71,6 +87,17 @@ const CurrentJourney = () => {
         },
       }
     );
+  }
+
+  function handleRetrospectionSubmission(data: FieldValues) {
+    console.log(data);
+    updateRetrospection({
+      embarkedJourneyId: embarkedJourney?._id ?? '',
+      updatedFields: {
+        reflection: data.reflection,
+        keyLearning: data.keyLearning,
+      },
+    });
   }
 
   return (
@@ -187,7 +214,7 @@ const CurrentJourney = () => {
                 {embarkedJourney &&
                   Object.keys(embarkedJourney.actionSteps).map(
                     (day: string, index) => (
-                      <Card className='flex flex-col items-center gap-4 p-3 text-lg font-medium max-w-[500px] justify-center border-gray-800'>
+                      <Card className='flex flex-col items-center gap-4 p-3 w-full text-lg font-medium max-w-[500px] justify-center border-gray-800'>
                         <Dialog>
                           <DialogTrigger
                             disabled={
@@ -451,6 +478,93 @@ const CurrentJourney = () => {
           </div>
         </>
       )}
+      {embarkedJourney &&
+        embarkedJourney?.isJourneyCompleted &&
+        !embarkedJourney.keyLearning &&
+        !embarkedJourney.reflection && (
+          <Card>
+            <CardHeader>
+              <CardTitle className='text-3xl'>
+                Provide your retrospection
+              </CardTitle>
+              <CardDescription>
+                Ensure yourself to get most out of the journey.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className='flex flex-wrap items-center justify-around gap-5 p-5'>
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Provide your reflection after completing this journey:
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    className='max-w-[600px] lg:w-[600px] md:w-[400px] w-full transition-all'
+                    {...register('reflection', {
+                      required:
+                        'Please provide your reflection before submission.',
+                      maxLength: {
+                        value: 250,
+                        message:
+                          'Please provide your reflection within 250 characters.',
+                      },
+                    })}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Provide your key learning:</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    className='max-w-[600px] lg:w-[600px] md:w-[400px] w-full transition-all'
+                    {...register('keyLearning', {
+                      required:
+                        'Please provide your key learning before submission.',
+                      maxLength: {
+                        value: 250,
+                        message:
+                          'Please provide your key learning within 250 characters.',
+                      },
+                    })}
+                  />
+                </CardContent>
+              </Card>
+            </CardContent>
+
+            <CardFooter>
+              <Button onClick={handleSubmit(handleRetrospectionSubmission)}>
+                Submit my retrospection
+              </Button>
+            </CardFooter>
+          </Card>
+        )}
+      {embarkedJourney &&
+        embarkedJourney.reflection &&
+        embarkedJourney.keyLearning && (
+          <Card>
+            <CardHeader>
+              <CardTitle className='text-3xl'>Retrospection</CardTitle>
+              <CardDescription>
+                Ensure yourself to get most out of the journey.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className='flex flex-wrap items-center justify-around gap-5 p-5'>
+              <ReflectionCard
+                embarkedJourneyId={embarkedJourney?._id}
+                reflection={embarkedJourney?.reflection}
+              />
+
+              <KeyLearningCard
+                embarkedJourneyId={embarkedJourney._id}
+                keyLearning={embarkedJourney.keyLearning}
+              />
+            </CardContent>
+          </Card>
+        )}
     </div>
   );
 };
