@@ -8,7 +8,7 @@ import Community from '../../src/pages/Community';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-describe('group', () => {
+describe('Community', () => {
   const queryClient = new QueryClient();
   server.use(
     http.get('/community/get', () => {
