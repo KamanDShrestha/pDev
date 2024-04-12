@@ -2,9 +2,17 @@ import useDeletePrompt from '../services/gratitudePrompts/deletePrompt';
 import useGetPrompts from '../services/gratitudePrompts/getPrompts';
 import LoadingSpinner from './LoadingSpinner';
 import UpdateGratitudeJournalPrompt from './UpdateGratitudeJournalPrompt';
-import { Button } from './ui/button';
+import { buttonVariants } from './ui/button';
 
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 
 const GratitudeJournalPromptCard = () => {
   const { data: prompts, isLoading } = useGetPrompts();
@@ -33,14 +41,37 @@ const GratitudeJournalPromptCard = () => {
               </div>
               <div className='space-x-3'>
                 <UpdateGratitudeJournalPrompt prompt={prompt} />
-                <Button
-                  size={'xs'}
-                  variant={'destructive'}
-                  onClick={() => handlePromptDelete(prompt._id)}
-                  disabled={isDeleting}
-                >
-                  {isDeleting ? <LoadingSpinner /> : 'Delete'}
-                </Button>
+                <Dialog>
+                  <DialogTrigger
+                    className={buttonVariants({
+                      variant: 'destructive',
+                      size: 'xs',
+                    })}
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogTitle>
+                      Are you sure you want to delete gratitude prompt?
+                    </DialogTitle>
+                    <DialogFooter>
+                      <DialogClose
+                        name='Cancel'
+                        className={buttonVariants({ variant: 'secondary' })}
+                      >
+                        Cancel
+                      </DialogClose>
+                      <DialogClose
+                        name='Delete'
+                        className={buttonVariants({ variant: 'destructive' })}
+                        onClick={() => handlePromptDelete(prompt._id)}
+                      >
+                        {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           ))}

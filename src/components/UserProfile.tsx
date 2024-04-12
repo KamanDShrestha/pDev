@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import { UpdateUserRoleData, User } from '../types';
 import useUpdateUserRole from '../services/users/updateUserRole';
 import { useState } from 'react';
@@ -23,6 +23,14 @@ import LoadingSpinner from './LoadingSpinner';
 import { format } from 'date-fns';
 import { LucideDot } from 'lucide-react';
 import { Badge } from './ui/badge';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 
 interface UserProfileProps {
   user: User;
@@ -135,12 +143,29 @@ const UserProfile = ({ user }: UserProfileProps) => {
         </div>
       </CardContent>
       <CardFooter>
-        <Button
-          onClick={() => deleteUser({ id: user._id })}
-          variant={'destructive'}
-        >
-          {isDeletingUser ? <LoadingSpinner /> : 'Delete User'}
-        </Button>
+        <Dialog>
+          <DialogTrigger className={buttonVariants({ variant: 'destructive' })}>
+            {isDeletingUser ? <LoadingSpinner /> : 'Delete User'}
+          </DialogTrigger>
+          <DialogContent>
+            <DialogTitle>Do you want to delete the user?</DialogTitle>
+            <DialogFooter>
+              <DialogClose
+                name='Cancel'
+                className={buttonVariants({ variant: 'secondary' })}
+              >
+                Cancel
+              </DialogClose>
+              <DialogClose
+                name='Delete'
+                className={buttonVariants({ variant: 'destructive' })}
+                onClick={() => deleteUser({ id: user._id })}
+              >
+                {isDeletingUser ? <LoadingSpinner /> : 'Delete'}
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </CardFooter>
     </Card>
   );

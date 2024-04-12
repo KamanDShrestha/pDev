@@ -485,10 +485,10 @@ const CurrentJourney = () => {
           <Card>
             <CardHeader>
               <CardTitle className='text-3xl'>
-                Provide your retrospection
+                Provide your retrospection for reflecting on these action steps.
               </CardTitle>
               <CardDescription>
-                Ensure yourself to get most out of the journey.
+                Provide your throughts and experiences for relflection.
               </CardDescription>
             </CardHeader>
             <CardContent className='flex flex-wrap items-center justify-around gap-5 p-5'>

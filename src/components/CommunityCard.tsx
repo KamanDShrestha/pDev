@@ -8,7 +8,7 @@ import {
 } from './ui/card';
 import { CommunityData } from '../types';
 import { useTheme } from './ThemeProvider';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import useGetCommunityMembers from '../services/communityMembers/getCommunityMembers';
 import useAddMembers from '../services/communityMembers/addMembers';
 import { useAuthContext } from '../context/AuthProvider';
@@ -22,6 +22,14 @@ import ExpandableText from './ExpandableText';
 import EditCommunityDialog from './EditCommunityDialog';
 import UpdateCommunityIconDialog from './UpdateCommunityIconDialog';
 import useLeaveCommunity from '../services/communityMembers/leaveCommunity';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 
 interface CommunityCardProps {
   community: CommunityData;
@@ -143,13 +151,37 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
 
         {user?.role === 'admin' && (
           <div className='flex flex-wrap items-center justify-center gap-3'>
-            <Button
-              variant={'destructive'}
-              onClick={() => handleDeleteCommunity(community._id)}
-              disabled={isDeleting}
-            >
-              Delete this community
-            </Button>
+            <Dialog>
+              <DialogTrigger
+                className={buttonVariants({
+                  variant: 'destructive',
+                  size: 'sm',
+                })}
+                disabled={isDeleting}
+              >
+                Delete this community
+              </DialogTrigger>
+              <DialogContent>
+                <DialogTitle>
+                  Are you sure you want to delete this community?
+                </DialogTitle>
+                <DialogFooter>
+                  <DialogClose
+                    name='Cancel'
+                    className={buttonVariants({ variant: 'secondary' })}
+                  >
+                    Cancel
+                  </DialogClose>
+                  <DialogClose
+                    name='Delete'
+                    className={buttonVariants({ variant: 'destructive' })}
+                    onClick={() => handleDeleteCommunity(community._id)}
+                  >
+                    {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
             <EditCommunityDialog community={community} />
             <UpdateCommunityIconDialog community={community} />
           </div>

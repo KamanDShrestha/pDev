@@ -32,16 +32,18 @@ const ProfilePersonalDetailsCard = () => {
             <label className='font-medium'>Role: </label>
             <span>{user.role}</span>
           </div>
-          <div className='flex flex-wrap justify-between'>
-            <label className='font-medium'>Subscription Status: </label>
-            <span>
-              {user.hasSubscribed ? (
-                <Badge>Subscribed</Badge>
-              ) : (
-                <Badge>Not Subscribed</Badge>
-              )}
-            </span>
-          </div>
+          {user.role === 'user' && (
+            <div className='flex flex-wrap justify-between'>
+              <label className='font-medium'>Subscription Status: </label>
+              <span>
+                {user.hasSubscribed ? (
+                  <Badge>Subscribed</Badge>
+                ) : (
+                  <Badge>Not Subscribed</Badge>
+                )}
+              </span>
+            </div>
+          )}
         </Card>
       )}
     </>

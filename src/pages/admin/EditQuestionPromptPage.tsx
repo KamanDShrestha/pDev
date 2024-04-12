@@ -36,11 +36,11 @@ const EditQuestionPromptPage = () => {
     defaultValues: {
       title: questionPrompt?.title,
       description: questionPrompt?.description,
-      questions: questionPrompt?.questions.map((question) => question.prompt),
-      placeholders: questionPrompt?.questions.map(
+      questions: questionPrompt?.questions?.map((question) => question.prompt),
+      placeholders: questionPrompt?.questions?.map(
         (question) => question.placeholder
       ),
-      tags: questionPrompt?.questions.map((question) => question.tag),
+      tags: questionPrompt?.questions?.map((question) => question.tag),
     },
   });
 
@@ -50,11 +50,11 @@ const EditQuestionPromptPage = () => {
     reset({
       title: questionPrompt?.title,
       description: questionPrompt?.description,
-      questions: questionPrompt?.questions.map((question) => question.prompt),
-      placeholders: questionPrompt?.questions.map(
+      questions: questionPrompt?.questions?.map((question) => question.prompt),
+      placeholders: questionPrompt?.questions?.map(
         (question) => question.placeholder
       ),
-      tags: questionPrompt?.questions.map((question) => question.tag),
+      tags: questionPrompt?.questions?.map((question) => question.tag),
     });
   }, [questionPrompt?._id]);
 
@@ -171,7 +171,7 @@ const EditQuestionPromptPage = () => {
                     <Heading className='mb-0 text-2xl'>Questions</Heading>
                   </CardHeader>
                   <CardContent className='h-[60vh] overflow-scroll'>
-                    {questionPrompt.questions.map((_, index) => (
+                    {questionPrompt.questions?.map((_, index) => (
                       <div className='px-3 mb-10' key={index}>
                         <div>
                           <Heading className='mb-2 text-lg'>

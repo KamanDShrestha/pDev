@@ -67,7 +67,7 @@ const JournalAddDialog = () => {
     defaultValues: {
       journalTitle: '',
       journalContent: '',
-      entryDate: getFormattedDate(),
+      entryDate: getFormattedDate(new Date()),
     },
   });
   const { mutate: addJournalEntry } = useAddJournalEntry();
@@ -85,7 +85,7 @@ const JournalAddDialog = () => {
         journalEntry: {
           journalTitle: data.journalTitle,
           journalContent: data.journalContent,
-          entryDate: data.entryDate,
+          entryDate: data.entryDate || new Date(),
           journalCategory: selectedCategory,
         },
       },
@@ -94,7 +94,7 @@ const JournalAddDialog = () => {
           reset({
             journalTitle: '',
             journalContent: '',
-            entryDate: getFormattedDate(),
+            entryDate: getFormattedDate(new Date()),
           });
           setSelectedCategory('');
           queryClient.invalidateQueries(['journals']);
@@ -168,7 +168,7 @@ const JournalAddDialog = () => {
             <div>
               <Input
                 type='date'
-                defaultValue={getFormattedDate()}
+                defaultValue={getFormattedDate(new Date())}
                 {...register('entryDate', {
                   required: {
                     value: true,

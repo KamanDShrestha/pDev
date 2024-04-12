@@ -1,6 +1,7 @@
 import useDocumentTitle from '../../services/getTitle';
 import QuestionAnswerCard from '../../components/QuestionAnswerCard';
 import useGetQAs from '../../services/QAs/getQAs';
+import Heading from '../../components/Heading';
 
 const QAs = () => {
   const { data: QAs, error } = useGetQAs();
@@ -10,9 +11,12 @@ const QAs = () => {
   useDocumentTitle('QAs - SelfSync');
 
   return (
-    <div className='flex flex-wrap justify-center gap-5'>
-      {QAs && QAs.map((QA) => <QuestionAnswerCard question={QA} />)}
-    </div>
+    <>
+      <Heading>Questions and Feedbacks</Heading>
+      <div className='flex flex-wrap justify-center gap-5'>
+        {QAs && QAs.map((QA) => <QuestionAnswerCard question={QA} />)}
+      </div>
+    </>
   );
 };
 

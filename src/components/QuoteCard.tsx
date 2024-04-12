@@ -6,6 +6,7 @@ import useDeleteQuote from '../services/quotes/deleteQuote';
 import LoadingSpinner from './LoadingSpinner';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -97,21 +98,43 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
       </CardContent>
       {user?.role === 'admin' && category && (
         <CardFooter className='space-x-2'>
-          <Button
-            variant={'destructive'}
-            size='xs'
-            className='space-x-2'
-            onClick={handleQuoteDeletion}
-          >
-            {isDeleting ? (
-              <LoadingSpinner />
-            ) : (
-              <>
-                <span>Move to trash</span>
-                <FaTrash />
-              </>
-            )}
-          </Button>
+          <Dialog>
+            <DialogTrigger
+              className={cn(
+                buttonVariants({ variant: 'destructive', size: 'xs' }),
+                'space-x-2'
+              )}
+            >
+              {isDeleting ? (
+                <LoadingSpinner />
+              ) : (
+                <>
+                  <span>Move to trash</span>
+                  <FaTrash />
+                </>
+              )}
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle>
+                Are you sure you want to delete this quote?
+              </DialogTitle>
+              <DialogFooter>
+                <DialogClose
+                  name='Cancel'
+                  className={buttonVariants({ variant: 'secondary' })}
+                >
+                  Cancel
+                </DialogClose>
+                <DialogClose
+                  name='Delete'
+                  className={buttonVariants({ variant: 'destructive' })}
+                  onClick={handleQuoteDeletion}
+                >
+                  {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
           <Dialog>
             <DialogTrigger
               className={cn(

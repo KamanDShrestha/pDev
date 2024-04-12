@@ -34,6 +34,14 @@ import useDiscontinueJourney from '../services/embarkedJourneys/discontinueJourn
 import useContinueJourney from '../services/embarkedJourneys/continueJourney';
 import { useQueryClient } from '@tanstack/react-query';
 import useAddEmbarkedJourney from '../services/embarkedJourneys/addEmbarkedJourney';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 
 interface ActionSteps {
   description: string;
@@ -261,12 +269,34 @@ const JourneyCard = ({
                   >
                     Edit this journey
                   </Button>
-                  <Button
-                    onClick={() => deleteJourney({ id: journeyId })}
-                    variant={'destructive'}
-                  >
-                    {isDeleting ? <LoadingSpinner /> : 'Delete this journey'}
-                  </Button>
+
+                  <Dialog>
+                    <DialogTrigger
+                      className={buttonVariants({ variant: 'destructive' })}
+                    >
+                      {isDeleting ? <LoadingSpinner /> : 'Delete this journey'}
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogTitle>
+                        Are you sure you want to delete this journey?
+                      </DialogTitle>
+                      <DialogFooter>
+                        <DialogClose
+                          name='Cancel'
+                          className={buttonVariants({ variant: 'secondary' })}
+                        >
+                          Cancel
+                        </DialogClose>
+                        <DialogClose
+                          name='Delete'
+                          className={buttonVariants({ variant: 'destructive' })}
+                          onClick={() => deleteJourney({ id: journeyId })}
+                        >
+                          {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </>
               )}
               {user && user.role === 'qhp' && (
@@ -274,6 +304,45 @@ const JourneyCard = ({
                   <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
                     Browse
                   </Button>
+
+                  {embarkedJourney &&
+                    embarkedJourney.journeyStatus === 'discontinued' && (
+                      <Button onClick={() => handleContinueJourney()}>
+                        {isContinuing ? (
+                          <LoadingSpinner />
+                        ) : (
+                          'Continue the journey'
+                        )}
+                      </Button>
+                    )}
+
+                  {!embarkedJourney ? (
+                    <Button onClick={handleEmbarkJourney}>
+                      {isEmbarking ? <LoadingSpinner /> : 'Begin'}
+                    </Button>
+                  ) : (
+                    embarkedJourney.isJourneyCompleted === false &&
+                    embarkedJourney.journeyStatus === 'ongoing' && (
+                      <>
+                        <NavLink
+                          to={`/currentJourney/${embarkedJourney?.journeyId}`}
+                          className={cn(
+                            buttonVariants({ variant: 'secondary' })
+                          )}
+                        >
+                          Navigate to the journey
+                        </NavLink>
+
+                        <Button onClick={() => handleDiscontinueJourney()}>
+                          {isDiscontinuing ? (
+                            <LoadingSpinner />
+                          ) : (
+                            'Discontinue journey'
+                          )}
+                        </Button>
+                      </>
+                    )
+                  )}
                 </>
               )}
             </CardFooter>

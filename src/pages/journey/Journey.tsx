@@ -54,7 +54,7 @@ const Journey = () => {
             ))}
 
           {journeys &&
-            user?.role === 'user' &&
+            (user?.role === 'user' || user?.role === 'qhp') &&
             journeys
               .filter((journey) => journey.isVerified === true)
               .map((journey, index) => (

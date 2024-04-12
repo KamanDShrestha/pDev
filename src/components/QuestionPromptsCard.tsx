@@ -1,7 +1,9 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -21,7 +23,7 @@ import { QuestionPrompt } from '../types';
 import { FieldValues, useForm } from 'react-hook-form';
 import useAddQuestionPromptEntry from '../services/questionPromptEntries/addQuestionPromptEntry';
 import LoadingSpinner from './LoadingSpinner';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import useDeleteQuestionPrompt from '../services/questionPrompts/deleteQuestionPrompt';
 import { cn } from '../lib/utils';
@@ -99,12 +101,54 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
           </CardHeader>
           {user?.role === 'admin' && (
             <CardFooter>
-              <Button
-                variant='destructive'
-                onClick={() => handleQuestionPromptDeletion(questionPrompt._id)}
-              >
-                {!isDeleting ? <span>Move to trash</span> : <LoadingSpinner />}
-              </Button>
+              <Dialog>
+                <DialogTrigger
+                  className={buttonVariants({
+                    variant: 'destructive',
+                    size: 'sm',
+                  })}
+                >
+                  {!isDeleting ? (
+                    <span>Move to trash</span>
+                  ) : (
+                    <LoadingSpinner />
+                  )}
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you sure?</DialogTitle>
+                  </DialogHeader>
+                  <DialogContent>
+                    <DialogDescription>
+                      This action will move the question prompt to the trash.
+                      Are you sure you want to proceed?
+                    </DialogDescription>
+                  </DialogContent>
+                  <DialogFooter>
+                    <DialogClose
+                      name='Cancel'
+                      className={cn(
+                        buttonVariants({ variant: 'secondary', size: 'xs' }),
+                        'space-x-2'
+                      )}
+                    >
+                      Cancel
+                    </DialogClose>
+                    <DialogClose
+                      name='Delete'
+                      className={cn(
+                        buttonVariants({ variant: 'destructive', size: 'xs' }),
+                        'space-x-2'
+                      )}
+                      onClick={() =>
+                        handleQuestionPromptDeletion(questionPrompt._id)
+                      }
+                    >
+                      {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </CardFooter>
           )}
         </Card>

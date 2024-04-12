@@ -19,6 +19,14 @@ import useUpdateSubscriptionPlanStatus from '../services/subscriptionPlans/updat
 import { cn } from '../lib/utils';
 import { statusColoring } from '../constants';
 import useUnsubscribe from '../services/payments/unsubscribe';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 
 interface SubscriptionPlanCardProps {
   subscriptionPlan: SubscriptionPlan;
@@ -124,13 +132,35 @@ const SubscriptionPlanCard = ({
             >
               Edit
             </NavLink>
-            <Button
-              variant={'destructive'}
-              onClick={handleSubscriptionPlanDelete}
-              disabled={isDeleting}
-            >
-              {isDeleting ? <LoadingSpinner /> : 'Delete'}
-            </Button>
+
+            <Dialog>
+              <DialogTrigger
+                className={buttonVariants({ variant: 'destructive' })}
+                disabled={isDeleting}
+              >
+                {isDeleting ? <LoadingSpinner /> : 'Delete'}
+              </DialogTrigger>
+              <DialogContent>
+                <DialogTitle>
+                  Are you sure you want to delete this subscription plan?
+                </DialogTitle>
+                <DialogFooter>
+                  <DialogClose
+                    name='Cancel'
+                    className={buttonVariants({ variant: 'secondary' })}
+                  >
+                    Cancel
+                  </DialogClose>
+                  <DialogClose
+                    name='Delete'
+                    className={buttonVariants({ variant: 'destructive' })}
+                    onClick={handleSubscriptionPlanDelete}
+                  >
+                    {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
 
             {subscriptionPlan.isActive !== true ? (
               <Button

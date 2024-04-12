@@ -11,8 +11,10 @@ import { Button, buttonVariants } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -28,6 +30,7 @@ import { FaPen, FaTrash } from 'react-icons/fa';
 
 import useDeleteQuestionPrompt from '../services/questionPrompts/deleteQuestionPrompt';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '../lib/utils';
 
 interface QuestionPromptCardProps {
   questionPrompt: QuestionPrompt;
@@ -98,20 +101,43 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
       </CardContent>
       {user?.role === 'admin' && (
         <CardFooter className='space-x-3'>
-          <Button
-            className='space-x-2'
-            variant={'destructive'}
-            onClick={handlePromptDelete}
-          >
-            {isDeleting ? (
-              <LoadingSpinner />
-            ) : (
-              <>
-                <span>Move to trash</span>
-                <FaTrash />
-              </>
-            )}
-          </Button>
+          <Dialog>
+            <DialogTrigger
+              className={cn(
+                buttonVariants({ variant: 'destructive' }),
+                'space-x-2'
+              )}
+            >
+              {isDeleting ? (
+                <LoadingSpinner />
+              ) : (
+                <>
+                  <span>Move to trash</span>
+                  <FaTrash />
+                </>
+              )}
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle>
+                Are you sure you want to delete this question prompt?
+              </DialogTitle>
+              <DialogFooter>
+                <DialogClose
+                  name='Cancel'
+                  className={buttonVariants({ variant: 'secondary' })}
+                >
+                  Cancel
+                </DialogClose>
+                <DialogClose
+                  name='Delete'
+                  className={buttonVariants({ variant: 'destructive' })}
+                  onClick={handlePromptDelete}
+                >
+                  {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
           <Button
             className='space-x-2'
             onClick={() => navigate(`/prompts/edit/${questionPrompt._id}`)}
@@ -130,13 +156,16 @@ const QuestionPromptCard = ({ questionPrompt }: QuestionPromptCardProps) => {
           >
             Verify
           </Button>
-          <Button
-            variant={'destructive'}
-            onClick={() => handlePromptStatusChange(false)}
-            disabled={isUpdating}
-          >
-            Reject
-          </Button>
+          {questionPrompt.isVerified === false &&
+            questionPrompt.verifiedBy === null && (
+              <Button
+                variant={'destructive'}
+                onClick={() => handlePromptStatusChange(false)}
+                disabled={isUpdating}
+              >
+                Reject
+              </Button>
+            )}
           <Dialog
             onOpenChange={() => {
               errors.feedback && reset({ feedback: '' });

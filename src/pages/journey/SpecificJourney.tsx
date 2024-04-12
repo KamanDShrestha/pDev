@@ -145,27 +145,37 @@ const SpecificJourney = () => {
               </Dialog>
             )}
 
-            {embarkedJourney === null && (
-              <Button onClick={handleBeginButton}>Begin the journey</Button>
+            {journey?.isVerified === true && (
+              <>
+                {embarkedJourney === null && (
+                  <Button onClick={handleBeginButton}>Begin the journey</Button>
+                )}
+
+                {embarkedJourney &&
+                  !embarkedJourney.isJourneyCompleted &&
+                  embarkedJourney.journeyStatus === 'ongoing' && (
+                    <Button
+                      onClick={() =>
+                        navigate(`/currentJourney/${journey?._id}`)
+                      }
+                    >
+                      Navigate to current journey
+                    </Button>
+                  )}
+
+                {embarkedJourney &&
+                  !embarkedJourney.isJourneyCompleted &&
+                  embarkedJourney.journeyStatus === 'discontinued' && (
+                    <Button onClick={() => handleContinueJourney()}>
+                      {isContinuing ? (
+                        <LoadingSpinner />
+                      ) : (
+                        'Continue the journey'
+                      )}
+                    </Button>
+                  )}
+              </>
             )}
-
-            {embarkedJourney &&
-              !embarkedJourney.isJourneyCompleted &&
-              embarkedJourney.journeyStatus === 'ongoing' && (
-                <Button
-                  onClick={() => navigate(`/currentJourney/${journey?._id}`)}
-                >
-                  Navigate to current journey
-                </Button>
-              )}
-
-            {embarkedJourney &&
-              !embarkedJourney.isJourneyCompleted &&
-              embarkedJourney.journeyStatus === 'discontinued' && (
-                <Button onClick={() => handleContinueJourney()}>
-                  {isContinuing ? <LoadingSpinner /> : 'Continue the journey'}
-                </Button>
-              )}
           </div>
         </div>
         <div className='flex flex-wrap justify-center gap-5 p-3'>
