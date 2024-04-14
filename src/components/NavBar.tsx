@@ -73,7 +73,7 @@ const NavBar = () => {
   return (
     <>
       <Sheet>
-        <SheetTrigger className='block md:hidden'>
+        <SheetTrigger className='block lg:hidden'>
           <GiHamburgerMenu />
         </SheetTrigger>
         <SheetContent className='flex flex-col' side={'left'}>
@@ -158,7 +158,7 @@ const NavBar = () => {
         </SheetContent>
       </Sheet>
 
-      <NavigationMenu className='hidden md:block'>
+      <NavigationMenu className='hidden lg:block'>
         <NavigationMenuList>
           {user?.role === 'user' && (
             <>
@@ -210,8 +210,13 @@ const NavBar = () => {
                 }}
                 className='bg-cover rounded-full'
               ></div>
-
               {user?.firstName}
+              {user?.role === 'admin' && (
+                <span className='font-semibold'>- Admin</span>
+              )}
+              {user?.role === 'qhp' && (
+                <span className='font-semibold'>- QHP</span>
+              )}
             </NavLink>
           </NavigationMenuItem>
 

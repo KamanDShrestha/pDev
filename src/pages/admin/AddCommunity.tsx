@@ -27,6 +27,7 @@ import { useGetAllJourneys } from '../../services/journey/getAllJourneys';
 import { useState } from 'react';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import useDocumentTitle from '../../services/getTitle';
+import Heading from '../../components/Heading';
 
 const AddCommunity = () => {
   const { mutate: addCommunity, isLoading: isCreatingCommunity } =
@@ -43,270 +44,330 @@ const AddCommunity = () => {
   const [selectedJourney, setSelectedJourney] = useState('');
   const [isJourneySelected, setIsSelectedJourney] = useState(true);
 
+  const [lightImage, setLightImage] = useState<File | null>(null);
+  const [darkImage, setDarkImage] = useState<File | null>(null);
+  const [lightImageURL, setLightImageURL] = useState<string>();
+  const [darkImageURL, setDarkImageURL] = useState<string>();
+  const [lightImageError, setLightImageError] = useState<string | null>(null);
+  const [darkImageError, setDarkImageError] = useState<string | null>(null);
+
   const providedName = watch('communityName');
   const providedDescription = watch('communityDescription');
-  const providedDarkIconImage = watch('communityIconImageDark');
-  const providedLightIconImage = watch('communityIconImageLight');
+
+  function handleLightCommunityIconChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setLightImageError(null);
+
+    if (e.target.files) {
+      if (e.target.files[0].type.split('/')[0] !== 'image') {
+        setLightImageError('Please provide a valid image file');
+        return;
+      }
+      if (e.target.files[0].size > 5000000) {
+        setLightImageError('Please provide an image of size less than 5MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLightImageURL(reader.result as string);
+      };
+      setLightImage(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  }
+
+  function handleDarkCommunityIconChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setDarkImageError(null);
+
+    if (e.target.files) {
+      if (e.target.files[0].type.split('/')[0] !== 'image') {
+        setDarkImageError('Please provide a valid image file');
+        return;
+      }
+      if (e.target.files[0].size > 5000000) {
+        setDarkImageError('Please provide an image of size less than 5MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setDarkImageURL(reader.result as string);
+      };
+      setDarkImage(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  }
 
   useDocumentTitle('Add Community - SelfSync');
 
   function handleAddCommunity(data: FieldValues) {
+    if (!(lightImage instanceof File)) {
+      setLightImageError('Please provide an image before updating.');
+
+      return;
+    }
+    if (!(darkImage instanceof File)) {
+      setDarkImageError('Please provide an image before updating.');
+
+      return;
+    }
     if (selectedJourney === '') {
       setIsSelectedJourney(false);
       return;
     }
 
-    addCommunity(
-      {
+    const formData = new FormData();
+
+    if (lightImage) {
+      formData.append('communityIconLight', lightImage);
+      setLightImageError(null);
+    } else {
+      setLightImageError('Please provide an image before updating.');
+      return;
+    }
+    if (darkImage) {
+      formData.append('communityIconDark', darkImage);
+      setLightImageError(null);
+    } else {
+      setDarkImageError('Please provide an image before updating.');
+      return;
+    }
+
+    formData.append(
+      'data',
+      JSON.stringify({
         journeyId: selectedJourney,
         communityName: data.communityName,
         communityDescription: data.communityDescription,
-        communityIcon: {
-          dark: data.communityIconImageDark,
-          light: data.communityIconImageLight,
-        },
-      },
-      {
-        onSuccess: () => {
-          reset({
-            communityName: '',
-            communityDescription: '',
-            communityIconImageDark: '',
-            communityIconImageLight: '',
-          });
-        },
-      }
+      })
     );
+
+    addCommunity(formData, {
+      onSuccess: () => {
+        reset({
+          communityName: '',
+          communityDescription: '',
+          communityIconImageDark: '',
+          communityIconImageLight: '',
+        });
+      },
+    });
   }
 
   return (
-    <div className='flex justify-center'>
-      <Card className='max-w-[600px]'>
-        <CardHeader>
-          <CardTitle>Add new community for the users !</CardTitle>
-          <CardDescription>
-            Through this, add new community for the users can be added
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className='flex flex-col gap-3'>
-            <div className='relative group'>
-              <InputFieldLabel
-                htmlFor='journeyName'
-                hasContent={
-                  providedName !== undefined && providedName?.length !== 0
-                }
-              >
-                Community Name
-              </InputFieldLabel>
-              <Input
-                {...register('communityName', {
-                  required: 'Community name need to be provided',
-                  minLength: {
-                    value: 5,
-                    message: 'Community name must have at least 5 characters',
-                  },
-                })}
-                type='text'
-              />
-              {errors.communityName && (
-                <ErrorMessage>
-                  {errors.communityName.message as string}
-                </ErrorMessage>
-              )}
-            </div>
-            <div className='relative group'>
-              <InputFieldLabel
-                htmlFor='communityDescription'
-                hasContent={
-                  providedDescription !== undefined &&
-                  providedDescription?.length !== 0
-                }
-              >
-                Community Description
-              </InputFieldLabel>
-              <Textarea
-                {...register('communityDescription', {
-                  required: 'Description need to be provided',
-                  minLength: {
-                    value: 20,
-                    message: 'Description must have at least 20 characters',
-                  },
-                  maxLength: {
-                    value: 500,
-                    message:
-                      'Description must not have more than 500 characters',
-                  },
-                })}
-              />
-              {errors.communityDescription && (
-                <ErrorMessage>
-                  {errors.communityDescription.message as string}
-                </ErrorMessage>
-              )}
-            </div>
-
-            <div className='flex flex-col gap-2'>
-              <label htmlFor='iconImageLinks' className='font-medium'>
-                Icon Image Links
-              </label>
-              <div className='space-y-2'>
-                <div className='relative group'>
-                  <InputFieldLabel
-                    htmlFor='communityIconImageDark'
-                    hasContent={
-                      providedDarkIconImage !== undefined &&
-                      providedDarkIconImage?.length !== 0
-                    }
-                  >
-                    For Dark Mode
-                  </InputFieldLabel>
-                  <Input
-                    {...register('communityIconImageDark', {
-                      required: 'Image link for dark mode need to be provided',
-                    })}
-                    type='text'
-                  />
-                  {errors.communityIconImageDark && (
-                    <ErrorMessage>
-                      {errors.communityIconImageDark.message as string}
-                    </ErrorMessage>
-                  )}
+    <>
+      <Heading>Add Community</Heading>
+      <div className='flex flex-wrap items-center justify-center gap-12'>
+        <Card className='m-3'>
+          <CardHeader>
+            <CardTitle>Add community icon</CardTitle>
+            <CardDescription>
+              You can add icons for the community.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className='space-y-5 max-h-[70vh] overflow-scroll'>
+              <div>
+                <label htmlFor='communityIconDark' className='font-medium'>
+                  Community Icon- Dark
+                </label>
+                <div className='flex flex-wrap items-center justify-around gap-5 my-3 md:flex-nowrap'>
+                  <img src={darkImageURL} className='h-32 my-2' />
+                  <div>
+                    <Input
+                      id='communityIconDark'
+                      type='file'
+                      onChange={handleDarkCommunityIconChange}
+                    />
+                    {darkImageError && (
+                      <ErrorMessage>{darkImageError}</ErrorMessage>
+                    )}
+                  </div>
                 </div>
-                <div className='relative group'>
-                  <InputFieldLabel
-                    htmlFor='communityDescription'
-                    hasContent={
-                      providedLightIconImage !== undefined &&
-                      providedLightIconImage?.length !== 0
-                    }
-                  >
-                    For Light Mode
-                  </InputFieldLabel>
-                  <Input
-                    {...register('communityIconImageLight', {
-                      required: 'Image link for light mode need to be provided',
-                    })}
-                    type='text'
-                  />
-                  {errors.communityIconImageLight && (
-                    <ErrorMessage>
-                      {errors.communityIconImageLight.message as string}
-                    </ErrorMessage>
-                  )}
+              </div>
+              <div>
+                <label htmlFor='communityIconLight' className='font-medium'>
+                  Community Icon - Light
+                </label>
+                <div className='flex flex-wrap items-center justify-around gap-5 my-3 md:flex-nowrap'>
+                  <img src={lightImageURL} className='h-32 my-2' />
+                  <div>
+                    <Input
+                      id='communityIconLight'
+                      type='file'
+                      onChange={handleLightCommunityIconChange}
+                    />
+                    {lightImageError && (
+                      <ErrorMessage>{lightImageError}</ErrorMessage>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+          </CardContent>
+        </Card>
+        <Card className='max-w-[600px]'>
+          <CardHeader>
+            <CardTitle>Add new community for the users !</CardTitle>
+            <CardDescription>
+              Through this, add new community for the users can be added
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className='flex flex-col gap-3'>
+              <div className='relative group'>
+                <InputFieldLabel
+                  htmlFor='communityName'
+                  hasContent={
+                    providedName !== undefined && providedName?.length !== 0
+                  }
+                >
+                  Community Name
+                </InputFieldLabel>
+                <Input
+                  id='communityName'
+                  {...register('communityName', {
+                    required: 'Community name need to be provided',
+                    minLength: {
+                      value: 5,
+                      message: 'Community name must have at least 5 characters',
+                    },
+                  })}
+                  type='text'
+                />
+                {errors.communityName && (
+                  <ErrorMessage>
+                    {errors.communityName.message as string}
+                  </ErrorMessage>
+                )}
+              </div>
+              <div className='relative group'>
+                <InputFieldLabel
+                  htmlFor='communityDescription'
+                  hasContent={
+                    providedDescription !== undefined &&
+                    providedDescription?.length !== 0
+                  }
+                >
+                  Community Description
+                </InputFieldLabel>
+                <Textarea
+                  id='communityDescription'
+                  {...register('communityDescription', {
+                    required: 'Description need to be provided',
+                    minLength: {
+                      value: 20,
+                      message: 'Description must have at least 20 characters',
+                    },
+                    maxLength: {
+                      value: 500,
+                      message:
+                        'Description must not have more than 500 characters',
+                    },
+                  })}
+                />
+                {errors.communityDescription && (
+                  <ErrorMessage>
+                    {errors.communityDescription.message as string}
+                  </ErrorMessage>
+                )}
+              </div>
 
-            {/* <div className='relative group'>
-              <label htmlFor='communityImportance' className='font-medium'>
-                Journey Importance
-              </label>
-              <div className='relative flex flex-col gap-2'>
-                {Array.from(Array(3)).map((_, index) => (
-                  <>
+              {/* <div className='flex flex-col gap-2'>
+                <label htmlFor='iconImageLinks' className='font-medium'>
+                  Icon Image Links
+                </label>
+                <div className='space-y-2'>
+                  <div className='relative group'>
+                    <InputFieldLabel
+                      htmlFor='communityIconImageDark'
+                      hasContent={
+                        providedDarkIconImage !== undefined &&
+                        providedDarkIconImage?.length !== 0
+                      }
+                    >
+                      For Dark Mode
+                    </InputFieldLabel>
                     <Input
-                      key={index}
-                      {...register(`journeyImportance${index + 1}`, {
-                        required: 'Please provide importance for this journey',
+                      {...register('communityIconImageDark', {
+                        required:
+                          'Image link for dark mode need to be provided',
                       })}
+                      type='text'
                     />
-                    {errors[`journeyImportance${index + 1}`] && (
+                    {errors.communityIconImageDark && (
                       <ErrorMessage>
-                        {
-                          errors[`journeyImportance${index + 1}`]
-                            ?.message as string
-                        }
+                        {errors.communityIconImageDark.message as string}
                       </ErrorMessage>
                     )}
-                  </>
-                ))}
-              </div>
-            </div> */}
-
-            {/* <div className='relative group'>
-              <label htmlFor='journeyUsages' className='font-medium'>
-                Journey Usages
-              </label>
-              <div className='relative flex flex-col gap-2 group'>
-                {Array.from(Array(3)).map((_, index) => (
-                  <>
+                  </div>
+                  <div className='relative group'>
+                    <InputFieldLabel
+                      htmlFor='communityDescription'
+                      hasContent={
+                        providedLightIconImage !== undefined &&
+                        providedLightIconImage?.length !== 0
+                      }
+                    >
+                      For Light Mode
+                    </InputFieldLabel>
                     <Input
-                      key={index}
-                      {...register(`journeyUsage${index + 1}`, {
-                        required: 'Please provide usages for this journey',
+                      {...register('communityIconImageLight', {
+                        required:
+                          'Image link for light mode need to be provided',
                       })}
+                      type='text'
                     />
-                    {errors[`journeyUsage${index + 1}`] && (
+                    {errors.communityIconImageLight && (
                       <ErrorMessage>
-                        {errors[`journeyUsage${index + 1}`]?.message as string}
+                        {errors.communityIconImageLight.message as string}
                       </ErrorMessage>
                     )}
-                  </>
-                ))}
-              </div>
-            </div> */}
-            {/* <div className='relative group'>
-              <label htmlFor='journeyQuotes' className='font-medium'>
-                Journey Quotes
-              </label>
-              <div className='relative flex flex-col gap-2 group'>
-                {Array.from(Array(3)).map((_, index) => (
-                  <>
-                    <Input
-                      key={index}
-                      {...register(`journeyQuotes${index + 1}`, {
-                        required: 'Please provide quotes for this journey',
-                      })}
-                    />
-                    {errors[`journeyQuotes${index + 1}`] && (
-                      <ErrorMessage>
-                        {errors[`journeyQuotes${index + 1}`]?.message as string}
-                      </ErrorMessage>
-                    )}
-                  </>
-                ))}
-              </div>
-            </div> */}
-            <div>
-              <label htmlFor='journeyQuotes' className='font-medium'>
-                Select the journey associated with this community
-              </label>
-              <Select
-                onValueChange={(value) => {
-                  setIsSelectedJourney(true);
-                  setSelectedJourney(value);
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder='Select the journey' />
-                </SelectTrigger>
-                <SelectContent className='overflow-scroll'>
-                  <SelectGroup>
-                    <SelectLabel>Journeys</SelectLabel>
+                  </div>
+                </div>
+              </div> */}
+              <div>
+                <label htmlFor='journeyQuotes' className='font-medium'>
+                  Select the journey associated with this community
+                </label>
+                <Select
+                  onValueChange={(value) => {
+                    setIsSelectedJourney(true);
+                    setSelectedJourney(value);
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder='Select the journey' />
+                  </SelectTrigger>
+                  <SelectContent className='overflow-scroll'>
+                    <SelectGroup>
+                      <SelectLabel>Journeys</SelectLabel>
 
-                    {journeys &&
-                      journeys.map((journey) => (
-                        <SelectItem value={journey._id}>
-                          {journey.name}
-                        </SelectItem>
-                      ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              {!isJourneySelected && (
-                <ErrorMessage>Please select a journey</ErrorMessage>
-              )}
+                      {journeys &&
+                        journeys.map((journey) => (
+                          <SelectItem value={journey._id}>
+                            {journey.name}
+                          </SelectItem>
+                        ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {!isJourneySelected && (
+                  <ErrorMessage>Please select a journey</ErrorMessage>
+                )}
+              </div>
             </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button onClick={handleSubmit(handleAddCommunity)}>
-            {isCreatingCommunity ? <LoadingSpinner /> : 'Submit'}
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
+          </CardContent>
+          <CardFooter>
+            <Button onClick={handleSubmit(handleAddCommunity)}>
+              {isCreatingCommunity ? <LoadingSpinner /> : 'Submit'}
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    </>
   );
 };
 

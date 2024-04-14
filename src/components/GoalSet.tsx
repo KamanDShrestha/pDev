@@ -35,21 +35,23 @@ const GoalSet = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className='text-3xl'>Daily goal reminder</CardTitle>
+          <CardTitle className='text-3xl'>Daily goals reminder</CardTitle>
         </CardHeader>
 
-        {goalSet === null && <p>You have not set any goal</p>}
+        {goalSet === null && (
+          <CardContent>You have not set any goals.</CardContent>
+        )}
         {goalSet &&
           (typeof goalSet === 'string' ? (
             <p>{goalSet}</p>
           ) : (
             goalSet && (
-              <CardContent className='space-y-3'>
+              <CardContent className='px-10 space-y-5'>
                 <CardTitle>{goalSet.goalSetTitle}</CardTitle>
                 <div className='flex flex-wrap justify-around gap-5'>
                   {goalSet.goals.map((goal, index) => (
                     <Card key={index}>
-                      <CardContent className='p-3 max-w-[400px] flex flex-col items-center'>
+                      <CardContent className='p-3 max-w-[400px] flex flex-col items-center text-center gap-3'>
                         <span className='text-2xl'>
                           {goal.completionStatus ? (
                             <FaCheck />

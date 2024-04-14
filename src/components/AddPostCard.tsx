@@ -138,11 +138,18 @@ const AddPostCard = () => {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Category</SelectLabel>
-                {postCategories.map((category, index) => (
-                  <SelectItem value={category.categoryValue} key={index}>
-                    {category.categoryLabel}
-                  </SelectItem>
-                ))}
+                {postCategories.map((category, index) => {
+                  if (user?.role === 'user' && user.hasSubscribed === false) {
+                    if (category.categoryValue === 'question') {
+                      return null;
+                    }
+                  }
+                  return (
+                    <SelectItem value={category.categoryValue} key={index}>
+                      {category.categoryLabel}
+                    </SelectItem>
+                  );
+                })}
               </SelectGroup>
             </SelectContent>
           </Select>

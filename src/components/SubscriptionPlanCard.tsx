@@ -123,7 +123,7 @@ const SubscriptionPlanCard = ({
                 : statusColoring.rejected
             )}
           >
-            {subscriptionPlan.isActive ? 'Activate plan' : 'Deactivated plan'}
+            {subscriptionPlan.isActive ? 'Active plan' : 'Deactivated plan'}
           </div>
           <div className='flex justify-center gap-5'>
             <NavLink

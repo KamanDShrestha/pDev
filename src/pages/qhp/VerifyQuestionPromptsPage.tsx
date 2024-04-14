@@ -42,7 +42,7 @@ const VerifyQuestionPromptsPage = () => {
               questionPrompt.isVerified === false &&
               questionPrompt.verifiedBy === null
           ).length === 0 ? (
-          <span>No pending questions prompts for verification are found</span>
+          <span>No pending questions prompts for verification are found.</span>
         ) : null}
       </div>
 

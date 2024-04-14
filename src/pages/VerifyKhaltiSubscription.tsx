@@ -64,6 +64,7 @@ const VerifyKhaltiSubscription = () => {
             subscriptionId: subscriptionId as string,
             subscriptionPlan: subscriptionPlan as string,
             subscriptionDate: new Date(),
+            isActive: true,
           },
           payment: {
             transactionId: searchParams.get('transaction_id') as string,
@@ -100,8 +101,9 @@ const VerifyKhaltiSubscription = () => {
             Your subscription cannot be proceed right now.
           </Heading>
           {isNavigating && (
-            <span className='text-sm'>
-              Redirecting to Home page <LoadingSpinner />
+            <span className='flex gap-3 text-sm'>
+              <span>Redirecting to Home page</span>
+              <LoadingSpinner />
             </span>
           )}
         </div>
@@ -123,8 +125,9 @@ const VerifyKhaltiSubscription = () => {
             Yay! Your subscription has been activated.
           </Heading>
           {isNavigating && (
-            <span className='text-sm'>
-              Redirecting to Home page <LoadingSpinner />
+            <span className='flex gap-3 text-sm'>
+              <span>Redirecting to Home page</span>
+              <LoadingSpinner />
             </span>
           )}
         </div>

@@ -27,7 +27,7 @@ import useDeleteSpecificJourney from '../services/journey/deleteSpecificJourney'
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
 import { FaLock } from 'react-icons/fa';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import { cn } from '../lib/utils';
 import useDiscontinueJourney from '../services/embarkedJourneys/discontinueJourney';
@@ -89,6 +89,8 @@ const JourneyCard = ({
     useAddEmbarkedJourney();
 
   const queryClient = useQueryClient();
+
+  const location = useLocation();
 
   function handleEmbarkJourney() {
     embarkJourney(
@@ -305,43 +307,47 @@ const JourneyCard = ({
                     Browse
                   </Button>
 
-                  {embarkedJourney &&
-                    embarkedJourney.journeyStatus === 'discontinued' && (
-                      <Button onClick={() => handleContinueJourney()}>
-                        {isContinuing ? (
-                          <LoadingSpinner />
-                        ) : (
-                          'Continue the journey'
+                  {location.pathname !== '/verifyJourneys' && (
+                    <>
+                      {embarkedJourney &&
+                        embarkedJourney.journeyStatus === 'discontinued' && (
+                          <Button onClick={() => handleContinueJourney()}>
+                            {isContinuing ? (
+                              <LoadingSpinner />
+                            ) : (
+                              'Continue the journey'
+                            )}
+                          </Button>
                         )}
-                      </Button>
-                    )}
 
-                  {!embarkedJourney ? (
-                    <Button onClick={handleEmbarkJourney}>
-                      {isEmbarking ? <LoadingSpinner /> : 'Begin'}
-                    </Button>
-                  ) : (
-                    embarkedJourney.isJourneyCompleted === false &&
-                    embarkedJourney.journeyStatus === 'ongoing' && (
-                      <>
-                        <NavLink
-                          to={`/currentJourney/${embarkedJourney?.journeyId}`}
-                          className={cn(
-                            buttonVariants({ variant: 'secondary' })
-                          )}
-                        >
-                          Navigate to the journey
-                        </NavLink>
-
-                        <Button onClick={() => handleDiscontinueJourney()}>
-                          {isDiscontinuing ? (
-                            <LoadingSpinner />
-                          ) : (
-                            'Discontinue journey'
-                          )}
+                      {!embarkedJourney ? (
+                        <Button onClick={handleEmbarkJourney}>
+                          {isEmbarking ? <LoadingSpinner /> : 'Begin'}
                         </Button>
-                      </>
-                    )
+                      ) : (
+                        embarkedJourney.isJourneyCompleted === false &&
+                        embarkedJourney.journeyStatus === 'ongoing' && (
+                          <>
+                            <NavLink
+                              to={`/currentJourney/${embarkedJourney?.journeyId}`}
+                              className={cn(
+                                buttonVariants({ variant: 'secondary' })
+                              )}
+                            >
+                              Navigate to the journey
+                            </NavLink>
+
+                            <Button onClick={() => handleDiscontinueJourney()}>
+                              {isDiscontinuing ? (
+                                <LoadingSpinner />
+                              ) : (
+                                'Discontinue journey'
+                              )}
+                            </Button>
+                          </>
+                        )
+                      )}
+                    </>
                   )}
                 </>
               )}

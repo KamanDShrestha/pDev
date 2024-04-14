@@ -8,7 +8,7 @@ const JourneyNotFound = () => {
   return (
     <div className='flex flex-col items-center justify-center w-screen h-screen gap-10'>
       <div className='flex flex-col items-center'>
-        <h1 className='font-semibold text-7xl'>404</h1>{' '}
+        <h1 className='font-semibold text-7xl'>401</h1>{' '}
         <h2 className='text-2xl'> You are not authorized to view this page.</h2>
       </div>
       <Link to={'/login'} className='hover:underline'>

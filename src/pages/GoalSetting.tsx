@@ -22,8 +22,8 @@ const GoalSetting = () => {
       <div>
         <Heading>Goal Setting</Heading>
         <p>
-          You can set your weekly or custom goals for specific number of days
-          for personal accountability.
+          You can set your custom goals for specific dates for personal
+          accountability.
         </p>
       </div>
       {/* Card providing reference for goal setting */}

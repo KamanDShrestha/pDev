@@ -209,6 +209,7 @@ export type AddPaymentData = {
     subscriptionId: string;
     subscriptionPlan: string;
     subscriptionDate: Date;
+    isActive: boolean;
   };
   payment: {
     transactionId: string;

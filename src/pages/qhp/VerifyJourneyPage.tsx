@@ -19,7 +19,7 @@ const VerifyJourneyPage = () => {
 
   return (
     <>
-      <div>
+      <div className='mb-20'>
         <div>
           <Heading>Review journeys</Heading>
           <span className='text-sm text-gray-400'>
@@ -27,7 +27,7 @@ const VerifyJourneyPage = () => {
           </span>
         </div>
 
-        <div className='flex flex-wrap items-center justify-center gap-5 pt-4'>
+        <div className='flex flex-wrap justify-center gap-5 pt-4'>
           {isLoading &&
             Array.from(Array(4)).map((_, index) => {
               return <JourneyCardSkeleton key={index} />;
@@ -49,6 +49,13 @@ const VerifyJourneyPage = () => {
                   />
                 )
             )}
+
+          {journeys?.length === 0 ? (
+            <span>No journeys are found</span>
+          ) : journeys?.filter((journey) => journey.isVerified === false)
+              .length === 0 ? (
+            <span>No pending journeys for verification are found.</span>
+          ) : null}
         </div>
       </div>
 
@@ -61,7 +68,7 @@ const VerifyJourneyPage = () => {
           </span>
         </div>
 
-        <div className='flex flex-wrap items-center justify-center gap-5 pt-4'>
+        <div className='flex flex-wrap justify-center gap-5 pt-4'>
           {isLoading &&
             Array.from(Array(4)).map((_, index) => {
               return <JourneyCardSkeleton key={index} />;

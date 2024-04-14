@@ -58,14 +58,14 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
           handleModalClose();
           updateMood({ userId: user?.id as string });
           setUser &&
-            setUser((currentUser) => ({
-              ...currentUser,
-              loggedMood: true,
-            }));
-          setToLocalStorage('authentication', {
-            ...user,
-            loggedMood: true,
-          });
+            setUser((currentUser) => {
+              const updatedUser = {
+                ...currentUser,
+                loggedMood: true,
+              };
+              setToLocalStorage('authentication', updatedUser);
+              return updatedUser;
+            });
         },
       }
     );

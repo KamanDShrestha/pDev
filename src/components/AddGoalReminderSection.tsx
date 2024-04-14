@@ -26,6 +26,7 @@ import Heading from './Heading';
 
 import LoadingSpinner from './LoadingSpinner';
 import { FaRegCalendarCheck } from 'react-icons/fa';
+import ErrorMessage from './ErrorMessage';
 
 const AddGoalReminderSection = () => {
   const [numberOfGoals, setNumberOfGoals] = useState(5);
@@ -40,7 +41,14 @@ const AddGoalReminderSection = () => {
 
   const [duration, setDuration] = useState(5);
 
-  const { register, handleSubmit, watch } = useForm();
+  const [durationError, setDurationError] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const { mutate: addGoalSet, isLoading: isAddingGoalSet } = useAddGoalSet();
   const { user } = useAuthContext();
 
@@ -67,6 +75,12 @@ const AddGoalReminderSection = () => {
   }) {
     setSelectedPeriod(period);
     setSelectedPeriodIndex(index);
+    setSelectedDuration(-1);
+    setSelectedCountInWeek(-1);
+    setSelectedCountWeeks(-1);
+    setSelectedCountInMonth(-1);
+    setDuration(0);
+    setDurationError('');
   }
 
   function handleCountInWeekChange({
@@ -78,6 +92,7 @@ const AddGoalReminderSection = () => {
   }) {
     setSelectedCountInWeek(index);
     setDuration(count);
+    setDurationError('');
   }
 
   function handleCountWeeksChange({
@@ -89,6 +104,7 @@ const AddGoalReminderSection = () => {
   }) {
     setSelectedCountWeeks(index);
     setDuration(count);
+    setDurationError('');
   }
 
   function handleCountInMonthChange({
@@ -100,6 +116,7 @@ const AddGoalReminderSection = () => {
   }) {
     setSelectedCountInMonth(index);
     setDuration(count);
+    setDurationError('');
   }
 
   function handleDurationChange({
@@ -111,9 +128,15 @@ const AddGoalReminderSection = () => {
   }) {
     setSelectedDuration(index);
     setDuration(duration);
+    setDurationError('');
   }
 
   function handleAddGoalSet(data: FieldValues) {
+    if (duration <= 0) {
+      setDurationError('Please select a duration');
+      return;
+    }
+
     console.log(data);
     console.log(
       Array.from({ length: numberOfGoals }, (_, index) => {
@@ -135,7 +158,7 @@ const AddGoalReminderSection = () => {
 
   return (
     <div className='flex flex-wrap items-center justify-around gap-5'>
-      <Card>
+      <Card className='xl:w-[600px] max-w-[600px]'>
         <CardHeader>
           <Heading className='mb-0'>Preview</Heading>
         </CardHeader>
@@ -182,7 +205,24 @@ const AddGoalReminderSection = () => {
               <label htmlFor='goalSetTitle' className='text-lg font-medium'>
                 Title
               </label>
-              <Input id='goalSetTitle' {...register('goalSetTitle')} />
+              <Input
+                id='goalSetTitle'
+                {...register('goalSetTitle', {
+                  required: {
+                    value: true,
+                    message: 'Please provide a goal set title',
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: 'Goal set title should be within 50 characters',
+                  },
+                })}
+              />
+              {errors.goalSetTitle && (
+                <ErrorMessage>
+                  {errors.goalSetTitle.message as string}
+                </ErrorMessage>
+              )}
             </div>
 
             <div>
@@ -191,10 +231,20 @@ const AddGoalReminderSection = () => {
               </label>
               <Input
                 id='startDate'
-                {...register('startDate')}
+                {...register('startDate', {
+                  required: {
+                    value: true,
+                    message: 'Please provide a start date',
+                  },
+                })}
                 type='date'
                 defaultValue={new Date().toISOString().split('T')[0]}
               />
+              {errors.startDate && (
+                <ErrorMessage>
+                  {errors.startDate.message as string}
+                </ErrorMessage>
+              )}
             </div>
 
             <div>
@@ -328,6 +378,8 @@ const AddGoalReminderSection = () => {
               </div>
             )}
 
+            {durationError && <ErrorMessage>{durationError}</ErrorMessage>}
+
             <div>
               <label htmlFor='numberOfGoals' className='text-lg font-medium'>
                 Number of goals
@@ -341,7 +393,7 @@ const AddGoalReminderSection = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Number of days</SelectLabel>
+                    <SelectLabel>Number of goals</SelectLabel>
                     {Array.from({ length: 10 }, (_, index) => (
                       <SelectItem key={index} value={(index + 1).toString()}>
                         {index + 1}
@@ -359,11 +411,28 @@ const AddGoalReminderSection = () => {
                 {
                   // create goals input fields based on the number of goals
                   Array.from({ length: numberOfGoals }).map((_, index) => (
-                    <Input
-                      key={index}
-                      {...register(`goal${index + 1}`)}
-                      placeholder={`Goal ${index + 1}`}
-                    />
+                    <>
+                      <Input
+                        key={index}
+                        {...register(`goal${index + 1}`, {
+                          required: {
+                            value: true,
+                            message: 'Please provide a goal',
+                          },
+                          maxLength: {
+                            value: 150,
+                            message:
+                              'Goal should be provided within than 150 characters',
+                          },
+                        })}
+                        placeholder={`Goal ${index + 1}`}
+                      />
+                      {errors[`goal${index + 1}`] && (
+                        <ErrorMessage>
+                          {errors[`goal${index + 1}`]?.message as string}
+                        </ErrorMessage>
+                      )}
+                    </>
                   ))
                 }
               </div>

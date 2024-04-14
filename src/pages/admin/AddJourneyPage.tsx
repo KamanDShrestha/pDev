@@ -30,6 +30,7 @@ import { ActionSteps } from '../../types';
 import useDocumentTitle from '../../services/getTitle';
 import IconAdd from '../../components/IconAdd';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import Heading from '../../components/Heading';
 
 const AddJourneyPage = () => {
   const [lightImage, setLightImage] = useState<File | null>(null);
@@ -220,242 +221,249 @@ const AddJourneyPage = () => {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center w-screen min-h-screen gap-10 overflow-scroll'>
-      <div className='flex flex-col gap-2 mt-4'>
-        <h2 className='text-2xl font-semibold'>Preview</h2>
-        <JourneyCard
-          journeyId='newJourney'
-          journeyName={providedName}
-          journeyDescription={providedDescription}
-          journeyIcon={{
-            dark: darkImageURL,
-            light: lightImageURL,
-          }}
-          journeyLength={numberOfActionSteps}
-          importance={journeyImportance.current}
-          usages={journeyUsages.current}
-        />
-      </div>
-      <div className='flex flex-wrap items-center justify-around gap-5'>
-        {/* <form onSubmit={handleSubmit(handleJourneySubmit)}> */}
-        <form onSubmit={handleSubmit(handleJourneySubmit)}>
+    <>
+      <Heading>Add new journey</Heading>
+      <div className='flex flex-col items-center justify-center w-screen min-h-screen gap-10 overflow-scroll'>
+        <div className='flex flex-col gap-2 mt-4'>
+          <h2 className='text-2xl font-semibold'>Preview</h2>
+          <JourneyCard
+            journeyId='newJourney'
+            journeyName={providedName}
+            journeyDescription={providedDescription}
+            journeyIcon={{
+              dark: darkImageURL,
+              light: lightImageURL,
+            }}
+            journeyLength={numberOfActionSteps}
+            importance={journeyImportance.current}
+            usages={journeyUsages.current}
+          />
+        </div>
+        <div className='flex flex-wrap items-center justify-around gap-5'>
+          {/* <form onSubmit={handleSubmit(handleJourneySubmit)}> */}
+          <form onSubmit={handleSubmit(handleJourneySubmit)}>
+            <Card>
+              <CardHeader>
+                <CardTitle>Add new journey for the users !</CardTitle>
+                <CardDescription>
+                  Through this, add new journeys for the users
+                </CardDescription>
+              </CardHeader>
+              <CardContent className='overflow-scroll h-[600px]'>
+                <div className='flex flex-col gap-3'>
+                  <div className='relative group'>
+                    <InputFieldLabel
+                      htmlFor='journeyName'
+                      hasContent={
+                        providedName !== undefined && providedName?.length !== 0
+                      }
+                    >
+                      Journey Name
+                    </InputFieldLabel>
+                    <Input
+                      {...register('journeyName', {
+                        required: 'Journey name need to be provided',
+                        minLength: {
+                          value: 5,
+                          message:
+                            'Journey name must have at least 5 characters',
+                        },
+                      })}
+                      type='text'
+                    />
+                    {errors.journeyName && (
+                      <ErrorMessage>
+                        {errors.journeyName.message as string}
+                      </ErrorMessage>
+                    )}
+                  </div>
+                  <div className='relative group'>
+                    <InputFieldLabel
+                      htmlFor='journeyDescription'
+                      hasContent={
+                        providedDescription !== undefined &&
+                        providedDescription?.length !== 0
+                      }
+                    >
+                      Journey Description
+                    </InputFieldLabel>
+                    <Textarea
+                      {...register('journeyDescription', {
+                        required: 'Description need to be provided',
+                        minLength: {
+                          value: 20,
+                          message:
+                            'Description must have at least 20 characters',
+                        },
+                        maxLength: {
+                          value: 500,
+                          message:
+                            'Description must not have more than 500 characters',
+                        },
+                      })}
+                    />
+                    {errors.journeyDescription && (
+                      <ErrorMessage>
+                        {errors.journeyDescription.message as string}
+                      </ErrorMessage>
+                    )}
+                  </div>
+
+                  <div className='flex flex-col gap-2'>
+                    <label htmlFor='iconImageLinks' className='font-medium'>
+                      Icon Image Links
+                    </label>
+                    <IconAdd
+                      setDarkImage={setDarkImage}
+                      setLightImage={setLightImage}
+                      setDarkImageURL={setDarkImageURL}
+                      setLightImageURL={setLightImageURL}
+                      lightImageURL={lightImageURL}
+                      darkImageURL={darkImageURL}
+                    />
+                  </div>
+
+                  <div className='relative group'>
+                    <label htmlFor='journeyImportance' className='font-medium'>
+                      Journey Importance
+                    </label>
+                    <div className='relative flex flex-col gap-2'>
+                      {Array.from(Array(3)).map((_, index) => (
+                        <>
+                          <Input
+                            key={index}
+                            {...register(`journeyImportance${index + 1}`, {
+                              required:
+                                'Please provide importance for this journey',
+                            })}
+                          />
+                          {errors[`journeyImportance${index + 1}`] && (
+                            <ErrorMessage>
+                              {
+                                errors[`journeyImportance${index + 1}`]
+                                  ?.message as string
+                              }
+                            </ErrorMessage>
+                          )}
+                        </>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className='relative group'>
+                    <label htmlFor='journeyUsages' className='font-medium'>
+                      Journey Usages
+                    </label>
+                    <div className='relative flex flex-col gap-2 group'>
+                      {Array.from(Array(3)).map((_, index) => (
+                        <>
+                          <Input
+                            key={index}
+                            {...register(`journeyUsage${index + 1}`, {
+                              required:
+                                'Please provide usages for this journey',
+                            })}
+                          />
+                          {errors[`journeyUsage${index + 1}`] && (
+                            <ErrorMessage>
+                              {
+                                errors[`journeyUsage${index + 1}`]
+                                  ?.message as string
+                              }
+                            </ErrorMessage>
+                          )}
+                        </>
+                      ))}
+                    </div>
+                  </div>
+                  <div className='relative group'>
+                    <label htmlFor='journeyQuote' className='font-medium'>
+                      Journey Quotes
+                    </label>
+                    <div className='relative flex flex-col gap-2 group'>
+                      {Array.from(Array(3)).map((_, index) => (
+                        <>
+                          <Input
+                            key={index}
+                            {...register(`journeyQuote${index + 1}`, {
+                              required:
+                                'Please provide quotes for this journey',
+                            })}
+                          />
+                          {errors[`journeyQuote${index + 1}`] && (
+                            <ErrorMessage>
+                              {
+                                errors[`journeyQuote${index + 1}`]
+                                  ?.message as string
+                              }
+                            </ErrorMessage>
+                          )}
+                        </>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor='journeyLength' className='font-medium'>
+                      Select the length of journey
+                    </label>
+                    <Select
+                      onValueChange={(value) =>
+                        setNumberOfActionSteps(parseInt(value))
+                      }
+                      defaultValue={numberOfActionSteps.toString()}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select the length of journey' />
+                      </SelectTrigger>
+                      <SelectContent className='overflow-scroll'>
+                        <SelectGroup>
+                          <SelectLabel>Length of the journey</SelectLabel>
+                          {Array.from(Array(20)).map((_, index) => (
+                            <>
+                              <SelectItem value={(index + 10).toString()}>
+                                {index + 10}
+                              </SelectItem>
+                            </>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button disabled={isAddingJourney}>
+                  {isAddingJourney ? <LoadingSpinner /> : 'Submit'}
+                </Button>
+              </CardFooter>
+            </Card>
+          </form>
           <Card>
             <CardHeader>
-              <CardTitle>Add new journey for the users !</CardTitle>
-              <CardDescription>
-                Through this, add new journeys for the users
-              </CardDescription>
+              <CardTitle>Add action steps for the journey</CardTitle>
             </CardHeader>
-            <CardContent className='overflow-scroll h-[600px]'>
-              <div className='flex flex-col gap-3'>
-                <div className='relative group'>
-                  <InputFieldLabel
-                    htmlFor='journeyName'
-                    hasContent={
-                      providedName !== undefined && providedName?.length !== 0
-                    }
-                  >
-                    Journey Name
-                  </InputFieldLabel>
-                  <Input
-                    {...register('journeyName', {
-                      required: 'Journey name need to be provided',
-                      minLength: {
-                        value: 5,
-                        message: 'Journey name must have at least 5 characters',
-                      },
-                    })}
-                    type='text'
-                  />
-                  {errors.journeyName && (
-                    <ErrorMessage>
-                      {errors.journeyName.message as string}
-                    </ErrorMessage>
-                  )}
-                </div>
-                <div className='relative group'>
-                  <InputFieldLabel
-                    htmlFor='journeyDescription'
-                    hasContent={
-                      providedDescription !== undefined &&
-                      providedDescription?.length !== 0
-                    }
-                  >
-                    Journey Description
-                  </InputFieldLabel>
-                  <Textarea
-                    {...register('journeyDescription', {
-                      required: 'Description need to be provided',
-                      minLength: {
-                        value: 20,
-                        message: 'Description must have at least 20 characters',
-                      },
-                      maxLength: {
-                        value: 500,
-                        message:
-                          'Description must not have more than 500 characters',
-                      },
-                    })}
-                  />
-                  {errors.journeyDescription && (
-                    <ErrorMessage>
-                      {errors.journeyDescription.message as string}
-                    </ErrorMessage>
-                  )}
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <label htmlFor='iconImageLinks' className='font-medium'>
-                    Icon Image Links
-                  </label>
-                  <IconAdd
-                    setDarkImage={setDarkImage}
-                    setLightImage={setLightImage}
-                    setDarkImageURL={setDarkImageURL}
-                    setLightImageURL={setLightImageURL}
-                    lightImageURL={lightImageURL}
-                    darkImageURL={darkImageURL}
-                  />
-                </div>
-
-                <div className='relative group'>
-                  <label htmlFor='journeyImportance' className='font-medium'>
-                    Journey Importance
-                  </label>
-                  <div className='relative flex flex-col gap-2'>
-                    {Array.from(Array(3)).map((_, index) => (
-                      <>
-                        <Input
-                          key={index}
-                          {...register(`journeyImportance${index + 1}`, {
-                            required:
-                              'Please provide importance for this journey',
-                          })}
-                        />
-                        {errors[`journeyImportance${index + 1}`] && (
-                          <ErrorMessage>
-                            {
-                              errors[`journeyImportance${index + 1}`]
-                                ?.message as string
-                            }
-                          </ErrorMessage>
-                        )}
-                      </>
-                    ))}
-                  </div>
-                </div>
-
-                <div className='relative group'>
-                  <label htmlFor='journeyUsages' className='font-medium'>
-                    Journey Usages
-                  </label>
-                  <div className='relative flex flex-col gap-2 group'>
-                    {Array.from(Array(3)).map((_, index) => (
-                      <>
-                        <Input
-                          key={index}
-                          {...register(`journeyUsage${index + 1}`, {
-                            required: 'Please provide usages for this journey',
-                          })}
-                        />
-                        {errors[`journeyUsage${index + 1}`] && (
-                          <ErrorMessage>
-                            {
-                              errors[`journeyUsage${index + 1}`]
-                                ?.message as string
-                            }
-                          </ErrorMessage>
-                        )}
-                      </>
-                    ))}
-                  </div>
-                </div>
-                <div className='relative group'>
-                  <label htmlFor='journeyQuote' className='font-medium'>
-                    Journey Quotes
-                  </label>
-                  <div className='relative flex flex-col gap-2 group'>
-                    {Array.from(Array(3)).map((_, index) => (
-                      <>
-                        <Input
-                          key={index}
-                          {...register(`journeyQuote${index + 1}`, {
-                            required: 'Please provide quotes for this journey',
-                          })}
-                        />
-                        {errors[`journeyQuote${index + 1}`] && (
-                          <ErrorMessage>
-                            {
-                              errors[`journeyQuote${index + 1}`]
-                                ?.message as string
-                            }
-                          </ErrorMessage>
-                        )}
-                      </>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor='journeyLength' className='font-medium'>
-                    Select the length of journey
-                  </label>
-                  <Select
-                    onValueChange={(value) =>
-                      setNumberOfActionSteps(parseInt(value))
-                    }
-                    defaultValue={numberOfActionSteps.toString()}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder='Select the length of journey' />
-                    </SelectTrigger>
-                    <SelectContent className='overflow-scroll'>
-                      <SelectGroup>
-                        <SelectLabel>Length of the journey</SelectLabel>
-                        {Array.from(Array(20)).map((_, index) => (
-                          <>
-                            <SelectItem value={(index + 10).toString()}>
-                              {index + 10}
-                            </SelectItem>
-                          </>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button disabled={isAddingJourney}>
-                {isAddingJourney ? <LoadingSpinner /> : 'Submit'}
-              </Button>
-            </CardFooter>
+            <form onSubmit={actionStepsForm.handleSubmit(handleSaveButton)}>
+              <CardContent className='flex flex-col gap-10 h-[550px] overflow-scroll md:w-[640px]'>
+                {Array.from(Array(numberOfActionSteps)).map((_, index) => (
+                  <>
+                    <ActionStep
+                      key={index}
+                      day={index + 1}
+                      register={actionStepsForm.register}
+                      errors={actionStepsForm.formState.errors}
+                      watch={actionStepsForm.watch}
+                    />
+                  </>
+                ))}
+              </CardContent>
+              <CardFooter>
+                <Button>Save</Button>
+              </CardFooter>
+            </form>
           </Card>
-        </form>
-        <Card>
-          <CardHeader>
-            <CardTitle>Add action steps for the journey</CardTitle>
-          </CardHeader>
-          <form onSubmit={actionStepsForm.handleSubmit(handleSaveButton)}>
-            <CardContent className='flex flex-col gap-10 h-[550px] overflow-scroll md:w-[640px]'>
-              {Array.from(Array(numberOfActionSteps)).map((_, index) => (
-                <>
-                  <ActionStep
-                    key={index}
-                    day={index + 1}
-                    register={actionStepsForm.register}
-                    errors={actionStepsForm.formState.errors}
-                    watch={actionStepsForm.watch}
-                  />
-                </>
-              ))}
-            </CardContent>
-            <CardFooter>
-              <Button>Save</Button>
-            </CardFooter>
-          </form>
-        </Card>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -114,7 +114,7 @@ const ApplyForQHP = () => {
 
   return (
     <>
-      <Heading>Apply for QHP</Heading>
+      <Heading>Apply for QHP role</Heading>
       <div>
         <p className='my-5 text-lg'>
           You are currently applying as{' '}
@@ -125,7 +125,7 @@ const ApplyForQHP = () => {
         <div className='flex flex-wrap items-center justify-around gap-10'>
           <div className='flex flex-col'>
             <label htmlFor='' className='font-medium'>
-              Upload your CV
+              Upload your CV (PDF format)
             </label>
             <Input type='file' onChange={handleCVUpdate} />
             {fileError && <ErrorMessage>{fileError}</ErrorMessage>}

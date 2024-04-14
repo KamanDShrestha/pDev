@@ -14,6 +14,7 @@ import { Input } from './ui/input';
 import useUpdatePassword from '../services/users/updatePassword';
 import { useAuthContext } from '../context/AuthProvider';
 import { useState } from 'react';
+import useLogoutUser from '../services/userAuth/logoutUser';
 
 const UpdatePasswordDialog = () => {
   const { user } = useAuthContext();
@@ -23,6 +24,7 @@ const UpdatePasswordDialog = () => {
     handleSubmit,
   } = useForm();
   const { mutate: updatePassword } = useUpdatePassword();
+  const { mutate: logout } = useLogoutUser();
   const [isPasswordError, setIsPasswordError] = useState(false);
   const passwordError = 'Provided passwords do not match';
   function handleUpdatePassword(data: FieldValues) {
@@ -30,11 +32,19 @@ const UpdatePasswordDialog = () => {
       setIsPasswordError(true);
       return;
     }
-    updatePassword({
-      userId: user?.id as string,
-      currentPassword: data.currentPassword,
-      newPassword: data.newPassword,
-    });
+    updatePassword(
+      {
+        userId: user?.id as string,
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      },
+      {
+        onSuccess: () => {
+          console.log('Password updated successfully');
+          logout(user?.id as string);
+        },
+      }
+    );
   }
 
   return (

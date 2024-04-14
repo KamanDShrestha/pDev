@@ -8,11 +8,11 @@ const UserLayout = () => {
   const location = useLocation();
   return (
     <div className='flex flex-col min-h-screen overflow-hidden'>
-      <div className='flex justify-between p-5 '>
+      <div className='flex justify-between p-5'>
         <div className='hidden lg:block'>
           <Logo />
         </div>
-        <div className='flex justify-between gap-3 px-2'>
+        <div className='flex justify-between w-full gap-3 px-2 lg:w-auto'>
           <NavBar />
 
           <ModeToggle />

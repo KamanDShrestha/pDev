@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../components/ui/select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import QuestionAnswerCard from '../components/QuestionAnswerCard';
 import { PostData, QAsData } from '../types';
@@ -78,6 +78,10 @@ const SpecificCommunity = () => {
     }
   );
 
+  useEffect(() => {
+    setPageNumber(1);
+  }, [selectedCategory, sortBy, sortDirection, limit]);
+
   const { posts, total } = data || {};
 
   console.log(posts, total);
@@ -126,7 +130,7 @@ const SpecificCommunity = () => {
         </div>
       </div>
 
-      <div className='grid lg:grid-cols-[300px_minmax(440px,_1fr)_100px] gap-5 mt-8 grid-cols-1 '>
+      <div className=' grid xl:grid-cols-[300px_minmax(440px,_1fr)_100px] gap-5 mt-8 grid-cols-1 '>
         <div className='flex items-center justify-center'>
           <div className='flex flex-col items-center justify-center p-4 border-4 rounded-xl border-slate-300'>
             <div

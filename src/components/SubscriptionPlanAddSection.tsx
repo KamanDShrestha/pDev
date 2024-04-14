@@ -16,6 +16,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { Separator } from './ui/separator';
 import { FaCircle, FaPlay } from 'react-icons/fa';
 import useAddSubscriptionPlan from '../services/subscriptionPlans/addSubscriptionPlan';
+
 // import {
 //   Select,
 //   SelectContent,
@@ -106,9 +107,9 @@ const SubscriptionPlanAddSection = () => {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Add new question prompts</CardTitle>
+          <CardTitle>Add new subscription plans</CardTitle>
           <CardDescription>
-            You can add new question prompts here.
+            You can add new subscription plans here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -123,6 +124,11 @@ const SubscriptionPlanAddSection = () => {
                   required: {
                     value: true,
                     message: 'Please provide name for this subscription plan.',
+                  },
+                  minLength: {
+                    value: 5,
+                    message:
+                      'Subscription plan must be at least 5 characters long.',
                   },
                 })}
               />
@@ -144,11 +150,15 @@ const SubscriptionPlanAddSection = () => {
                     message:
                       'Please provide description for this subscription plan.',
                   },
+                  minLength: {
+                    value: 20,
+                    message: 'Description must be at least 20 characters long.',
+                  },
                 })}
               />
-              {errors.description && (
+              {errors.subscriptionDescription && (
                 <ErrorMessage>
-                  {errors.description.message as string}
+                  {errors.subscriptionDescription.message as string}
                 </ErrorMessage>
               )}
             </div>
@@ -162,6 +172,10 @@ const SubscriptionPlanAddSection = () => {
                   required: {
                     value: true,
                     message: 'Please provide price for this subscription plan.',
+                  },
+                  min: {
+                    value: 100,
+                    message: 'Price should be at least 100.',
                   },
                 })}
                 type='number'
@@ -191,26 +205,6 @@ const SubscriptionPlanAddSection = () => {
                   {errors.subscriptionDuration.message as string}
                 </ErrorMessage>
               )}
-            </div>
-
-            <div>
-              {/* <Select
-                defaultValue={selectedNoOfQuestions.toString()}
-                onValueChange={(value) =>
-                  setSelectedNoOfQuestions(parseInt(value))
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder='Select no. of questions' />
-                </SelectTrigger>
-                <SelectContent>
-                  {Array.from(Array(8).keys()).map((value, index) => (
-                    <SelectItem value={(value + 3).toString()} key={index}>
-                      {value + 3}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select> */}
             </div>
             <div>
               <Heading className='mb-0 text-lg font-medium'>Features</Heading>

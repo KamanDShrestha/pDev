@@ -7,9 +7,9 @@ import { Card } from '../components/ui/card';
 import { Separator } from '../components/ui/separator';
 import { Button } from '../components/ui/button';
 import khaltiLogo from '../assets/paymentsGateway/khalti-logo.png';
-import eSewaLogo from '../assets/paymentsGateway/esewa-icon.png';
+// import eSewaLogo from '../assets/paymentsGateway/esewa-icon.png';
 import usePayViaKhalti from '../services/payments/payViaKhalti';
-import usePayViaEsewa from '../services/payments/payViaEsewa';
+// import usePayViaEsewa from '../services/payments/payViaEsewa';
 import useDocumentTitle from '../services/getTitle';
 const SubscriptionConfirmation = () => {
   const { subscriptionId } = useParams();
@@ -21,7 +21,7 @@ const SubscriptionConfirmation = () => {
 
   const { mutate: payViaKhalti, isLoading: isSubmittingForKhalti } =
     usePayViaKhalti();
-  const { mutate: payViaESewa } = usePayViaEsewa();
+  // const { mutate: payViaESewa } = usePayViaEsewa();
 
   console.log(subscriptionPlan);
   console.log(subscriptionId);
@@ -74,31 +74,31 @@ const SubscriptionConfirmation = () => {
     });
   }
 
-  function handlePaymentViaEsewa() {
-    const subscriptionDetails = {
-      amount: '100',
-      failure_url: 'https://google.com',
-      product_delivery_charge: '0',
-      product_service_charge: '0',
-      product_code: 'EPAYTEST',
-      signature: 'YVweM7CgAtZW5tRKica/BIeYFvpSj09AaInsulqNKHk=',
-      signed_field_names: 'total_amount,transaction_uuid,product_code',
-      success_url: 'https://esewa.com.np',
-      tax_amount: '10',
-      total_amount: '110',
-      transaction_uuid: 'ab14a8f2b02c3',
-    };
+  // function handlePaymentViaEsewa() {
+  //   const subscriptionDetails = {
+  //     amount: '100',
+  //     failure_url: 'https://google.com',
+  //     product_delivery_charge: '0',
+  //     product_service_charge: '0',
+  //     product_code: 'EPAYTEST',
+  //     signature: 'YVweM7CgAtZW5tRKica/BIeYFvpSj09AaInsulqNKHk=',
+  //     signed_field_names: 'total_amount,transaction_uuid,product_code',
+  //     success_url: 'https://esewa.com.np',
+  //     tax_amount: '10',
+  //     total_amount: '110',
+  //     transaction_uuid: 'ab14a8f2b02c3',
+  //   };
 
-    payViaESewa(subscriptionDetails, {
-      onSuccess: (data) => {
-        console.log(data);
-      },
-    });
-  }
+  //   payViaESewa(subscriptionDetails, {
+  //     onSuccess: (data) => {
+  //       console.log(data);
+  //     },
+  //   });
+  // }
 
   return (
     <>
-      <Heading>Checkout</Heading>
+      <Heading>Checkout page</Heading>
       <div className='flex flex-wrap justify-around gap-5'>
         <div className='flex flex-wrap items-center justify-center gap-3'>
           <Card className='p-5 shadow-md'>
@@ -211,7 +211,7 @@ const SubscriptionConfirmation = () => {
                   </>
                 )}
               </Button>
-              <Button
+              {/* <Button
                 variant={'outline'}
                 className='space-x-1'
                 onClick={handlePaymentViaEsewa}
@@ -219,7 +219,7 @@ const SubscriptionConfirmation = () => {
               >
                 <span>Pay via eSewa</span>
                 <img src={eSewaLogo} className='h-[25px]' />
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
