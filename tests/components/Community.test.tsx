@@ -1,7 +1,6 @@
+import React from 'react';
 import { it, expect, describe } from 'vitest';
 import { render, screen } from '@testing-library/react';
-
-import React from 'react';
 import { server } from '../mocks/server';
 import { http, HttpResponse } from 'msw';
 import Community from '../../src/pages/Community';
@@ -56,6 +55,7 @@ describe('Community', () => {
       </QueryClientProvider>
     );
 
+    // finding different elements in the community page
     const communityFirstTitle = await screen.findByText(
       /Community for Mindset/i
     );
@@ -65,8 +65,12 @@ describe('Community', () => {
     );
     expect(communitySecondTitle).toBeInTheDocument();
 
-    expect((await screen.findAllByRole('img')).length).toBe(2);
+    const images = await screen.findAllByRole('img');
 
-    screen.debug();
+    expect(images.length).toBe(2);
+    expect(images[1]).toHaveAttribute(
+      'src',
+      'http://res.cloudinary.com/dzswzpucc/image/upload/dfnxadjfldkjf.png'
+    );
   });
 });

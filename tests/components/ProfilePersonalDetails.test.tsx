@@ -41,7 +41,7 @@ describe('ProfilePersonalDetails', () => {
       </QueryClientProvider>
     );
 
-    // Check if the mock endpoint has been hit
+    // Check if the mock endpoint has been requested and the data is displayed
     const nameElements = await screen.findAllByText(/KamanD/i);
     expect(nameElements.length).toBeGreaterThan(0);
     const lastNameElements = await screen.findAllByText(/Shrestha/i);

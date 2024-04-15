@@ -2,16 +2,13 @@ import { Link } from 'react-router-dom';
 import { buttonVariants } from '../components/ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import useDocumentTitle from '../services/getTitle';
-// import origami from '../assets/origami-person.png';
+
 const GettingStarted = () => {
   const { user } = useAuthContext();
   useDocumentTitle('Getting Started - SelfSync');
-  const redirectTo = user?.accessToken ? '/home' : '/login';
+  const redirectTo = user?.email ? '/home' : '/login';
   return (
     <>
-      {/* <div>
-        <img src={origami} className='absolute w-screen h-screen' />
-      </div> */}
       <div>
         <div className='flex flex-col'>
           <span className='text-xl font-semibold'>

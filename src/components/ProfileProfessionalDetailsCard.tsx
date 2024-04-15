@@ -25,7 +25,7 @@ const ProfileProfessionalDetailsCard = () => {
               </div>
               <div className='flex justify-between'>
                 <label className='font-medium'>Working as: </label>
-                <span>{qhpDetails.jobTitle}</span>
+                <span>{qhpDetails.workingPosition}</span>
               </div>
               <div className='flex justify-between'>
                 <label className='font-medium'>Working at: </label>

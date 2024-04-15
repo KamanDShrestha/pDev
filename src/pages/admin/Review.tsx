@@ -56,7 +56,7 @@ const Review = () => {
           applications.filter(
             (application) => application.status === 'Rejected'
           ).length === 0 ? (
-            <p>No approved applications</p>
+            <p>No rejected applications</p>
           ) : (
             applications?.map((application, index) => (
               <>

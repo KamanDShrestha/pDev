@@ -60,7 +60,7 @@ const QuestionPromptAddSection = () => {
     });
   }
   return (
-    <div className='flex flex-wrap justify-center gap-5 p-5'>
+    <div className='flex flex-wrap items-center justify-center gap-10 p-5 mt-10'>
       <Card>
         <CardHeader>
           <CardTitle className='text-3xl'>Preview</CardTitle>
@@ -68,7 +68,7 @@ const QuestionPromptAddSection = () => {
             You can preview your question prompt here.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className='space-y-5'>
           <CardTitle>{providedTitle}</CardTitle>
           <CardDescription>{providedDescription}</CardDescription>
           <CardTitle className='text-xl'>Questions</CardTitle>

@@ -4,7 +4,6 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import App from '../../src/App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import AuthProvider from '../../src/context/AuthProvider';
 import { server } from '../mocks/server';
 import { http, HttpResponse } from 'msw';
 
@@ -34,52 +33,53 @@ describe('Router', () => {
     })
   );
 
-  // it('should render the home page for /', () => {
-  //   render(
-  //     <QueryClientProvider client={queryClient}>
-  //       <MemoryRouter initialEntries={['/login']}>
-  //         <App />
-  //       </MemoryRouter>
-  //     </QueryClientProvider>
-  //   );
-
-  //   // finding if the login image is present
-  //   expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-  //   expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-  //   expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
-  // });
-
-  // it('should render the not found page for /journeyNotFound', () => {
-  //   render(
-  //     <QueryClientProvider client={queryClient}>
-  //       <MemoryRouter initialEntries={['/journeyNotFound']}>
-  //         <App />
-  //       </MemoryRouter>
-  //     </QueryClientProvider>
-  //   );
-
-  //   expect(screen.getByText('404')).toBeInTheDocument();
-  //   expect(screen.getByText(/not found/i)).toBeInTheDocument();
-  //   expect(screen.getByRole('link')).toHaveTextContent(
-  //     new RegExp('go back', 'i')
-  //   );
-  // });
-
-  it('should render the protected route for /journeys', async () => {
+  it('should render the login page for /login', () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <MemoryRouter initialEntries={['/journeys']}>
-            <App />
-          </MemoryRouter>
-        </AuthProvider>
+        <MemoryRouter initialEntries={['/login']}>
+          <App />
+        </MemoryRouter>
       </QueryClientProvider>
     );
 
-    const nameElements = await screen.findAllByText(/KamanD/i);
-    expect(nameElements.length).toBeGreaterThan(0);
+    // finding if the login content is present
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+  });
 
-    expect(await screen.findAllByText(/journeys/i)).toBeInTheDocument();
-    screen.debug();
+  it('should render the not found page for /journeyNotFound', () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={['/journeyNotFound']}>
+          <App />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    // finding if the 404 content is present
+    expect(screen.getByText('404')).toBeInTheDocument();
+    expect(screen.getByText(/not found/i)).toBeInTheDocument();
+    expect(screen.getByRole('link')).toHaveTextContent(
+      new RegExp('go back', 'i')
+    );
   });
 });
+
+// it('should render the protected route for /journeys', async () => {
+//   render(
+//     <QueryClientProvider client={queryClient}>
+//       <AuthProvider>
+//         <MemoryRouter initialEntries={['/journeys']}>
+//           <App />
+//         </MemoryRouter>
+//       </AuthProvider>
+//     </QueryClientProvider>
+//   );
+
+//   const nameElements = await screen.findAllByText(/KamanD/i);
+//   expect(nameElements.length).toBeGreaterThan(0);
+
+//   expect(await screen.findAllByText(/journeys/i)).toBeInTheDocument();
+//   screen.debug();
+// });

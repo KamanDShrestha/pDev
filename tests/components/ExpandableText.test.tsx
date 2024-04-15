@@ -17,7 +17,7 @@ describe('ExpandableText', () => {
     expect(screen.getByText(text)).toBeInTheDocument();
   });
 
-  it('should truncate text if longer than 100 characters and provide Show More button', () => {
+  it('should truncate text if content is longer than 100 characters and provide Show More button', () => {
     render(<ExpandableText content={longText} />);
 
     expect(screen.getByText(truncatedText)).toBeInTheDocument();
@@ -25,7 +25,7 @@ describe('ExpandableText', () => {
     expect(button).toHaveTextContent(/more/i);
   });
 
-  it('should expand text when Show More button is clicked and Show less is provided', async () => {
+  it('should expand content when Show More button is clicked and Show less is provided', async () => {
     render(<ExpandableText content={longText} />);
 
     const button = screen.getByRole('button');
@@ -36,7 +36,7 @@ describe('ExpandableText', () => {
     expect(button).toHaveTextContent(/less/i);
   });
 
-  it('should collapse text when Show Less button is clicked and Show More is provided ', async () => {
+  it('should collapse content when Show Less button is clicked and Show More is provided ', async () => {
     render(<ExpandableText content={longText} />);
     const showMoreButton = screen.getByRole('button', { name: /more/i });
     const user = userEvent.setup();

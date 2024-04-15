@@ -10,6 +10,7 @@ const Feedbacks = () => {
   const { data: journeyFeedbacks, isLoading } = useGetJourneyFeedbacks();
 
   useDocumentTitle('Feedbacks - SelfSync');
+  console.log(journeyFeedbacks);
 
   return (
     <>
