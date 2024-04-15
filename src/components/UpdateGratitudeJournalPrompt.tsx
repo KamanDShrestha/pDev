@@ -1,9 +1,10 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Button, buttonVariants } from './ui/button';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Input } from './ui/input';
 import useUpdatePrompt from '../services/gratitudePrompts/updatePrompt';
 import LoadingSpinner from './LoadingSpinner';
+import { Textarea } from './ui/textarea';
+import { Input } from './ui/input';
 
 interface UpdateGratitudeJournalPromptProps {
   prompt: {
@@ -51,7 +52,7 @@ const UpdateGratitudeJournalPrompt = ({
             <label htmlFor='prompt' className='font-medium'>
               Prompt
             </label>
-            <Input
+            <Textarea
               id='prompt'
               {...register('prompt', {
                 required: 'Prompt must be provided.',
@@ -62,7 +63,7 @@ const UpdateGratitudeJournalPrompt = ({
             <label htmlFor='placeholder' className='font-medium'>
               Placeholder
             </label>
-            <Input
+            <Textarea
               id='placeholder'
               {...register('placeholder', {
                 required: 'Placeholder must be provided.',

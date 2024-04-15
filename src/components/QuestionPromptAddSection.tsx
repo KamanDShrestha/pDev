@@ -130,6 +130,9 @@ const QuestionPromptAddSection = () => {
               )}
             </div>
             <div>
+              <Heading className='mb-0 text-lg font-medium'>
+                Select the number of questions:
+              </Heading>
               <Select
                 defaultValue={selectedNoOfQuestions.toString()}
                 onValueChange={(value) =>
@@ -158,7 +161,7 @@ const QuestionPromptAddSection = () => {
                         <Heading className='mb-0 font-medium text-md'>
                           Prompt
                         </Heading>
-                        <Input
+                        <Textarea
                           placeholder={`Question ${index + 1}`}
                           {...register(`question${index + 1}`, {
                             required: {
@@ -177,7 +180,7 @@ const QuestionPromptAddSection = () => {
                         <Heading className='mb-0 font-medium text-md'>
                           Placeholder
                         </Heading>
-                        <Input
+                        <Textarea
                           placeholder={`Placeholder ${index + 1}`}
                           {...register(`placeholder${index + 1}`, {
                             required: {

@@ -28,10 +28,13 @@ const VerifyKhaltiSubscription = () => {
   const subscriptionPlan = searchParams.get('purchase_order_name');
 
   const { data: verificationStatus, isLoading: isVerifying } =
-    useVerifyKhaltiPayment(searchParams.get('pidx') as string);
+    useVerifyKhaltiPayment(
+      searchParams.get('pidx') as string,
+      searchParams.get('status') as string
+    );
 
   const { mutate: addPayment } = useAddPaymentForSubscription();
-
+  console.log(searchParams.get('status'));
   const navigate = useNavigate();
   console.log(verificationStatus);
   console.log(subscriptionId);
@@ -39,7 +42,7 @@ const VerifyKhaltiSubscription = () => {
   useDocumentTitle('Subscription Verification - SelfSync');
 
   useEffect(() => {
-    if (searchParams.get('status') === 'Canceled') {
+    if (searchParams.get('status')?.toLowerCase().includes('canceled')) {
       setIsNavigating(() => true);
       setTimeout(() => {
         setIsNavigating(() => false);
@@ -88,7 +91,10 @@ const VerifyKhaltiSubscription = () => {
     }
   }, [verificationStatus?.status]);
 
-  if (!verificationStatus && searchParams.get('status') === 'Canceled') {
+  if (
+    !verificationStatus &&
+    searchParams.get('status')?.toLowerCase().includes('canceled')
+  ) {
     return (
       <div className='h-[100vh] w-[100vw] flex justify-center items-center p-5'>
         <div className='flex flex-col items-center justify-center'>

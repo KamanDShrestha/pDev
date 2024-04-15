@@ -205,139 +205,31 @@ const JourneyCard = ({
                 <span>{journeyLength}</span>
               </div>
             </CardContent>
-            <CardFooter className='space-x-4'>
-              {user &&
-                user.role === 'user' &&
-                user.preferredJourney !== '' &&
-                (user.preferredJourney === journeyName ||
-                  user.hasSubscribed) && (
-                  <>
-                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
-                      Browse
-                    </Button>
 
-                    {completionStatus && (
-                      <Badge
-                        variant={'default'}
-                        className='flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600'
+            {location.pathname !== '/addJourney' && (
+              <CardFooter className='space-x-4'>
+                {user &&
+                  user.role === 'user' &&
+                  user.preferredJourney !== '' &&
+                  (user.preferredJourney === journeyName ||
+                    user.hasSubscribed) && (
+                    <>
+                      <Button
+                        onClick={() => navigate(`/journeys/${journeyId}`)}
                       >
-                        <span>Completed</span>
-                        <GiPartyPopper className='text-xl' />
-                      </Badge>
-                    )}
+                        Browse
+                      </Button>
 
-                    {embarkedJourney &&
-                      embarkedJourney.journeyStatus === 'discontinued' && (
-                        <Button onClick={() => handleContinueJourney()}>
-                          {isContinuing ? (
-                            <LoadingSpinner />
-                          ) : (
-                            'Continue the journey'
-                          )}
-                        </Button>
+                      {completionStatus && (
+                        <Badge
+                          variant={'default'}
+                          className='flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600'
+                        >
+                          <span>Completed</span>
+                          <GiPartyPopper className='text-xl' />
+                        </Badge>
                       )}
 
-                    {!embarkedJourney && !completionStatus ? (
-                      <Button onClick={handleEmbarkJourney}>
-                        {isEmbarking ? <LoadingSpinner /> : 'Begin'}
-                      </Button>
-                    ) : (
-                      embarkedJourney?.isJourneyCompleted === false &&
-                      embarkedJourney?.journeyStatus === 'ongoing' && (
-                        <>
-                          <NavLink
-                            to={`/currentJourney/${embarkedJourney?.journeyId}`}
-                            className={cn(
-                              buttonVariants({ variant: 'secondary' })
-                            )}
-                          >
-                            Navigate to the journey
-                          </NavLink>
-
-                          <Button onClick={() => handleDiscontinueJourney()}>
-                            {isDiscontinuing ? (
-                              <LoadingSpinner />
-                            ) : (
-                              'Discontinue journey'
-                            )}
-                          </Button>
-                        </>
-                      )
-                    )}
-                  </>
-                )}
-              {user &&
-                user.role === 'user' &&
-                user.preferredJourney !== journeyName &&
-                !user.hasSubscribed && (
-                  <>
-                    <FaLock />
-                    <span className='text-sm'>
-                      Subscribe for unlocking the journey!
-                    </span>
-                    <Button size={'xs'} onClick={() => navigate('/subscribe')}>
-                      Subscribe
-                    </Button>
-                  </>
-                )}
-              {user && user.role === 'admin' && (
-                <>
-                  <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
-                    Browse
-                  </Button>
-                  <Button
-                    onClick={() => navigate(`/journeys/edit/${journeyId}`)}
-                  >
-                    Edit this journey
-                  </Button>
-
-                  <Dialog>
-                    <DialogTrigger
-                      className={buttonVariants({ variant: 'destructive' })}
-                    >
-                      {isDeleting ? <LoadingSpinner /> : 'Delete this journey'}
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogTitle>
-                        Are you sure you want to delete this journey?
-                      </DialogTitle>
-                      <DialogFooter>
-                        <DialogClose
-                          name='Cancel'
-                          className={buttonVariants({ variant: 'secondary' })}
-                        >
-                          Cancel
-                        </DialogClose>
-                        <DialogClose
-                          name='Delete'
-                          className={buttonVariants({ variant: 'destructive' })}
-                          onClick={() => deleteJourney({ id: journeyId })}
-                        >
-                          {isDeleting ? <LoadingSpinner /> : 'Delete'}
-                        </DialogClose>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </>
-              )}
-              {user && user.role === 'qhp' && (
-                <>
-                  <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
-                    Browse
-                  </Button>
-
-                  {completionStatus && (
-                    <Badge
-                      variant={'default'}
-                      className='flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600'
-                    >
-                      <span>Completed</span>
-                      <GiPartyPopper className='text-xl' />
-                    </Badge>
-                  )}
-
-                  {location.pathname !== '/verifyJourneys' && (
-                    <>
                       {embarkedJourney &&
                         embarkedJourney.journeyStatus === 'discontinued' && (
                           <Button onClick={() => handleContinueJourney()}>
@@ -378,9 +270,133 @@ const JourneyCard = ({
                       )}
                     </>
                   )}
-                </>
-              )}
-            </CardFooter>
+                {user &&
+                  user.role === 'user' &&
+                  user.preferredJourney !== journeyName &&
+                  !user.hasSubscribed && (
+                    <>
+                      <FaLock />
+                      <span className='text-sm'>
+                        Subscribe for unlocking the journey!
+                      </span>
+                      <Button
+                        size={'xs'}
+                        onClick={() => navigate('/subscribe')}
+                      >
+                        Subscribe
+                      </Button>
+                    </>
+                  )}
+                {user && user.role === 'admin' && (
+                  <>
+                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
+                      Browse
+                    </Button>
+                    <Button
+                      onClick={() => navigate(`/journeys/edit/${journeyId}`)}
+                    >
+                      Edit this journey
+                    </Button>
+
+                    <Dialog>
+                      <DialogTrigger
+                        className={buttonVariants({ variant: 'destructive' })}
+                      >
+                        {isDeleting ? (
+                          <LoadingSpinner />
+                        ) : (
+                          'Delete this journey'
+                        )}
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogTitle>
+                          Are you sure you want to delete this journey?
+                        </DialogTitle>
+                        <DialogFooter>
+                          <DialogClose
+                            name='Cancel'
+                            className={buttonVariants({ variant: 'secondary' })}
+                          >
+                            Cancel
+                          </DialogClose>
+                          <DialogClose
+                            name='Delete'
+                            className={buttonVariants({
+                              variant: 'destructive',
+                            })}
+                            onClick={() => deleteJourney({ id: journeyId })}
+                          >
+                            {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </>
+                )}
+                {user && user.role === 'qhp' && (
+                  <>
+                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
+                      Browse
+                    </Button>
+
+                    {completionStatus && (
+                      <Badge
+                        variant={'default'}
+                        className='flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600'
+                      >
+                        <span>Completed</span>
+                        <GiPartyPopper className='text-xl' />
+                      </Badge>
+                    )}
+
+                    {location.pathname !== '/verifyJourneys' && (
+                      <>
+                        {embarkedJourney &&
+                          embarkedJourney.journeyStatus === 'discontinued' && (
+                            <Button onClick={() => handleContinueJourney()}>
+                              {isContinuing ? (
+                                <LoadingSpinner />
+                              ) : (
+                                'Continue the journey'
+                              )}
+                            </Button>
+                          )}
+
+                        {!embarkedJourney && !completionStatus ? (
+                          <Button onClick={handleEmbarkJourney}>
+                            {isEmbarking ? <LoadingSpinner /> : 'Begin'}
+                          </Button>
+                        ) : (
+                          embarkedJourney?.isJourneyCompleted === false &&
+                          embarkedJourney?.journeyStatus === 'ongoing' && (
+                            <>
+                              <NavLink
+                                to={`/currentJourney/${embarkedJourney?.journeyId}`}
+                                className={cn(
+                                  buttonVariants({ variant: 'secondary' })
+                                )}
+                              >
+                                Navigate to the journey
+                              </NavLink>
+
+                              <Button
+                                onClick={() => handleDiscontinueJourney()}
+                              >
+                                {isDiscontinuing ? (
+                                  <LoadingSpinner />
+                                ) : (
+                                  'Discontinue journey'
+                                )}
+                              </Button>
+                            </>
+                          )
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+              </CardFooter>
+            )}
           </Card>
         </TooltipTrigger>
         <TooltipContent

@@ -132,7 +132,7 @@ const EditAspirationDetailsDialog = () => {
           </div>
           <div>
             <label htmlFor='goals' className='font-medium'>
-              goals
+              Goals
             </label>
             {userDetails && userDetails.goals.length > 0
               ? userDetails.goals.map((_, index) => (
