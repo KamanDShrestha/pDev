@@ -45,7 +45,7 @@ const Journey = () => {
           )}
         </div>
       </div>
-      <div className='mt-8'>
+      <div className='relative mt-8'>
         <h2 className='mt-2 mb-5 text-4xl font-semibold'>Journeys</h2>
         <div className='flex flex-wrap justify-center gap-10'>
           {isLoading &&
@@ -87,6 +87,14 @@ const Journey = () => {
               </div>
             ))}
         </div>
+        <p className='my-10 text-right'>
+          <span className='text-xs'>
+            *For medical emergencies or conditions, please seek appropriate
+            medical assistance and expertise. <br />
+            Our platform is designed to complement personal development efforts,
+            not to provide medical advice or treatment.
+          </span>
+        </p>
       </div>
       <Separator className='my-24' />
       <div className='mt-8'>

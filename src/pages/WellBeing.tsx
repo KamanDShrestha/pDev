@@ -135,6 +135,14 @@ const WellBeing = () => {
           {gratitudeJournals?.length === 0 && <p>No journals found for you.</p>}
         </div>
       </div>
+      <p className='mt-10 text-right'>
+        <span className='text-xs'>
+          *For medical emergencies or conditions, please seek appropriate
+          medical assistance and expertise. <br />
+          Our platform is designed to complement personal development efforts,
+          not to provide medical advice or treatment.
+        </span>
+      </p>
     </div>
   );
 };
