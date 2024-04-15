@@ -27,6 +27,7 @@ import useDeleteSpecificJourney from '../services/journey/deleteSpecificJourney'
 import { GoDotFill } from 'react-icons/go';
 import { BsDot } from 'react-icons/bs';
 import { FaLock } from 'react-icons/fa';
+import { GiPartyPopper } from 'react-icons/gi';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import { cn } from '../lib/utils';
@@ -42,6 +43,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
+import useGetJourneyCompletionStatus from '../services/embarkedJourneys/getJourneyCompletionStatus';
+import { Badge } from './ui/badge';
 
 interface ActionSteps {
   description: string;
@@ -79,6 +82,12 @@ const JourneyCard = ({
     user?.id as string,
     journeyId
   );
+  const { data: completionStatus } = useGetJourneyCompletionStatus(
+    user?.id as string,
+    journeyId
+  );
+
+  console.log('completionStatus', completionStatus, journeyName);
   const { mutate: deleteJourney, isLoading: isDeleting } =
     useDeleteSpecificJourney();
   const { mutate: discontinueJourney, isLoading: isDiscontinuing } =
@@ -207,6 +216,16 @@ const JourneyCard = ({
                       Browse
                     </Button>
 
+                    {completionStatus && (
+                      <Badge
+                        variant={'default'}
+                        className='flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600'
+                      >
+                        <span>Completed</span>
+                        <GiPartyPopper className='text-xl' />
+                      </Badge>
+                    )}
+
                     {embarkedJourney &&
                       embarkedJourney.journeyStatus === 'discontinued' && (
                         <Button onClick={() => handleContinueJourney()}>
@@ -218,13 +237,13 @@ const JourneyCard = ({
                         </Button>
                       )}
 
-                    {!embarkedJourney ? (
+                    {!embarkedJourney && !completionStatus ? (
                       <Button onClick={handleEmbarkJourney}>
                         {isEmbarking ? <LoadingSpinner /> : 'Begin'}
                       </Button>
                     ) : (
-                      embarkedJourney.isJourneyCompleted === false &&
-                      embarkedJourney.journeyStatus === 'ongoing' && (
+                      embarkedJourney?.isJourneyCompleted === false &&
+                      embarkedJourney?.journeyStatus === 'ongoing' && (
                         <>
                           <NavLink
                             to={`/currentJourney/${embarkedJourney?.journeyId}`}
@@ -307,6 +326,16 @@ const JourneyCard = ({
                     Browse
                   </Button>
 
+                  {completionStatus && (
+                    <Badge
+                      variant={'default'}
+                      className='flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600'
+                    >
+                      <span>Completed</span>
+                      <GiPartyPopper className='text-xl' />
+                    </Badge>
+                  )}
+
                   {location.pathname !== '/verifyJourneys' && (
                     <>
                       {embarkedJourney &&
@@ -320,13 +349,13 @@ const JourneyCard = ({
                           </Button>
                         )}
 
-                      {!embarkedJourney ? (
+                      {!embarkedJourney && !completionStatus ? (
                         <Button onClick={handleEmbarkJourney}>
                           {isEmbarking ? <LoadingSpinner /> : 'Begin'}
                         </Button>
                       ) : (
-                        embarkedJourney.isJourneyCompleted === false &&
-                        embarkedJourney.journeyStatus === 'ongoing' && (
+                        embarkedJourney?.isJourneyCompleted === false &&
+                        embarkedJourney?.journeyStatus === 'ongoing' && (
                           <>
                             <NavLink
                               to={`/currentJourney/${embarkedJourney?.journeyId}`}

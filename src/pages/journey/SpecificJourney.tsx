@@ -19,6 +19,7 @@ import useGetSpecificJourneyByID from '../../services/journey/getSpecificJourney
 import useGetJourneyExistence from '../../services/journey/getJourneyExistence';
 import useContinueJourney from '../../services/embarkedJourneys/continueJourney';
 import { useQueryClient } from '@tanstack/react-query';
+import useGetJourneyCompletionStatus from '../../services/embarkedJourneys/getJourneyCompletionStatus';
 
 // const validJourneys = [
 //   'mindfulness',
@@ -45,6 +46,11 @@ const SpecificJourney = () => {
     user?.id as string,
     journey?._id as string
   );
+  const { data: completionStatus } = useGetJourneyCompletionStatus(
+    user?.id as string,
+    journey?._id as string
+  );
+
   const { data: randomQuote, isLoading: isGettingRandomQuote } =
     useGetRandomQuote(journey?.name as string);
   const { data: journeyExistence, isLoading: isJourneyExistenceLoading } =
@@ -147,8 +153,18 @@ const SpecificJourney = () => {
 
             {journey?.isVerified === true && (
               <>
-                {embarkedJourney === null && (
+                {embarkedJourney === null && !completionStatus && (
                   <Button onClick={handleBeginButton}>Begin the journey</Button>
+                )}
+
+                {completionStatus && (
+                  <Button
+                    onClick={() =>
+                      navigate(`/completedJourney/${journey?._id}`)
+                    }
+                  >
+                    Browse completed journey
+                  </Button>
                 )}
 
                 {embarkedJourney &&

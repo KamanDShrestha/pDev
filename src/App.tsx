@@ -54,6 +54,7 @@ import ConfigureLearningPodcasts from './pages/admin/ConfigureLearningPodcasts';
 import Learn from './pages/Learn';
 import GoalSetting from './pages/GoalSetting';
 import ActionStepsExamples from './pages/ActionStepsExamples';
+import CompletedJourney from './pages/journey/CompletedJourney';
 
 function App() {
   return (
@@ -102,6 +103,10 @@ function App() {
                   <Route
                     path={'/currentJourney/:id'}
                     element={<CurrentJourney />}
+                  />
+                  <Route
+                    path={'/completedJourney/:id'}
+                    element={<CompletedJourney />}
                   />
                   <Route path={'/payment'} element={<Payment />} />
                   <Route path={'/wellbeing'} element={<WellBeing />} />
