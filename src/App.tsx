@@ -55,6 +55,7 @@ import Learn from './pages/Learn';
 import GoalSetting from './pages/GoalSetting';
 import ActionStepsExamples from './pages/ActionStepsExamples';
 import CompletedJourney from './pages/journey/CompletedJourney';
+import PaymentDetails from './pages/PaymentDetails';
 
 function App() {
   return (
@@ -119,6 +120,7 @@ function App() {
                   />
 
                   <Route path='/goalSetting' element={<GoalSetting />} />
+                  <Route path='/paymentDetails' element={<PaymentDetails />} />
                 </Route>
               </Route>
 

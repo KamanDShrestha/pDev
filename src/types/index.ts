@@ -202,6 +202,26 @@ export type QuotesByCategory = {
   }[];
 };
 
+export type PaymentData = {
+  _id: string;
+  userId: string;
+  userName: string;
+  subscription: {
+    subscriptionId: string;
+    subscriptionPlan: string;
+    subscriptionDate: Date;
+    isActive: boolean;
+  };
+  payment: {
+    transactionId: string;
+    paymentGateway: string;
+    currency: string;
+    amount: number;
+    paymentStatus: string;
+    lastPaymentDate: Date;
+  };
+};
+
 export type AddPaymentData = {
   userId: string;
   userName: string;

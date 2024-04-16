@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
@@ -32,16 +33,16 @@ const ProfilePersonalDetailsCard = () => {
             <label className='font-medium'>Role: </label>
             <span>{user.role}</span>
           </div>
-          {user.role === 'user' && (
+          {(user.role === 'user' || user.role === 'qhp') && (
             <div className='flex flex-wrap justify-between'>
               <label className='font-medium'>Subscription Status: </label>
-              <span>
+              <NavLink to={'/paymentDetails'}>
                 {user.hasSubscribed ? (
                   <Badge>Subscribed</Badge>
                 ) : (
                   <Badge>Not Subscribed</Badge>
                 )}
-              </span>
+              </NavLink>
             </div>
           )}
         </Card>
