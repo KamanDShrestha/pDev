@@ -215,7 +215,9 @@ const JourneyCard = ({
                     user.hasSubscribed) && (
                     <>
                       <Button
-                        onClick={() => navigate(`/journeys/${journeyId}`)}
+                        onClick={() =>
+                          navigate(`/journeys/${journeyId}/${journeyName}`)
+                        }
                       >
                         Browse
                       </Button>

@@ -77,7 +77,7 @@ const JourneyFeedbackCard = ({
               <div>
                 <div>
                   <span className='mb-0 font-medium'>Feedback for: </span>
-                  <span>{feedback.actionStepDay}</span>
+                  <span>Day {feedback.actionStepDay}</span>
                 </div>
                 <div>
                   <span className='mb-0 font-medium'>Feedback: </span>

@@ -6,29 +6,100 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import useAddJourneyFeedback from '../services/journeyFeedbacks/addJourneyFeedback';
 import { useAuthContext } from '../context/AuthProvider';
+import { useState } from 'react';
+import ErrorMessage from './ErrorMessage';
 
 interface JourneyFeedbackProps {
   journeyId: string;
 }
 
 const JourneyFeedback = ({ journeyId }: JourneyFeedbackProps) => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const { user } = useAuthContext();
   const { mutate } = useAddJourneyFeedback();
+  const [actionStepDayError, setActionStepDayError] = useState('');
+  const [feedbackError, setFeedbackError] = useState('');
+
   function handleFeedbackSubmit(data: FieldValues) {
-    if (!data.journeyFeedback && !data.actionStepFeedback) return;
+    console.log(data);
+    if (!data.journeyFeedback && !data.actionStepDay) {
+      setFeedbackError(
+        'Please provide feedback for the journey or action steps'
+      );
+      return;
+    }
+
+    if (data.actionStepDay && parseInt(data.actionStepDay) < 1) {
+      setActionStepDayError('Day should be greater than 0');
+    }
 
     console.log(data);
-    mutate({
-      userId: user?.id as string,
-      journeyId,
-      journeyFeedbacks: { feedback: data.journeyFeedback || '' },
-      actionStepFeedbacks: {
-        actionStepDay: data.actionStepDay || '',
-        feedback: data.feedback || '',
-      },
-      userRole: user?.role as string,
-    });
+    console.log(errors);
+
+    if (data.journeyFeedback && data.actionStepDay && data.feedback) {
+      console.log('in bothc');
+
+      mutate(
+        {
+          userId: user?.id as string,
+          journeyId,
+          journeyFeedbacks: { feedback: data.journeyFeedback || '' },
+          actionStepFeedbacks: {
+            actionStepDay: data.actionStepDay || '',
+            feedback: data.feedback || '',
+          },
+          userRole: user?.role as string,
+        },
+        {
+          onSuccess: () => {
+            reset();
+          },
+        }
+      );
+    } else if (data.journeyFeedback) {
+      console.log('here in journey feebakc');
+
+      mutate(
+        {
+          userId: user?.id as string,
+          journeyId,
+          journeyFeedbacks: { feedback: data.journeyFeedback || '' },
+          userRole: user?.role as string,
+        },
+        {
+          onSuccess: () => {
+            reset();
+          },
+        }
+      );
+    } else if (data.actionStepDay && data.feedback) {
+      console.log('here');
+      mutate(
+        {
+          userId: user?.id as string,
+          journeyId,
+          actionStepFeedbacks: {
+            actionStepDay: parseInt(data.actionStepDay),
+            feedback: data.feedback || '',
+          },
+          userRole: user?.role as string,
+        },
+        {
+          onSuccess: () => {
+            reset();
+          },
+        }
+      );
+    } else {
+      console.log('neighteebakc');
+
+      return;
+    }
   }
 
   return (
@@ -40,6 +111,7 @@ const JourneyFeedback = ({ journeyId }: JourneyFeedbackProps) => {
       <div>
         <Heading className='mb-2 text-lg'>Feedback for the journey</Heading>
         <Textarea {...register('journeyFeedback')} />
+        {feedbackError && <ErrorMessage>{feedbackError}</ErrorMessage>}
       </div>
       <div>
         <Heading className='mb-2 text-lg'>
@@ -49,7 +121,14 @@ const JourneyFeedback = ({ journeyId }: JourneyFeedbackProps) => {
         <div className='space-y-3'>
           <div>
             <label className='font-medium'>For this day </label>
-            <Input {...register('actionStepDay')} />
+            <Input
+              {...register('actionStepDay')}
+              type='number'
+              onChange={() => setActionStepDayError('')}
+            />
+            {actionStepDayError && (
+              <ErrorMessage>{actionStepDayError}</ErrorMessage>
+            )}
           </div>
           <div>
             <label className='font-medium'>Feedback </label>

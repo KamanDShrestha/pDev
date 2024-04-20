@@ -50,6 +50,7 @@ const SpecificJourney = () => {
     user?.id as string,
     journey?._id as string
   );
+  console.log(params.name);
 
   const { data: randomQuote, isLoading: isGettingRandomQuote } =
     useGetRandomQuote(journey?.name as string);
@@ -122,12 +123,17 @@ const SpecificJourney = () => {
     );
   }
   return (
-    <div>
-      <div className='w-[full] h-[80vh] bg-gray-200 flex items-center '>
-        <div className='flex items-center justify-center w-full h-full p-10'>
+    <div className='space-y-16'>
+      <div
+        style={{
+          backgroundImage: `url('/src/assets/coverImages/journeyCover.png')`,
+        }}
+        className='w-full h-[80vh] flex items-center justify-center bg-cover rounded-lg'
+      >
+        <div className='flex items-center justify-center w-full h-full p-3 border bg-opacity-40'>
           {isGettingRandomQuote && <LoadingSpinner />}
           {randomQuote && (
-            <div className='space-y-5'>
+            <div className='p-3 space-y-5 whitespace-pre-wrap shadow-lg bg-[#ffaa00] bg-opacity-60 backdrop-blur-xl rounded-lg'>
               <p className='text-2xl'>{randomQuote.quote}</p>
               <p className='text-lg text-right'> - {randomQuote.author}</p>
             </div>

@@ -40,6 +40,7 @@ import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus
 import { Badge } from './ui/badge';
 import EditQADialog from './EditQADialog';
 import removeWhitespace from '../services/removeWhitespace';
+import ErrorMessage from './ErrorMessage';
 
 // import { FcLikePlaceholder } from 'react-icons/fc';
 
@@ -49,7 +50,12 @@ interface QuestionAnswerCardProps {
 
 const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
   const { user } = useAuthContext();
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
   const { mutate: addLike, isLoading: isLiking } = useLikeQA();
   const { mutate: addSavedContent, isLoading: isSaving } = useAddSavedContent();
@@ -180,34 +186,35 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
               </div>
             </div>
             <div className='flex flex-col items-end'>
-              {user?.id === question.userId && membershipStatus && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <span className='text-2xl'>
-                      <BsThreeDots />
-                    </span>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleDeleteQA()}
-                      >
-                        {isDeleting ? (
-                          <LoadingSpinner />
-                        ) : (
-                          <>
-                            <FaTrashAlt />
-                            <span>Move to Trash</span>
-                          </>
-                        )}
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              )}
+              {(user?.id === question.userId && membershipStatus) ||
+                (user?.role === 'admin' && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <span className='text-2xl'>
+                        <BsThreeDots />
+                      </span>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem
+                          className='flex items-center gap-2'
+                          onClick={() => handleDeleteQA()}
+                        >
+                          {isDeleting ? (
+                            <LoadingSpinner />
+                          ) : (
+                            <>
+                              <FaTrashAlt />
+                              <span>Move to Trash</span>
+                            </>
+                          )}
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ))}
               <div className='flex flex-col items-end gap-2'>
                 <div className='flex items-center gap-1'>
                   {user?.id === question.userId && membershipStatus && (
@@ -281,7 +288,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                         : `${question.answers.length} answers`}
                     </span>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className='max-w-[600px]'>
                     <QuestionAnswerCardWithComments question={question} />
                   </DialogContent>
                 </Dialog>
@@ -299,7 +306,7 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                   className='min-w-[400px]'
                 />
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className='max-w-[600px]'>
                 <label className='font-medium'>Provide your answer</label>
                 <div>
                   <Textarea
@@ -311,12 +318,17 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                         message: 'Answer must have at least 5 characters.',
                       },
                       maxLength: {
-                        value: 250,
+                        value: 300,
                         message:
-                          'Answer must be provided within 200 characters.',
+                          'Answer must be provided within 300 characters.',
                       },
                     })}
                   />
+                  {errors.answer && (
+                    <ErrorMessage>
+                      {errors.answer.message as string}
+                    </ErrorMessage>
+                  )}
                 </div>
                 <Button
                   onClick={handleSubmit(handleSubmitAnswer)}

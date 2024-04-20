@@ -2,6 +2,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -10,8 +11,8 @@ import { Card, CardFooter, CardHeader, CardTitle } from './ui/card';
 import Heading from './Heading';
 
 import { QuestionPromptEntry } from '../types';
-import { useForm } from 'react-hook-form';
-import { Button, buttonVariants } from './ui/button';
+
+import { buttonVariants } from './ui/button';
 import { useAuthContext } from '../context/AuthProvider';
 import { cn } from '../lib/utils';
 import { FaTrash } from 'react-icons/fa';
@@ -24,12 +25,6 @@ interface PromptEntryCardProps {
 
 const PromptEntryCard = ({ promptEntry }: PromptEntryCardProps) => {
   const { user } = useAuthContext();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
 
   const { mutate: deletePrompt } = useDeleteQuestionPromptEntry();
   const queryClient = useQueryClient();
@@ -80,22 +75,22 @@ const PromptEntryCard = ({ promptEntry }: PromptEntryCardProps) => {
           </DialogTrigger>
           <DialogContent>
             <div>
-              <Heading className='mb-0 text-md'>
+              <Heading className=' text-md'>
                 Are you sure you want to delete this prompt?
               </Heading>
-              <div className='flex gap-3'>
+              <DialogFooter className='flex gap-3'>
+                <DialogClose
+                  className={buttonVariants({ variant: 'secondary' })}
+                >
+                  Cancel
+                </DialogClose>
                 <DialogClose
                   onClick={() => handlePromptEntryDeletion(promptEntry._id)}
                   className={buttonVariants({ variant: 'destructive' })}
                 >
-                  Yes
+                  Delete
                 </DialogClose>
-                <DialogClose
-                  className={buttonVariants({ variant: 'secondary' })}
-                >
-                  No
-                </DialogClose>
-              </div>
+              </DialogFooter>
             </div>
           </DialogContent>
         </Dialog>

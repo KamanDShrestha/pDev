@@ -614,7 +614,7 @@ export type JourneyFeedback = {
 
 export type ActionStepFeedback = {
   _id: string;
-  actionStepDay: string;
+  actionStepDay: number;
   feedback: string;
   feedbackStatus: 'pending' | 'resolved' | 'rejected';
 };
@@ -640,9 +640,9 @@ export type JourneyFeedbacks = {
 export type AddJourneyFeedbackData = {
   userId: string;
   journeyId: string;
-  journeyFeedbacks: { feedback: string };
-  actionStepFeedbacks: {
-    actionStepDay: string;
+  journeyFeedbacks?: { feedback: string };
+  actionStepFeedbacks?: {
+    actionStepDay: number;
     feedback: string;
   };
   userRole: string;
