@@ -7,7 +7,6 @@ import { ThemeProvider } from './components/ThemeProvider';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Journey from './pages/journey/Journey';
-import Payment from './pages/Payment';
 import NewUser from './pages/NewUser';
 
 import AuthRequire from './pages/auth/AuthRequire';
@@ -109,7 +108,6 @@ function App() {
                     path={'/completedJourney/:id'}
                     element={<CompletedJourney />}
                   />
-                  <Route path={'/payment'} element={<Payment />} />
                   <Route path={'/wellbeing'} element={<WellBeing />} />
                   <Route path={'/profile'} element={<Profile />} />
                   <Route path='/subscribe' element={<Subscribe />} />

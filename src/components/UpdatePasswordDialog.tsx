@@ -15,6 +15,7 @@ import useUpdatePassword from '../services/users/updatePassword';
 import { useAuthContext } from '../context/AuthProvider';
 import { useState } from 'react';
 import useLogoutUser from '../services/userAuth/logoutUser';
+import removeWhitespace from '../services/removeWhitespace';
 
 const UpdatePasswordDialog = () => {
   const { user } = useAuthContext();
@@ -35,8 +36,8 @@ const UpdatePasswordDialog = () => {
     updatePassword(
       {
         userId: user?.id as string,
-        currentPassword: data.currentPassword,
-        newPassword: data.newPassword,
+        currentPassword: removeWhitespace(data.currentPassword),
+        newPassword: removeWhitespace(data.newPassword),
       },
       {
         onSuccess: () => {
@@ -73,9 +74,14 @@ const UpdatePasswordDialog = () => {
                   message: 'Please provide your current password',
                 },
                 minLength: {
-                  value: 3,
+                  value: 6,
                   message:
-                    'Current Password should be at least 3 characters long',
+                    'Current Password should be at least 6 characters long',
+                },
+                validate: {
+                  notOnlyWhitespace: (value) =>
+                    value.trim().length >= 6 ||
+                    'This cannot be only whitespace',
                 },
               })}
             />
@@ -98,8 +104,13 @@ const UpdatePasswordDialog = () => {
                   message: 'Please provide your new password',
                 },
                 minLength: {
-                  value: 3,
-                  message: 'new Password should be at least 3 characters long',
+                  value: 6,
+                  message: 'new Password should be at least 6 characters long',
+                },
+                validate: {
+                  notOnlyWhitespace: (value) =>
+                    value.trim().length >= 6 ||
+                    'This cannot be only whitespace',
                 },
               })}
             />
@@ -122,8 +133,13 @@ const UpdatePasswordDialog = () => {
                   message: 'Please provide your new password',
                 },
                 minLength: {
-                  value: 3,
-                  message: 'New Password should be at least 3 characters long',
+                  value: 6,
+                  message: 'New Password should be at least 6 characters long',
+                },
+                validate: {
+                  notOnlyWhitespace: (value) =>
+                    value.trim().length >= 6 ||
+                    'This cannot be only whitespace',
                 },
               })}
             />

@@ -34,11 +34,6 @@ const AdminDashboard = () => {
     isLoading: isFetchingCompletedJourneysCount,
   } = useGetCompletedJourneysCount();
 
-  console.log(usersCountInJourney);
-  console.log(membersCountInCommunity);
-  console.log(discontinuedJourneysCount);
-  console.log(ongoingJourneysCount);
-  console.log(completedJourneysCount);
   console.log(error);
   useDocumentTitle('Admin Dashboard - SelfSync');
   return (

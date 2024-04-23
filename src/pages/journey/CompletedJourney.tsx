@@ -101,11 +101,16 @@ const CompletedJourney = () => {
 
       {completionStatus && (
         <>
-          <div className='w-[full] h-[80vh] bg-gray-200 flex items-center '>
-            <div className='flex items-center justify-center w-full h-full p-10'>
+          <div
+            style={{
+              backgroundImage: `url('/src/assets/coverImages/embarkedJourneyCover.png')`,
+            }}
+            className='w-full h-[80vh] flex items-center justify-center bg-cover rounded-lg'
+          >
+            <div className='flex items-center justify-center w-full h-full p-3 border bg-opacity-40'>
               {isFetchingRandomQuote && <LoadingSpinner />}
               {randomQuote && (
-                <div className='space-y-5'>
+                <div className='p-3 space-y-5 whitespace-pre-wrap shadow-lg bg-[#00b4d8] bg-opacity-60 backdrop-blur-xl rounded-lg'>
                   <p className='text-2xl'>{randomQuote.quote}</p>
                   <p className='text-lg text-right'> - {randomQuote.author}</p>
                 </div>
@@ -119,7 +124,7 @@ const CompletedJourney = () => {
             <>
               <div className='p-10'>
                 <h2 className='mt-2 mb-5 text-4xl font-semibold'>
-                  Action steps for the journey
+                  Completed Action Steps for {completedJourney?.journeyName}
                 </h2>
 
                 <div>
@@ -396,11 +401,13 @@ const CompletedJourney = () => {
                   <ReflectionCard
                     embarkedJourneyId={completedJourney?._id}
                     reflection={completedJourney?.reflection}
+                    journeyId={completedJourney?.journeyId}
                   />
 
                   <KeyLearningCard
                     embarkedJourneyId={completedJourney._id}
                     keyLearning={completedJourney.keyLearning}
+                    journeyId={completedJourney?.journeyId}
                   />
                 </CardContent>
               </Card>

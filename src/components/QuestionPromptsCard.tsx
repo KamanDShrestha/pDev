@@ -173,9 +173,18 @@ const QuestionPromptsCard = ({ questionPrompt }: QuestionPromptsCardProps) => {
                       value: true,
                       message: 'Provide the details before proceeding.',
                     },
+                    minLength: {
+                      value: 20,
+                      message: 'Description must have at least 20 characters',
+                    },
                     maxLength: {
                       value: 400,
                       message: 'Please keep your answer under 400 characters.',
+                    },
+                    validate: {
+                      notOnlyWhitespace: (value) =>
+                        value.trim().length >= 20 ||
+                        'This cannot be only whitespace',
                     },
                   })}
                 />

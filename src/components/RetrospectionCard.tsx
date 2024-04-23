@@ -13,6 +13,7 @@ interface RetrospectionCardProps {
   keyLearning: string;
   reflection: string;
   journeyName: string;
+  journeyId: string;
 }
 
 const RetrospectionCard = ({
@@ -20,6 +21,7 @@ const RetrospectionCard = ({
   reflection,
   embarkedJourneyId,
   journeyName,
+  journeyId,
 }: RetrospectionCardProps) => {
   return (
     <Card className='flex items-center justify-around w-[350px] sm:w-[600px] p-5'>
@@ -39,6 +41,7 @@ const RetrospectionCard = ({
               <KeyLearningCard
                 embarkedJourneyId={embarkedJourneyId}
                 keyLearning={keyLearning}
+                journeyId={journeyId}
               />
             </AccordionContent>
           </AccordionItem>
@@ -50,6 +53,7 @@ const RetrospectionCard = ({
               <ReflectionCard
                 embarkedJourneyId={embarkedJourneyId}
                 reflection={reflection}
+                journeyId={journeyId}
               />
             </AccordionContent>
           </AccordionItem>

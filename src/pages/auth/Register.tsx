@@ -161,7 +161,17 @@ const Register = () => {
                 >
                   Email
                 </InputFieldLabel>
-                <Input {...register('email')} type='email' id='email' />
+                <Input
+                  {...register('email', {
+                    required: 'Please provide your email',
+                    pattern: {
+                      value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                      message: 'Please provide a valid email address',
+                    },
+                  })}
+                  type='email'
+                  id='email'
+                />
                 {errors.email && (
                   <ErrorMessage>{errors.email.message}</ErrorMessage>
                 )}
@@ -177,7 +187,18 @@ const Register = () => {
                   Password
                 </InputFieldLabel>
                 <Input
-                  {...register('password')}
+                  {...register('password', {
+                    required: 'Please provide your password',
+                    minLength: {
+                      value: 6,
+                      message: 'Password should be at least 6 characters long',
+                    },
+                    validate: {
+                      notOnlyWhitespace: (value) =>
+                        value.trim().length >= 6 ||
+                        'This cannot be only whitespace',
+                    },
+                  })}
                   type='password'
                   id='password'
                 />
@@ -196,7 +217,12 @@ const Register = () => {
                   Confirm Password
                 </InputFieldLabel>
                 <Input
-                  {...register('confirmPassword')}
+                  {...register('confirmPassword', {
+                    required: 'Please confirm your password',
+                    validate: (value) =>
+                      value === watch('password') ||
+                      'Passwords do not match. Please try again.',
+                  })}
                   type='password'
                   id='confirmPassword'
                 />
@@ -221,7 +247,33 @@ const Register = () => {
                 <InputFieldLabel htmlFor='dateOfBirth' hasContent={true}>
                   Date of Birth
                 </InputFieldLabel>
-                <Input {...register('dateOfBirth')} type='date' />
+                <Input
+                  {...register('dateOfBirth', {
+                    required: 'Please provide your date of birth',
+                    validate: {
+                      isDateOfBirthValid: (value) => {
+                        const dateOfBirth = new Date(value);
+                        const currentDate = new Date();
+                        let age =
+                          currentDate.getFullYear() - dateOfBirth.getFullYear();
+                        const m =
+                          currentDate.getMonth() - dateOfBirth.getMonth();
+                        if (
+                          m < 0 ||
+                          (m === 0 &&
+                            currentDate.getDate() < dateOfBirth.getDate())
+                        ) {
+                          age--;
+                        }
+                        if (age < 13) {
+                          return 'You must be at least 13 years old to register';
+                        }
+                        return true;
+                      },
+                    },
+                  })}
+                  type='date'
+                />
                 {errors.dateOfBirth && (
                   <ErrorMessage>{errors.dateOfBirth.message}</ErrorMessage>
                 )}

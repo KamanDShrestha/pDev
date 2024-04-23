@@ -110,6 +110,19 @@ const MoodTracker = ({ handleModalClose }: MoodTrackerProps) => {
                 value: true,
                 message: 'Please provide valid reasoning for your mood',
               },
+              minLength: {
+                value: 10,
+                message: 'Reasoning must have at least 10 characters',
+              },
+
+              maxLength: {
+                value: 100,
+                message: 'Reasoning must have at most 100 characters',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 10 || 'This cannot be only whitespace',
+              },
             })}
           />
           {errors.reasoning && (

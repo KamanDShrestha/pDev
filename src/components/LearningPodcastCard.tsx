@@ -119,6 +119,9 @@ const LearningPodcastCard = ({
       },
     });
   }
+
+  // podcast.title = undefined;
+
   return (
     <Card className='w-[360px] h-[300px]'>
       <CardHeader className='h-[100px]'>

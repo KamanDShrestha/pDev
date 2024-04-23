@@ -40,12 +40,12 @@ const PromptEntryCard = ({ promptEntry }: PromptEntryCardProps) => {
   return (
     <Card
       className={cn(
-        'w-[400px] h-[150px] flex justify-center items-center flex-col',
+        'w-[400px] h-[200px] flex justify-center items-center flex-col',
         user?.role === 'admin' ? 'h-[200px]' : ''
       )}
     >
-      <CardHeader className='text-center'>
-        <CardTitle>{promptEntry.promptTitle}</CardTitle>
+      <CardHeader className='p-3 text-center'>
+        <CardTitle className='mt-5'>{promptEntry.promptTitle}</CardTitle>
       </CardHeader>
       <Dialog>
         <DialogTrigger className={buttonVariants({ variant: 'link' })}>

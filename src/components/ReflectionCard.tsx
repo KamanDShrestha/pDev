@@ -17,15 +17,19 @@ import {
   DialogTrigger,
 } from './ui/dialog';
 import { Textarea } from './ui/textarea';
+import { useQueryClient } from '@tanstack/react-query';
+import { useAuthContext } from '../context/AuthProvider';
 
 interface ReflectionCardProps {
   embarkedJourneyId: string;
   reflection: string;
+  journeyId: string;
 }
 
 const ReflectionCard = ({
   embarkedJourneyId,
   reflection,
+  journeyId,
 }: ReflectionCardProps) => {
   const { mutate: updateReflection } = useUpdateRetrospection();
   const { register, handleSubmit } = useForm({
@@ -33,14 +37,27 @@ const ReflectionCard = ({
       reflection: reflection,
     },
   });
+  const { user } = useAuthContext();
+  const queryClient = useQueryClient();
 
   function handleReflectionUpdate(data: FieldValues) {
-    updateReflection({
-      embarkedJourneyId: embarkedJourneyId,
-      updatedFields: {
-        reflection: data.reflection,
+    updateReflection(
+      {
+        embarkedJourneyId: embarkedJourneyId,
+        updatedFields: {
+          reflection: data.reflection,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'completedJourney',
+            user?.id,
+            journeyId,
+          ]);
+        },
+      }
+    );
   }
 
   return (

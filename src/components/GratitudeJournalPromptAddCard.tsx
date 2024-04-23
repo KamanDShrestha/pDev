@@ -59,6 +59,10 @@ const GratitudeJournalPromptAddCard = () => {
                   value: true,
                   message: 'Please provide prompt for gratitude journal.',
                 },
+                maxLength: {
+                  value: 300,
+                  message: 'Prompt should be less than 300 characters.',
+                },
               })}
             />
             {errors.prompt && (
@@ -73,6 +77,10 @@ const GratitudeJournalPromptAddCard = () => {
                 required: {
                   value: true,
                   message: 'Please provide placeholder for the prompt.',
+                },
+                maxLength: {
+                  value: 100,
+                  message: 'Placeholder should be less than 100 characters.',
                 },
               })}
             />
@@ -90,6 +98,10 @@ const GratitudeJournalPromptAddCard = () => {
                 required: {
                   value: true,
                   message: 'Provide category for the prompt.',
+                },
+                maxLength: {
+                  value: 25,
+                  message: 'Category should be less than 25 characters.',
                 },
               })}
             />

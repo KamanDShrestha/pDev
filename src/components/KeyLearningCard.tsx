@@ -17,15 +17,19 @@ import {
   DialogTrigger,
 } from './ui/dialog';
 import { Textarea } from './ui/textarea';
+import { useQueryClient } from '@tanstack/react-query';
+import { useAuthContext } from '../context/AuthProvider';
 
 interface KeyLearningCardProps {
   embarkedJourneyId: string;
   keyLearning: string;
+  journeyId: string;
 }
 
 const KeyLearningCard = ({
   embarkedJourneyId,
   keyLearning,
+  journeyId,
 }: KeyLearningCardProps) => {
   const { mutate: updateKeyLearning } = useUpdateRetrospection();
   const { register, handleSubmit } = useForm({
@@ -33,14 +37,28 @@ const KeyLearningCard = ({
       keyLearning: keyLearning,
     },
   });
+  const { user } = useAuthContext();
+  const queryClient = useQueryClient();
 
   function handlekeyLearningUpdate(data: FieldValues) {
-    updateKeyLearning({
-      embarkedJourneyId: embarkedJourneyId,
-      updatedFields: {
-        keyLearning: data.keyLearning,
+    updateKeyLearning(
+      {
+        embarkedJourneyId: embarkedJourneyId,
+        updatedFields: {
+          keyLearning: data.keyLearning,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([
+            'completedJourney',
+            user?.id,
+            journeyId,
+          ]);
+          queryClient.invalidateQueries(['embarkedJourney', user?.id]);
+        },
+      }
+    );
   }
 
   return (

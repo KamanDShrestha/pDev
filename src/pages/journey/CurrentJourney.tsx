@@ -561,11 +561,13 @@ const CurrentJourney = () => {
               <ReflectionCard
                 embarkedJourneyId={embarkedJourney?._id}
                 reflection={embarkedJourney?.reflection}
+                journeyId={embarkedJourney?.journeyId}
               />
 
               <KeyLearningCard
                 embarkedJourneyId={embarkedJourney._id}
                 keyLearning={embarkedJourney.keyLearning}
+                journeyId={embarkedJourney?.journeyId}
               />
             </CardContent>
           </Card>

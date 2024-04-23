@@ -186,6 +186,17 @@ const NewUser = () => {
                   value: true,
                   message: 'Please provide your date of birth',
                 },
+                validate: {
+                  isDateOfBirthValid: (value) => {
+                    const date = new Date(value);
+                    const currentDate = new Date();
+                    const age = currentDate.getFullYear() - date.getFullYear();
+                    if (age < 13) {
+                      return 'You must be at least 13 years old to register';
+                    }
+                    return true;
+                  },
+                },
               })}
             />
             {DOBErrors.dateOfBirth && (
@@ -212,23 +223,78 @@ const NewUser = () => {
           </CardHeader>
           <CardContent className='space-y-5'>
             <div>
-              <Input className='rounded-full' {...register('answer1')} />
+              <Input
+                className='rounded-full'
+                {...register('answer1', {
+                  required: 'Please provide an answer',
+                  minLength: {
+                    value: 20,
+                    message: 'Answer must have at least 20 characters',
+                  },
+                  maxLength: {
+                    value: 200,
+                    message: 'Answer must have at most 200 characters',
+                  },
+                  validate: {
+                    notOnlyWhitespace: (value) =>
+                      value.trim().length >= 20 ||
+                      'This cannot be only whitespace',
+                  },
+                })}
+              />
+
               {errors.answer1 && (
                 <ErrorMessage>{errors.answer1.message}</ErrorMessage>
               )}
             </div>
 
             <div>
-              <Input className='rounded-full' {...register('answer2')} />
-              {errors.answer1 && (
-                <ErrorMessage>{errors.answer1.message}</ErrorMessage>
+              <Input
+                className='rounded-full'
+                {...register('answer2', {
+                  required: 'Please provide an answer',
+                  minLength: {
+                    value: 20,
+                    message: 'Answer must have at least 20 characters',
+                  },
+                  maxLength: {
+                    value: 200,
+                    message: 'Answer must have at most 200 characters',
+                  },
+                  validate: {
+                    notOnlyWhitespace: (value) =>
+                      value.trim().length >= 20 ||
+                      'This cannot be only whitespace',
+                  },
+                })}
+              />
+              {errors.answer2 && (
+                <ErrorMessage>{errors.answer2.message}</ErrorMessage>
               )}
             </div>
 
             <div>
-              <Input className='rounded-full' {...register('answer3')} />
-              {errors.answer1 && (
-                <ErrorMessage>{errors.answer1.message}</ErrorMessage>
+              <Input
+                className='rounded-full'
+                {...register('answer3', {
+                  required: 'Please provide an answer',
+                  minLength: {
+                    value: 20,
+                    message: 'Answer must have at least 20 characters',
+                  },
+                  maxLength: {
+                    value: 200,
+                    message: 'Answer must have at most 200 characters',
+                  },
+                  validate: {
+                    notOnlyWhitespace: (value) =>
+                      value.trim().length >= 20 ||
+                      'This cannot be only whitespace',
+                  },
+                })}
+              />
+              {errors.answer3 && (
+                <ErrorMessage>{errors.answer3.message}</ErrorMessage>
               )}
             </div>
           </CardContent>

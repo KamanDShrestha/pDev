@@ -310,9 +310,11 @@ const EditJourneyPage = () => {
           </div>
         </div>
       )}
-      <Button onClick={handleSubmit(onSubmit)}>
-        {isUpdating ? <LoadingSpinner /> : 'Update this journey'}
-      </Button>
+      <div className='flex items-center justify-center'>
+        <Button onClick={handleSubmit(onSubmit)} className='my-10 '>
+          {isUpdating ? <LoadingSpinner /> : 'Update this journey'}
+        </Button>
+      </div>
     </>
   );
 };

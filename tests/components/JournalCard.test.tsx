@@ -5,13 +5,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 
-// make a fake data for this
-// _id: string;
-//     entryDate: string;
-//     journalCategory: string;
-//     journalContent: string;
-//     journalTitle: string;
-
 describe('JournalCard', () => {
   const queryClient = new QueryClient();
   const journal = {
@@ -33,12 +26,13 @@ describe('JournalCard', () => {
 
   it('should render all the content effectively.', () => {
     renderComponent();
-    screen.debug();
 
+    // testing if the journal title is rendered
     expect(
       screen.getAllByText(new RegExp(journal.journalTitle, 'i')).length
     ).toBeGreaterThan(0);
 
+    // testing if the journal content is rendered
     expect(
       screen.getAllByText(new RegExp(journal.journalContent, 'i')).length
     ).toBeGreaterThan(0);
@@ -49,8 +43,10 @@ describe('JournalCard', () => {
   it('should open a dialog for rendering all the content of the journal', async () => {
     renderComponent();
 
+    // clicking on the journal card
     await user.click(screen.getByRole('button'));
 
+    // testing if the dialog window is opened with Delete button
     expect(
       screen.queryByRole('button', { name: 'Delete' })
     ).toBeInTheDocument();

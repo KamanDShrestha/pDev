@@ -27,6 +27,7 @@ import Heading from './Heading';
 import LoadingSpinner from './LoadingSpinner';
 import { FaRegCalendarCheck } from 'react-icons/fa';
 import ErrorMessage from './ErrorMessage';
+import removeWhitespace from '../services/removeWhitespace';
 
 const AddGoalReminderSection = () => {
   const [numberOfGoals, setNumberOfGoals] = useState(5);
@@ -137,21 +138,14 @@ const AddGoalReminderSection = () => {
       return;
     }
 
-    console.log(data);
-    console.log(
-      Array.from({ length: numberOfGoals }, (_, index) => {
-        return { goal: data[`goal${index + 1}`] };
-      })
-    );
-
     addGoalSet({
       userId: user?.id as string,
-      goalSetTitle: data.goalSetTitle,
+      goalSetTitle: removeWhitespace(data.goalSetTitle),
       goalSetType: selectedPeriod,
       startDate: data.startDate || new Date(),
       remindingCount: duration,
       goals: Array.from({ length: numberOfGoals }, (_, index) => {
-        return { goal: data[`goal${index + 1}`] };
+        return { goal: removeWhitespace(data[`goal${index + 1}`]) };
       }),
     });
   }
@@ -215,6 +209,11 @@ const AddGoalReminderSection = () => {
                   maxLength: {
                     value: 50,
                     message: 'Goal set title should be within 50 characters',
+                  },
+                  validate: {
+                    notOnlyWhitespace: (value) =>
+                      value.trim().length >= 5 ||
+                      'This cannot be only whitespace',
                   },
                 })}
               />
@@ -423,6 +422,11 @@ const AddGoalReminderSection = () => {
                             value: 150,
                             message:
                               'Goal should be provided within than 150 characters',
+                          },
+                          validate: {
+                            notOnlyWhitespace: (value) =>
+                              value.trim().length >= 10 ||
+                              'This cannot be only whitespace',
                           },
                         })}
                         placeholder={`Goal ${index + 1}`}

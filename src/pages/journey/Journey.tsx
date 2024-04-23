@@ -56,7 +56,7 @@ const Journey = () => {
           {journeys &&
             (user?.role === 'user' || user?.role === 'qhp') &&
             journeys
-              .filter((journey) => journey.isVerified === true)
+              ?.filter((journey) => journey.isVerified === true)
               .map((journey, index) => (
                 <div key={index}>
                   <JourneyCard
@@ -112,7 +112,8 @@ const Journey = () => {
                       key={embarkedJourney._id}
                       keyLearning={embarkedJourney.keyLearning}
                       reflection={embarkedJourney.reflection}
-                      embarkedJourneyId={embarkedJourney.journeyId}
+                      embarkedJourneyId={embarkedJourney._id}
+                      journeyId={embarkedJourney.journeyId}
                       journeyName={embarkedJourney.journeyName}
                     />
                   )

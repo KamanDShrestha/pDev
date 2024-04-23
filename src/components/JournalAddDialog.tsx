@@ -27,6 +27,7 @@ import { useAuthContext } from '../context/AuthProvider';
 import { useState } from 'react';
 import useAddJournalEntry from '../services/journals/addJournalEntry';
 import { useQueryClient } from '@tanstack/react-query';
+import removeWhitespace from '../services/removeWhitespace';
 
 export const journalCategories = [
   {
@@ -83,8 +84,8 @@ const JournalAddDialog = () => {
       {
         userId: user?.id as string,
         journalEntry: {
-          journalTitle: data.journalTitle,
-          journalContent: data.journalContent,
+          journalTitle: removeWhitespace(data.journalTitle),
+          journalContent: removeWhitespace(data.journalContent),
           entryDate: data.entryDate || new Date(),
           journalCategory: selectedCategory,
         },
@@ -131,6 +132,19 @@ const JournalAddDialog = () => {
                 required: {
                   value: true,
                   message: 'Please provide a title for your journal entry.',
+                },
+                minLength: {
+                  value: 5,
+                  message: 'Title must have at least 5 characters.',
+                },
+                maxLength: {
+                  value: 100,
+                  message: 'Title must have at most 50 characters.',
+                },
+                validate: {
+                  notOnlyWhitespace: (value) =>
+                    value.trim().length >= 5 ||
+                    'This cannot be only whitespace',
                 },
               })}
             />
@@ -192,6 +206,19 @@ const JournalAddDialog = () => {
                 required: {
                   value: true,
                   message: 'Please provide content for your entry.',
+                },
+                minLength: {
+                  value: 20,
+                  message: 'Content must have at least 20 characters.',
+                },
+                maxLength: {
+                  value: 600,
+                  message: 'Content must have at most 450 characters.',
+                },
+                validate: {
+                  notOnlyWhitespace: (value) =>
+                    value.trim().length >= 20 ||
+                    'This cannot be only whitespace',
                 },
               })}
             />

@@ -291,7 +291,11 @@ const JourneyCard = ({
                   )}
                 {user && user.role === 'admin' && (
                   <>
-                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
+                    <Button
+                      onClick={() =>
+                        navigate(`/journeys/${journeyId}/${journeyName}`)
+                      }
+                    >
                       Browse
                     </Button>
                     <Button
@@ -337,7 +341,11 @@ const JourneyCard = ({
                 )}
                 {user && user.role === 'qhp' && (
                   <>
-                    <Button onClick={() => navigate(`/journeys/${journeyId}`)}>
+                    <Button
+                      onClick={() =>
+                        navigate(`/journeys/${journeyId}/${journeyName}`)
+                      }
+                    >
                       Browse
                     </Button>
 

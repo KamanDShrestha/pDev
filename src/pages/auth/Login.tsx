@@ -110,7 +110,17 @@ const Login = () => {
                 >
                   Email
                 </InputFieldLabel>
-                <Input {...register('email')} type='email' id='email' />
+                <Input
+                  {...register('email', {
+                    required: 'Please provide your email',
+                    pattern: {
+                      value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                      message: 'Please provide a valid email address',
+                    },
+                  })}
+                  type='email'
+                  id='email'
+                />
                 {errors.email && (
                   <ErrorMessage>{errors.email.message}</ErrorMessage>
                 )}
@@ -127,7 +137,13 @@ const Login = () => {
                   Password
                 </InputFieldLabel>
                 <Input
-                  {...register('password')}
+                  {...register('password', {
+                    required: 'Please provide your password',
+                    minLength: {
+                      value: 6,
+                      message: 'Password should be at least 6 characters long',
+                    },
+                  })}
                   type='password'
                   id='password'
                 />

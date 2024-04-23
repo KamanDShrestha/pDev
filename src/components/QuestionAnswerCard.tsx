@@ -315,12 +315,17 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
                       required: 'Please provide your answer before posting.',
                       minLength: {
                         value: 10,
-                        message: 'Answer must have at least 5 characters.',
+                        message: 'Answer must have at least 10 characters.',
                       },
                       maxLength: {
                         value: 300,
                         message:
                           'Answer must be provided within 300 characters.',
+                      },
+                      validate: {
+                        notOnlyWhitespace: (value) =>
+                          value.trim().length >= 10 ||
+                          'This cannot be only whitespace',
                       },
                     })}
                   />

@@ -319,13 +319,18 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
                     {...register('comment', {
                       required: 'Please provide your comment before posting.',
                       minLength: {
-                        value: 10,
+                        value: 5,
                         message: 'Comment must have at least 5 characters.',
                       },
                       maxLength: {
                         value: 200,
                         message:
                           'Comment must be provided within 200 characters.',
+                      },
+                      validate: {
+                        notOnlyWhitespace: (value) =>
+                          value.trim().length >= 5 ||
+                          'This cannot be only whitespace',
                       },
                     })}
                   />

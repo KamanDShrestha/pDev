@@ -30,6 +30,7 @@ import removeWhitespace from '../services/removeWhitespace';
 const AddQuoteCard = () => {
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategoryError, setSelectedCategoryError] = useState<string>();
   const { data: categories, isLoading: isCategoryFetching } =
     useGetQuoteCategories();
   const [selectedMoodSpecific, setSelectedMoodSpecific] = useState<string>();
@@ -45,6 +46,11 @@ const AddQuoteCard = () => {
   } = useForm();
 
   function handleQuoteSubmit(data: FieldValues) {
+    if (!isAddingNewCategory && !selectedCategory) {
+      setSelectedCategoryError('Category is required');
+      return;
+    }
+
     if (isAddingNewCategory) {
       if (!data.category) return;
     }
@@ -93,6 +99,14 @@ const AddQuoteCard = () => {
                 value: 10,
                 message: 'Quote should be at least 10 characters long',
               },
+              maxLength: {
+                value: 350,
+                message: 'Quote should be at most 300 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 10 || 'This cannot be only whitespace',
+              },
             })}
           />
           {errors.quote && (
@@ -111,6 +125,15 @@ const AddQuoteCard = () => {
                 value: 4,
                 message: 'Author should be at least 4 characters long',
               },
+              maxLength: {
+                value: 30,
+                message: 'Quote should be at most 30 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 4 ||
+                  'Author cannot be only whitespace',
+              },
             })}
           />
           {errors.author && (
@@ -128,7 +151,10 @@ const AddQuoteCard = () => {
               </label>
               <Select
                 disabled={isAddingNewCategory}
-                onValueChange={(category) => setSelectedCategory(category)}
+                onValueChange={(category) => {
+                  setSelectedCategory(category);
+                  setSelectedCategoryError('');
+                }}
               >
                 <SelectTrigger>
                   <SelectValue placeholder='Category' />
@@ -141,6 +167,9 @@ const AddQuoteCard = () => {
                   ))}
                 </SelectContent>
               </Select>
+              {selectedCategoryError && (
+                <ErrorMessage>{selectedCategoryError}</ErrorMessage>
+              )}
             </>
           )}
           <div className='space-y-3'>
@@ -169,6 +198,15 @@ const AddQuoteCard = () => {
                     minLength: {
                       value: 4,
                       message: 'Category should be at least 4 characters long',
+                    },
+                    maxLength: {
+                      value: 30,
+                      message: 'Category should be at most 30 characters long',
+                    },
+                    validate: {
+                      notOnlyWhitespace: (value) =>
+                        value.trim().length >= 4 ||
+                        'Category cannot be only whitespace',
                     },
                   })}
                 />

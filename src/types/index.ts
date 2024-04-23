@@ -631,7 +631,7 @@ export type JourneyFeedbacks = {
   }[];
   actionStepFeedbacks: {
     _id: string;
-    actionStepDay: string;
+    actionStepDay: number;
     feedback: string;
     feedbackStatus: 'pending' | 'resolved' | 'rejected';
   }[];

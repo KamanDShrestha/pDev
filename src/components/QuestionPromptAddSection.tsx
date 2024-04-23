@@ -103,6 +103,10 @@ const QuestionPromptAddSection = () => {
                     value: true,
                     message: 'Please provide title for this question prompt.',
                   },
+                  maxLength: {
+                    value: 100,
+                    message: 'Title should be less than 100 characters.',
+                  },
                 })}
               />
               {errors.title && (
@@ -121,6 +125,13 @@ const QuestionPromptAddSection = () => {
                     message:
                       'Please provide description for this question prompt.',
                   },
+                  maxLength: {
+                    value: 300,
+                    message: 'Description should be less than 300 characters.',
+                  },
+                  validate: (value) =>
+                    value.trim().length >= 10 ||
+                    'This must be at least 10 length',
                 })}
               />
               {errors.description && (
@@ -168,6 +179,13 @@ const QuestionPromptAddSection = () => {
                               value: true,
                               message: `Please provide this question.`,
                             },
+                            maxLength: {
+                              value: 300,
+                              message: `Question should be less than 300 characters.`,
+                            },
+                            validate: (value) =>
+                              value.trim().length >= 10 ||
+                              'This must be at least 10 length',
                           })}
                         />
                         {errors[`question${index + 1}`] && (
@@ -187,6 +205,13 @@ const QuestionPromptAddSection = () => {
                               value: true,
                               message: `Please provide this placeholder.`,
                             },
+                            maxLength: {
+                              value: 100,
+                              message: `Placeholder should be less than 100 characters.`,
+                            },
+                            validate: (value) =>
+                              value.trim().length >= 5 ||
+                              'This must be at least 5 length',
                           })}
                         />
                         {errors[`placeholder${index + 1}`] && (
@@ -209,6 +234,15 @@ const QuestionPromptAddSection = () => {
                               value: true,
                               message:
                                 'Please provide tag for this question prompt.',
+                            },
+                            maxLength: {
+                              value: 25,
+                              message: 'Tag should be less than 25 characters.',
+                            },
+                            validate: {
+                              notOnlyWhitespace: (value) =>
+                                value.trim().length >= 10 ||
+                                'This cannot be only whitespace',
                             },
                           })}
                         />

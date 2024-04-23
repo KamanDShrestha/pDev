@@ -32,8 +32,11 @@ const CompletedJourneysCard = ({
           completedJourneys.length > 0 &&
           completedJourneys.map((journey, index) => (
             <div className='' key={index}>
-              <p>{journey.journeyName}</p>
-              <NavLink to={`/currentJourney/${journey.journeyId}`}>
+              <p className='font-medium'>{journey.journeyName}</p>
+              <NavLink
+                to={`/completedJourney/${journey.journeyId}`}
+                className={'text-sm'}
+              >
                 View journey
               </NavLink>
             </div>

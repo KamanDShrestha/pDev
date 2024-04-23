@@ -8,7 +8,7 @@ export default function useVerifyKhaltiPayment(pidx: string, status: string) {
       axiosInstance
         .post('/payments/verify/khalti', { pidx: pidx })
         .then((res) => res.data.data),
-    enabled: status.toLowerCase().includes('canceled'),
+    enabled: !status.toLowerCase().includes('canceled'),
   });
   return response;
 }

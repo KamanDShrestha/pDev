@@ -24,6 +24,7 @@ import {
 import { Button } from './ui/button';
 import useAddLearningVideo from '../services/learningVideos/addLearningVideo';
 import useGetVideoCategories from '../services/learningVideos/getVideoCategories';
+import removeWhitespace from '../services/removeWhitespace';
 
 const AddLearningVideoCard = () => {
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
@@ -57,14 +58,17 @@ const AddLearningVideoCard = () => {
       setSelectedMoodSpecificError('Mood specific is required');
       return;
     }
+
     console.log(data);
     addLearningVideo(
       {
-        title: data.title,
-        url: data.url,
-        embedUrl: data.embedUrl,
-        author: data.author,
-        category: isAddingNewCategory ? data.category : selectedCategory,
+        title: removeWhitespace(data.title),
+        url: removeWhitespace(data.url),
+        embedUrl: removeWhitespace(data.embedUrl),
+        author: removeWhitespace(data.author),
+        category: isAddingNewCategory
+          ? removeWhitespace(data.category as string)
+          : selectedCategory || '',
         moodSpecific: selectedMoodSpecific,
       },
       {
@@ -99,6 +103,15 @@ const AddLearningVideoCard = () => {
                 value: 5,
                 message: 'Title should be at least 5 characters long',
               },
+              maxLength: {
+                value: 100,
+                message: 'Title should be at most 100 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 4 ||
+                  'Category cannot be only whitespace',
+              },
             })}
           />
           {errors.title && (
@@ -113,6 +126,11 @@ const AddLearningVideoCard = () => {
               minLength: {
                 value: 5,
                 message: 'URL should be at least 5 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 ||
+                  'Category cannot be only whitespace',
               },
             })}
           />
@@ -129,6 +147,11 @@ const AddLearningVideoCard = () => {
                 value: 5,
                 message: 'Embed URL should be at least 5 characters long',
               },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 ||
+                  'Category cannot be only whitespace',
+              },
             })}
           />
           {errors.embedUrl && (
@@ -143,6 +166,15 @@ const AddLearningVideoCard = () => {
               minLength: {
                 value: 5,
                 message: 'Author should be at least 5 characters long',
+              },
+              maxLength: {
+                value: 30,
+                message: 'Quote should be at most 30 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 ||
+                  'Category cannot be only whitespace',
               },
             })}
           />
@@ -198,6 +230,11 @@ const AddLearningVideoCard = () => {
                     minLength: {
                       value: 4,
                       message: 'Category should be at least 4 characters long',
+                    },
+                    validate: {
+                      notOnlyWhitespace: (value) =>
+                        value.trim().length !== 0 ||
+                        'Category cannot be only whitespace',
                     },
                   })}
                 />

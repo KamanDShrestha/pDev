@@ -5,6 +5,7 @@ import SubscriptionPlanCard from '../components/SubscriptionPlanCard';
 import { Button } from '../components/ui/button';
 import useGetSubscriptionPlans from '../services/subscriptionPlans/getSubscriptionPlans';
 import useDocumentTitle from '../services/getTitle';
+import { Separator } from '../components/ui/separator';
 
 const SubscribeForAdmin = () => {
   const { data: subscriptionPlans } = useGetSubscriptionPlans();
@@ -20,7 +21,7 @@ const SubscribeForAdmin = () => {
         </Button>
       </div>
 
-      <div className='flex gap-5'>
+      <div className='flex items-center justify-center gap-5'>
         {subscriptionPlans?.length === 0 && (
           <p> No subscription plans are present currently.</p>
         )}
@@ -32,6 +33,7 @@ const SubscribeForAdmin = () => {
             />
           ))}
       </div>
+      <Separator className='my-10' />
       <div>
         <SubscriptionPlanAddSection />
       </div>

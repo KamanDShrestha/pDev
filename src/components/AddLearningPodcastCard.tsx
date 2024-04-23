@@ -24,6 +24,7 @@ import { Button } from './ui/button';
 import LoadingSpinner from './LoadingSpinner';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
+import removeWhitespace from '../services/removeWhitespace';
 
 const AddLearningPodcastCard = () => {
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
@@ -54,17 +55,29 @@ const AddLearningPodcastCard = () => {
       setSelectedCategoryError('Category is required');
       return;
     }
+
+    if (isAddingNewCategory) {
+      if (!data.category) return;
+    }
+
+    if (isAddingNewCategory && !data.category) {
+      setSelectedCategoryError('Category is required');
+      return;
+    }
+
     if (!selectedMoodSpecific) {
       setSelectedMoodSpecificError('Mood specific is required');
       return;
     }
     addLearningPodcast(
       {
-        title: data.title,
-        url: data.url,
-        embedUrl: data.embedUrl,
-        host: data.host,
-        category: isAddingNewCategory ? data.category : selectedCategory,
+        title: removeWhitespace(data.title),
+        url: removeWhitespace(data.url),
+        embedUrl: removeWhitespace(data.embedUrl),
+        host: removeWhitespace(data.host),
+        category: isAddingNewCategory
+          ? (removeWhitespace(data.category || '') as string)
+          : selectedCategory || '',
         podcastTitle: data.podcastTitle,
         podcastDescription: data.podcastDescription,
         moodSpecific: selectedMoodSpecific,
@@ -104,6 +117,14 @@ const AddLearningPodcastCard = () => {
                 value: 5,
                 message: 'Title should be at least 5 characters long',
               },
+              maxLength: {
+                value: 100,
+                message: 'Title should be at most 100 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 || 'Title cannot be only whitespace',
+              },
             })}
           />
           {errors.title && (
@@ -118,6 +139,11 @@ const AddLearningPodcastCard = () => {
               minLength: {
                 value: 5,
                 message: 'URL should be at least 5 characters long',
+              },
+
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 || 'URL cannot be only whitespace',
               },
             })}
           />
@@ -134,6 +160,11 @@ const AddLearningPodcastCard = () => {
                 value: 5,
                 message: 'Embed URL should be at least 5 characters long',
               },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 ||
+                  'Embed URL cannot be only whitespace',
+              },
             })}
           />
           {errors.embedUrl && (
@@ -149,6 +180,10 @@ const AddLearningPodcastCard = () => {
                 value: 5,
                 message: 'Host should be at least 5 characters long',
               },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 || 'Host cannot be only whitespace',
+              },
             })}
           />
           {errors.host && (
@@ -163,6 +198,15 @@ const AddLearningPodcastCard = () => {
               minLength: {
                 value: 5,
                 message: 'Podcast Title should be at least 5 characters long',
+              },
+              maxLength: {
+                value: 100,
+                message: 'Podcast Title should be at most 100 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 ||
+                  'Podcast title cannot be only whitespace',
               },
             })}
           />
@@ -181,6 +225,16 @@ const AddLearningPodcastCard = () => {
                 value: 5,
                 message:
                   'Podcast Description should be at least 5 characters long',
+              },
+              maxLength: {
+                value: 300,
+                message:
+                  'Podcast Description should be at most 300 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 4 ||
+                  'Podcast Description cannot be only whitespace',
               },
             })}
           />
@@ -238,6 +292,15 @@ const AddLearningPodcastCard = () => {
                     minLength: {
                       value: 4,
                       message: 'Category should be at least 4 characters long',
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: 'Category should be at most 50 characters long',
+                    },
+                    validate: {
+                      notOnlyWhitespace: (value) =>
+                        value.trim().length >= 4 ||
+                        'Category cannot be only whitespace',
                     },
                   })}
                 />

@@ -119,6 +119,14 @@ const AddPostCard = () => {
                 value: 5,
                 message: 'Title must be at least 5 characters long',
               },
+              maxLength: {
+                value: 200,
+                message: 'Title must be at most 50 characters long',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 5 || 'This cannot be only whitespace',
+              },
             })}
           />
           {errors.postTitle && (
@@ -172,6 +180,10 @@ const AddPostCard = () => {
               maxLength: {
                 value: 400,
                 message: 'Content must be provided within 400 characters.',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 20 || 'This cannot be only whitespace',
               },
             })}
             placeholder='Your content...'

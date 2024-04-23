@@ -48,6 +48,14 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
                 value: 10,
                 message: 'Action step must have 10 characters',
               },
+              maxLength: {
+                value: 500,
+                message: 'Action step must have at most 100 characters',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 10 || 'This cannot be only whitespace',
+              },
             })}
             type='text'
           />
@@ -75,6 +83,15 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
               minLength: {
                 value: 20,
                 message: 'Description must have at least 20 characters',
+              },
+              maxLength: {
+                value: 450,
+                message: 'Description must have at most 450 characters',
+              },
+              validate: {
+                notOnlyWhitespace: (value) =>
+                  value.trim().length >= 20 ||
+                  'Description cannot be only whitespace',
               },
             })}
           />
@@ -115,20 +132,28 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
             <>
               <Input
                 key={index}
-                {...register(`day${day}additionalStep${index + 1}`)}
+                {...register(`day${day}additionalStep${index + 1}`, {
+                  validate: (value) =>
+                    value === null ||
+                    value === '' ||
+                    value.trim().length >= 20 ||
+                    'Additional step cannot be only whitespace',
+                })}
               />
+              {errors[`day${day}additionalStep${index + 1}`] && (
+                <ErrorMessage>
+                  {
+                    errors[`day${day}additionalStep${index + 1}`]
+                      ?.message as string
+                  }
+                </ErrorMessage>
+              )}
             </>
           ))}
-          {/* {errors.journeyName && (
-            <ErrorMessage>{errors.journeyName?.message as string}</ErrorMessage>
-          )} */}
         </div>
 
         <div className='relative flex flex-col gap-2 group'>
-          <label
-            htmlFor={`${day}additionalActionSteps`}
-            className='font-medium'
-          >
+          <label htmlFor={`${day}evidence`} className='font-medium'>
             Evidences and further Learnings
           </label>
 
@@ -136,13 +161,21 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
             <>
               <Input
                 key={index}
-                {...register(`day${day}evidence${index + 1}`)}
+                {...register(`day${day}evidence${index + 1}`, {
+                  validate: (value) =>
+                    value === null ||
+                    value === '' ||
+                    value.trim().length >= 10 ||
+                    'Evidence must be at least 10 length',
+                })}
               />
+              {errors[`day${day}evidence${index + 1}`] && (
+                <ErrorMessage>
+                  {errors[`day${day}evidence${index + 1}`]?.message as string}
+                </ErrorMessage>
+              )}
             </>
           ))}
-          {/* {errors.journeyName && (
-            <ErrorMessage>{errors.journeyName?.message as string}</ErrorMessage>
-          )} */}
         </div>
       </div>
     </div>

@@ -88,6 +88,19 @@ const GratitudeJournalAddDialog = () => {
                       value: true,
                       message: 'Provide the details before proceeding.',
                     },
+                    minLength: {
+                      value: 20,
+                      message: 'Description must have at least 20 characters',
+                    },
+                    maxLength: {
+                      value: 450,
+                      message: 'Description must have at most 450 characters',
+                    },
+                    validate: {
+                      notOnlyWhitespace: (value) =>
+                        value.trim().length >= 20 ||
+                        'This cannot be only whitespace',
+                    },
                   })}
                 />
                 {errors[prompt.category] && (

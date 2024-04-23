@@ -67,7 +67,7 @@ const QuoteCard = ({ quote, category }: QuoteCardProps) => {
       {
         onSuccess: () => {
           console.log('Quote deleted');
-          queryClient.invalidateQueries(['quotes', category]);
+          queryClient.invalidateQueries(['quotes']);
         },
       }
     );
