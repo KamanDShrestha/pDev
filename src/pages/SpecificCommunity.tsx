@@ -323,28 +323,6 @@ const SpecificCommunity = () => {
             </PaginationContent>
           </Pagination>
         </div>
-        {/* <div>
-          <Dialog>
-            <DialogTrigger>here</DialogTrigger>
-            <DialogContent>hello</DialogContent>
-          </Dialog>
-          <Heading>Community Members</Heading>
-          <div className='flex flex-wrap justify-center gap-5'>
-            {communityMembers?.users?.map((member, index) => (
-              <div
-                className='flex flex-col items-center p-3 cursor-pointer'
-                key={index}
-              >
-                <img
-                  src='https://picsum.photos/200'
-                  alt='user'
-                  className='w-20 h-20 rounded-full'
-                />
-                <span className='text-lg font-medium'>{member.userId}</span>
-              </div>
-            ))}
-          </div>
-        </div> */}
       </div>
     </>
   );

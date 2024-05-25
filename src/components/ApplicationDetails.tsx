@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useGetSpecificUser from '../services/users/getSpecificUser';
 import Heading from './Heading';

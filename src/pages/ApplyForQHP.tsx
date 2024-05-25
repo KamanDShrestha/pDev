@@ -152,6 +152,9 @@ const ApplyForQHP = () => {
                       value: 7,
                       message: 'License number must have at least 7 characters',
                     },
+                    validate: (value) =>
+                      value.trim().length >= 7 ||
+                      'This must be at least 10 length',
                   })}
                   id='workingLicense'
                   type='text'
@@ -176,9 +179,12 @@ const ApplyForQHP = () => {
                   {...register('employerName', {
                     required: 'Employer name need to be provided',
                     minLength: {
-                      value: 7,
+                      value: 5,
                       message: 'Employer name must have at least 5 characters',
                     },
+                    validate: (value) =>
+                      value.trim().length >= 5 ||
+                      'This must be at least 5 length',
                   })}
                   id='employerName'
                   type='text'
@@ -203,10 +209,13 @@ const ApplyForQHP = () => {
                   {...register('workingPosition', {
                     required: 'Working position need to be provided',
                     minLength: {
-                      value: 7,
+                      value: 5,
                       message:
                         'Working position must have at least 5 characters',
                     },
+                    validate: (value) =>
+                      value.trim().length >= 5 ||
+                      'This must be at least 5 length',
                   })}
                   id='workingPosition'
                   type='text'
@@ -228,6 +237,9 @@ const ApplyForQHP = () => {
                         key={index}
                         {...register(`qualification${index + 1}`, {
                           required: 'Please provide your qualification',
+                          validate: (value) =>
+                            value.trim().length >= 7 ||
+                            'This must be at least 7 length',
                         })}
                       />
                       {errors[`qualification${index + 1}`] && (
@@ -253,6 +265,9 @@ const ApplyForQHP = () => {
                         key={index}
                         {...register(`experience${index + 1}`, {
                           required: 'Please provide your relevant experience.',
+                          validate: (value) =>
+                            value.trim().length >= 7 ||
+                            'This must be at least 7 length',
                         })}
                       />
                       {errors[`experience${index + 1}`] && (
@@ -275,6 +290,9 @@ const ApplyForQHP = () => {
                         key={index}
                         {...register(`proficientField${index + 1}`, {
                           required: 'Please provide your proficient field.',
+                          validate: (value) =>
+                            value.trim().length >= 7 ||
+                            'This must be at least 7 length',
                         })}
                       />
                       {errors[`proficientField${index + 1}`] && (
@@ -299,7 +317,7 @@ const ApplyForQHP = () => {
                       <Input
                         key={index}
                         {...register(`additionalSkill${index + 1}`, {
-                          required: 'Please provide your proficient field.',
+                          required: 'Please provide your additional skill.',
                         })}
                       />
                       {errors[`additionalSkill${index + 1}`] && (
@@ -338,6 +356,9 @@ const ApplyForQHP = () => {
                       message:
                         'Additional info must not have more than 500 characters',
                     },
+                    validate: (value) =>
+                      value.trim().length >= 20 ||
+                      'This must be at least 20 length',
                   })}
                 />
                 {errors.additionalInformation && (

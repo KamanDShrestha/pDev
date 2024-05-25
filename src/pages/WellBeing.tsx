@@ -132,7 +132,7 @@ const WellBeing = () => {
                 <PromptEntryCard promptEntry={promptEntry} />
               </div>
             ))}
-          {gratitudeJournals?.length === 0 && <p>No journals found for you.</p>}
+          {promptEntries?.length === 0 && <p>No journals found for you.</p>}
         </div>
       </div>
       <p className='mt-10 text-right'>

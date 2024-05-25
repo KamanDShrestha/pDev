@@ -12,7 +12,7 @@ const Loading = () => {
 
   useEffect(() => {
     if (!isLoading && user) {
-      navigate('/home'); // replace with your actual home route
+      navigate('/home');
       toast.success('Logged in successfully');
     }
   }, [isLoading, navigate, user]);

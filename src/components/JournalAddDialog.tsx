@@ -139,7 +139,7 @@ const JournalAddDialog = () => {
                 },
                 maxLength: {
                   value: 100,
-                  message: 'Title must have at most 50 characters.',
+                  message: 'Title must have at most 100 characters.',
                 },
                 validate: {
                   notOnlyWhitespace: (value) =>
@@ -213,7 +213,7 @@ const JournalAddDialog = () => {
                 },
                 maxLength: {
                   value: 600,
-                  message: 'Content must have at most 450 characters.',
+                  message: 'Content must have at most 600 characters.',
                 },
                 validate: {
                   notOnlyWhitespace: (value) =>

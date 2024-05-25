@@ -50,7 +50,7 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
               },
               maxLength: {
                 value: 500,
-                message: 'Action step must have at most 100 characters',
+                message: 'Action step must have at most 500 characters',
               },
               validate: {
                 notOnlyWhitespace: (value) =>
@@ -132,22 +132,8 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
             <>
               <Input
                 key={index}
-                {...register(`day${day}additionalStep${index + 1}`, {
-                  validate: (value) =>
-                    value === null ||
-                    value === '' ||
-                    value.trim().length >= 20 ||
-                    'Additional step cannot be only whitespace',
-                })}
+                {...register(`day${day}additionalStep${index + 1}`)}
               />
-              {errors[`day${day}additionalStep${index + 1}`] && (
-                <ErrorMessage>
-                  {
-                    errors[`day${day}additionalStep${index + 1}`]
-                      ?.message as string
-                  }
-                </ErrorMessage>
-              )}
             </>
           ))}
         </div>
@@ -161,13 +147,7 @@ const AddActionStep = ({ day, register, errors, watch }: ActionStepProps) => {
             <>
               <Input
                 key={index}
-                {...register(`day${day}evidence${index + 1}`, {
-                  validate: (value) =>
-                    value === null ||
-                    value === '' ||
-                    value.trim().length >= 10 ||
-                    'Evidence must be at least 10 length',
-                })}
+                {...register(`day${day}evidence${index + 1}`)}
               />
               {errors[`day${day}evidence${index + 1}`] && (
                 <ErrorMessage>

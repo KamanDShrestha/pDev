@@ -130,13 +130,12 @@ const EditSubscriptionPlanPage = () => {
                       Subscription Price
                     </Heading>
                     <Input
-                      type='text'
+                      type='number'
                       {...register('subscriptionPrice', {
                         required: 'Subscription Price is required',
                         min: {
-                          value: 3,
-                          message:
-                            'Subscription Price should be atleast 3 characters',
+                          value: 100,
+                          message: 'Price should be at least 100.',
                         },
                       })}
                       className='text-lg w-[300px]'
@@ -188,11 +187,15 @@ const EditSubscriptionPlanPage = () => {
                         key={index + 1}
                         className='text-md w-[300px] lg:w-[500px]'
                       />
-                      {/* {errors.`subscriptionFeatures${[index]}` && (
-                        <ErrorMessage>
-                          {errors.subscriptionFeatures.message as string}
-                        </ErrorMessage>
-                      )} */}
+                      {errors.subscriptionFeatures &&
+                        errors.subscriptionFeatures?.[index] && (
+                          <ErrorMessage>
+                            {
+                              errors.subscriptionFeatures[index]
+                                ?.message as string
+                            }
+                          </ErrorMessage>
+                        )}
                     </>
                   )
                 )}

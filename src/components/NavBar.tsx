@@ -33,6 +33,7 @@ const NavBar = () => {
     { to: '/learn', option: 'Learn' },
   ];
   const userActionOptions = [
+    { to: '/profile', option: 'Profile' },
     { to: '/goalSetting', option: 'Goal Setting' },
     { to: '/apply', option: 'Apply for QHP' },
     { to: '/subscribe', option: 'Subscribe' },
@@ -47,6 +48,7 @@ const NavBar = () => {
     { to: '/wellbeingForAdmin', option: 'Wellbeing' },
   ];
   const adminActionOptions = [
+    { to: '/profile', option: 'Profile' },
     { to: '/addJourney', option: 'Add Journey' },
     { to: '/feedbacks', option: 'Feedbacks' },
     { to: '/reviewApplications', option: 'Review Applications' },
@@ -63,6 +65,8 @@ const NavBar = () => {
   ];
 
   const qhpActionOptions = [
+    { to: '/profile', option: 'Profile' },
+    { to: '/wellbeing', option: 'Wellbeing' },
     { to: '/verifyJourneys', option: 'Verify Journeys' },
     { to: '/verifyQuestionPrompts', option: 'Verify Question Prompts' },
   ];

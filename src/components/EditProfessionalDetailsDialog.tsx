@@ -33,7 +33,7 @@ const EditProfessionalDetailsDialog = () => {
   } = useForm({
     defaultValues: {
       workingLicense: qhpDetails?.workingLicense,
-      jobTitle: qhpDetails?.jobTitle,
+      jobTitle: qhpDetails?.workingPosition,
       employerName: qhpDetails?.employerName,
       qualifications: qhpDetails?.qualifications,
       experiences: qhpDetails?.experiences,
@@ -46,7 +46,7 @@ const EditProfessionalDetailsDialog = () => {
   useEffect(() => {
     reset({
       workingLicense: qhpDetails?.workingLicense,
-      jobTitle: qhpDetails?.jobTitle,
+      jobTitle: qhpDetails?.workingPosition,
       employerName: qhpDetails?.employerName,
       qualifications: qhpDetails?.qualifications,
       experiences: qhpDetails?.experiences,

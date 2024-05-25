@@ -72,7 +72,7 @@ const Profile = () => {
             {user && (
               <div className='flex gap-3'>
                 <EditPersonalDetailsDialog />
-                <UpdatePasswordDialog />
+                {user.isGoogleLoggedIn === false && <UpdatePasswordDialog />}
                 <UpdateProfilePictureDialog previousImage={user.image} />
               </div>
             )}

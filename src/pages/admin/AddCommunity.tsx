@@ -110,7 +110,6 @@ const AddCommunity = () => {
     }
     if (!(darkImage instanceof File)) {
       setDarkImageError('Please provide an image before updating.');
-
       return;
     }
     if (selectedJourney === '') {
@@ -274,60 +273,6 @@ const AddCommunity = () => {
                   </ErrorMessage>
                 )}
               </div>
-
-              {/* <div className='flex flex-col gap-2'>
-                <label htmlFor='iconImageLinks' className='font-medium'>
-                  Icon Image Links
-                </label>
-                <div className='space-y-2'>
-                  <div className='relative group'>
-                    <InputFieldLabel
-                      htmlFor='communityIconImageDark'
-                      hasContent={
-                        providedDarkIconImage !== undefined &&
-                        providedDarkIconImage?.length !== 0
-                      }
-                    >
-                      For Dark Mode
-                    </InputFieldLabel>
-                    <Input
-                      {...register('communityIconImageDark', {
-                        required:
-                          'Image link for dark mode need to be provided',
-                      })}
-                      type='text'
-                    />
-                    {errors.communityIconImageDark && (
-                      <ErrorMessage>
-                        {errors.communityIconImageDark.message as string}
-                      </ErrorMessage>
-                    )}
-                  </div>
-                  <div className='relative group'>
-                    <InputFieldLabel
-                      htmlFor='communityDescription'
-                      hasContent={
-                        providedLightIconImage !== undefined &&
-                        providedLightIconImage?.length !== 0
-                      }
-                    >
-                      For Light Mode
-                    </InputFieldLabel>
-                    <Input
-                      {...register('communityIconImageLight', {
-                        required:
-                          'Image link for light mode need to be provided',
-                      })}
-                      type='text'
-                    />
-                    {errors.communityIconImageLight && (
-                      <ErrorMessage>
-                        {errors.communityIconImageLight.message as string}
-                      </ErrorMessage>
-                    )}
-                  </div>
-                </div>
-              </div> */}
               <div>
                 <label htmlFor='journeyQuotes' className='font-medium'>
                   Select the journey associated with this community

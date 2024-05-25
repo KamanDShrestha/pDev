@@ -14,8 +14,6 @@ const Footer = () => {
           <NavLink to='mailto:kaman.shrestha@gmail.com'>
             <Logo />
           </NavLink>
-          {/* <p>Sync Yourself.</p>
-          <p>Find your rhythm.</p> */}
         </div>
       </footer>
     </div>

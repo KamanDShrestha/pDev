@@ -19,13 +19,20 @@ import useEditJourney from '../../services/journey/editJourney';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import useDocumentTitle from '../../services/getTitle';
 import UpdateJourneyIconDialog from '../../components/UpdateJourneyIconDialog';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const EditJourneyPage = () => {
   const { id } = useParams();
 
   const { data: journey, isLoading } = useGetSpecificJourneyByID(id as string);
 
-  const { register, reset, getValues, handleSubmit } = useForm({
+  const {
+    register,
+    reset,
+    getValues,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       name: journey?.name ?? '',
       description: journey?.description ?? '',
@@ -110,14 +117,42 @@ const EditJourneyPage = () => {
             <div>
               <div>
                 <Heading className='mb-2 text-2xl'>Journey Name</Heading>
-                <Input {...register('name')} className='text-lg w-[300px]' />
+                <Input
+                  {...register('name', {
+                    required: 'Journey name need to be provided',
+                    minLength: {
+                      value: 5,
+                      message: 'Journey name must have at least 5 characters',
+                    },
+                  })}
+                  className='text-lg w-[300px]'
+                />
+                {errors.name && (
+                  <ErrorMessage>{errors.name.message as string}</ErrorMessage>
+                )}
               </div>
               <div>
                 <Heading className='mb-2 text-2xl'>Journey Description</Heading>
                 <Textarea
-                  {...register('description')}
+                  {...register('description', {
+                    required: 'Description need to be provided',
+                    minLength: {
+                      value: 20,
+                      message: 'Description must have at least 20 characters',
+                    },
+                    maxLength: {
+                      value: 500,
+                      message:
+                        'Description must not have more than 500 characters',
+                    },
+                  })}
                   className='text-lg h-[200px] w-[450px]'
                 />
+                {errors.description && (
+                  <ErrorMessage>
+                    {errors.description.message as string}
+                  </ErrorMessage>
+                )}
               </div>
             </div>
             <div>
@@ -134,22 +169,42 @@ const EditJourneyPage = () => {
               {journey.importance.length !== 0 ? (
                 <>
                   {journey.importance.map((item, index) => (
-                    <Input
-                      {...register(`importance.${index}`)}
-                      defaultValue={item}
-                      key={index}
-                      className='mb-2 text-lg w-[500px]'
-                    />
+                    <>
+                      <Input
+                        {...register(`importance.${index}`, {
+                          required:
+                            'Please provide importance for this journey',
+                        })}
+                        defaultValue={item}
+                        key={index}
+                        className='mb-2 text-lg w-[500px]'
+                      />
+                      {errors?.importance && errors.importance[index] && (
+                        <ErrorMessage>
+                          {errors.importance[index]?.message as string}
+                        </ErrorMessage>
+                      )}
+                    </>
                   ))}
                 </>
               ) : (
                 <>
                   {Array.from(Array(3).keys()).map((item, index) => (
-                    <Input
-                      {...register(`importance.${index}`)}
-                      key={index}
-                      className='mb-2 text-lg w-[500px]'
-                    />
+                    <>
+                      <Input
+                        {...register(`importance.${index}`, {
+                          required:
+                            'Please provide importance for this journey',
+                        })}
+                        key={index}
+                        className='mb-2 text-lg w-[500px]'
+                      />
+                      {errors?.importance && errors.importance[index] && (
+                        <ErrorMessage>
+                          {errors.importance[index]?.message as string}
+                        </ErrorMessage>
+                      )}
+                    </>
                   ))}
                 </>
               )}
@@ -159,23 +214,41 @@ const EditJourneyPage = () => {
               {journey.usages.length !== 0 ? (
                 <>
                   {journey.usages.map((item, index) => (
-                    <Input
-                      {...register(`usages.${index}`)}
-                      defaultValue={item}
-                      key={index}
-                      className='mb-2 text-lg w-[500px]'
-                    />
+                    <>
+                      <Input
+                        {...register(`usages.${index}`, {
+                          required: 'Please provide usages for this journey',
+                        })}
+                        defaultValue={item}
+                        key={index}
+                        className='mb-2 text-lg w-[500px]'
+                      />
+                      {errors?.usages && errors.usages[index] && (
+                        <ErrorMessage>
+                          {errors.usages[index]?.message as string}
+                        </ErrorMessage>
+                      )}
+                    </>
                   ))}
                 </>
               ) : (
                 <>
                   {Array.from(Array(3).keys()).map((item, index) => (
-                    <Input
-                      {...register(`usages.${index}`)}
-                      defaultValue={item}
-                      key={index}
-                      className='mb-2 text-lg w-[500px]'
-                    />
+                    <>
+                      <Input
+                        {...register(`usages.${index}`, {
+                          required: 'Please provide usages for this journey',
+                        })}
+                        defaultValue={item}
+                        key={index}
+                        className='mb-2 text-lg w-[500px]'
+                      />
+                      {errors?.usages && errors.usages[index] && (
+                        <ErrorMessage>
+                          {errors.usages[index]?.message as string}
+                        </ErrorMessage>
+                      )}
+                    </>
                   ))}
                 </>
               )}
@@ -185,23 +258,43 @@ const EditJourneyPage = () => {
               {journey.learningQuotes.length !== 0 ? (
                 <>
                   {journey.learningQuotes.map((item, index) => (
-                    <Input
-                      {...register(`learningQuotes.${index}`)}
-                      defaultValue={item}
-                      key={index}
-                      className='mb-2 text-lg w-[500px]'
-                    />
+                    <>
+                      <Input
+                        {...register(`learningQuotes.${index}`, {
+                          required: 'Please provide quotes for this journey',
+                        })}
+                        defaultValue={item}
+                        key={index}
+                        className='mb-2 text-lg w-[500px]'
+                      />
+                      {errors?.learningQuotes &&
+                        errors.learningQuotes[index] && (
+                          <ErrorMessage>
+                            {errors.learningQuotes[index]?.message as string}
+                          </ErrorMessage>
+                        )}
+                    </>
                   ))}
                 </>
               ) : (
                 <>
                   {Array.from(Array(3).keys()).map((item, index) => (
-                    <Input
-                      {...register(`learningQuotes.${index}`)}
-                      defaultValue={item}
-                      key={index}
-                      className='mb-2 text-lg w-[500px]'
-                    />
+                    <>
+                      <Input
+                        {...register(`learningQuotes.${index}`, {
+                          required: 'Please provide quotes for this journey',
+                        })}
+                        defaultValue={item}
+                        key={index}
+                        className='mb-2 text-lg w-[500px]'
+                      />
+                      {errors?.learningQuotes &&
+                        errors.learningQuotes[index] && (
+                          <ErrorMessage>
+                            {errors.learningQuotes[index]?.message as string}
+                          </ErrorMessage>
+                        )}
+                    </>
                   ))}
                 </>
               )}
@@ -222,18 +315,62 @@ const EditJourneyPage = () => {
                         Major Action Step
                       </Heading>
                       <Input
-                        {...register(`actionSteps.day${index + 1}.actionStep`)}
+                        {...register(`actionSteps.day${index + 1}.actionStep`, {
+                          required: 'Action Step need to be provided',
+                          minLength: {
+                            value: 10,
+                            message: 'Action step must have 10 characters',
+                          },
+                          maxLength: {
+                            value: 500,
+                            message:
+                              'Action step must have at most 500 characters',
+                          },
+                        })}
                         defaultValue={
                           journey.actionSteps[`day${index + 1}`].actionStep
                         }
                       />
+                      {errors.actionSteps &&
+                        errors.actionSteps[`day${index + 1}`]?.actionStep && (
+                          <ErrorMessage>
+                            {
+                              errors.actionSteps[`day${index + 1}`]?.actionStep
+                                ?.message as string
+                            }
+                          </ErrorMessage>
+                        )}
                     </div>
                     <div>
                       <Heading className='mb-1 text-lg'>Description</Heading>
                       <Textarea
-                        {...register(`actionSteps.day${index + 1}.description`)}
+                        {...register(
+                          `actionSteps.day${index + 1}.description`,
+                          {
+                            required: 'Description need to be provided',
+                            minLength: {
+                              value: 20,
+                              message:
+                                'Description must have at least 20 characters',
+                            },
+                            maxLength: {
+                              value: 450,
+                              message:
+                                'Description must have at most 450 characters',
+                            },
+                          }
+                        )}
                         className=' h-[100px] w-[450px]'
                       />
+                      {errors.actionSteps &&
+                        errors.actionSteps[`day${index + 1}`]?.description && (
+                          <ErrorMessage>
+                            {
+                              errors.actionSteps[`day${index + 1}`]?.description
+                                ?.message as string
+                            }
+                          </ErrorMessage>
+                        )}
                     </div>
                     <div>
                       <Heading className='mb-1 text-lg'>Example</Heading>
@@ -241,6 +378,15 @@ const EditJourneyPage = () => {
                         {...register(`actionSteps.day${index + 1}.example`)}
                         className=' h-[100px] w-[450px]'
                       />
+                      {errors.actionSteps &&
+                        errors.actionSteps[`day${index + 1}`]?.example && (
+                          <ErrorMessage>
+                            {
+                              errors.actionSteps[`day${index + 1}`]?.example
+                                ?.message as string
+                            }
+                          </ErrorMessage>
+                        )}
                     </div>
                     <Dialog>
                       <DialogTrigger>
@@ -261,17 +407,19 @@ const EditJourneyPage = () => {
                           <div className='space-y-2'>
                             {Array.from(Array(3).keys()).map(
                               (item, thisIndex) => (
-                                <Input
-                                  {...register(
-                                    `actionSteps.day${
-                                      index + 1
-                                    }.additionalSteps[${thisIndex}]`
-                                  )}
-                                  defaultValue={
-                                    journey.actionSteps[`day${index + 1}`]
-                                      ?.additionalSteps?.[thisIndex]
-                                  }
-                                />
+                                <>
+                                  <Input
+                                    {...register(
+                                      `actionSteps.day${
+                                        index + 1
+                                      }.additionalSteps[${thisIndex}]`
+                                    )}
+                                    defaultValue={
+                                      journey.actionSteps[`day${index + 1}`]
+                                        ?.additionalSteps?.[thisIndex]
+                                    }
+                                  />
+                                </>
                               )
                             )}
                           </div>
@@ -283,17 +431,19 @@ const EditJourneyPage = () => {
                           <div className='space-y-2'>
                             {Array.from(Array(3).keys()).map(
                               (item, thisIndex) => (
-                                <Input
-                                  {...register(
-                                    `actionSteps.day${
-                                      index + 1
-                                    }.evidences[${thisIndex}]`
-                                  )}
-                                  defaultValue={
-                                    journey.actionSteps[`day${index + 1}`]
-                                      ?.evidences?.[thisIndex] || ''
-                                  }
-                                />
+                                <>
+                                  <Input
+                                    {...register(
+                                      `actionSteps.day${
+                                        index + 1
+                                      }.evidences[${thisIndex}]`
+                                    )}
+                                    defaultValue={
+                                      journey.actionSteps[`day${index + 1}`]
+                                        ?.evidences?.[thisIndex] || ''
+                                    }
+                                  />
+                                </>
                               )
                             )}
                           </div>

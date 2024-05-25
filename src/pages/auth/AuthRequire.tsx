@@ -1,20 +1,10 @@
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthProvider';
-// import Cookies from 'js-cookie';
-// import { useEffect } from 'react';
 
 const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user } = useAuthContext();
 
   const location = useLocation();
-
-  // useEffect(() => {
-  //   if (!token) {
-  //     setUser && setUser({} as AuthContextType);
-  //     localStorage.removeItem('authentication');
-  //     <Navigate to='/login' replace />;
-  //   }
-  // }, []);
 
   console.log('in auth require', user);
   return allowedRoles.find((role: string) => role === user?.role) ? (

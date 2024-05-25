@@ -66,7 +66,9 @@ const KeyLearningCard = ({
       <CardHeader>
         <CardTitle>Key Learning</CardTitle>
       </CardHeader>
-      <CardContent className='font-medium'>{keyLearning}</CardContent>
+      <CardContent className='font-medium'>
+        {keyLearning ? keyLearning : 'No key learning has been provided.'}
+      </CardContent>
       <CardFooter>
         <Dialog>
           <DialogTrigger className={buttonVariants({ variant: 'default' })}>

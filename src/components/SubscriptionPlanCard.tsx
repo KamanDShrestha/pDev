@@ -27,6 +27,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface SubscriptionPlanCardProps {
   subscriptionPlan: SubscriptionPlan;
@@ -45,9 +46,17 @@ const SubscriptionPlanCard = ({
   const { mutate: unsubscribe } = useUnsubscribe();
 
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   function handleSubscriptionPlanDelete() {
-    deleteSubscriptionPlan({ planId: subscriptionPlan._id });
+    deleteSubscriptionPlan(
+      { planId: subscriptionPlan._id },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['subscriptionPlans']);
+        },
+      }
+    );
   }
 
   function handleSubscriptionPlanActivation() {

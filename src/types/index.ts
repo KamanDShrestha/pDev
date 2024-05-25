@@ -872,6 +872,7 @@ export type User = {
   lastName: string;
   preferredJourney: string;
   loggedMood: boolean;
+  isGoogleLoggedIn: boolean;
   role: string;
   image: string;
   updatedAt: string;

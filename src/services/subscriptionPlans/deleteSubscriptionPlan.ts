@@ -8,7 +8,7 @@ export default function useDeleteSubscriptionPlan() {
   const response = useMutation({
     mutationFn: (data: { planId: string }) =>
       axiosInstance
-        .delete(`/subscriptions/delete${data.planId}`)
+        .delete(`/subscriptions/delete/${data.planId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

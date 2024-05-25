@@ -32,6 +32,7 @@ export function useLoginUser() {
         preferredJourney: response.user.preferredJourney,
         loggedMood: response.user.loggedMood,
         dateOfBirth: response.user.dateOfBirth,
+        isGoogleLoggedIn: response.user.isGoogleLoggedIn,
       });
       if (response && response.user && response.token && setUser) {
         setUser({
@@ -47,6 +48,7 @@ export function useLoginUser() {
           loggedMood: response.user.loggedMood,
           dateOfBirth: response.user.dateOfBirth,
           image: response.user.image,
+          isGoogleLoggedIn: response.user.isGoogleLoggedIn,
         } as AuthContextType);
         if (response.user.isNewUser) navigate('/newUser');
         else navigate(from, { replace: true });

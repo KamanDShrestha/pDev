@@ -16,6 +16,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import getFormattedDate from '../services/getFormattedDate';
 import ErrorMessage from './ErrorMessage';
 import { useEffect } from 'react';
+import removeWhitespace from '../services/removeWhitespace';
 
 const EditPersonalDetailsDialog = () => {
   const { user, setUser } = useAuthContext();
@@ -51,9 +52,9 @@ const EditPersonalDetailsDialog = () => {
       {
         userId: user?.id as string,
         updatedUserFields: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
+          firstName: removeWhitespace(data.firstName),
+          lastName: removeWhitespace(data.lastName),
+          email: removeWhitespace(data.email),
           dateOfBirth: new Date(data.dateOfBirth),
         },
       },
@@ -137,6 +138,10 @@ const EditPersonalDetailsDialog = () => {
                 required: {
                   value: true,
                   message: 'Please provide your email address',
+                },
+                pattern: {
+                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                  message: 'Please provide a valid email address',
                 },
               })}
             />

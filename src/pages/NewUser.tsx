@@ -84,6 +84,7 @@ const NewUser = () => {
     formState: { errors },
     setValue,
     handleSubmit,
+    getValues,
   } = useForm<z.infer<typeof profileCompletionSchema>>({
     defaultValues: { answer1: '', answer2: '', answer3: '' },
     resolver: zodResolver(profileCompletionSchema),
@@ -94,7 +95,7 @@ const NewUser = () => {
     handleSubmit: handleDOBSubmit,
     formState: { errors: DOBErrors },
   } = useForm();
-
+  console.log(getValues());
   const { mutate } = useProfileCompletion();
   const { mutate: updateDOB } = useUpdateUserDOB();
 

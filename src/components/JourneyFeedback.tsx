@@ -36,21 +36,20 @@ const JourneyFeedback = ({ journeyId }: JourneyFeedbackProps) => {
 
     if (data.actionStepDay && parseInt(data.actionStepDay) < 1) {
       setActionStepDayError('Day should be greater than 0');
+      return;
     }
 
     console.log(data);
     console.log(errors);
 
     if (data.journeyFeedback && data.actionStepDay && data.feedback) {
-      console.log('in bothc');
-
       mutate(
         {
           userId: user?.id as string,
           journeyId,
           journeyFeedbacks: { feedback: data.journeyFeedback || '' },
           actionStepFeedbacks: {
-            actionStepDay: data.actionStepDay || '',
+            actionStepDay: parseInt(data.actionStepDay || ''),
             feedback: data.feedback || '',
           },
           userRole: user?.role as string,

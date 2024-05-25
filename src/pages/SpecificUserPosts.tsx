@@ -10,6 +10,7 @@ import PostCard from '../components/PostCard';
 import useDeletePost from '../services/posts/deletePost';
 import QuestionAnswerCard from '../components/QuestionAnswerCard';
 import useDocumentTitle from '../services/getTitle';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SpecificUserPosts = () => {
   const { communityId, userId } = useParams();
@@ -30,7 +31,7 @@ const SpecificUserPosts = () => {
     communityId as string,
     userId as string
   );
-
+  const queryClient = useQueryClient();
   useDocumentTitle(`Posts - ${community?.communityName} SelfSync`);
 
   const navigate = useNavigate();
@@ -40,10 +41,13 @@ const SpecificUserPosts = () => {
   console.log(posts);
 
   function handleDeletePost(postId: string) {
-    deletePost(postId);
+    deletePost(postId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['posts', communityId, userId]);
+      },
+    });
     console.log(postId);
     console.log(posts);
-    posts?.filter((post) => post._id !== postId);
   }
 
   return (
@@ -56,9 +60,7 @@ const SpecificUserPosts = () => {
             <Heading className='text-xl'>Posts of different categories</Heading>
             <div className='flex flex-wrap items-center justify-center gap-5 p-5'>
               {posts.map((post, index) => (
-                <div key={index} className='w-[400px] lg:w-[600px]'>
-                  <PostCard post={post} onDeletePost={handleDeletePost} />
-                </div>
+                <PostCard post={post} onDeletePost={handleDeletePost} />
               ))}
             </div>
           </div>

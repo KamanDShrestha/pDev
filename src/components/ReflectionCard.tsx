@@ -55,6 +55,7 @@ const ReflectionCard = ({
             user?.id,
             journeyId,
           ]);
+          queryClient.invalidateQueries(['embarkedJourney', user?.id]);
         },
       }
     );
@@ -65,7 +66,9 @@ const ReflectionCard = ({
       <CardHeader>
         <CardTitle>Own Reflection regarding the journey</CardTitle>
       </CardHeader>
-      <CardContent className='font-medium'>{reflection}</CardContent>
+      <CardContent className='font-medium'>
+        {reflection ? reflection : 'No reflection has been provided.'}
+      </CardContent>
       <CardFooter>
         <Dialog>
           <DialogTrigger className={buttonVariants({ variant: 'default' })}>

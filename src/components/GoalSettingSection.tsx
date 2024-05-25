@@ -11,10 +11,18 @@ import {
   CardTitle,
 } from './ui/card';
 import useGetOngoingGoalSets from '../services/goalSetting/getOngoingGoalSets';
-import { Button } from './ui/button';
+import { buttonVariants } from './ui/button';
 import useDeleteGoalSet from '../services/goalSetting/deleteGoalSet';
 import { useQueryClient } from '@tanstack/react-query';
 import { Separator } from './ui/separator';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 
 const GoalSettingSection = () => {
   const { user } = useAuthContext();
@@ -175,14 +183,38 @@ const GoalSettingSection = () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button
-                    onClick={() => handleDeleteGoalSet(goalSet._id)}
-                    variant={'destructive'}
-                    size={'sm'}
-                    disabled={isDeleting}
-                  >
-                    Delete
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger
+                      className={buttonVariants({
+                        variant: 'destructive',
+                        size: 'sm',
+                      })}
+                    >
+                      {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogTitle>
+                        Are you sure you want to delete this goal set?
+                      </DialogTitle>
+                      <DialogFooter>
+                        <DialogClose
+                          name='Cancel'
+                          className={buttonVariants({ variant: 'secondary' })}
+                        >
+                          Cancel
+                        </DialogClose>
+                        <DialogClose
+                          name='Delete'
+                          className={buttonVariants({
+                            variant: 'destructive',
+                          })}
+                          onClick={() => handleDeleteGoalSet(goalSet._id)}
+                        >
+                          {isDeleting ? <LoadingSpinner /> : 'Delete'}
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </CardFooter>
               </Card>
             ))}

@@ -100,28 +100,26 @@ const Journey = () => {
       <div className='mt-8'>
         <h2 className='mb-5 text-4xl font-semibold'>Completed Journeys</h2>
         <div className='flex flex-wrap justify-center gap-10'>
-          <div>
-            {embarkedJourneys &&
-            embarkedJourneys.filter(
-              (embarkedJourney) => embarkedJourney.isJourneyCompleted === true
-            ).length !== 0 ? (
-              embarkedJourneys.map(
-                (embarkedJourney) =>
-                  embarkedJourney.isJourneyCompleted && (
-                    <RetrospectionCard
-                      key={embarkedJourney._id}
-                      keyLearning={embarkedJourney.keyLearning}
-                      reflection={embarkedJourney.reflection}
-                      embarkedJourneyId={embarkedJourney._id}
-                      journeyId={embarkedJourney.journeyId}
-                      journeyName={embarkedJourney.journeyName}
-                    />
-                  )
-              )
-            ) : (
-              <p>You have not completed any journeys. </p>
-            )}
-          </div>
+          {embarkedJourneys &&
+          embarkedJourneys.filter(
+            (embarkedJourney) => embarkedJourney.isJourneyCompleted === true
+          ).length !== 0 ? (
+            embarkedJourneys.map(
+              (embarkedJourney) =>
+                embarkedJourney.isJourneyCompleted && (
+                  <RetrospectionCard
+                    key={embarkedJourney._id}
+                    keyLearning={embarkedJourney.keyLearning}
+                    reflection={embarkedJourney.reflection}
+                    embarkedJourneyId={embarkedJourney._id}
+                    journeyId={embarkedJourney.journeyId}
+                    journeyName={embarkedJourney.journeyName}
+                  />
+                )
+            )
+          ) : (
+            <p>You have not completed any journeys. </p>
+          )}
         </div>
       </div>
     </div>

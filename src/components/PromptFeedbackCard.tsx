@@ -9,6 +9,9 @@ import {
 import { statusColoring } from '../constants';
 import { PromptFeedback } from '../types';
 import { Button } from './ui/button';
+import useUpdateStatus from '../services/promptFeedbacks/updateStatus';
+import LoadingSpinner from './LoadingSpinner';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface PromptFeedbackCardProps {
   feedback: PromptFeedback;
@@ -17,9 +20,30 @@ interface PromptFeedbackCardProps {
 const PromptFeedbackCard = ({ feedback }: PromptFeedbackCardProps) => {
   const navigate = useNavigate();
 
-  function handleResolve() {}
+  const { mutate, isLoading } = useUpdateStatus();
+  const queryClient = useQueryClient();
 
-  function handleReject() {}
+  function handleResolve() {
+    mutate(
+      { feedbackId: feedback._id, feedbackStatus: 'resolved' },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['promptFeedbacks']);
+        },
+      }
+    );
+  }
+
+  function handleReject() {
+    mutate(
+      { feedbackId: feedback._id, feedbackStatus: 'rejected' },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['promptFeedbacks']);
+        },
+      }
+    );
+  }
   return (
     <Card className='w-[400px]'>
       <CardHeader>
@@ -41,8 +65,12 @@ const PromptFeedbackCard = ({ feedback }: PromptFeedbackCardProps) => {
         {feedback.feedbackStatus === 'pending' && (
           <div className='space-x-3'>
             <>
-              <Button onClick={() => handleResolve()}>Resolve</Button>
-              <Button onClick={() => handleReject()}>Reject</Button>
+              <Button onClick={() => handleResolve()}>
+                {isLoading ? <LoadingSpinner /> : 'Resolve'}
+              </Button>
+              <Button onClick={() => handleReject()}>
+                {isLoading ? <LoadingSpinner /> : 'Reject'}
+              </Button>
               <Button
                 onClick={() => navigate(`/prompts/edit/${feedback.promptId}`)}
               >

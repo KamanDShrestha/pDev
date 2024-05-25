@@ -22,6 +22,7 @@ export type AuthContextType = {
   loggedMood: boolean;
   dateOfBirth?: string;
   image: string;
+  isGoogleLoggedIn: boolean;
 };
 
 const AuthContext = createContext(
@@ -61,6 +62,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
               loggedMood: authenticatedUser.loggedMood,
               image: authenticatedUser.image,
               dateOfBirth: authenticatedUser.dateOfBirth,
+              isGoogleLoggedIn: authenticatedUser.isGoogleLoggedIn,
             } as AuthContextType)
         );
       authenticatedUser &&
