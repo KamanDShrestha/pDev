@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: (failureCount: number, error: unknown) => {
+      retry: (_failureCount: number, error: unknown) => {
         if (error instanceof AxiosError) {
           return error.response?.status !== 401;
         }

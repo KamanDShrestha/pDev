@@ -37,7 +37,6 @@
     "clsx": "^2.0.0",
     "crypto-js": "^4.2.0",
     "date-fns": "^3.3.1",
-    "google": "link:@types/react-oauth/google",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^3.1.2",
     "lucide-react": "^0.287.0",

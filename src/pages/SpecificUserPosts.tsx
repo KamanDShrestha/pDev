@@ -59,7 +59,7 @@ const SpecificUserPosts = () => {
           <div>
             <Heading className='text-xl'>Posts of different categories</Heading>
             <div className='flex flex-wrap items-center justify-center gap-5 p-5'>
-              {posts.map((post, index) => (
+              {posts.map((post) => (
                 <PostCard post={post} onDeletePost={handleDeletePost} />
               ))}
             </div>

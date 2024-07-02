@@ -189,7 +189,7 @@ const EditJourneyPage = () => {
                 </>
               ) : (
                 <>
-                  {Array.from(Array(3).keys()).map((item, index) => (
+                  {Array.from(Array(3).keys()).map((_item, index) => (
                     <>
                       <Input
                         {...register(`importance.${index}`, {
@@ -303,7 +303,7 @@ const EditJourneyPage = () => {
           <div>
             <Heading className='mb-2 text-2xl'>Action Steps</Heading>
             <div className='flex flex-wrap justify-center gap-5'>
-              {Array.from(Array(journey.length)).map((item, index) => (
+              {Array.from(Array(journey.length)).map((_item, index) => (
                 <>
                   <Card className='p-5'>
                     <Heading className='mb-2 text-xl'>
@@ -406,7 +406,7 @@ const EditJourneyPage = () => {
                           </Heading>
                           <div className='space-y-2'>
                             {Array.from(Array(3).keys()).map(
-                              (item, thisIndex) => (
+                              (_item, thisIndex) => (
                                 <>
                                   <Input
                                     {...register(
@@ -430,7 +430,7 @@ const EditJourneyPage = () => {
                           </Heading>
                           <div className='space-y-2'>
                             {Array.from(Array(3).keys()).map(
-                              (item, thisIndex) => (
+                              (_item, thisIndex) => (
                                 <>
                                   <Input
                                     {...register(

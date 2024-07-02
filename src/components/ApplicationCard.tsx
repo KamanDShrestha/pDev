@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import {
   Card,
@@ -29,7 +28,7 @@ const ApplicationCard = ({ application }: ApplicationCardProps) => {
   const { mutate: discardApplication } = useDiscardApplication();
   const { mutate: updateUserRole } = useUpdateUserRole();
   const { mutate: addQhpDetails } = useAddQhpDetails();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
 
   const queryClient = useQueryClient();
