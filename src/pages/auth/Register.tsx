@@ -16,13 +16,14 @@ import { Button } from '../../components/ui/button';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useRegisterUser } from '../../services/userAuth/registerUser';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from '../../constants';
 import { FcGoogle } from 'react-icons/fc';
 import useDocumentTitle from '../../services/getTitle';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { useState } from 'react';
 import { cn } from '../../lib/utils';
+import { useAuthContext } from '@/src/context/AuthProvider';
 
 const Register = () => {
   const [imageURL, setImageURL] = useState<string | undefined>();
@@ -36,14 +37,16 @@ const Register = () => {
   } = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
   });
+  const { setSignUpUser } = useAuthContext();
+  const { mutate, isLoading: isRegistering } = useRegisterUser();
+
+  const navigate = useNavigate();
 
   const providedEmail = watch('email');
   const providedPassword = watch('password');
   const providedConfirmPassword = watch('confirmPassword');
   const providedFName = watch('firstName');
   const providedLName = watch('lastName');
-
-  const { mutate, isLoading: isRegistering } = useRegisterUser();
 
   useDocumentTitle('Register - SelfSync');
 
@@ -85,10 +88,19 @@ const Register = () => {
     //trimming and changing the email to lowercase
     values.firstName = values.firstName.trim();
     values.lastName = values.lastName.trim();
-    values.email = values.email.trim().toLowerCase();
+    values.email = values.email.trim();
     formData.append('data', JSON.stringify(values));
 
-    mutate(formData);
+    mutate(formData, {
+      onSuccess: () => {
+        setSignUpUser &&
+          setSignUpUser(() => ({
+            name: values.firstName.trim(),
+            email: values.email.trim(),
+          }));
+        navigate('/verify');
+      },
+    });
   }
 
   function handleGoogleAuthLogin() {

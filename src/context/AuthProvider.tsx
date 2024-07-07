@@ -25,10 +25,17 @@ export type AuthContextType = {
   isGoogleLoggedIn: boolean;
 };
 
+export type SignUpUserType = {
+  email: string;
+  name: string;
+};
+
 const AuthContext = createContext(
   {} as {
     user?: AuthContextType;
     setUser?: React.Dispatch<React.SetStateAction<AuthContextType>>;
+    signUpUser?: SignUpUserType;
+    setSignUpUser?: React.Dispatch<React.SetStateAction<SignUpUserType>>;
     isLoading: boolean;
   }
 );
@@ -37,6 +44,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthContextType>(
     getFromLocalStorage('authentication')
   );
+  const [signUpUser, setSignUpUser] = useState<SignUpUserType>({
+    email: '',
+    name: '',
+  });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -81,6 +92,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           React.SetStateAction<AuthContextType>
         >,
         isLoading,
+        signUpUser,
+        setSignUpUser,
       }}
     >
       {children}

@@ -55,6 +55,7 @@ import GoalSetting from './pages/GoalSetting';
 import ActionStepsExamples from './pages/ActionStepsExamples';
 import CompletedJourney from './pages/journey/CompletedJourney';
 import PaymentDetails from './pages/PaymentDetails';
+import TokenVerification from './pages/auth/TokenVerification';
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
                 <Route index element={<GettingStarted />} />
                 <Route path={'/login'} element={<Login />} />
                 <Route path={'/register'} element={<Register />} />
+                <Route path={'/verify'} element={<TokenVerification />} />
               </Route>
 
               <Route
