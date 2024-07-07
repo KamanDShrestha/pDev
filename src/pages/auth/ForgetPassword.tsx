@@ -1,3 +1,4 @@
+import ErrorMessage from '@/src/components/ErrorMessage';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { Button } from '@/src/components/ui/button';
 import {
@@ -16,12 +17,15 @@ const ForgetPassword = () => {
   const [userEmail, setUserEmail] = useState('');
   const { mutate: resetPassword, isLoading } = useResetPassword();
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   function handleResetPasswordSubmit() {
     if (
       userEmail.trim().length === 0 ||
       userEmail === '' ||
       userEmail === undefined
     ) {
+      setErrorMessage(() => 'Please provide your email before proceeding.');
       return;
     }
 
@@ -40,8 +44,12 @@ const ForgetPassword = () => {
           <Input
             type='email'
             placeholder='Enter your email...'
-            onChange={(e) => setUserEmail(e.target.value)}
+            onChange={(e) => {
+              setErrorMessage(() => '');
+              setUserEmail(e.target.value);
+            }}
           />
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         </div>
       </CardContent>
       <CardFooter>

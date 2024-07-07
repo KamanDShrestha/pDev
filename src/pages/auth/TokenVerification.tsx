@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import useVerifyToken from '@/src/services/userAuth/verifyToken';
 import useVerifyEmail from '@/src/services/userAuth/verifyEmail';
 import CountdownTimer from '@/src/components/CountdownTimer';
+import ErrorMessage from '@/src/components/ErrorMessage';
 
 const TokenVerification = () => {
   const { user, signUpUser, setSignUpUser } = useAuthContext();
@@ -18,7 +19,10 @@ const TokenVerification = () => {
 
   const { mutate: verifyEmail } = useVerifyToken();
   const { mutate: sendVerificationEmail } = useVerifyEmail();
-  console.log(signUpUser);
+
+  //error message
+  const [errorMessage, setErrorMessage] = useState('');
+
   useEffect(() => {
     // for navigation purposes
     if (user && user?.isNewUser) {
@@ -41,6 +45,18 @@ const TokenVerification = () => {
   }, []);
 
   function handleVerificationSubmit() {
+    // validation before submission
+    if (
+      verificationToken.trim().length === 0 ||
+      verificationToken === '' ||
+      verificationToken === null ||
+      verificationToken === undefined
+    ) {
+      setErrorMessage(() => 'Please provide value before proceeding.');
+      return;
+    }
+
+    // sending the request to verify the provided token for the email
     verifyEmail(
       {
         email: signUpUser?.email || 'user@example.com',
@@ -60,10 +76,16 @@ const TokenVerification = () => {
       <Heading className='text-2xl'>Verify your email</Heading>
       <div className='space-y-3'>
         <p>Please provide the token for verifying.</p>
-        <Textarea
-          className=' min-w-[300px] lg:w-[550px]'
-          onChange={(e) => setVerificationToken(() => e.target.value)}
-        />
+        <div>
+          <Textarea
+            className=' min-w-[300px] lg:w-[550px]'
+            onChange={(e) => {
+              setErrorMessage(() => '');
+              setVerificationToken(() => e.target.value);
+            }}
+          />
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        </div>
         <div className='flex gap-2 text-sm'>
           <span>Validity till:</span>
           <CountdownTimer minutes={1} />

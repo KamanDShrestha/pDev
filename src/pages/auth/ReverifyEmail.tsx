@@ -1,3 +1,5 @@
+import ErrorMessage from '@/src/components/ErrorMessage';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { Button } from '@/src/components/ui/button';
 import {
   Card,
@@ -18,11 +20,23 @@ const ReverifyEmail = () => {
   const [verificationToken, setVerificationToken] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState(false);
 
-  const { mutate: resendVerificationEmail } = useReverifyEmail();
-  const { mutate: verifyToken } = useVerifyToken();
+  const [errorMessageEmail, setErrorMessageEmail] = useState('');
+  const [errorMessageToken, setErrorMessageToken] = useState('');
+
+  const { mutate: resendVerificationEmail, isLoading: resendingToken } =
+    useReverifyEmail();
+  const { mutate: verifyToken, isLoading: verifyingToken } = useVerifyToken();
 
   function handleReverificationSubmit() {
-    if (existingEmail === '') {
+    if (
+      existingEmail === '' ||
+      existingEmail.trim().length === 0 ||
+      existingEmail === null ||
+      existingEmail === undefined
+    ) {
+      setErrorMessageEmail(
+        () => 'Please provide your email before proceeding.'
+      );
       return;
     }
 
@@ -53,29 +67,50 @@ const ReverifyEmail = () => {
       <CardContent>
         <div className='lg:w-[500px] w-auto'>
           {!verifiedEmail && (
-            <Input
-              onChange={(e) => setExistingEmail(e.target.value)}
-              placeholder='Email...'
-              className='w-full'
-            />
+            <>
+              <Input
+                onChange={(e) => {
+                  setErrorMessageEmail(() => '');
+                  setExistingEmail(e.target.value);
+                }}
+                placeholder='Email...'
+                className='w-full'
+              />
+              {errorMessageEmail && (
+                <ErrorMessage>{errorMessageEmail}</ErrorMessage>
+              )}
+            </>
           )}
           {verifiedEmail && (
-            <Textarea
-              placeholder='Verification token...'
-              className='w-full'
-              onChange={(e) => setVerificationToken(() => e.target.value)}
-            />
+            <>
+              <Textarea
+                placeholder='Verification token...'
+                className='w-full'
+                onChange={(e) => {
+                  setErrorMessageToken(() => '');
+                  setVerificationToken(() => e.target.value);
+                }}
+              />
+              {errorMessageToken && (
+                <ErrorMessage>{errorMessageToken}</ErrorMessage>
+              )}
+            </>
           )}
         </div>
       </CardContent>
       <CardFooter>
         {!verifiedEmail && (
           <Button onClick={handleReverificationSubmit}>
-            Send verification token
+            {resendingToken ? <LoadingSpinner /> : 'Send verification token'}
           </Button>
         )}
         {verifiedEmail && (
-          <Button onClick={handleTokenVerificationSubmit}>Submit</Button>
+          <Button
+            onClick={handleTokenVerificationSubmit}
+            disabled={verifyingToken}
+          >
+            {verifyingToken ? <LoadingSpinner /> : 'Submit'}
+          </Button>
         )}
       </CardFooter>
     </Card>
