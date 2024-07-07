@@ -4,20 +4,11 @@ import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
-export default function useVerifyToken() {
-  const result = useMutation({
-    mutationFn: ({
-      email,
-      verificationToken,
-    }: {
-      email: string;
-      verificationToken: string;
-    }) =>
+export default function useReverifyEmail() {
+  const response = useMutation({
+    mutationFn: ({ email }: { email: string }) =>
       axios
-        .post(`${BACKEND_URL}/users/verifyEmail`, {
-          email,
-          verificationToken,
-        })
+        .post(`${BACKEND_URL}/users/reverifyEmail`, { email })
         .then((response) => response.data),
     onSuccess: (response) => {
       toast.success(response.message);
@@ -26,6 +17,5 @@ export default function useVerifyToken() {
       toast.error(error.response?.data.message || 'An error occured');
     },
   });
-  console.log(result);
-  return result;
+  return response;
 }

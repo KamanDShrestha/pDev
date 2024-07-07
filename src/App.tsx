@@ -56,6 +56,7 @@ import ActionStepsExamples from './pages/ActionStepsExamples';
 import CompletedJourney from './pages/journey/CompletedJourney';
 import PaymentDetails from './pages/PaymentDetails';
 import TokenVerification from './pages/auth/TokenVerification';
+import ReverifyEmail from './pages/auth/ReverifyEmail';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
                 <Route path={'/login'} element={<Login />} />
                 <Route path={'/register'} element={<Register />} />
                 <Route path={'/verify'} element={<TokenVerification />} />
+                <Route path={'/reverify'} element={<ReverifyEmail />} />
               </Route>
 
               <Route

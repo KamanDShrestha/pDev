@@ -51,6 +51,7 @@ const TokenVerification = () => {
         />
         <Button onClick={handleVerificationSubmit}>Submit</Button>
       </div>
+      <p className=' text-grey-300'>Resend token</p>
     </Card>
   );
 };

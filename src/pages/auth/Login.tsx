@@ -157,7 +157,8 @@ const Login = () => {
             </div>
           </form>
         </CardContent>
-        <CardFooter>
+
+        <CardFooter className='flex flex-col gap-2'>
           <span className='text-xs'>
             Don't have an account?{' '}
             <NavLink
@@ -165,6 +166,14 @@ const Login = () => {
               className='text-slate-500 hover:text-slate-700'
             >
               Register
+            </NavLink>
+          </span>
+          <span className='text-xs font-medium'>
+            <NavLink
+              to={'/reverify'}
+              className='text-slate-500 hover:text-slate-700'
+            >
+              Verify my account
             </NavLink>
           </span>
         </CardFooter>

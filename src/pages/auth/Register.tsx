@@ -296,7 +296,7 @@ const Register = () => {
             </div>
           </form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className='flex flex-col'>
           <span className='text-xs'>
             Already have an account?{' '}
             <NavLink
@@ -304,6 +304,14 @@ const Register = () => {
               className='text-slate-500 hover:text-slate-700'
             >
               Login
+            </NavLink>
+          </span>
+          <span className='text-xs font-medium'>
+            <NavLink
+              to={'/reverify'}
+              className='text-slate-500 hover:text-slate-700'
+            >
+              Verify email
             </NavLink>
           </span>
         </CardFooter>
