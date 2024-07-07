@@ -57,6 +57,7 @@ import CompletedJourney from './pages/journey/CompletedJourney';
 import PaymentDetails from './pages/PaymentDetails';
 import TokenVerification from './pages/auth/TokenVerification';
 import ReverifyEmail from './pages/auth/ReverifyEmail';
+import ForgetPassword from './pages/auth/ForgetPassword';
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
                 <Route path={'/register'} element={<Register />} />
                 <Route path={'/verify'} element={<TokenVerification />} />
                 <Route path={'/reverify'} element={<ReverifyEmail />} />
+                <Route path='/forgetPassword' element={<ForgetPassword />} />
               </Route>
 
               <Route

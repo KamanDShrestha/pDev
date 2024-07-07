@@ -151,6 +151,13 @@ const Login = () => {
                   <ErrorMessage>{errors.password.message}</ErrorMessage>
                 )}
               </div>
+              <NavLink
+                to={'/forgetPassword'}
+                className='text-sm text-slate-500 hover:text-slate-700'
+              >
+                Forget Password?
+              </NavLink>
+
               <Button disabled={isLoggingIn}>
                 {isLoggingIn ? <LoadingSpinner /> : 'Login'}
               </Button>
