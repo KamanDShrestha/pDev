@@ -4,13 +4,22 @@ const CountdownTimer = ({ minutes }: { minutes: number }) => {
   const [totalSeconds, setTotalSeconds] = useState(minutes * 60);
 
   useEffect(() => {
-    let interval = setInterval(() => {
-      if (totalSeconds > 0) {
-        setTotalSeconds((value) => value - 1);
+    let thisInterval = setInterval(() => {
+      let providedValue = totalSeconds;
+      if (providedValue > 0) {
+        setTotalSeconds((value) => {
+          if (value > 0) {
+            return value - 1;
+          } else {
+            clearInterval(thisInterval);
+            return 0;
+          }
+        });
+        providedValue--;
       }
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(thisInterval);
   }, []);
 
   return (

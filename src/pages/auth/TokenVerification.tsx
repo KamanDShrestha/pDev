@@ -12,12 +12,13 @@ import CountdownTimer from '@/src/components/CountdownTimer';
 const TokenVerification = () => {
   const { user, signUpUser, setSignUpUser } = useAuthContext();
   const [verificationToken, setVerificationToken] = useState('');
-  const { mutate: sendVerificationEmail } = useVerifyEmail();
-
   const [validStatus, setValidStatus] = useState(true);
 
   const navigate = useNavigate();
+
   const { mutate: verifyEmail } = useVerifyToken();
+  const { mutate: sendVerificationEmail } = useVerifyEmail();
+  console.log(signUpUser);
   useEffect(() => {
     // for navigation purposes
     if (user && user?.isNewUser) {
@@ -63,15 +64,17 @@ const TokenVerification = () => {
           className=' min-w-[300px] lg:w-[550px]'
           onChange={(e) => setVerificationToken(() => e.target.value)}
         />
+        <div className='flex gap-2 text-sm'>
+          <span>Validity till:</span>
+          <CountdownTimer minutes={1} />
+        </div>
         <Button onClick={handleVerificationSubmit}>Submit</Button>
       </div>
+
       <CardFooter>
-        <div>
-          Validity till: <CountdownTimer minutes={3} />
-        </div>
         {!validStatus && (
           <p
-            className='my-3 text-sm text-grey-300'
+            className='my-3 text-sm cursor-pointer text-grey-300 hover:underline'
             onClick={() =>
               sendVerificationEmail({
                 email: signUpUser?.email || 'user@example.com',
