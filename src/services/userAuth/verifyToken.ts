@@ -14,10 +14,16 @@ export default function useVerifyToken() {
       verificationToken: string;
     }) =>
       axios
-        .post(`${BACKEND_URL}/users/verifyEmail`, {
-          email,
-          verificationToken,
-        })
+        .post(
+          `${BACKEND_URL}/users/verifyEmail`,
+          {
+            email,
+            verificationToken,
+          },
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => response.data),
     onSuccess: (response) => {
       toast.success(response.message);

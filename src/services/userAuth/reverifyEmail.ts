@@ -8,7 +8,13 @@ export default function useReverifyEmail() {
   const response = useMutation({
     mutationFn: ({ email }: { email: string }) =>
       axios
-        .post(`${BACKEND_URL}/users/reverifyEmail`, { email })
+        .post(
+          `${BACKEND_URL}/users/reverifyEmail`,
+          { email },
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => response.data),
     onSuccess: (response) => {
       toast.success(response.message);

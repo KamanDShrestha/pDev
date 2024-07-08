@@ -1,3 +1,14 @@
+export type ObtainedNotification = {
+  _id: string;
+  recipientId: string;
+  senderId: string;
+  isRead: boolean;
+  senderName: string;
+  additionalInfo: object;
+  message: string;
+  createdAt: Date;
+};
+
 export type GoalReminder = {
   _id: string;
   userId: string;

@@ -8,7 +8,13 @@ export default function useResetPassword() {
   const response = useMutation({
     mutationFn: ({ email }: { email: string }) =>
       axios
-        .post(`${BACKEND_URL}/users/resetPassword`, { email })
+        .post(
+          `${BACKEND_URL}/users/resetPassword`,
+          { email },
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => response.data),
     onSuccess: (response) => {
       toast.success(response.message);

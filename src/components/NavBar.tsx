@@ -20,6 +20,7 @@ import { Button, buttonVariants } from './ui/button';
 import useLogoutUser from '../services/userAuth/logoutUser';
 
 import GoalReminderDialog from './GoalReminderDialog';
+import NotificationDialog from './NotificationDialog';
 
 const NavBar = () => {
   const { user } = useAuthContext();
@@ -182,26 +183,47 @@ const NavBar = () => {
               <NavigationMenuItem>
                 <GoalReminderDialog />
               </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NotificationDialog />
+              </NavigationMenuItem>
             </>
           )}
 
-          {user?.role === 'admin' &&
-            adminNavigationMenu.map((menu) => (
-              <NavigationMenuItem key={menu.to}>
-                <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
-                  {menu.option}
-                </NavLink>
+          {user?.role === 'admin' && (
+            <>
+              {adminNavigationMenu.map((menu) => (
+                <NavigationMenuItem key={menu.to}>
+                  <NavLink
+                    to={menu.to}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    {menu.option}
+                  </NavLink>
+                </NavigationMenuItem>
+              ))}
+              <NavigationMenuItem>
+                <NotificationDialog />
               </NavigationMenuItem>
-            ))}
+            </>
+          )}
 
-          {user?.role === 'qhp' &&
-            qhpNavigationMenu.map((menu) => (
-              <NavigationMenuItem key={menu.to}>
-                <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
-                  {menu.option}
-                </NavLink>
+          {user?.role === 'qhp' && (
+            <>
+              {qhpNavigationMenu.map((menu) => (
+                <NavigationMenuItem key={menu.to}>
+                  <NavLink
+                    to={menu.to}
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    {menu.option}
+                  </NavLink>
+                </NavigationMenuItem>
+              ))}
+              <NavigationMenuItem>
+                <NotificationDialog />
               </NavigationMenuItem>
-            ))}
+            </>
+          )}
 
           <NavigationMenuItem>
             <NavLink
