@@ -51,6 +51,7 @@
     "react-iframe": "^1.8.5",
     "react-router-dom": "^6.16.0",
     "recharts": "^2.10.3",
+    "socket.io-client": "^4.7.5",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"

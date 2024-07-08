@@ -52,6 +52,7 @@ import { postCategoriesTheme } from '../constants';
 import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 import EditPostDialog from './EditPostDialog';
 import removeWhitespace from '../services/removeWhitespace';
+import { socket } from '../services/socket';
 
 interface PostCardProps {
   post: PostData;
@@ -118,6 +119,14 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             post._id,
             user?.id as string,
           ]);
+
+          socket.emit('sendLikedNotification', {
+            recipientId: post.userId,
+            senderId: user?.id,
+            senderName: user?.firstName,
+            communityId: post.communityId,
+            postId: post._id,
+          });
 
           if (response.message.split(' ').includes('unliked')) {
             post.postLikes.pop();

@@ -20,6 +20,7 @@ import { Button, buttonVariants } from './ui/button';
 import useLogoutUser from '../services/userAuth/logoutUser';
 
 import GoalReminderDialog from './GoalReminderDialog';
+
 const NavBar = () => {
   const { user } = useAuthContext();
   const { mutate } = useLogoutUser();
@@ -74,6 +75,7 @@ const NavBar = () => {
   function handleLogout() {
     mutate(user?.accessToken as string);
   }
+
   return (
     <>
       <Sheet>
