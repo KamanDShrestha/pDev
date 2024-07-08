@@ -7,11 +7,12 @@ import { socket } from '@/src/services/socket';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useAuthContext } from '@/src/context/AuthProvider';
+import NoConnection from '@/src/components/NoConnection';
 
 const UserLayout = () => {
   const { user } = useAuthContext();
   useEffect(() => {
-    const handlePostLiked = ({
+    const handlePostInteraction = ({
       recipientId,
       // senderId,
       // senderName,
@@ -26,8 +27,6 @@ const UserLayout = () => {
       postId: string;
       message: string;
     }) => {
-      console.log('signal received');
-
       if (recipientId === user?.id) {
         toast.success(message, {
           position: 'bottom-right',
@@ -35,32 +34,35 @@ const UserLayout = () => {
       }
     };
 
-    socket.on('provideLikedNotification', handlePostLiked);
+    socket.on('provideInteractionNotification', handlePostInteraction);
 
     // Clean up the event listener on component unmount
     return () => {
-      socket.off('provideLikedNotification', handlePostLiked);
+      socket.off('provideInteractionNotification', handlePostInteraction);
     };
   }, []);
 
   const location = useLocation();
   return (
-    <div className='flex flex-col min-h-screen overflow-hidden'>
-      <div className='flex justify-between p-5'>
-        <div className='hidden lg:block'>
-          <Logo />
-        </div>
-        <div className='flex justify-between w-full gap-3 px-2 lg:w-auto'>
-          <NavBar />
+    <>
+      <div className='flex flex-col min-h-screen overflow-hidden'>
+        <div className='flex justify-between p-5'>
+          <div className='hidden lg:block'>
+            <Logo />
+          </div>
+          <div className='flex justify-between w-full gap-3 px-2 lg:w-auto'>
+            <NavBar />
 
-          <ModeToggle />
+            <ModeToggle />
+          </div>
         </div>
+        <div className='relative flex-grow p-5'>
+          <Outlet />
+        </div>
+        {location.pathname === '/home' ? null : <Footer />}
       </div>
-      <div className='relative flex-grow p-5'>
-        <Outlet />
-      </div>
-      {location.pathname === '/home' ? null : <Footer />}
-    </div>
+      <NoConnection />
+    </>
   );
 };
 

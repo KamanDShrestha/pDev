@@ -90,6 +90,17 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
       },
       {
         onSuccess: () => {
+          socket.emit('sendInteractionNotification', {
+            recipientId: post.userId,
+            senderId: user?.id,
+            senderName: user?.firstName,
+            communityId: post.communityId,
+            postId: post._id,
+            message: `${
+              !user?.firstName ? 'A user' : user.firstName
+            } has commented on your post.`,
+          });
+
           post.postComments.push({
             userId: user?.id as string,
             userName: user?.firstName as string,
@@ -121,7 +132,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
           ]);
 
           if (response.message.split(' ').includes('unliked')) {
-            socket.emit('sendLikedNotification', {
+            socket.emit('sendInteractionNotification', {
               recipientId: post.userId,
               senderId: user?.id,
               senderName: user?.firstName,
@@ -134,7 +145,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             post.postLikes.pop();
             return;
           } else {
-            socket.emit('sendLikedNotification', {
+            socket.emit('sendInteractionNotification', {
               recipientId: post.userId,
               senderId: user?.id,
               senderName: user?.firstName,

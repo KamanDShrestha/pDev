@@ -41,6 +41,7 @@ import { Badge } from './ui/badge';
 import EditQADialog from './EditQADialog';
 import removeWhitespace from '../services/removeWhitespace';
 import ErrorMessage from './ErrorMessage';
+import { socket } from '../services/socket';
 
 // import { FcLikePlaceholder } from 'react-icons/fc';
 
@@ -82,6 +83,16 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
       },
       {
         onSuccess: () => {
+          socket.emit('sendInteractionNotification', {
+            recipientId: question.userId,
+            senderId: user?.id,
+            senderName: user?.firstName,
+            communityId: question.communityId,
+            postId: question._id,
+            message: `${
+              !user?.firstName ? 'A user' : user.firstName
+            } has answered your question.`,
+          });
           question.answers.push({
             userName: user?.firstName as string,
             userId: user?.id as string,
@@ -111,9 +122,29 @@ const QuestionAnswerCard = ({ question }: QuestionAnswerCardProps) => {
           ]);
 
           if (response.message.split(' ').includes('unliked')) {
+            socket.emit('sendInteractionNotification', {
+              recipientId: question.userId,
+              senderId: user?.id,
+              senderName: user?.firstName,
+              communityId: question.communityId,
+              postId: question._id,
+              message: `${
+                !user?.firstName ? 'A user' : user.firstName
+              } has unliked your post.`,
+            });
             question.likes.pop();
             return;
           } else {
+            socket.emit('sendInteractionNotification', {
+              recipientId: question.userId,
+              senderId: user?.id,
+              senderName: user?.firstName,
+              communityId: question.communityId,
+              postId: question._id,
+              message: `${
+                !user?.firstName ? 'A user' : user.firstName
+              } has liked your post.`,
+            });
             question.likes.push({
               userId: user?.id as string,
               likedDate: new Date(),
