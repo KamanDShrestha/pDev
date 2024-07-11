@@ -22,6 +22,7 @@ import useAddQA from '../services/QAs/addQA';
 import LoadingSpinner from './LoadingSpinner';
 import { Checkbox } from './ui/checkbox';
 import removeWhitespace from '../services/removeWhitespace';
+import { socket } from '../services/socket';
 
 const AddPostCard = () => {
   const { user } = useAuthContext();
@@ -81,6 +82,15 @@ const AddPostCard = () => {
             setValue('postTitle', '');
             setValue('postContent', '');
             setIsAnonymousChecked(false);
+
+            socket.emit('sendQuestionedNotification', {
+              recipientRole: 'qhp',
+              senderId: user?.id,
+              senderName: user?.firstName,
+              message: `${user?.firstName} has asked a question.`,
+
+              communityId: communityId,
+            });
           },
         }
       );

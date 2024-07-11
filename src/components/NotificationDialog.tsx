@@ -7,10 +7,14 @@ import { navigationMenuTriggerStyle } from './ui/navigation-menu';
 import { IoAlert } from 'react-icons/io5';
 import useGetAllNotifications from '../services/notifications/getAllNotifications';
 import useUpdateNotificationReadStatus from '../services/notifications/updateNotificationReadStatus';
+import useGetAllNotificationsByRole from '../services/notifications/getAllNotificationsByRole';
 
 const NotificationDialog = () => {
   const { user } = useAuthContext();
   const { data: notifications } = useGetAllNotifications(user?.id as string);
+  const { data: notificationsByRole } = useGetAllNotificationsByRole(
+    user?.role as string
+  );
 
   const { mutate: updateReadStatus } = useUpdateNotificationReadStatus();
 
@@ -41,7 +45,8 @@ const NotificationDialog = () => {
             )}
         </DialogTrigger>
         <DialogContent className='h-[60vh] overflow-scroll'>
-          {!notifications || notifications?.length === 0 ? (
+          {(!notifications || notifications?.length === 0) &&
+          (!notificationsByRole || notificationsByRole?.length === 0) ? (
             <div className='flex items-center justify-center'>
               No notifications.
             </div>
@@ -50,37 +55,43 @@ const NotificationDialog = () => {
               <DialogTitle>Notifications</DialogTitle>
               <div className='flex flex-col items-center justify-center h-full gap-5 '>
                 {notifications &&
-                  notifications.map((notification, index) => (
-                    <Card
-                      key={index}
-                      className={cn(
-                        notification.isRead
-                          ? 'w-full'
-                          : 'dark:bg-[#33415c] bg-[#e6e8e6] w-full'
-                      )}
-                    >
-                      <CardContent className='p-2 space-y-3'>
-                        <div>
-                          <p className='font-medium'>{notification.message}</p>
-                          <p className='text-sm'>
-                            {new Date(notification.createdAt).toLocaleString()}
-                          </p>
-                        </div>
-                        {notification.isRead ? (
-                          <p className='text-xs font-medium'>Acted on</p>
-                        ) : (
-                          <p
-                            className='text-xs font-medium hover:cursor-pointer'
-                            onClick={() =>
-                              handleUpdateReadStatus(notification._id)
-                            }
-                          >
-                            Read
-                          </p>
+                  notifications
+                    .concat(notificationsByRole ?? [])
+                    .map((notification, index) => (
+                      <Card
+                        key={index}
+                        className={cn(
+                          notification.isRead
+                            ? 'w-full'
+                            : 'dark:bg-[#33415c] bg-[#e6e8e6] w-full'
                         )}
-                      </CardContent>
-                    </Card>
-                  ))}
+                      >
+                        <CardContent className='p-2 space-y-3'>
+                          <div>
+                            <p className='font-medium'>
+                              {notification.message}
+                            </p>
+                            <p className='text-sm'>
+                              {new Date(
+                                notification.createdAt
+                              ).toLocaleString()}
+                            </p>
+                          </div>
+                          {notification.isRead ? (
+                            <p className='text-xs font-medium'>Acted on</p>
+                          ) : (
+                            <p
+                              className='text-xs font-medium hover:cursor-pointer'
+                              onClick={() =>
+                                handleUpdateReadStatus(notification._id)
+                              }
+                            >
+                              Read
+                            </p>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))}
               </div>
             </>
           )}

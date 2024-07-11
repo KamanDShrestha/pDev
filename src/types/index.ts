@@ -1,6 +1,7 @@
 export type ObtainedNotification = {
   _id: string;
-  recipientId: string;
+  recipientId?: string;
+  recipientRole?: string;
   senderId: string;
   isRead: boolean;
   senderName: string;

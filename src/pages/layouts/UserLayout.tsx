@@ -34,11 +34,34 @@ const UserLayout = () => {
       }
     };
 
+    const handleQuestionedInteraction = ({
+      recipientRole,
+      // senderId,
+      // senderName,
+      // communityId,
+      // postId,
+      message,
+    }: {
+      recipientRole: string;
+      senderId: string;
+      senderName: string;
+      communityId: string;
+      message: string;
+    }) => {
+      if (recipientRole === user?.role) {
+        toast.success(message, {
+          position: 'bottom-right',
+        });
+      }
+    };
+
     socket.on('provideInteractionNotification', handlePostInteraction);
+    socket.on('provideQuestionedNotification', handleQuestionedInteraction);
 
     // Clean up the event listener on component unmount
     return () => {
       socket.off('provideInteractionNotification', handlePostInteraction);
+      socket.off('provideQuestionedNotification', handleQuestionedInteraction);
     };
   }, []);
 
