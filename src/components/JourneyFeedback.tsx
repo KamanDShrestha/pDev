@@ -8,6 +8,7 @@ import useAddJourneyFeedback from '../services/journeyFeedbacks/addJourneyFeedba
 import { useAuthContext } from '../context/AuthProvider';
 import { useState } from 'react';
 import ErrorMessage from './ErrorMessage';
+import { socket } from '../services/socket';
 
 interface JourneyFeedbackProps {
   journeyId: string;
@@ -56,13 +57,14 @@ const JourneyFeedback = ({ journeyId }: JourneyFeedbackProps) => {
         },
         {
           onSuccess: () => {
+            socket.emit('sendJourneyFeedbackNotification', {
+              recipientRole: 'admin', senderId: user?.id, senderName: user?.firstName,message: `${user?.firstName} added a new feedback for a journey.`, journeyId
+            })
             reset();
           },
         }
       );
     } else if (data.journeyFeedback) {
-      console.log('here in journey feebakc');
-
       mutate(
         {
           userId: user?.id as string,

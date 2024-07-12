@@ -5,7 +5,7 @@ import Register from './pages/auth/Register';
 
 import { ThemeProvider } from './components/ThemeProvider';
 import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
+import Dashboard from '@/src/pages/dashboards/Dashboard';
 import Journey from './pages/journey/Journey';
 import NewUser from './pages/NewUser';
 
@@ -16,16 +16,15 @@ import TempPreference from './pages/TempPreference';
 import AuthLayout from './pages/layouts/AuthLayout';
 import UserLayout from './pages/layouts/UserLayout';
 import WellBeing from './pages/WellBeing';
-import Community from './pages/Community';
+
 import Profile from './pages/Profile';
 import AddJourneyPage from './pages/admin/AddJourneyPage';
 import SpecificJourney from './pages/journey/SpecificJourney';
-import JourneyNotFound from './pages/JourneyNotFound';
+
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import CurrentJourney from './pages/journey/CurrentJourney';
 import UsersAction from './pages/admin/UsersAction';
 import VerifyJourneyPage from './pages/qhp/VerifyJourneyPage';
-import NotSubscribed from './pages/NotSubscribed';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import EditJourneyPage from './pages/admin/EditJourneyPage';
 
@@ -34,14 +33,14 @@ import ApplyForQHP from './pages/ApplyForQHP';
 import Review from './pages/admin/Review';
 import Feedbacks from './pages/admin/Feedbacks';
 import AddCommunity from './pages/admin/AddCommunity';
-import SpecificCommunity from './pages/SpecificCommunity';
+
 import QAs from './pages/qhp/QAs';
 import WellbeingForAdmin from './pages/admin/WellbeingForAdmin';
 import Loading from './pages/Loading';
-import Subscribe from './pages/Subscribe';
-import SubscribeForAdmin from './pages/SubscribeForAdmin';
-import SubscriptionConfirmation from './pages/SubscriptionConfirmation';
-import VerifyKhaltiSubscription from './pages/VerifyKhaltiSubscription';
+
+
+
+
 import VerifyQuestionPromptsPage from './pages/qhp/VerifyQuestionPromptsPage';
 import FeedbacksForPrompts from './pages/admin/FeedbacksForPrompts';
 import EditQuestionPromptPage from './pages/admin/EditQuestionPromptPage';
@@ -52,13 +51,22 @@ import AddQuotes from './pages/admin/AddQuotes';
 import ConfigureLearningPodcasts from './pages/admin/ConfigureLearningPodcasts';
 import Learn from './pages/Learn';
 import GoalSetting from './pages/GoalSetting';
-import ActionStepsExamples from './pages/ActionStepsExamples';
+
 import CompletedJourney from './pages/journey/CompletedJourney';
-import PaymentDetails from './pages/PaymentDetails';
+
 import TokenVerification from './pages/auth/TokenVerification';
 import ReverifyEmail from './pages/auth/ReverifyEmail';
 import ForgetPassword from './pages/auth/ForgetPassword';
-
+import Community from './pages/community/Community';
+import ActionStepsExamples from './pages/community/ActionStepsExamples';
+import SpecificCommunity from './pages/community/SpecificCommunity';
+import NotSubscribed from './pages/subscriptions/NotSubscribed';
+import PaymentDetails from './pages/subscriptions/PaymentDetails';
+import Subscribe from './pages/subscriptions/Subscribe';
+import SubscriptionConfirmation from './pages/subscriptions/SubscriptionConfirmation';
+import VerifyKhaltiSubscription from './pages/subscriptions/VerifyKhaltiSubscription';
+import JourneyNotFound from './pages/UnauthorizedPage';
+import SubscribeForAdmin from './pages/admin/SubscribeForAdmin'
 function App() {
   return (
     <>

@@ -1,11 +1,11 @@
-import Heading from '../components/Heading';
-import { useAuthContext } from '../context/AuthProvider';
-import { Button } from '../components/ui/button';
-import useGetCommunities from '../services/community/getCommunities';
+import Heading from '../../components/Heading';
+import { useAuthContext } from '../../context/AuthProvider';
+import { Button } from '../../components/ui/button';
+import useGetCommunities from '../../services/community/getCommunities';
 import { useNavigate } from 'react-router-dom';
-import CommunityCard from '../components/CommunityCard';
-import LoadingSpinner from '../components/LoadingSpinner';
-import useDocumentTitle from '../services/getTitle';
+import CommunityCard from '../../components/CommunityCard';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import useDocumentTitle from '../../services/getTitle';
 
 const Community = () => {
   const { user } = useAuthContext();

@@ -57,11 +57,15 @@ const UserLayout = () => {
 
     socket.on('provideInteractionNotification', handlePostInteraction);
     socket.on('provideQuestionedNotification', handleQuestionedInteraction);
+    socket.on('provideJourneyFeedbackNotification', handleQuestionedInteraction);
+
 
     // Clean up the event listener on component unmount
     return () => {
       socket.off('provideInteractionNotification', handlePostInteraction);
       socket.off('provideQuestionedNotification', handleQuestionedInteraction);
+    socket.off('provideJourneyFeedbackNotification', handleQuestionedInteraction);
+
     };
   }, []);
 

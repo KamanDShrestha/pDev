@@ -1,44 +1,29 @@
-import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog';
-import useGetSpecificCommunity from '../services/community/getSpecificCommunity';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthProvider';
-import useGetCommunityMembers from '../services/communityMembers/getCommunityMembers';
-import Heading from '../components/Heading';
-import { BsSignpostSplit } from 'react-icons/bs';
-import { Input } from '../components/ui/input';
-import AddPostCard from '../components/AddPostCard';
-import { useGetPosts } from '../services/posts/getPosts';
-import { Separator } from '../components/ui/separator';
-import PostCard from '../components/PostCard';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '../components/ui/select';
-import { useEffect, useState } from 'react';
 
-import QuestionAnswerCard from '../components/QuestionAnswerCard';
-import { PostData, QAsData } from '../types';
-import useDeletePost from '../services/posts/deletePost';
-import useDocumentTitle from '../services/getTitle';
-import { Card, CardContent } from '../components/ui/card';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '../components/ui/pagination';
-import LoadingSpinner from '../components/LoadingSpinner';
-import useGetRandomQuote from '../services/quotes/getRandomQuote';
-import ExpandableText from '../components/ExpandableText';
-import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus';
 import { useQueryClient } from '@tanstack/react-query';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/src/components/ui/pagination';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import AddPostCard from '@/src/components/AddPostCard';
+import ExpandableText from '@/src/components/ExpandableText';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
+import PostCard from '@/src/components/PostCard';
+import QuestionAnswerCard from '@/src/components/QuestionAnswerCard';
+import { Card, CardContent } from '@/src/components/ui/card';
+import { Input } from '@/src/components/ui/input';
+import { useAuthContext } from '@/src/context/AuthProvider';
+import useGetSpecificCommunity from '@/src/services/community/getSpecificCommunity';
+import useCheckJoinedStatus from '@/src/services/communityMembers/checkJoinedStatus';
+import useGetCommunityMembers from '@/src/services/communityMembers/getCommunityMembers';
+import useDocumentTitle from '@/src/services/getTitle';
+import useDeletePost from '@/src/services/posts/deletePost';
+import { useGetPosts } from '@/src/services/posts/getPosts';
+import useGetRandomQuote from '@/src/services/quotes/getRandomQuote';
+import { QAsData, PostData } from '@/src/types';
+import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from '@radix-ui/react-select';
+import { Separator } from '@radix-ui/react-separator';
+import { Heading } from 'lucide-react';
+import { BsSignpostSplit } from 'react-icons/bs';
 
 const SpecificCommunity = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');

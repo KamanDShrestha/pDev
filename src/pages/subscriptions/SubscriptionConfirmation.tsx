@@ -1,16 +1,15 @@
-import { useParams } from 'react-router-dom';
-import Heading from '../components/Heading';
-import { useAuthContext } from '../context/AuthProvider';
-import useGetSpecificSubscriptionPlan from '../services/subscriptionPlans/getSpecificSubscriptionPlan';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { Card } from '../components/ui/card';
-import { Separator } from '../components/ui/separator';
-import { Button } from '../components/ui/button';
-import khaltiLogo from '../assets/paymentsGateway/khalti-logo.png';
-// import eSewaLogo from '../assets/paymentsGateway/esewa-icon.png';
-import usePayViaKhalti from '../services/payments/payViaKhalti';
-// import usePayViaEsewa from '../services/payments/payViaEsewa';
-import useDocumentTitle from '../services/getTitle';
+import Heading from "@/src/components/Heading";
+import LoadingSpinner from "@/src/components/LoadingSpinner";
+import { Button } from "@/src/components/ui/button";
+import { Card } from "@/src/components/ui/card";
+import { Separator } from "@/src/components/ui/separator";
+import { useAuthContext } from "@/src/context/AuthProvider";
+import useDocumentTitle from "@/src/services/getTitle";
+import usePayViaKhalti from "@/src/services/payments/payViaKhalti";
+import useGetSpecificSubscriptionPlan from "@/src/services/subscriptionPlans/getSpecificSubscriptionPlan";
+import khaltiLogo from '../../assets/paymentsGateway/khalti-logo.png'
+import { useParams } from "react-router-dom";
+
 const SubscriptionConfirmation = () => {
   const { subscriptionId } = useParams();
   const { user } = useAuthContext();

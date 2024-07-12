@@ -1,37 +1,31 @@
-import Heading from '../components/Heading';
+import CompletedJourneysCard from '@/src/components/CompletedJourneysCard';
+import CurrentJourneyProgressCard from '@/src/components/CurrentJourneyProgressCard';
+import GoalSet from '@/src/components/GoalSet';
+import GoalSettingSection from '@/src/components/GoalSettingSection';
+import GratitudeJournalsCountCard from '@/src/components/GratitudeJournalsCountCard';
+import JournalsCountCard from '@/src/components/JournalsCountCard';
+import MonthlyGoalSet from '@/src/components/MonthlyGoalSet';
+import MoodDisplay from '@/src/components/MoodDisplay';
+import MoodsChartSection from '@/src/components/MoodsChartSection';
+import PostsCountCard from '@/src/components/PostsCountCard';
+import PromptEntriesCountCard from '@/src/components/PromptEntriesCountCard';
+import SavedContentCountCard from '@/src/components/SavedContentCountCard';
+import SuggestionsForMood from '@/src/components/SuggestionsForMood';
+import { Card } from '@/src/components/ui/card';
+import WeeklyGoalSet from '@/src/components/WeeklyGoalSet';
+import WithinWeekGoalSet from '@/src/components/WithinWeekGoalSet';
+import { useAuthContext } from '@/src/context/AuthProvider';
+import useGetCompletedEmbarkedJourneys from '@/src/services/embarkedJourneys/getCompletedEmbarkedJourneys';
+import useGetCurrentEmbarkedJourney from '@/src/services/embarkedJourneys/getCurrentEmbarkedJourney';
+import useDocumentTitle from '@/src/services/getTitle';
+import useGetGratitudeJournalCount from '@/src/services/gratitudeJournals/getGratitudeJournalCount';
+import useGetJournalCount from '@/src/services/journals/getJournalCounts';
+import useGetTodayMood from '@/src/services/moods/getTodayMood';
+import useGetPostsCount from '@/src/services/posts/getPostsCount';
+import useGetQuestionPromptEntriesCount from '@/src/services/questionPromptEntries/getQuestionPromptEntriesCount';
+import useGetSavedContentCount from '@/src/services/savedContent/getSavedContentCount';
+import Heading from '@/src/components/Heading';
 
-import { useAuthContext } from '../context/AuthProvider';
-import useGetCurrentEmbarkedJourney from '../services/embarkedJourneys/getCurrentEmbarkedJourney';
-
-import useDocumentTitle from '../services/getTitle';
-
-import CurrentJourneyProgressCard from '../components/CurrentJourneyProgressCard';
-import useGetCompletedEmbarkedJourneys from '../services/embarkedJourneys/getCompletedEmbarkedJourneys';
-import { Card } from '../components/ui/card';
-
-import CompletedJourneysCard from '../components/CompletedJourneysCard';
-import useGetPostsCount from '../services/posts/getPostsCount';
-import useGetGratitudeJournalCount from '../services/gratitudeJournals/getGratitudeJournalCount';
-
-import useGetQuestionPromptEntriesCount from '../services/questionPromptEntries/getQuestionPromptEntriesCount';
-import useGetJournalCount from '../services/journals/getJournalCounts';
-
-import PostsCountCard from '../components/PostsCountCard';
-import JournalsCountCard from '../components/JournalsCountCard';
-import GratitudeJournalsCountCard from '../components/GratitudeJournalsCountCard';
-import PromptEntriesCountCard from '../components/PromptEntriesCountCard';
-import useGetSavedContentCount from '../services/savedContent/getSavedContentCount';
-
-import SavedContentCountCard from '../components/SavedContentCountCard';
-import MoodDisplay from '../components/MoodDisplay';
-import MoodsChartSection from '../components/MoodsChartSection';
-import SuggestionsForMood from '../components/SuggestionsForMood';
-import GoalSet from '../components/GoalSet';
-import WeeklyGoalSet from '../components/WeeklyGoalSet';
-import WithinWeekGoalSet from '../components/WithinWeekGoalSet';
-import MonthlyGoalSet from '../components/MonthlyGoalSet';
-import GoalSettingSection from '../components/GoalSettingSection';
-import useGetTodayMood from '../services/moods/getTodayMood';
 
 const Dashboard = () => {
   const { user } = useAuthContext();

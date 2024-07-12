@@ -1,17 +1,16 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import useVerifyKhaltiPayment from '../services/payments/verifyKhaltiPayment';
+import Heading from '@/src/components/Heading';
+import subscriptionError from '../../assets/cross.png';
+import subscriptionConfirmation from '../../assets/tick.png';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
+import { useAuthContext } from '@/src/context/AuthProvider';
+import useDocumentTitle from '@/src/services/getTitle';
+import setToLocalStorage from '@/src/services/localStorage/setToLocalStorage';
+import useAddPaymentForSubscription from '@/src/services/payments/addPaymentForSubscription';
+import useVerifyKhaltiPayment from '@/src/services/payments/verifyKhaltiPayment';
+import useUpdateSubscriptionStatus from '@/src/services/users/updateSubscriptionStatus';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
-import LoadingSpinner from '../components/LoadingSpinner';
-import { useEffect, useState } from 'react';
-import setToLocalStorage from '../services/localStorage/setToLocalStorage';
-import { useAuthContext } from '../context/AuthProvider';
-import useUpdateSubscriptionStatus from '../services/users/updateSubscriptionStatus';
-import useAddPaymentForSubscription from '../services/payments/addPaymentForSubscription';
-import Heading from '../components/Heading';
-
-import subscriptionConfirmation from '../assets/tick.png';
-import subscriptionError from '../assets/cross.png';
-import useDocumentTitle from '../services/getTitle';
 const VerifyKhaltiSubscription = () => {
   const [isNavigating, setIsNavigating] = useState(false);
 

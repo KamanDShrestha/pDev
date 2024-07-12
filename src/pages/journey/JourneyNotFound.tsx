@@ -1,7 +1,7 @@
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
 import { Link } from 'react-router-dom';
-import useDocumentTitle from '../services/getTitle';
+import useDocumentTitle from '@/src/services/getTitle';
 
 const JourneyNotFound = () => {
   useDocumentTitle('Journey Not Found - SelfSync');

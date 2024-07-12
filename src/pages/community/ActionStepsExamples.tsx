@@ -1,9 +1,9 @@
-import { useParams } from 'react-router-dom';
-import Heading from '../components/Heading';
+import Heading from "@/src/components/Heading";
+import LoadingSpinner from "@/src/components/LoadingSpinner";
+import { Card, CardHeader, CardTitle } from "@/src/components/ui/card";
+import useGetSpecificJourneyByID from "@/src/services/journey/getSpecificJourneyByID";
+import { useParams } from "react-router-dom";
 
-import useGetSpecificJourneyByID from '../services/journey/getSpecificJourneyByID';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { Card, CardHeader, CardTitle } from '../components/ui/card';
 
 const ActionStepsExamples = () => {
   const { id } = useParams();

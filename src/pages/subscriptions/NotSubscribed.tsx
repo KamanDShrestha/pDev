@@ -1,7 +1,7 @@
-import { IoIosArrowRoundBack } from 'react-icons/io';
+import useDocumentTitle from "@/src/services/getTitle";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 
-import { Link } from 'react-router-dom';
-import useDocumentTitle from '../services/getTitle';
 
 const NotSubscribed = () => {
   useDocumentTitle('Not Subscribed - SelfSync');

@@ -1,7 +1,9 @@
-import Heading from '../components/Heading';
-import useGetSubscriptionPlans from '../services/subscriptionPlans/getSubscriptionPlans';
-import SubscriptionPlanCard from '../components/SubscriptionPlanCard';
-import useDocumentTitle from '../services/getTitle';
+import Heading from "@/src/components/Heading";
+import SubscriptionPlanCard from "@/src/components/SubscriptionPlanCard";
+import useDocumentTitle from "@/src/services/getTitle";
+import useGetSubscriptionPlans from "@/src/services/subscriptionPlans/getSubscriptionPlans";
+
+
 
 const Subscribe = () => {
   const { data: subscriptionPlans } = useGetSubscriptionPlans();

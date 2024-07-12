@@ -1,11 +1,12 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Heading from '../components/Heading';
-import SubscriptionPlanAddSection from '../components/SubscriptionPlanAddSection';
-import SubscriptionPlanCard from '../components/SubscriptionPlanCard';
-import { Button } from '../components/ui/button';
-import useGetSubscriptionPlans from '../services/subscriptionPlans/getSubscriptionPlans';
-import useDocumentTitle from '../services/getTitle';
-import { Separator } from '../components/ui/separator';
+import Heading from '../../components/Heading';
+import SubscriptionPlanAddSection from '../../components/SubscriptionPlanAddSection';
+import SubscriptionPlanCard from '../../components/SubscriptionPlanCard';
+import { Button } from '../../components/ui/button';
+import useGetSubscriptionPlans from '../../services/subscriptionPlans/getSubscriptionPlans';
+import useDocumentTitle from '../../services/getTitle';
+import { Separator } from '../../components/ui/separator';
 
 const SubscribeForAdmin = () => {
   const { data: subscriptionPlans } = useGetSubscriptionPlans();

@@ -1,13 +1,10 @@
-import useGetPaymentDetails from '../services/payments/getPaymentDetails';
-import { useAuthContext } from '../context/AuthProvider';
-import Heading from '../components/Heading';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '../components/ui/card';
-import { Separator } from '../components/ui/separator';
+import Heading from "@/src/components/Heading";
+import { Card, CardHeader, CardTitle, CardContent } from "@/src/components/ui/card";
+import { Separator } from "@/src/components/ui/separator";
+import { useAuthContext } from "@/src/context/AuthProvider";
+import useGetPaymentDetails from "@/src/services/payments/getPaymentDetails";
+
+
 
 const PaymentDetails = () => {
   const { user } = useAuthContext();
