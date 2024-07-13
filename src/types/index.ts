@@ -1,3 +1,10 @@
+export type MessageInteractionData = {
+  senderId: string;
+  recipientId: string;
+  message: string;
+  messagedDate: number;
+};
+
 export type QHPData = {
   _id: string;
   firstName: string;

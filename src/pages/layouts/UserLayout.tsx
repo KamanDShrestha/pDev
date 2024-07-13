@@ -12,6 +12,10 @@ import NoConnection from '@/src/components/NoConnection';
 const UserLayout = () => {
   const { user } = useAuthContext();
   useEffect(() => {
+    // connect to the socket
+    socket.io.opts.query = { userId: user?.id };
+    socket.connect();
+
     const handlePostInteraction = ({
       recipientId,
       // senderId,
