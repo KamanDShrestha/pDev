@@ -1,3 +1,16 @@
+export type ConversationData = {
+  _id: string;
+  involvedUsers: { userId: string; userName: string; userProfile: string }[];
+  messages: {
+    _id: string;
+    messagedDate: Date;
+    senderId: string;
+    recipientId: string;
+    message: string;
+    isRead: boolean;
+  }[];
+};
+
 export type MessageInteractionData = {
   senderId: string;
   recipientId: string;

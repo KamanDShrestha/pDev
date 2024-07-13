@@ -8,22 +8,30 @@ import { useEffect, useState } from 'react';
 import { socket } from '../services/socket';
 import { useAuthContext } from '../context/AuthProvider';
 import { MessageInteractionData } from '../types';
+import useGetConversations from '../services/chatConversations/getConversation';
 const Conversation = () => {
   const [queryParams] = useSearchParams();
-  const { data: recipientUser, isLoading: isFetchingUser } = useGetSpecificUser(
-    queryParams.get('recipient')
-  );
+
   const { user } = useAuthContext();
   const [message, setMessage] = useState('');
   const [messageInteraction, setMessageInteraction] = useState<
     MessageInteractionData[]
   >([]);
 
+  const { data: recipientUser, isLoading: isFetchingUser } = useGetSpecificUser(
+    queryParams.get('recipient')
+  );
+  const { data: conversation } = useGetConversations({
+    senderId: user?.id,
+    recipientId: queryParams.get('recipient'),
+  });
+
   function sendMessage() {
     socket.emit('sendMessage', {
       message,
       senderId: user?.id,
       recipientId: recipientUser?._id,
+      senderName: user?.firstName,
     });
     setMessageInteraction((value) => [
       ...value,
@@ -92,10 +100,60 @@ const Conversation = () => {
             ></div>
             <p className='text-lg font-medium'>{recipientUser.firstName}</p>
           </div>
-          <div className='h-[60vh] m-5'>
-            {messageInteraction.map((thisMessage, index) => (
-              <p key={index}>{thisMessage.message}</p>
-            ))}
+          <div className='h-[60vh] m-5 overflow-scroll'>
+            {conversation &&
+              conversation.messages
+                .sort(
+                  (a, b) =>
+                    new Date(a.messagedDate).getTime() -
+                    new Date(b.messagedDate).getTime()
+                )
+                .map((thisMessage) => (
+                  <>
+                    {thisMessage.senderId != user?.id ? (
+                      <div
+                        className='flex justify-start w-full'
+                        key={thisMessage._id}
+                      >
+                        <p className='p-5 my-3 bg-blue-300 rounded-3xl'>
+                          {thisMessage.message}
+                        </p>
+                      </div>
+                    ) : (
+                      <div
+                        className='flex justify-end w-full'
+                        key={thisMessage._id}
+                      >
+                        <p className='p-5 my-3 bg-gray-300 rounded-3xl'>
+                          {thisMessage.message}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                ))}
+
+            {messageInteraction
+              .sort((a, b) => a.messagedDate - b.messagedDate)
+              .map((thisMessage, index) => (
+                <>
+                  {thisMessage.senderId != user?.id ? (
+                    <div className='flex justify-start w-full' key={index}>
+                      <p className='p-5 my-3 bg-blue-300 rounded-3xl'>
+                        {thisMessage.message}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className='flex justify-end w-full'>
+                      <p
+                        key={index}
+                        className='p-5 my-3 bg-gray-300 rounded-3xl'
+                      >
+                        {thisMessage.message}
+                      </p>
+                    </div>
+                  )}
+                </>
+              ))}
           </div>
           <div className='flex items-center justify-center m-5'>
             <Input
