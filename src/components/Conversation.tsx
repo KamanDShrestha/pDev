@@ -23,11 +23,10 @@ const Conversation = () => {
     socket.emit('sendMessage', {
       message,
       senderId: user?.id,
-      socketId: socket.id,
       recipientId: recipientUser?._id,
     });
-    setMessageInteraction(() => [
-      ...messageInteraction,
+    setMessageInteraction((value) => [
+      ...value,
       {
         senderId: user?.id!,
         recipientId: recipientUser?._id!,
@@ -38,53 +37,31 @@ const Conversation = () => {
   }
 
   useEffect(() => {
-    socket.on(
-      'receiveMessage',
-      async ({
-        message,
-        senderId,
-        recipientId,
-      }: {
-        message: string;
-        senderId: string;
-        recipientId: string;
-      }) => {
-        console.log('received message');
-        setMessageInteraction(() => [
-          ...messageInteraction,
-          {
-            senderId: senderId,
-            recipientId: recipientId,
-            message: message,
-            messagedDate: Date.now(),
-          },
-        ]);
-      }
-    );
+    const handleReceiveMessage = ({
+      message,
+      senderId,
+      recipientId,
+    }: {
+      message: string;
+      senderId: string;
+      recipientId: string;
+    }) => {
+      console.log('received message');
+      setMessageInteraction((prevMessages) => [
+        ...prevMessages,
+        {
+          senderId: senderId,
+          recipientId: recipientId,
+          message: message,
+          messagedDate: Date.now(),
+        },
+      ]);
+    };
+
+    socket.on('receiveMessage', handleReceiveMessage);
+
     return () => {
-      socket.off(
-        'receiveMessage',
-        async ({
-          message,
-          senderId,
-          recipientId,
-        }: {
-          message: string;
-          senderId: string;
-          recipientId: string;
-        }) => {
-          console.log('received message');
-          setMessageInteraction(() => [
-            ...messageInteraction,
-            {
-              senderId: senderId,
-              recipientId: recipientId,
-              message: message,
-              messagedDate: Date.now(),
-            },
-          ]);
-        }
-      );
+      socket.off('receiveMessage', handleReceiveMessage);
     };
   }, []);
 
@@ -116,8 +93,8 @@ const Conversation = () => {
             <p className='text-lg font-medium'>{recipientUser.firstName}</p>
           </div>
           <div className='h-[60vh] m-5'>
-            {messageInteraction.map((thisMessage) => (
-              <p>{thisMessage.message}</p>
+            {messageInteraction.map((thisMessage, index) => (
+              <p key={index}>{thisMessage.message}</p>
             ))}
           </div>
           <div className='flex items-center justify-center m-5'>
