@@ -1,3 +1,9 @@
+export type QHPData = {
+  _id: string;
+  firstName: string;
+  image: string;
+};
+
 export type ObtainedNotification = {
   _id: string;
   recipientId?: string;

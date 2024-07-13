@@ -58,6 +58,7 @@ import PaymentDetails from './pages/PaymentDetails';
 import TokenVerification from './pages/auth/TokenVerification';
 import ReverifyEmail from './pages/auth/ReverifyEmail';
 import ForgetPassword from './pages/auth/ForgetPassword';
+import ChatConversation from './pages/chat/ChatConversation';
 
 function App() {
   return (
@@ -125,6 +126,7 @@ function App() {
 
                   <Route path='/goalSetting' element={<GoalSetting />} />
                   <Route path='/paymentDetails' element={<PaymentDetails />} />
+                  <Route path='/chat' element={<ChatConversation />} />
                 </Route>
               </Route>
 
