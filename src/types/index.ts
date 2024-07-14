@@ -1,3 +1,15 @@
+export type AllConversationData = {
+  anotherUser: { userId: string; userName: string; userProfile: string };
+  lastMessage: {
+    _id: string;
+    messagedDate: Date;
+    senderId: string;
+    recipientId: string;
+    message: string;
+    isRead: boolean;
+  };
+};
+
 export type ConversationData = {
   _id: string;
   involvedUsers: { userId: string; userName: string; userProfile: string }[];
@@ -9,6 +21,7 @@ export type ConversationData = {
     message: string;
     isRead: boolean;
   }[];
+  isAllMessage: boolean;
 };
 
 export type MessageInteractionData = {
