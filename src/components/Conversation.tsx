@@ -4,23 +4,27 @@ import LoadingSpinner from './LoadingSpinner';
 import { Input } from './ui/input';
 
 import { RiArrowRightDoubleFill } from 'react-icons/ri';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { socket } from '../services/socket';
 import { useAuthContext } from '../context/AuthProvider';
 import { MessageInteractionData } from '../types';
 import useGetConversations from '../services/chatConversations/getConversation';
 import { Button } from './ui/button';
+import { GoDotFill } from 'react-icons/go';
+import toast from 'react-hot-toast';
 const Conversation = () => {
   const [queryParams] = useSearchParams();
 
   const { user } = useAuthContext();
   const [message, setMessage] = useState('');
   const [limit, setLimit] = useState(10);
+  const [isOnline, setIsOnline] = useState(false);
   const [messageInteraction, setMessageInteraction] = useState<
     MessageInteractionData[]
   >([]);
+  const chatConversationContainer = useRef<HTMLDivElement>(null);
 
-  const { data: recipientUser, isLoading: isFetchingUser } = useGetSpecificUser(
+  const { data: recipientUser } = useGetSpecificUser(
     queryParams.get('recipient')
   );
   const { data: conversation, isLoading: isFetchingConversation } =
@@ -29,6 +33,25 @@ const Conversation = () => {
       recipientId: queryParams.get('recipient'),
       limit,
     });
+
+  useEffect(() => {
+    if (queryParams.get('recipient')) {
+      socket.emit('isOnline', {
+        recipientId: queryParams.get('recipient'),
+        senderId: user?.id,
+      });
+    }
+    function updateOnlineStatus({ onlineStatus }: { onlineStatus: boolean }) {
+      setIsOnline(() => onlineStatus);
+    }
+
+    socket.on('provideOnlineStatus', updateOnlineStatus);
+
+    return () => {
+      socket.off('provideOnlineStatus', updateOnlineStatus);
+    };
+  }, [queryParams.get('recipient')]);
+
   function sendMessage() {
     socket.emit('sendMessage', {
       message,
@@ -45,6 +68,23 @@ const Conversation = () => {
         messagedDate: Date.now(),
       },
     ]);
+
+    // check if the user is at the bottom
+    // if the user is at the bottom, then scroll to last of the height
+    // if the user is not at the bottom, do nothing
+
+    setTimeout(() => {
+      if (
+        chatConversationContainer.current?.scrollHeight! -
+          Math.ceil(chatConversationContainer.current?.scrollTop!) ===
+        chatConversationContainer.current?.clientHeight
+      ) {
+        chatConversationContainer.current.scroll({
+          top: chatConversationContainer.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+    }, 1000);
   }
 
   function obtainMoreMessages() {
@@ -62,7 +102,6 @@ const Conversation = () => {
       senderId: string;
       recipientId: string;
     }) => {
-      console.log('received message');
       setMessageInteraction((prevMessages) => [
         ...prevMessages,
         {
@@ -85,7 +124,7 @@ const Conversation = () => {
     <div className='m-3 md:border-r'>
       {!queryParams.get('recipient') && (
         <div className='flex items-center justify-center w-full h-full'>
-          Have a conversation with people.
+          Have conversations with people.
         </div>
       )}
 
@@ -95,7 +134,6 @@ const Conversation = () => {
         </div>
       )}
 
-      {isFetchingUser && <LoadingSpinner />}
       {recipientUser && (
         <div>
           <div className='flex items-center gap-3 p-2 m-5 border-y'>
@@ -105,9 +143,29 @@ const Conversation = () => {
                 background: `url(${recipientUser.image})`,
               }}
             ></div>
-            <p className='text-lg font-medium'>{recipientUser.firstName}</p>
+            <div className='flex flex-col'>
+              <p className='text-lg font-medium'>{recipientUser.firstName}</p>
+              <p>
+                {isOnline ? (
+                  <>
+                    <div className='flex items-center text-sm text-green-500'>
+                      <GoDotFill />
+                      <span>Online</span>
+                    </div>
+                  </>
+                ) : (
+                  <div className='flex items-center text-sm text-red-500'>
+                    <GoDotFill />
+                    <span>Offline</span>
+                  </div>
+                )}
+              </p>
+            </div>
           </div>
-          <div className='h-[60vh] m-5 overflow-scroll relative'>
+          <div
+            className='h-[60vh] m-5 overflow-y-scroll relative scroll-smooth'
+            ref={chatConversationContainer}
+          >
             {isFetchingConversation && (
               <div className='flex justify-center w-full'>
                 <LoadingSpinner />
