@@ -36,10 +36,9 @@ const ChatConversation = () => {
                     }
                   >
                     <div
-                      className={`rounded-full lg:h-20 lg:w-20 h-10 w-10`}
+                      className={`rounded-full lg:h-20 lg:w-20 h-10 w-10 bg-cover`}
                       style={{
-                        background: `url(${conversation.anotherUser.userProfile})`,
-                        backgroundPosition: 'cover',
+                        backgroundImage: `url(${conversation.anotherUser.userProfile})`,
                       }}
                     ></div>
                     <div>
@@ -80,10 +79,9 @@ const ChatConversation = () => {
                   }}
                 >
                   <div
-                    className={`rounded-full lg:h-20 lg:w-20 h-10 w-10`}
+                    className={`rounded-full lg:h-20 lg:w-20 h-10 w-10 bg-cover`}
                     style={{
-                      background: `url(${qhp.image})`,
-                      backgroundPosition: 'cover',
+                      backgroundImage: `url(${qhp.image})`,
                     }}
                   ></div>
                   <p>{qhp.firstName}</p>

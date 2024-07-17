@@ -1,3 +1,9 @@
+export type UserLikes = {
+  userId: string;
+  userProfile: string;
+  userName: string;
+};
+
 export type AllConversationData = {
   anotherUser: { userId: string; userName: string; userProfile: string };
   lastMessage: {

@@ -11,7 +11,6 @@ import { MessageInteractionData } from '../types';
 import useGetConversations from '../services/chatConversations/getConversation';
 import { Button } from './ui/button';
 import { GoDotFill } from 'react-icons/go';
-import toast from 'react-hot-toast';
 const Conversation = () => {
   const [queryParams] = useSearchParams();
 
@@ -140,7 +139,7 @@ const Conversation = () => {
             <div
               className='w-16 h-16 bg-cover rounded-full'
               style={{
-                background: `url(${recipientUser.image})`,
+                backgroundImage: `url(${recipientUser.image})`,
               }}
             ></div>
             <div className='flex flex-col'>
