@@ -1,0 +1,27 @@
+import { axiosInstance } from '@/src/constants';
+import { ErrorResponse } from '@/src/types';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
+
+export default function useAddPingRequest() {
+  const response = useMutation({
+    mutationFn: ({
+      senderId,
+      recipientId,
+    }: {
+      senderId: string;
+      recipientId: string;
+    }) =>
+      axiosInstance
+        .post('/pingRequest/add', { senderId, recipientId })
+        .then((response) => response.data),
+    onSuccess: (response) => {
+      toast.success(response.message);
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      toast.error(error.response?.data.message || 'An error occured.');
+    },
+  });
+  return response;
+}

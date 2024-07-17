@@ -10,24 +10,27 @@ import {
   DialogTrigger,
 } from './ui/dialog';
 import { Button } from './ui/button';
+import useAddPingRequest from '../services/pingRequests/addPingRequest';
+import useObtainPingStatus from '../services/pings/obtainPingStatus';
+import UserLikesActionItem from './UserLikesActionItem';
 
 const ViewLikesDialog = ({ postId }: { postId: string }) => {
-  const { user } = useAuthContext();
   const { data: usersLiking, isLoading: isFetchingUsersLiking } =
     useGetUsersLiking(postId);
-  console.log(usersLiking);
-  const navigate = useNavigate();
+
   return (
     <>
       {isFetchingUsersLiking && <LoadingSpinner />}
       <Dialog>
-        <DialogTrigger className='cursor-pointer hover:underline'>
-          {usersLiking && usersLiking.length > 0
-            ? usersLiking.length === 1
-              ? '1 like'
-              : `${usersLiking.length} likes`
-            : 'No likes'}
-        </DialogTrigger>
+        {!isFetchingUsersLiking && (
+          <DialogTrigger className='cursor-pointer hover:underline'>
+            {usersLiking && usersLiking.length > 0
+              ? usersLiking.length === 1
+                ? '1 like'
+                : `${usersLiking.length} likes`
+              : 'No likes'}
+          </DialogTrigger>
+        )}
         <DialogContent className='overflow-y-scroll max-h-[60vh]'>
           <DialogHeader>
             <DialogTitle>Likes</DialogTitle>
@@ -50,17 +53,7 @@ const ViewLikesDialog = ({ postId }: { postId: string }) => {
                             {likes.userName}
                           </span>
                         </div>
-                        {user?.id === likes.userId ? (
-                          <Button
-                            variant={'link'}
-                            size={'sm'}
-                            onClick={() => navigate('/profile')}
-                          >
-                            View Profile
-                          </Button>
-                        ) : (
-                          <Button variant={'outline'}>Ping</Button>
-                        )}
+                        <UserLikesActionItem associatedUserId={likes.userId} />
                       </div>
                     )}
                   </>
