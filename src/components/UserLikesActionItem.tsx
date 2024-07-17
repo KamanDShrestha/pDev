@@ -3,6 +3,7 @@ import { Button } from './ui/button';
 import useObtainPingStatus from '../services/pings/obtainPingStatus';
 import { useNavigate } from 'react-router-dom';
 import useAddPingRequest from '../services/pingRequests/addPingRequest';
+import { useQueryClient } from '@tanstack/react-query';
 
 const UserLikesActionItem = ({
   associatedUserId,
@@ -10,16 +11,24 @@ const UserLikesActionItem = ({
   associatedUserId: string;
 }) => {
   const { user } = useAuthContext();
-  const { data: pingStatus, isLoading: isFetchingPingStatus } =
-    useObtainPingStatus({
-      statusForId: user?.id as string,
-      statusOfId: associatedUserId,
-    });
+  const { data: pingStatus } = useObtainPingStatus({
+    statusForId: user?.id as string,
+    statusOfId: associatedUserId,
+  });
   const navigate = useNavigate();
   const { mutate: makePingRequest } = useAddPingRequest();
 
+  const queryClient = useQueryClient();
+
   function handlePingSubmit(recipientId: string) {
-    makePingRequest({ senderId: user?.id as string, recipientId });
+    makePingRequest(
+      { senderId: user?.id as string, recipientId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['pingStatus', user?.id, recipientId]);
+        },
+      }
+    );
   }
   return (
     <>
@@ -42,7 +51,12 @@ const UserLikesActionItem = ({
             </Button>
           )}
           {pingStatus && pingStatus != 'No Association' && (
-            <span className='text-xs font-semibold'>{pingStatus}</span>
+            <span
+              className='text-xs font-semibold cursor-pointer hover:underline'
+              onClick={() => navigate('/ping')}
+            >
+              {pingStatus}
+            </span>
           )}
         </>
       )}

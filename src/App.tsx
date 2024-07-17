@@ -59,6 +59,7 @@ import TokenVerification from './pages/auth/TokenVerification';
 import ReverifyEmail from './pages/auth/ReverifyEmail';
 import ForgetPassword from './pages/auth/ForgetPassword';
 import ChatConversation from './pages/chat/ChatConversation';
+import Pings from './pages/Pings';
 
 function App() {
   return (
@@ -127,6 +128,7 @@ function App() {
                   <Route path='/goalSetting' element={<GoalSetting />} />
                   <Route path='/paymentDetails' element={<PaymentDetails />} />
                   <Route path='/chat' element={<ChatConversation />} />
+                  <Route path='/ping' element={<Pings />} />
                 </Route>
               </Route>
 

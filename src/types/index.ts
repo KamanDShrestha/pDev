@@ -1,8 +1,24 @@
-export type UserLikes = {
+export interface PingUsers extends UserLikes {}
+
+export type PingRequestItem = {
+  userId: string;
+  requestedDate: Date;
+  userName: string;
+  userProfile: string;
+  status: 'pending' | 'accepted' | 'ignored';
+};
+
+export type PingRequest = {
+  userId: string;
+  providedRequests: PingRequestItem[];
+  obtainedRequests: PingRequestItem[];
+};
+
+export interface UserLikes {
   userId: string;
   userProfile: string;
   userName: string;
-};
+}
 
 export type AllConversationData = {
   anotherUser: { userId: string; userName: string; userProfile: string };
