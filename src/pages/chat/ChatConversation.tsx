@@ -14,7 +14,7 @@ const ChatConversation = () => {
   const { data: conversations } = useGetAllConversations(user?.id as string);
 
   return (
-    <div className='grid grid-cols-3'>
+    <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3'>
       <div className='m-3 md:border-r'>
         <Heading>Conversations</Heading>
         <Separator />

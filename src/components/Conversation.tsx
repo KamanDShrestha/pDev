@@ -11,6 +11,7 @@ import { MessageInteractionData } from '../types';
 import useGetConversations from '../services/chatConversations/getConversation';
 import { Button } from './ui/button';
 import { GoDotFill } from 'react-icons/go';
+import Heading from './Heading';
 const Conversation = () => {
   const [queryParams] = useSearchParams();
 
@@ -121,6 +122,7 @@ const Conversation = () => {
 
   return (
     <div className='m-3 md:border-r'>
+      <Heading>Chat</Heading>
       {!queryParams.get('recipient') && (
         <div className='flex items-center justify-center w-full h-full'>
           Have conversations with people.

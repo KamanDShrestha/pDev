@@ -34,17 +34,10 @@ const PingRequestAction = ({ request }: { request: PingRequestItem }) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries(['pingRequests', user?.id]);
-          addPing(
-            {
-              acceptingUser: user?.id as string,
-              acceptedUser: request.userId,
-            },
-            {
-              onSuccess: () => {
-                queryClient.invalidateQueries(['pings', user?.id]);
-              },
-            }
-          );
+          addPing({
+            acceptingUser: user?.id as string,
+            acceptedUser: request.userId,
+          });
         },
       }
     );
