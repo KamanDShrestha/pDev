@@ -54,6 +54,7 @@ import EditPostDialog from './EditPostDialog';
 import removeWhitespace from '../services/removeWhitespace';
 import { socket } from '../services/socket';
 import ViewLikesDialog from './ViewLikesDialog';
+import ToolTipUserMenu from './ToolTipUserMenu';
 
 interface PostCardProps {
   post: PostData;
@@ -208,11 +209,16 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             <div className='flex flex-col'>
               <div className='flex items-center gap-2'>
                 <span className='font-medium'>
-                  {post?.userId === user?.id
-                    ? 'You'
-                    : post.isAnonymous
-                    ? 'Anonymous member'
-                    : post?.userName}
+                  {post?.userId === user?.id ? (
+                    'You'
+                  ) : post.isAnonymous ? (
+                    'Anonymous member'
+                  ) : (
+                    <ToolTipUserMenu
+                      userId={post.userId}
+                      userName={post.userName}
+                    />
+                  )}
                 </span>
                 {(!post.isAnonymous || post?.userId === user?.id) && (
                   <Badge className=''>{post.userRole}</Badge>

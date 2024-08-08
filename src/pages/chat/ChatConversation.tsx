@@ -41,11 +41,11 @@ const ChatConversation = () => {
                         backgroundImage: `url(${conversation.anotherUser.userProfile})`,
                       }}
                     ></div>
-                    <div>
+                    <div className='w-[70%]'>
                       <p className='text-lg font-medium'>
                         {conversation.anotherUser.userName}
                       </p>
-                      <p className='text-gray-400 '>
+                      <p className='text-gray-400 line-clamp-1'>
                         {conversation.lastMessage.message}
                       </p>
                     </div>
@@ -66,7 +66,7 @@ const ChatConversation = () => {
           <div className='flex flex-wrap justify-around my-1'>
             {isFetchingQHPs && <LoadingSpinner />}
             {QHPs &&
-              QHPs.map((qhp, index) => (
+              QHPs.filter(qhp => qhp._id !== user?.id).map((qhp, index) => (
                 <div
                   key={index}
                   className={`flex flex-col items-center justify-center gap-3 p-5 rounded-lg hover:cursor-pointer hover:bg-gray-300 hover:dark:bg-slate-800 ${

@@ -49,6 +49,7 @@ const Conversation = () => {
 
     return () => {
       socket.off('provideOnlineStatus', updateOnlineStatus);
+      setMessageInteraction(() => []);
     };
   }, [queryParams.get('recipient')]);
 
@@ -68,6 +69,8 @@ const Conversation = () => {
         messagedDate: Date.now(),
       },
     ]);
+
+    setMessage(() => '');
 
     // check if the user is at the bottom
     // if the user is at the bottom, then scroll to last of the height
@@ -184,11 +187,11 @@ const Conversation = () => {
               conversation.messages.map((thisMessage) => (
                 <>
                   {thisMessage.senderId != user?.id ? (
-                    <div className='flex justify-start w-full'>
-                      <p
-                        className='p-5 my-3 bg-blue-300 rounded-3xl'
-                        key={thisMessage._id}
-                      >
+                    <div
+                      className='flex justify-start w-full'
+                      id={thisMessage._id}
+                    >
+                      <p className='p-5 my-3 bg-blue-300 rounded-3xl'>
                         {thisMessage.message}
                       </p>
                     </div>
@@ -216,11 +219,8 @@ const Conversation = () => {
                       </p>
                     </div>
                   ) : (
-                    <div className='flex justify-end w-full'>
-                      <p
-                        key={index}
-                        className='p-5 my-3 bg-gray-300 rounded-3xl'
-                      >
+                    <div className='flex justify-end w-full' key={index}>
+                      <p className='p-5 my-3 bg-gray-300 rounded-3xl'>
                         {thisMessage.message}
                       </p>
                     </div>
@@ -232,6 +232,7 @@ const Conversation = () => {
             <Input
               className='p-7 rounded-3xl'
               onChange={(e) => setMessage(e.target.value)}
+              value={message}
             />
             <span
               className='text-4xl hover:cursor-pointer'
