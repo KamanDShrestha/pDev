@@ -32,6 +32,7 @@ const NavBar = () => {
     { to: '/wellbeing', option: 'Wellbeing' },
     { to: '/journeys', option: 'Journeys' },
     { to: '/community', option: 'Community' },
+    { to: '/chat', option: 'Chat' },
     { to: '/learn', option: 'Learn' },
   ];
   const userActionOptions = [
@@ -47,6 +48,7 @@ const NavBar = () => {
     { to: '/journeys', option: 'Journeys' },
     { to: '/admin/dashboard', option: 'Dashboard' },
     { to: '/community', option: 'Community' },
+    { to: '/chat', option: 'Chat' },
     { to: '/wellbeingForAdmin', option: 'Wellbeing' },
   ];
   const adminActionOptions = [
@@ -64,6 +66,7 @@ const NavBar = () => {
     { to: '/journeys', option: 'Journeys' },
     { to: '/qas', option: 'QAs' },
     { to: '/community', option: 'Community' },
+    { to: '/chat', option: 'Chat' },
   ];
 
   const qhpActionOptions = [
@@ -171,12 +174,24 @@ const NavBar = () => {
             <>
               {userNavigationMenu.map((menu) => (
                 <NavigationMenuItem key={menu.to}>
-                  <NavLink
-                    to={menu.to}
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    {menu.option}
-                  </NavLink>
+                  {menu.to === 'chat' ? (
+                    menu.to === 'chat' &&
+                    user.hasSubscribed && (
+                      <NavLink
+                        to={menu.to}
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        {menu.option}
+                      </NavLink>
+                    )
+                  ) : (
+                    <NavLink
+                      to={menu.to}
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      {menu.option}
+                    </NavLink>
+                  )}
                 </NavigationMenuItem>
               ))}
 

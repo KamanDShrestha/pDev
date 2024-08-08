@@ -1,3 +1,64 @@
+export interface PingUsers extends UserLikes {}
+
+export type PingRequestItem = {
+  userId: string;
+  requestedDate: Date;
+  userName: string;
+  userProfile: string;
+  status: 'pending' | 'accepted' | 'ignored';
+};
+
+export type PingRequest = {
+  userId: string;
+  providedRequests: PingRequestItem[];
+  obtainedRequests: PingRequestItem[];
+};
+
+export interface UserLikes {
+  userId: string;
+  userProfile: string;
+  userName: string;
+}
+
+export type AllConversationData = {
+  anotherUser: { userId: string; userName: string; userProfile: string };
+  lastMessage: {
+    _id: string;
+    messagedDate: Date;
+    senderId: string;
+    recipientId: string;
+    message: string;
+    isRead: boolean;
+  };
+};
+
+export type ConversationData = {
+  _id: string;
+  involvedUsers: { userId: string; userName: string; userProfile: string }[];
+  messages: {
+    _id: string;
+    messagedDate: Date;
+    senderId: string;
+    recipientId: string;
+    message: string;
+    isRead: boolean;
+  }[];
+  isAllMessage: boolean;
+};
+
+export type MessageInteractionData = {
+  senderId: string;
+  recipientId: string;
+  message: string;
+  messagedDate: number;
+};
+
+export type QHPData = {
+  _id: string;
+  firstName: string;
+  image: string;
+};
+
 export type ObtainedNotification = {
   _id: string;
   recipientId?: string;

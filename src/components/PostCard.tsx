@@ -53,6 +53,8 @@ import useCheckJoinedStatus from '../services/communityMembers/checkJoinedStatus
 import EditPostDialog from './EditPostDialog';
 import removeWhitespace from '../services/removeWhitespace';
 import { socket } from '../services/socket';
+import ViewLikesDialog from './ViewLikesDialog';
+import ToolTipUserMenu from './ToolTipUserMenu';
 
 interface PostCardProps {
   post: PostData;
@@ -130,6 +132,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             post._id,
             user?.id as string,
           ]);
+          queryClient.invalidateQueries(['posts', 'usersLiking', post._id]);
 
           if (response.message.split(' ').includes('unliked')) {
             socket.emit('sendInteractionNotification', {
@@ -206,11 +209,16 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
             <div className='flex flex-col'>
               <div className='flex items-center gap-2'>
                 <span className='font-medium'>
-                  {post?.userId === user?.id
-                    ? 'You'
-                    : post.isAnonymous
-                    ? 'Anonymous member'
-                    : post?.userName}
+                  {post?.userId === user?.id ? (
+                    'You'
+                  ) : post.isAnonymous ? (
+                    'Anonymous member'
+                  ) : (
+                    <ToolTipUserMenu
+                      userId={post.userId}
+                      userName={post.userName}
+                    />
+                  )}
                 </span>
                 {(!post.isAnonymous || post?.userId === user?.id) && (
                   <Badge className=''>{post.userRole}</Badge>
@@ -305,11 +313,7 @@ const PostCard = ({ post, onDeletePost }: PostCardProps) => {
               </span>
             )}
             <span>
-              {post.postLikes.length > 0
-                ? post.postLikes.length === 1
-                  ? '1 like'
-                  : `${post.postLikes.length} likes`
-                : 'No likes'}
+              <ViewLikesDialog postId={post._id} />
             </span>
           </div>
           <p>

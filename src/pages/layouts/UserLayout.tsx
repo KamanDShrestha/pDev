@@ -12,12 +12,12 @@ import NoConnection from '@/src/components/NoConnection';
 const UserLayout = () => {
   const { user } = useAuthContext();
   useEffect(() => {
+    // connect to the socket
+    socket.io.opts.query = { userId: user?.id };
+    socket.connect();
+
     const handlePostInteraction = ({
       recipientId,
-      // senderId,
-      // senderName,
-      // communityId,
-      // postId,
       message,
     }: {
       recipientId: string;
@@ -36,10 +36,6 @@ const UserLayout = () => {
 
     const handleQuestionedInteraction = ({
       recipientRole,
-      // senderId,
-      // senderName,
-      // communityId,
-      // postId,
       message,
     }: {
       recipientRole: string;
@@ -55,17 +51,39 @@ const UserLayout = () => {
       }
     };
 
+    const handleReceivedMessage = ({
+      message,
+      recipientId,
+    }: {
+      message: string;
+      senderId: string;
+      recipientId: string;
+    }) => {
+      console.log(message, recipientId);
+      if (recipientId === user?.id) {
+        toast.success(message, {
+          position: 'bottom-right',
+        });
+      }
+    };
+
     socket.on('provideInteractionNotification', handlePostInteraction);
     socket.on('provideQuestionedNotification', handleQuestionedInteraction);
-    socket.on('provideJourneyFeedbackNotification', handleQuestionedInteraction);
-
+    socket.on('receiveMessageNotification', handleReceivedMessage);
+    socket.on(
+      'provideJourneyFeedbackNotification',
+      handleQuestionedInteraction
+    );
 
     // Clean up the event listener on component unmount
     return () => {
       socket.off('provideInteractionNotification', handlePostInteraction);
       socket.off('provideQuestionedNotification', handleQuestionedInteraction);
-    socket.off('provideJourneyFeedbackNotification', handleQuestionedInteraction);
-
+      socket.off('receiveMessageNotification', handleReceivedMessage);
+      socket.off(
+        'provideJourneyFeedbackNotification',
+        handleQuestionedInteraction
+      );
     };
   }, []);
 
