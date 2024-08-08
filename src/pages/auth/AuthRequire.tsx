@@ -3,7 +3,7 @@ import { useAuthContext } from '../../context/AuthProvider';
 
 const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user } = useAuthContext();
-
+  console.log('in auth require', user);
   const location = useLocation();
 
   return allowedRoles.find((role: string) => role === user?.role) ? (
