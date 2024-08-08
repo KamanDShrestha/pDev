@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthProvider';
 import useGetUsersLiking from '../services/posts/getUsersLiking';
 import LoadingSpinner from './LoadingSpinner';
 import {
@@ -9,9 +7,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
-import { Button } from './ui/button';
-import useAddPingRequest from '../services/pingRequests/addPingRequest';
-import useObtainPingStatus from '../services/pings/obtainPingStatus';
 import UserLikesActionItem from './UserLikesActionItem';
 
 const ViewLikesDialog = ({ postId }: { postId: string }) => {

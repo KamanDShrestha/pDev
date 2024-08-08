@@ -1,14 +1,14 @@
-import Heading from "@/src/components/Heading";
-import LoadingSpinner from "@/src/components/LoadingSpinner";
-import { Button } from "@/src/components/ui/button";
-import { Card } from "@/src/components/ui/card";
-import { Separator } from "@/src/components/ui/separator";
-import { useAuthContext } from "@/src/context/AuthProvider";
-import useDocumentTitle from "@/src/services/getTitle";
-import usePayViaKhalti from "@/src/services/payments/payViaKhalti";
-import useGetSpecificSubscriptionPlan from "@/src/services/subscriptionPlans/getSpecificSubscriptionPlan";
-import khaltiLogo from '../../assets/paymentsGateway/khalti-logo.png'
-import { useParams } from "react-router-dom";
+import Heading from '@/src/components/Heading';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
+import { Button } from '@/src/components/ui/button';
+import { Card } from '@/src/components/ui/card';
+import { Separator } from '@/src/components/ui/separator';
+import { useAuthContext } from '@/src/context/AuthProvider';
+import useDocumentTitle from '@/src/services/getTitle';
+import usePayViaKhalti from '@/src/services/payments/payViaKhalti';
+import useGetSpecificSubscriptionPlan from '@/src/services/subscriptionPlans/getSpecificSubscriptionPlan';
+import khaltiLogo from '../../assets/paymentsGateway/khalti-logo.png';
+import { useParams } from 'react-router-dom';
 
 const SubscriptionConfirmation = () => {
   const { subscriptionId } = useParams();
@@ -38,8 +38,8 @@ const SubscriptionConfirmation = () => {
     console.log('Payment via Khalti');
 
     const subscriptionDetails = {
-      return_url: 'http://localhost:5173/verifyKhalti',
-      website_url: 'http://localhost:5173/',
+      return_url: `${import.meta.env.BASE_URL}/verifyKhalti`,
+      website_url: import.meta.env.BASE_URL,
       amount: totalAmount! * 100, // in paisa
       purchase_order_id: subscriptionId || '',
       purchase_order_name:
