@@ -5,7 +5,7 @@ import Register from './pages/auth/Register';
 
 import { ThemeProvider } from './components/ThemeProvider';
 import Home from './pages/Home';
-import Dashboard from '@/src/pages/dashboards/Dashboard';
+import Dashboard from './pages/dashboards/Dashboard';
 import Journey from './pages/journey/Journey';
 import NewUser from './pages/NewUser';
 
