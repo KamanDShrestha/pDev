@@ -6,6 +6,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { AxiosError } from 'axios';
+import { Analytics } from '@vercel/analytics/react';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -59,6 +60,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           },
         }}
       />
+      <Analytics />
     </React.StrictMode>
 
     <ReactQueryDevtools initialIsOpen={false} />
