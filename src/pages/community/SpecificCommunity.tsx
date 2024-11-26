@@ -1,6 +1,12 @@
-
 import { useQueryClient } from '@tanstack/react-query';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/src/components/ui/pagination';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/src/components/ui/pagination';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AddPostCard from '@/src/components/AddPostCard';
@@ -19,11 +25,24 @@ import useDeletePost from '@/src/services/posts/deletePost';
 import { useGetPosts } from '@/src/services/posts/getPosts';
 import useGetRandomQuote from '@/src/services/quotes/getRandomQuote';
 import { QAsData, PostData } from '@/src/types';
-import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from '@radix-ui/react-select';
-import { Separator } from '@radix-ui/react-separator';
-import { Heading } from 'lucide-react';
+
 import { BsSignpostSplit } from 'react-icons/bs';
+import Heading from '@/src/components/Heading';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/src/components/ui/select';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from '@/src/components/ui/dialog';
+import { Separator } from '@/src/components/ui/separator';
 
 const SpecificCommunity = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
