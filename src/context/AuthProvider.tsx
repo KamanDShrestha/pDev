@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react"
 import { refreshToken } from "../services/userAuth/refreshUser"
 import LoadingSpinner from "../components/LoadingSpinner"
+import { initTokenManager } from "../lib/tokenManager"
 
 export type AuthContextType = {
   firstName: string
@@ -16,7 +17,7 @@ export type AuthContextType = {
   dateOfBirth?: string
   image: string
   isGoogleLoggedIn: boolean
-}
+} | null
 
 export type SignUpUserType = {
   email: string
@@ -36,44 +37,42 @@ const AuthContext = createContext(
 )
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<AuthContextType>({} as AuthContextType)
+  const [user, setUser] = useState<AuthContextType>(null as AuthContextType)
   const [signUpUser, setSignUpUser] = useState<SignUpUserType>({
     email: "",
     name: "",
   })
 
   const [accessToken, setToken] = useState<string | null>(null)
-
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    let isMounted = true
-    if (!accessToken) {
-      fetchRefreshToken()
+    initTokenManager(setToken)
+
+    // condition for tab refresh or direct access to non-callback routes
+    if (!accessToken && !window.location.pathname.includes("/auth/callback") && !isLoading) {
+      initializeAuth()
     }
-    async function fetchRefreshToken() {
-      try {
-        setIsLoading(() => true)
-        const response = await refreshToken()
-        console.log("Refresh token response in provider:", response)
-        if (response && response.success && response.accessToken && response.user) {
-          setToken(response.accessToken)
-          setUser(() => ({ ...response.user, id: response.user._id } as AuthContextType))
-          setIsLoading(() => false)
-        }
-      } catch (error) {
-        console.error("Error refreshing token:", error)
-        setIsLoading(() => false)
-        setToken(null)
-        setUser({} as AuthContextType)
-      } finally {
-        setIsLoading(() => false)
-      }
-    }
-    return () => {
-      isMounted = false
-    }
+
+    return () => {}
   }, [])
+
+  const initializeAuth = async () => {
+    try {
+      setIsLoading(true)
+      const response = await refreshToken()
+      if (response?.success && response.accessToken && response.user) {
+        setToken(response.accessToken)
+        setUser({ ...response.user, id: response.user._id } as AuthContextType)
+      }
+    } catch (error) {
+      console.error("Error initializing auth:", error)
+      setToken(null)
+      setUser(null as AuthContextType)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   if (isLoading) {
     return (

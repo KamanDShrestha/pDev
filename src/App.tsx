@@ -75,16 +75,15 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path={"/loading"} element={<Loading />} />
-              <Route element={<AuthRequire allowedRoles={["user", "admin", "qhp"]} />}>
-                <Route element={<AuthLayout />}>
-                  <Route index element={<GettingStarted />} />
-                  <Route path={"/login"} element={<Login />} />
-                  <Route path={"/register"} element={<Register />} />
-                  <Route path={"/verify"} element={<TokenVerification />} />
-                  <Route path={"/reverify"} element={<ReverifyEmail />} />
-                  <Route path="/forgetPassword" element={<ForgetPassword />} />
-                  <Route path={"/auth/callback"} element={<AuthCallback />} />
-                </Route>
+
+              <Route element={<AuthLayout />}>
+                <Route index element={<GettingStarted />} />
+                <Route path={"/login"} element={<Login />} />
+                <Route path={"/register"} element={<Register />} />
+                <Route path={"/verify"} element={<TokenVerification />} />
+                <Route path={"/reverify"} element={<ReverifyEmail />} />
+                <Route path="/forgetPassword" element={<ForgetPassword />} />
+                <Route path={"/auth/callback"} element={<AuthCallback />} />
               </Route>
 
               <Route element={<AuthRequire allowedRoles={["user", "admin", "qhp"]} />}>

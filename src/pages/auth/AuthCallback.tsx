@@ -7,15 +7,15 @@ const AuthCallback = () => {
   const { setUser, setToken } = useAuthContext()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const code = searchParams.get("token")
 
   useEffect(() => {
-    const code = searchParams.get("token")
     if (code) {
       bootstrapUser(code)
         .then((response) => {
           if (response && response.success && response.user && response.accessToken) {
             setUser && setUser({ ...response.user, id: response.user._id })
-            setToken(response.accessToken)
+            setToken(() => response.accessToken)
             navigate("/home")
           } else {
             console.log("Invalid bootstrap response")
@@ -25,7 +25,7 @@ const AuthCallback = () => {
           console.error("Error during bootstrap:", error)
         })
     }
-  }, [searchParams.get("token")])
+  }, [code])
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
