@@ -1,15 +1,15 @@
-import { BACKEND_URL } from '@/src/constants';
+import { axiosInstance } from '@/src/constants';
 import { ErrorResponse } from '@/src/types';
 import { useMutation } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
 export default function useUpdateNotificationReadStatus() {
   const response = useMutation({
     mutationFn: ({ notificationId }: { notificationId: string }) =>
-      axios
+      axiosInstance
         .patch(
-          `${BACKEND_URL}/notifications/updateReadStatus`,
+          `/notifications/updateReadStatus`,
           {
             notificationId,
           },

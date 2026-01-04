@@ -3,29 +3,10 @@ import axios from 'axios';
 export const BACKEND_URL = import.meta.env.VITE_BACKEND;
 
 export const axiosInstance = axios.create({
-  baseURL: BACKEND_URL,
+  baseURL: import.meta.env.VITE_ENV === 'development' ? `${BACKEND_URL}/api` : '/api',
   withCredentials: true,
 });
 
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('authentication');
-
-      localStorage.removeItem('authorization');
-      if (
-        window.location.pathname !== '/login' &&
-        window.location.pathname !== '/register'
-      ) {
-        window.location.href = '/login';
-      }
-    }
-    return Promise.reject(error);
-  }
-);
 
 export const KHALTI_API_URL = import.meta.env.VITE_KHALTI_API_URL;
 export const ESEWA_API_URL = import.meta.env.VITE_ESEWA_API_URL;

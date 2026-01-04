@@ -1,112 +1,111 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import getFromLocalStorage from '../services/localStorage/getFromLocalStorage';
-import useAuthUser from '../services/userAuth/authUser';
-import setToLocalStorage from '../services/localStorage/setToLocalStorage';
+import { ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { refreshToken } from "../services/userAuth/refreshUser"
+import LoadingSpinner from "../components/LoadingSpinner"
 
 export type AuthContextType = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: string;
-  accessToken: string;
-  id: string;
-  isNewUser: boolean;
-  hasSubscribed: boolean;
-  preferredJourney: string;
-  loggedMood: boolean;
-  dateOfBirth?: string;
-  image: string;
-  isGoogleLoggedIn: boolean;
-};
+  firstName: string
+  lastName: string
+  email: string
+  role: string
+  accessToken: string
+  id: string
+  isNewUser: boolean
+  hasSubscribed: boolean
+  preferredJourney: string
+  loggedMood: boolean
+  dateOfBirth?: string
+  image: string
+  isGoogleLoggedIn: boolean
+}
 
 export type SignUpUserType = {
-  email: string;
-  name: string;
-};
+  email: string
+  name: string
+}
 
 const AuthContext = createContext(
   {} as {
-    user?: AuthContextType;
-    setUser?: React.Dispatch<React.SetStateAction<AuthContextType>>;
-    signUpUser?: SignUpUserType;
-    setSignUpUser?: React.Dispatch<React.SetStateAction<SignUpUserType>>;
-    isLoading: boolean;
+    user?: AuthContextType
+    setUser?: React.Dispatch<React.SetStateAction<AuthContextType>>
+    signUpUser?: SignUpUserType
+    setSignUpUser?: React.Dispatch<React.SetStateAction<SignUpUserType>>
+    isLoading: boolean
+    accessToken: string | null
+    setToken: React.Dispatch<React.SetStateAction<string | null>>
   }
-);
+)
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<AuthContextType>(
-    getFromLocalStorage('authentication')
-  );
+  const [user, setUser] = useState<AuthContextType>({} as AuthContextType)
   const [signUpUser, setSignUpUser] = useState<SignUpUserType>({
-    email: '',
-    name: '',
-  });
+    email: "",
+    name: "",
+  })
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [accessToken, setToken] = useState<string | null>(null)
 
-  const { data: authenticatedUser, status } = useAuthUser();
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
-    if (status === 'loading') {
-      setIsLoading(() => true);
-    } else if (status === 'success') {
-      console.log(authenticatedUser);
-      authenticatedUser &&
-        setUser(
-          () =>
-            ({
-              firstName: authenticatedUser.firstName,
-              lastName: authenticatedUser.lastName,
-              email: authenticatedUser.email,
-              role: authenticatedUser.role,
-              accessToken: authenticatedUser._id,
-              id: authenticatedUser._id,
-              isNewUser: authenticatedUser.isNewUser,
-              hasSubscribed: authenticatedUser.hasSubscribed,
-              preferredJourney: authenticatedUser.preferredJourney,
-              loggedMood: authenticatedUser.loggedMood,
-              image: authenticatedUser.image,
-              dateOfBirth: authenticatedUser.dateOfBirth,
-              isGoogleLoggedIn: authenticatedUser.isGoogleLoggedIn,
-            } as AuthContextType)
-        );
-      authenticatedUser &&
-        setToLocalStorage('authentication', authenticatedUser);
-      setIsLoading(() => false);
-    } else if (status === 'error') {
-      setIsLoading(() => false);
+    let isMounted = true
+    if (!accessToken) {
+      fetchRefreshToken()
     }
-  }, [authenticatedUser?.email]);
+    async function fetchRefreshToken() {
+      try {
+        setIsLoading(() => true)
+        const response = await refreshToken()
+        console.log("Refresh token response in provider:", response)
+        if (response && response.success && response.accessToken && response.user) {
+          setToken(response.accessToken)
+          setUser(() => ({ ...response.user, id: response.user._id } as AuthContextType))
+          setIsLoading(() => false)
+        }
+      } catch (error) {
+        console.error("Error refreshing token:", error)
+        setIsLoading(() => false)
+        setToken(null)
+        setUser({} as AuthContextType)
+      } finally {
+        setIsLoading(() => false)
+      }
+    }
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen w-screen">
+        <LoadingSpinner />
+      </div>
+    )
+  }
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        setUser: setUser as React.Dispatch<
-          React.SetStateAction<AuthContextType>
-        >,
+        setUser: setUser as React.Dispatch<React.SetStateAction<AuthContextType>>,
         isLoading,
         signUpUser,
         setSignUpUser,
+        accessToken,
+        setToken,
       }}
     >
       {children}
     </AuthContext.Provider>
-  );
-};
-
-export function useAuthContext() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuthContext must be used within an AuthProvider');
-  }
-  return context;
+  )
 }
 
-export default AuthProvider;
+export function useAuthContext() {
+  const context = useContext(AuthContext)
+  if (context === undefined) {
+    throw new Error("useAuthContext must be used within an AuthProvider")
+  }
+  return context
+}
+
+export default AuthProvider
