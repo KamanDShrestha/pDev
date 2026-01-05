@@ -14,7 +14,7 @@ const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
     )
   }
 
-  if (!user) {
+  if (!user || !user?.id || Object.keys(user).length === 0) {
     return <Navigate to="/login" state={{ from: location }} replace />
   }
 

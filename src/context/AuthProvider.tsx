@@ -16,7 +16,7 @@ export type AuthContextType = {
   dateOfBirth?: string
   image: string
   isGoogleLoggedIn: boolean
-} | null
+}
 
 export type SignUpUserType = {
   email: string
@@ -36,7 +36,7 @@ const AuthContext = createContext(
 )
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<AuthContextType>(null as AuthContextType)
+  const [user, setUser] = useState<AuthContextType>({} as AuthContextType)
   const [signUpUser, setSignUpUser] = useState<SignUpUserType>({
     email: "",
     name: "",
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.error("Error initializing auth:", error)
         setToken(null)
-        setUser(null as AuthContextType)
+        setUser({} as AuthContextType)
         setIsLoading(false)
       }
     }
