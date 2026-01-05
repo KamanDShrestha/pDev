@@ -1,4 +1,4 @@
-export interface PingUsers extends UserLikes {}
+export interface PingUsers extends UserLikes { }
 
 export type PingRequestItem = {
   userId: string;
@@ -100,15 +100,15 @@ export type GoalSet = {
 
 export type GetGoalSetData =
   | {
-      goalSetTitle: string;
-      goals: {
-        _id: string;
-        goal: string;
-        dueDate: string;
-        completionStatus: boolean;
-        completionDate: Date;
-      }[];
-    }
+    goalSetTitle: string;
+    goals: {
+      _id: string;
+      goal: string;
+      dueDate: string;
+      completionStatus: boolean;
+      completionDate: Date;
+    }[];
+  }
   | string;
 
 export type AddGoalSetData = {
@@ -929,6 +929,12 @@ export type ErrorResponse = {
   message: string;
   [key: string]: unknown;
 };
+
+export type SuccessResponse = {
+  success: true;
+  message: string;
+  [key: string]: unknown;
+}
 
 export type User = {
   _id: string;
