@@ -4,7 +4,6 @@ import LoadingSpinner from "../../components/LoadingSpinner"
 
 const AuthRequire = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user, isLoading } = useAuthContext()
-  console.log("in auth require", user)
   const location = useLocation()
 
   if (isLoading) {

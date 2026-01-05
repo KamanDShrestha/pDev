@@ -25,9 +25,9 @@ axiosInstance.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    // Do not intercept refresh request itself
+    // not intercepting the response from refresh request itself
     if (originalRequest.url?.includes("/auth/refresh")) {
-      return Promise.reject(error);
+      return;
     }
 
     if (

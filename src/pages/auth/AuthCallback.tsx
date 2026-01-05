@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useAuthContext } from "../../context/AuthProvider"
 import { initializeBootstrap } from "../../services/userAuth/bootstrapUser"
 import { useNavigate, useSearchParams } from "react-router-dom"
+import { setAccessToken } from "../../lib/tokenManager"
 
 const AuthCallback = () => {
   const { setUser, setToken } = useAuthContext()
@@ -21,6 +22,7 @@ const AuthCallback = () => {
       if (response && response.success && response.user && response.accessToken) {
         setUser && setUser({ ...response.user, id: response.user._id })
         setToken(() => response.accessToken)
+        setAccessToken(response.accessToken)
       }
       return response.success ? navigate("/home") : navigate("/login")
     } catch (error) {

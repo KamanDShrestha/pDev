@@ -1,6 +1,5 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react"
 import { initiateRefresh } from "../services/userAuth/refreshUser"
-import LoadingSpinner from "../components/LoadingSpinner"
 import { initTokenManager, setAccessToken } from "../lib/tokenManager"
 
 export type AuthContextType = {
@@ -44,45 +43,43 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   })
 
   const [accessToken, setToken] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const hasInitialized = useRef(false)
 
   useEffect(() => {
+    if (hasInitialized.current) return
+    hasInitialized.current = true
+
     initTokenManager(setToken)
 
+    const initializeAuth = async () => {
+      try {
+        const response = await initiateRefresh()
+        if (response?.success && response.accessToken && response.user) {
+          setToken(response.accessToken)
+          setAccessToken(response.accessToken)
+          setUser({ ...response.user, id: response.user._id } as AuthContextType)
+        }
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Error initializing auth:", error)
+        setToken(null)
+        setUser(null as AuthContextType)
+        setIsLoading(false)
+      }
+    }
+
     // condition for tab refresh or direct access to non-callback routes
-    console.log("accessToken", window.location.pathname)
-    if (!accessToken && !window.location.pathname.includes("/auth/callback") && !isLoading) {
+    if (!accessToken && !window.location.pathname.includes("/auth/callback")) {
+      console.log("Initializing auth from AuthProvider")
       initializeAuth()
+      console.log("after initializeAuth in AuthProvider")
+    } else {
+      setIsLoading(false)
     }
 
     return () => {}
   }, [])
-
-  const initializeAuth = async () => {
-    try {
-      setIsLoading(true)
-      const response = await initiateRefresh()
-      if (response?.success && response.accessToken && response.user) {
-        setToken(response.accessToken)
-        setAccessToken(response.accessToken)
-        setUser({ ...response.user, id: response.user._id } as AuthContextType)
-      }
-    } catch (error) {
-      console.error("Error initializing auth:", error)
-      setToken(null)
-      setUser(null as AuthContextType)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        <LoadingSpinner />
-      </div>
-    )
-  }
 
   return (
     <AuthContext.Provider
