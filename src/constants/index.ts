@@ -13,6 +13,7 @@ let queue: ((token: string) => void)[] = [];
 
 axiosInstance.interceptors.request.use(config => {
   const token = getAccessToken();
+  console.log(config.url, "interceptor called with token:", token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -42,7 +43,7 @@ axiosInstance.interceptors.response.use(
         try {
           const res = await axiosInstance.post("/auth/refresh");
           const newToken = res.data.accessToken;
-
+          console.log("Token refreshed from axios interceptor:", newToken);
           setAccessToken(newToken);
 
           // Wake up all waiting requests

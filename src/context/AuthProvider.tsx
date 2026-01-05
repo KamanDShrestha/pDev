@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react"
-import { refreshToken } from "../services/userAuth/refreshUser"
+import { initiateRefresh } from "../services/userAuth/refreshUser"
 import LoadingSpinner from "../components/LoadingSpinner"
-import { initTokenManager } from "../lib/tokenManager"
+import { initTokenManager, setAccessToken } from "../lib/tokenManager"
 
 export type AuthContextType = {
   firstName: string
@@ -50,6 +50,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     initTokenManager(setToken)
 
     // condition for tab refresh or direct access to non-callback routes
+    console.log("accessToken", window.location.pathname)
     if (!accessToken && !window.location.pathname.includes("/auth/callback") && !isLoading) {
       initializeAuth()
     }
@@ -60,9 +61,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const initializeAuth = async () => {
     try {
       setIsLoading(true)
-      const response = await refreshToken()
+      const response = await initiateRefresh()
       if (response?.success && response.accessToken && response.user) {
         setToken(response.accessToken)
+        setAccessToken(response.accessToken)
         setUser({ ...response.user, id: response.user._id } as AuthContextType)
       }
     } catch (error) {

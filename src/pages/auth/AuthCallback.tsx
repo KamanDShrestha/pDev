@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useAuthContext } from "../../context/AuthProvider"
-import { bootstrapUser } from "../../services/userAuth/bootstrapUser"
+import { initializeBootstrap } from "../../services/userAuth/bootstrapUser"
 import { useNavigate, useSearchParams } from "react-router-dom"
 
 const AuthCallback = () => {
@@ -11,21 +11,22 @@ const AuthCallback = () => {
 
   useEffect(() => {
     if (code) {
-      bootstrapUser(code)
-        .then((response) => {
-          if (response && response.success && response.user && response.accessToken) {
-            setUser && setUser({ ...response.user, id: response.user._id })
-            setToken(() => response.accessToken)
-            navigate("/home")
-          } else {
-            console.log("Invalid bootstrap response")
-          }
-        })
-        .catch((error) => {
-          console.error("Error during bootstrap:", error)
-        })
+      getBootstrap(code)
     }
   }, [code])
+
+  async function getBootstrap(token: string) {
+    try {
+      const response = await initializeBootstrap(token)
+      if (response && response.success && response.user && response.accessToken) {
+        setUser && setUser({ ...response.user, id: response.user._id })
+        setToken(() => response.accessToken)
+      }
+      return response.success ? navigate("/home") : navigate("/login")
+    } catch (error) {
+      console.error("Error during bootstrap:", error)
+    }
+  }
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
