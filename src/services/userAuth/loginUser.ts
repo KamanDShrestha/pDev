@@ -1,14 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../constants';
 import { useMutation } from '@tanstack/react-query';
-
-import setToLocalStorage from '../localStorage/setToLocalStorage';
 import { AuthContextType, useAuthContext } from '../../context/AuthProvider';
 import { ErrorResponse, LoginData } from '../../types';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
+import { setAccessToken } from '../../lib/tokenManager';
 export function useLoginUser() {
-  const { setUser } = useAuthContext();
+  const { setUser, setToken } = useAuthContext();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,37 +18,12 @@ export function useLoginUser() {
       axiosInstance.post('/auth/login', data).then((response) => response.data),
     onSuccess: (response) => {
       toast.success('You have successfully been logged in.');
-      console.log(response);
-      setToLocalStorage('authentication', {
-        id: response.user._id,
-        firstName: response.user.firstName,
-        lastName: response.user.lastName,
-        email: response.user.email,
-        role: response.user.role,
-        isNewUser: response?.user.isNewUser,
-        image: response.user.image,
-        hasSubscribed: response.user.hasSubscribed,
-        preferredJourney: response.user.preferredJourney,
-        loggedMood: response.user.loggedMood,
-        dateOfBirth: response.user.dateOfBirth,
-        isGoogleLoggedIn: response.user.isGoogleLoggedIn,
-      });
-      if (response && response.user && response.token && setUser) {
+      if (response && response.user && response.accessToken && setUser) {
         setUser({
-          firstName: response?.user?.firstName,
-          lastName: response?.user?.lastName,
-          email: response?.user?.email,
-          role: response?.user?.role,
-          accessToken: response?.token,
-          isNewUser: response?.user.isNewUser,
-          id: response?.user?._id,
-          hasSubscribed: response.user.hasSubscribed,
-          preferredJourney: response.user.preferredJourney,
-          loggedMood: response.user.loggedMood,
-          dateOfBirth: response.user.dateOfBirth,
-          image: response.user.image,
-          isGoogleLoggedIn: response.user.isGoogleLoggedIn,
+          ...response.user, id: response.user._id,
         } as AuthContextType);
+        setToken(response.accessToken);
+        setAccessToken(response.accessToken);
         if (response.user.isNewUser) navigate('/newUser');
         else navigate(from, { replace: true });
       } else {

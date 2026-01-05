@@ -13,7 +13,6 @@ let queue: ((token: string) => void)[] = [];
 
 axiosInstance.interceptors.request.use(config => {
   const token = getAccessToken();
-  console.log(config.url, "interceptor called with token:", token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

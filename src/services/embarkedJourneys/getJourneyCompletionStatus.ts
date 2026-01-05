@@ -7,6 +7,7 @@ export default function useGetJourneyCompletionStatus(
 ) {
   const response = useQuery({
     queryKey: ['completionStatus', userId, journeyId],
+    enabled: !!userId && !!journeyId && journeyId !== 'newJourney',
     queryFn: () =>
       axiosInstance
         .get(`/progress/getCompletionStatus/${userId}/${journeyId}`)

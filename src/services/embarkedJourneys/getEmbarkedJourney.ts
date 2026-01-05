@@ -9,6 +9,7 @@ export default function useGetEmbarkedJourney(
 ) {
   const response = useQuery<EmbarkedJourney, AxiosError<ErrorResponse>>({
     queryKey: ['embarkedJourney', userId, journeyId],
+    enabled: !!userId && !!journeyId && journeyId !== 'newJourney',
     queryFn: () =>
       axiosInstance
         .get(`/progress/get/${userId}/${journeyId}`)
