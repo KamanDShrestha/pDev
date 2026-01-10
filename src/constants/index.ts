@@ -1,31 +1,77 @@
 import axios from 'axios';
+import { getAccessToken, setAccessToken } from '../lib/tokenManager';
 
 export const BACKEND_URL = import.meta.env.VITE_BACKEND;
 
 export const axiosInstance = axios.create({
-  baseURL: BACKEND_URL,
+  baseURL: import.meta.env.VITE_ENV === 'development' ? `${BACKEND_URL}/api` : '/api',
   withCredentials: true,
 });
 
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('authentication');
+let isRefreshing = false;
+let queue: ((token: string) => void)[] = [];
 
-      localStorage.removeItem('authorization');
-      if (
-        window.location.pathname !== '/login' &&
-        window.location.pathname !== '/register'
-      ) {
-        window.location.href = '/login';
-      }
+axiosInstance.interceptors.request.use(config => {
+  const token = getAccessToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+axiosInstance.interceptors.response.use(
+  res => res,
+  async error => {
+    const originalRequest = error.config;
+
+    // not intercepting the response from refresh request itself
+    if (originalRequest.url?.includes("/auth/refresh")) {
+      return;
     }
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      // FIRST request becomes the leader
+      if (!isRefreshing) {
+        isRefreshing = true;
+
+        try {
+          const res = await axiosInstance.post("/auth/refresh");
+          const newToken = res.data.accessToken;
+          console.log("Token refreshed from axios interceptor:", newToken);
+          setAccessToken(newToken);
+
+          // Wake up all waiting requests
+          queue.forEach(cb => cb(newToken));
+          queue = [];
+        } catch (err) {
+          // Refresh failed → logout everyone
+          queue = [];
+          setAccessToken(null);
+          window.location.href = "/login";
+          return Promise.reject(err);
+        } finally {
+          isRefreshing = false;
+        }
+      }
+
+      // FOLLOWERS wait here
+      return new Promise(resolve => {
+        queue.push((token: string) => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          resolve(axiosInstance(originalRequest));
+        });
+      });
+    }
+
     return Promise.reject(error);
   }
 );
+
 
 export const KHALTI_API_URL = import.meta.env.VITE_KHALTI_API_URL;
 export const ESEWA_API_URL = import.meta.env.VITE_ESEWA_API_URL;
