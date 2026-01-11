@@ -18,20 +18,25 @@ import useDocumentTitle from "../../services/getTitle"
 
 import { useAuthContext } from "../../context/AuthProvider"
 import useLogoutUser from "../../services/userAuth/logoutUser"
+import Turnstile, { useTurnstile } from "react-turnstile"
+import { useState } from "react"
+import toast from "react-hot-toast"
 
 const Login = () => {
+  const [captchaToken, setCaptchaToken] = useState("")
   const { user } = useAuthContext()
   const {
     register,
     watch,
     formState: { errors },
-
+    reset,
     handleSubmit,
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   })
 
   const { mutate: logoutUser } = useLogoutUser()
+  const turnstile = useTurnstile()
 
   console.log(user)
   const providedEmail = watch("email")
@@ -42,6 +47,9 @@ const Login = () => {
 
   function handleLogin(values: z.infer<typeof loginSchema>) {
     console.log(user)
+    if (!captchaToken || captchaToken.length === 0) {
+      toast.error("Please verify yourself before proceeding.")
+    }
 
     if (user?.email) {
       logoutUser(user.id, {
@@ -50,7 +58,16 @@ const Login = () => {
         },
       })
     } else {
-      loginUser(values)
+      loginUser(
+        { ...values, token: captchaToken },
+        {
+          onSuccess: () => {
+            reset()
+            setCaptchaToken("")
+          },
+        }
+      )
+      turnstile.reset()
     }
   }
 
@@ -124,6 +141,9 @@ const Login = () => {
               <NavLink to={"/forgetPassword"} className="text-sm text-slate-500 hover:text-slate-700">
                 Forget Password?
               </NavLink>
+              <div>
+                <Turnstile sitekey={`${import.meta.env.VITE_CAPTCHA_SITE_KEY}`} onVerify={(token) => setCaptchaToken(token)} className="bg-transparent w-full rounded-lg" style={{ borderRadius: "8px" }} theme="light" size="flexible" />
+              </div>
 
               <Button disabled={isLoggingIn}>{isLoggingIn ? <LoadingSpinner /> : "Login"}</Button>
             </div>

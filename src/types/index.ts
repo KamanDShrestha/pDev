@@ -895,6 +895,7 @@ export type UsersCountInJourney = {
 export type LoginData = {
   email: string;
   password: string;
+  token?: string;
 };
 
 export type RegisterData = {
