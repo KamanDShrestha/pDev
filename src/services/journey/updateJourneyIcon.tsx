@@ -1,21 +1,20 @@
-import { axiosInstance } from '../../constants';
-import { ErrorResponse } from '../../types';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import toast from 'react-hot-toast';
+import { axiosInstance } from "../../constants"
+import { ErrorResponse } from "../../types"
+import { useMutation } from "@tanstack/react-query"
+import { AxiosError } from "axios"
+import toast from "react-hot-toast"
 
 export default function useUpdateJourneyIcon() {
   const response = useMutation({
-    mutationFn: (data: FormData) =>
-      axiosInstance.patch('/journeys/editIcon', data).then((res) => res.data),
+    mutationFn: (data: FormData) => axiosInstance.patch("/journeys/icon", data).then((res) => res.data),
     onSuccess: (response) => {
-      console.log(response);
-      toast.success(response.message);
+      console.log(response)
+      toast.success(response.message)
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      console.log(error.response?.data);
-      toast.error(error.response?.data.message || 'An error occurred');
+      console.log(error.response?.data)
+      toast.error(error.response?.data.message || "An error occurred")
     },
-  });
-  return response;
+  })
+  return response
 }

@@ -10,7 +10,7 @@ const useUpdateJourneyVerification = () => {
   const response = useMutation({
     mutationFn: (data: string) =>
       axiosInstance
-        .patch('/journeys/verify', { journeyId: data })
+        .patch('/journeys/verification', { journeyId: data })
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

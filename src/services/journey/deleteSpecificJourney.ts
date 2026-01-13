@@ -9,7 +9,7 @@ function useDeleteSpecificJourney() {
   const response = useMutation({
     mutationFn: (data: DeleteJourneyData) =>
       axiosInstance
-        .delete(`/journeys/delete/${data.id}`)
+        .delete(`/journeys/${data.id}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

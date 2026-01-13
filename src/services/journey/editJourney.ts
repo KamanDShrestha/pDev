@@ -8,7 +8,7 @@ export default function useEditJourney() {
   const response = useMutation({
     mutationFn: (data: EditJourneyData) =>
       axiosInstance
-        .patch(`/journeys/edit/${data._id}`, data)
+        .patch(`/journeys/overall/${data._id}`, data)
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
