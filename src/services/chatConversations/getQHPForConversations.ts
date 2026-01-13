@@ -7,7 +7,7 @@ export default function useGetQHPForConversations() {
     queryKey: ['conversations', 'qhps'],
     queryFn: () =>
       axiosInstance
-        .get('/users/getQHPs')
+        .get('/qhps/')
         .then((response) => response.data.data),
   });
   return response;

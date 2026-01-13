@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 export default function useUpdateUserDetails() {
   const response = useMutation({
     mutationFn: (data: UpdateUserDetailsData) =>
-      axiosInstance.patch('/users/updateDetails', data).then((res) => res.data),
+      axiosInstance.patch('/users/', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

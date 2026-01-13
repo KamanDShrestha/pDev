@@ -8,7 +8,7 @@ export default function useUpdateUserDOB() {
   const response = useMutation({
     mutationFn: (data: UpdateUserDOBData) =>
       axiosInstance
-        .patch('/users/updateDOB', data)
+        .patch('/users/dob', data)
         .then((response) => response.data),
     onSuccess: (response) => {
       console.log(response);

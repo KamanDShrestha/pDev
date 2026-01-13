@@ -8,7 +8,7 @@ export default function useUpdateProfileImage() {
   const response = useMutation({
     mutationFn: (data: FormData) =>
       axiosInstance
-        .patch('/users/updateProfilePicture', data)
+        .patch('/users/profile', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

@@ -8,7 +8,7 @@ export default function useUpdateLoggedMood() {
   const response = useMutation({
     mutationFn: (data: { userId: string }) =>
       axiosInstance
-        .patch('/users/updateLoggedMood', data)
+        .patch('/users/mood', data)
         .then((response) => response.data),
 
     onError: (error: AxiosError<ErrorResponse>) => {

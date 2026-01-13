@@ -12,7 +12,7 @@ export default function useUpdatePassword() {
       newPassword: string;
     }) =>
       axiosInstance
-        .patch('/users/updatePassword', data)
+        .patch('/users/password', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
