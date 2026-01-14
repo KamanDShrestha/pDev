@@ -10,7 +10,7 @@ export default function useGetMoodByLoggedDate(
     queryKey: ['moodByLoggedDate', userId, loggedDate],
     queryFn: () =>
       axiosInstance
-        .get(`/moods/getByDate/${userId}/${loggedDate}`)
+        .get(`/moods/sort/date/${userId}/${loggedDate}`)
         .then((res) => res.data.data),
   });
   return response;

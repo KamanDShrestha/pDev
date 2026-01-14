@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 export default function useAddCommunity() {
   const response = useMutation({
     mutationFn: (data: FormData) =>
-      axiosInstance.post('/community/add', data).then((res) => res.data),
+      axiosInstance.post('/communities', data).then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
       console.log(response);
@@ -15,7 +15,7 @@ export default function useAddCommunity() {
     onError: (error: AxiosError<ErrorResponse>) => {
       toast.error(
         error.response?.data.message ||
-          'An error occurred while adding community.'
+        'An error occurred while adding community.'
       );
     },
   });

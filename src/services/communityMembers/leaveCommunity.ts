@@ -8,7 +8,7 @@ export default function useLeaveCommunity() {
   const response = useMutation({
     mutationFn: (data: { communityId: string; userId: string }) =>
       axiosInstance
-        .patch('/communityMembers/leaveCommunity', data)
+        .patch('/community_members', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

@@ -7,7 +7,7 @@ export default function useGetCommunityMembers(communityId: string) {
     queryKey: ['communityMembers', communityId],
     queryFn: () =>
       axiosInstance
-        .get(`/communityMembers/get/${communityId}`)
+        .get(`/community_members/${communityId}`)
         .then((res) => res.data.data),
   });
   return response;

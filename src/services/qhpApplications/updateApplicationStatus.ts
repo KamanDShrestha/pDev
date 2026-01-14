@@ -9,7 +9,7 @@ export default function useUpdateApplicationStatus() {
   const response = useMutation({
     mutationFn: (data: UpdateApplicationStatusData) =>
       axiosInstance
-        .patch('/qhpPost/updateStatus', data)
+        .patch('/qhp_applications/status', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       queryClient.invalidateQueries(['applications']);

@@ -7,7 +7,7 @@ export default function useGetMembersCount() {
     queryKey: ['membersCountInJourney'],
     queryFn: () =>
       axiosInstance
-        .get('/communityMembers/membersCount')
+        .get('/community_members/count')
         .then((res) => res.data.data),
   });
   return response;

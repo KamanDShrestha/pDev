@@ -6,7 +6,7 @@ export default function useGetCommunities() {
   const response = useQuery<CommunityData[]>({
     queryKey: ['communities'],
     queryFn: () =>
-      axiosInstance.get('/community/get').then((res) => res.data.data),
+      axiosInstance.get('/communities').then((res) => res.data.data),
   });
   return response;
 }

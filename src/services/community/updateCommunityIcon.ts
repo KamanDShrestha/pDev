@@ -8,7 +8,7 @@ export default function useUpdateCommunityIcon() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: FormData) =>
-      axiosInstance.patch('/community/editIcon', data).then((res) => res.data),
+      axiosInstance.patch('/communities/icon', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

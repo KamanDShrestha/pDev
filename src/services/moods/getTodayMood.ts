@@ -7,7 +7,7 @@ export default function useGetTodayMood(userId: string) {
     queryKey: ['todayMood', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/moods/getTodayMood/${userId}`)
+        .get(`/moods/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

@@ -7,7 +7,7 @@ export default function useGetSpecificCommunity(communityId: string) {
     queryKey: ['community', communityId],
     queryFn: () =>
       axiosInstance
-        .get(`/community/get/${communityId}`)
+        .get(`/communities/${communityId}`)
         .then((res) => res.data.data),
   });
   return response;

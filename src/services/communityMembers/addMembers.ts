@@ -8,7 +8,7 @@ export default function useAddMembers() {
   const response = useMutation({
     mutationFn: (data: AddCommunityMemberData) =>
       axiosInstance
-        .post('/communityMembers/addMember', data)
+        .post('/community_members', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

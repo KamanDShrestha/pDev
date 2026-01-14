@@ -6,7 +6,7 @@ export default function useGetQhpDetails(userId: string) {
   const response = useQuery<QhpDetails>({
     queryKey: ['qhpDetails', userId],
     queryFn: () =>
-      axiosInstance.get(`/qhps/get/${userId}`).then((res) => res.data.data),
+      axiosInstance.get(`/qhps/${userId}`).then((res) => res.data.data),
   });
   return response;
 }

@@ -7,7 +7,7 @@ import { ErrorResponse, LogMoodData } from '../../types';
 function useLogMood() {
   const response = useMutation({
     mutationFn: (data: LogMoodData) =>
-      axiosInstance.post('/moods/log', data).then((response) => response.data),
+      axiosInstance.post('/moods', data).then((response) => response.data),
     onSuccess: (response) => {
       console.log('response', response);
       toast.success(response.message);

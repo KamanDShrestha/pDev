@@ -7,7 +7,7 @@ function useGetAllApplications() {
     queryKey: ['applications'],
     queryFn: () =>
       axiosInstance
-        .get('/qhpPost/getApplications')
+        .get('/qhp_applications')
         .then((res) => res.data.applications),
   });
   return response;

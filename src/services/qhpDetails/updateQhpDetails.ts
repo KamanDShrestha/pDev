@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 export default function useUpdateQhpDetails() {
   const response = useMutation({
     mutationFn: (data: UpdateQhpDetailsData) =>
-      axiosInstance.patch('/qhps/update', data).then((res) => res.data),
+      axiosInstance.patch('/qhps', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

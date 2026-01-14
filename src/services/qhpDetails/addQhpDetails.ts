@@ -8,7 +8,7 @@ export default function useAddQhpDetails() {
   const response = useMutation({
     mutationFn: (data: QhpDetails) =>
       axiosInstance
-        .post('/qhps/add', { qhpDetails: data })
+        .post('/qhps', { qhpDetails: data })
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

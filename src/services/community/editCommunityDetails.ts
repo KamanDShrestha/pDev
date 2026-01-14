@@ -8,7 +8,7 @@ export default function useEditCommunityDetails() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: EditCommunityData) =>
-      axiosInstance.patch('/community/edit', data).then((res) => res.data),
+      axiosInstance.patch('/communities', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

@@ -7,7 +7,7 @@ export default function useGetSpecificApplication(userId: string) {
     queryKey: ['getSpecificApplication', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/qhpPost/getSpecificApplication/${userId}`)
+        .get(`/qhp_applications/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

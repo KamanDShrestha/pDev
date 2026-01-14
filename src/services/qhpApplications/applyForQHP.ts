@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 function useApplyForQHP() {
   const response = useMutation({
     mutationFn: (data: FormData) =>
-      axiosInstance.post('/qhpPost/apply', data).then((res) => res.data),
+      axiosInstance.post('/qhp_applications', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

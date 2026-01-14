@@ -9,7 +9,7 @@ export default function useDeleteCommunity() {
   const response = useMutation({
     mutationFn: (communityId: string) =>
       axiosInstance
-        .delete(`/community/delete/${communityId}`)
+        .delete(`/communities/${communityId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
