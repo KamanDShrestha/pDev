@@ -8,7 +8,7 @@ export default function useDiscontinueJourney() {
   const response = useMutation({
     mutationFn: (data: { userId: string; journeyId: string }) =>
       axiosInstance
-        .patch('/progress/discontinueJourney', data)
+        .patch('/embarked_journeys/discontinue', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

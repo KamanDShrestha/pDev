@@ -11,7 +11,7 @@ export default function useGetCompletedJourney(
     queryKey: ['completedJourney', userId, journeyId],
     queryFn: () =>
       axiosInstance
-        .get(`/progress/getCompleted/${userId}/${journeyId}`)
+        .get(`/embarked_journeys/specific/completed/${userId}/${journeyId}`)
         .then((res) => res.data.completedJourney),
   });
 

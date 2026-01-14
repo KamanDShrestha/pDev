@@ -7,7 +7,7 @@ export default function useGetCompletedJourneysCount() {
     queryKey: ['completedJourneysCount'],
     queryFn: () =>
       axiosInstance
-        .get('/progress/getCompletedJourneysCount')
+        .get('/embarked_journeys/completed/count')
         .then((res) => res.data.data),
   });
   return response;

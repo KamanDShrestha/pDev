@@ -7,7 +7,7 @@ export default function useGetDiscontinuedJourneysCount() {
     queryKey: ['discontinuedJourneysCount'],
     queryFn: () =>
       axiosInstance
-        .get('/progress/getDiscontinuedJourneysCount')
+        .get('/embarked_journeys/discontinued/count')
         .then((res) => res.data.data),
   });
   return response;

@@ -8,7 +8,7 @@ export default function useContinueJourney() {
   const response = useMutation({
     mutationFn: (data: { userId: string; journeyId: string }) =>
       axiosInstance
-        .patch('/progress/continueJourney', data)
+        .patch('/embarked_journeys/continue', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

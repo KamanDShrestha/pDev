@@ -7,7 +7,7 @@ export default function useGetUsersCountInJourney() {
     queryKey: ['usersCountInJourney'],
     queryFn: () =>
       axiosInstance
-        .get('/journeys/embarked-users/count')
+        .get('/journeys/embarked_users/count')
         .then((res) => res.data.data),
   });
   return response;

@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 export default function useAddEmbarkedJourney() {
   const response = useMutation({
     mutationFn: (data: AddEmbarkedJourneyData) =>
-      axiosInstance.post('/progress/add', data).then((res) => res.data),
+      axiosInstance.post('/embarked_journeys', data).then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
     },

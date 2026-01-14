@@ -7,7 +7,7 @@ export default function useGetOngoingJourneysCount() {
     queryKey: ['ongoingJourneysCount'],
     queryFn: () =>
       axiosInstance
-        .get('/progress/getOngoingJourneysCount')
+        .get('/embarked_journeys/ongoing/count')
         .then((res) => res.data.data),
   });
   return response;
