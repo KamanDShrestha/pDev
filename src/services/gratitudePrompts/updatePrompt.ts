@@ -12,7 +12,7 @@ export default function useUpdatePrompt() {
       promptEditFields: GratitudeJournalPrompt;
     }) =>
       axiosInstance
-        .patch('/gratitudeJournalPrompts/update', data)
+        .patch('/gratitude_journal_prompts', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

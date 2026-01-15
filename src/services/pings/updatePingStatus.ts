@@ -16,7 +16,7 @@ export default function useUpdatePingStatus() {
       activeStatus: string;
     }) =>
       axiosInstance
-        .patch(`/ping/updateStatus`, {
+        .patch(`/pings/status`, {
           acceptingUser,
           acceptedUser,
           activeStatus,

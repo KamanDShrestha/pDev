@@ -7,7 +7,7 @@ export default function useGetPrompts() {
     queryKey: ['graditudePrompts'],
     queryFn: () =>
       axiosInstance
-        .get('/gratitudeJournalPrompts/get')
+        .get('/gratitude_journal_prompts')
         .then((res) => res.data.data),
   });
   return response;

@@ -8,7 +8,7 @@ export default function useDeleteQuote() {
   const response = useMutation({
     mutationFn: (data: DeleteQuoteData) =>
       axiosInstance
-        .delete(`/quotes/delete/${data.category}/${data.quoteId}`)
+        .delete(`/quotes/${data.category}/${data.quoteId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

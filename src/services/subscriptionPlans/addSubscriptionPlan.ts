@@ -8,7 +8,7 @@ export default function useAddSubscriptionPlan() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: AddSubscriptionPlanData) =>
-      axiosInstance.post('/subscriptions/add', data).then((res) => res.data),
+      axiosInstance.post('/subscriptions', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

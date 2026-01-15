@@ -9,7 +9,7 @@ export default function useAddPrompt() {
   const response = useMutation({
     mutationFn: (data: GratitudeJournalPrompt) =>
       axiosInstance
-        .post('/gratitudeJournalPrompts/add', data)
+        .post('/gratitude_journal_prompts', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

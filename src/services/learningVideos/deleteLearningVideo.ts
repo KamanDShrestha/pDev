@@ -9,7 +9,7 @@ export default function useDeleteVideo() {
   const response = useMutation({
     mutationFn: (data: { videoId: string; category: string }) =>
       axiosInstance
-        .delete(`/learningVideos/delete/${data.category}/${data.videoId}`)
+        .delete(`/learning_videos/${data.category}/${data.videoId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

@@ -16,7 +16,7 @@ export default function useGetJournals(
     queryKey: ['journals', userId, fetchQueryJournal],
     queryFn: () =>
       axiosInstance
-        .get(`/journals/get/${userId}`, {
+        .get(`/journals/${userId}`, {
           params: {
             category: fetchQueryJournal?.category,
           },

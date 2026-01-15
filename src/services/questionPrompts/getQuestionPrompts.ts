@@ -6,7 +6,7 @@ export default function useGetQuestionPrompts() {
   const response = useQuery<QuestionPrompt[]>({
     queryKey: ['questionPrompts'],
     queryFn: () =>
-      axiosInstance.get('/questionPrompts/get').then((res) => res.data.data),
+      axiosInstance.get('/question_prompts').then((res) => res.data.data),
   });
   return response;
 }

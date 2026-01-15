@@ -7,7 +7,7 @@ export default function useGetPingRequests(userId: string) {
     queryKey: ['pingRequests', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/pingRequest/get/${userId}`)
+        .get(`/ping_requests/${userId}`)
         .then((response) => response.data.data),
   });
   return response;

@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 export default function useAddPromptFeedback() {
   const response = useMutation({
     mutationFn: (data: AddPromptFeedbackData) =>
-      axiosInstance.post('/promptFeedbacks/add', data).then((res) => res.data),
+      axiosInstance.post('/prompt_feedbacks', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

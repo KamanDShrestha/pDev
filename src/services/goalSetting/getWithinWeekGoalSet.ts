@@ -7,7 +7,7 @@ export default function useGetWithinWeekGoalSet(userId: string) {
     queryKey: ['withinWeekGoalSet', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/goalSetting/getWithinWeekGoalSet/${userId}`)
+        .get(`/goals/within_week/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

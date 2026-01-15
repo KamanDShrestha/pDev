@@ -10,7 +10,7 @@ export default function useGetContentSavedStatus(
     queryKey: ['contentSavedStatus', userId, contentType, contentId],
     queryFn: () =>
       axiosInstance
-        .get(`/savedContent/status/${userId}/${contentType}/${contentId}`)
+        .get(`/saved_contents/status/${userId}/${contentType}/${contentId}`)
         .then((res) => res.data.status),
   });
   return response;

@@ -7,7 +7,7 @@ import { AddPaymentData, ErrorResponse } from '../../types';
 export default function useAddPaymentForSubscription() {
   const response = useMutation({
     mutationFn: (data: AddPaymentData) =>
-      axiosInstance.post('/payments/add', data).then((res) => res.data),
+      axiosInstance.post('/payments', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

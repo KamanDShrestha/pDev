@@ -9,7 +9,7 @@ export default function useDeleteQuestionPrompt() {
   const response = useMutation({
     mutationFn: (data: DeletePromptEntry) =>
       axiosInstance
-        .delete(`/questionPrompts/delete/${data.promptId}`)
+        .delete(`/question_prompts/${data.promptId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

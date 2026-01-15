@@ -10,7 +10,7 @@ export default function useDeletePrompt() {
   const response = useMutation({
     mutationFn: (promptId: string) =>
       axiosInstance
-        .delete(`/gratitudeJournalPrompts/delete/${promptId}`)
+        .delete(`/gratitude_journal_prompts/${promptId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

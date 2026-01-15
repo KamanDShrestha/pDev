@@ -6,7 +6,7 @@ export default function useGetAllPodcasts() {
   const response = useQuery<LearningPodcastDocument[]>({
     queryKey: ['learningPodcasts'],
     queryFn: () =>
-      axiosInstance.get('/learningPodcasts/get').then((res) => res.data.data),
+      axiosInstance.get('/learning_podcasts').then((res) => res.data.data),
   });
   return response;
 }

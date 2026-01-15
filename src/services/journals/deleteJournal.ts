@@ -9,7 +9,7 @@ export default function useDeleteJournal() {
   const response = useMutation({
     mutationFn: (data: DeleteJournalData) =>
       axiosInstance
-        .delete(`/journals/delete/${data.userId}/${data.journalId}`)
+        .delete(`/journals/${data.userId}/${data.journalId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);

@@ -8,7 +8,7 @@ export default function useAddQuestionPrompt() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: AddQuestionPromptData) =>
-      axiosInstance.post('/questionPrompts/add', data).then((res) => res.data),
+      axiosInstance.post('/question_prompts', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

@@ -16,7 +16,7 @@ export default function useUpdatePingRequestStatus() {
       status: string;
     }) =>
       axiosInstance
-        .patch(`/pingRequest/updateStatus`, {
+        .patch(`/ping_requests/status`, {
           senderId,
           recipientId,
           status,

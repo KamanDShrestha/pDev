@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 export default function useEditQA() {
   const response = useMutation({
     mutationFn: (data: { questionId: string; questionEditFields: QAsData }) =>
-      axiosInstance.patch('/QAs/edit', data).then((res) => res.data),
+      axiosInstance.patch('/questions', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

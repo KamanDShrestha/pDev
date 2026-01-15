@@ -9,7 +9,7 @@ export default function useDeletePodcast() {
   const response = useMutation({
     mutationFn: (data: { podcastId: string; category: string }) =>
       axiosInstance
-        .delete(`/learningPodcasts/delete/${data.category}/${data.podcastId}`)
+        .delete(`/learning_podcasts/${data.category}/${data.podcastId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

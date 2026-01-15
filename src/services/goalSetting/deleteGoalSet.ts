@@ -8,7 +8,7 @@ export default function useDeleteGoalSet() {
   const response = useMutation({
     mutationFn: (goalSetId: string) =>
       axiosInstance
-        .delete(`/goalSetting/delete/${goalSetId}`)
+        .delete(`/goals/${goalSetId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

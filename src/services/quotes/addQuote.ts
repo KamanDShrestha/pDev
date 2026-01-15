@@ -8,7 +8,7 @@ export default function useAddQuote() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: AddQuoteData) =>
-      axiosInstance.post('/quotes/add', data).then((res) => res.data),
+      axiosInstance.post('/quotes', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

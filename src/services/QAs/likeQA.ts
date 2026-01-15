@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 export default function useLikeQA() {
   const response = useMutation({
     mutationFn: (data: AddQALikeData) =>
-      axiosInstance.patch('/QAs/like', data).then((res) => res.data),
+      axiosInstance.patch('/questions/like', data).then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
       console.log(response);

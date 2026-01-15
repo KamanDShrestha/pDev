@@ -7,7 +7,7 @@ export default function useGetSavedContentCount(userId: string) {
     queryKey: ['savedContentCount', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/savedContent/countContent/${userId}`)
+        .get(`/saved_contents/count/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

@@ -12,7 +12,7 @@ export default function useCompleteGoal() {
       goalSetType: string;
     }) =>
       axiosInstance
-        .patch('/goalSetting/completeGoal', data)
+        .patch('/goals', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

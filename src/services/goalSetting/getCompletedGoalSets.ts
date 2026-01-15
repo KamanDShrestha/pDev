@@ -7,7 +7,7 @@ export default function useGetCompletedGoalSets(userId: string) {
     queryKey: ['completedGoalSets', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/goalSetting/get/completedGoalSets/${userId}`)
+        .get(`/goals/completed/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

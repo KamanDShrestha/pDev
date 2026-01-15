@@ -13,7 +13,7 @@ export default function useGetRandomQuoteForMood(mood: number) {
       if (mood === 4 || mood === 5) moodDetails = 'high';
 
       const result = axiosInstance
-        .get(`/quotes/quoteForMood/${moodDetails}`)
+        .get(`/quotes/moods/${moodDetails}`)
         .then((res) => res.data.data);
       return result;
     },

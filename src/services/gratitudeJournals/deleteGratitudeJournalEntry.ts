@@ -8,7 +8,7 @@ export default function useDeleteGratitudeJournalEntry() {
   const response = useMutation({
     mutationFn: (data: DeleteGratitudeJournalData) =>
       axiosInstance
-        .delete(`/gratitudeJournals/delete/${data.userId}/${data.entryId}`)
+        .delete(`/gratitude_journals/${data.userId}/${data.entryId}`)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

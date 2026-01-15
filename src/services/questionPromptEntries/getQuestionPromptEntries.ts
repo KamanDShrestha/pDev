@@ -7,7 +7,7 @@ export default function useGetQuestionPromptEntries(userId: string) {
     queryKey: ['questionPromptEntries', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/questionPromptEntries/get/${userId}`)
+        .get(`/question_prompt_entries/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

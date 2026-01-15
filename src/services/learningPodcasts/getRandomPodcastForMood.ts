@@ -13,7 +13,7 @@ export default function useGetRandomPodcastForMood(mood: number) {
       if (mood === 4 || mood === 5) moodDetails = 'high';
 
       const result = axiosInstance
-        .get(`/learningPodcasts/podcastForMood/${moodDetails}`)
+        .get(`/learning_podcasts/moods/${moodDetails}`)
         .then((res) => res.data.data);
       return result;
     },

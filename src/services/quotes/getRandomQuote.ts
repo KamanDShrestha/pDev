@@ -7,7 +7,7 @@ export default function useGetRandomQuote(category: string) {
     queryKey: ['quotes', 'randomQuote', category],
     queryFn: () =>
       axiosInstance
-        .get(`/quotes/randomQuote/${category}`)
+        .get(`/quotes/random/${category}`)
         .then((res) => res.data.data),
   });
   return response;

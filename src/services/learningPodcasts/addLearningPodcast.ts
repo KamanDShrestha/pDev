@@ -8,7 +8,7 @@ export default function useAddLearningPodcast() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: AddLearningPodcastData) =>
-      axiosInstance.post('/learningPodcasts/add', data).then((res) => res.data),
+      axiosInstance.post('/learning_podcasts', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

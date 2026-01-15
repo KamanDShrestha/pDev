@@ -13,7 +13,7 @@ export default function useGetRandomVideoForMood(mood: number) {
       if (mood === 4 || mood === 5) moodDetails = 'high';
 
       const result = axiosInstance
-        .get(`/learningVideos/videoForMood/${moodDetails}`)
+        .get(`/learning_videos/moods/${moodDetails}`)
         .then((res) => res.data.data);
       return result;
     },

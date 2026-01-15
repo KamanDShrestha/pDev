@@ -7,7 +7,7 @@ export default function useGetPaymentDetails(userId: string) {
     queryKey: ['paymentDetails', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/payments/getPayments/${userId}`)
+        .get(`/payments/${userId}`)
         .then((res) => res.data.data),
   });
   return response;
