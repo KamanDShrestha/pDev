@@ -6,7 +6,7 @@ export default function useGetQuestionPromptEntriesCount(userId: string) {
     queryKey: ['questionPromptEntriesCount', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/questionPromptEntries/count/${userId}`)
+        .get(`/question_prompt_entries/count/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

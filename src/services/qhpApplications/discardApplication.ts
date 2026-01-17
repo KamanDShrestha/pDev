@@ -8,7 +8,7 @@ export default function useDiscardApplication() {
   const response = useMutation({
     mutationFn: (data: UpdateApplicationStatusData) =>
       axiosInstance
-        .patch('/qhpPost/discardApplication', data)
+        .patch('/qhp_applications/discard', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

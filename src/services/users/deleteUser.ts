@@ -8,7 +8,7 @@ function useDeleteUser() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: DeleteUserData) =>
-      axiosInstance.delete(`/users/delete/${data.id}`).then((res) => res.data),
+      axiosInstance.delete(`/users/${data.id}`).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response.message);
       toast.success(response.message);

@@ -7,7 +7,7 @@ export default function useGetAllNotifications(userId: string) {
     queryKey: ['notifications', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/notifications/get/${userId}`, {
+        .get(`/notifications/${userId}`, {
           withCredentials: true,
         })
         .then((response) => response.data.data),

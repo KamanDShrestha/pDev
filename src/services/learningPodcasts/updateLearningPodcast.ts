@@ -10,7 +10,7 @@ export default function useUpdateLearningPodcast() {
     mutationFn: (data: UpdateLearningPodcastData) =>
       axiosInstance
         .patch(
-          `/learningPodcasts/update/${data.category}/${data.podcastId}`,
+          `/learning_podcasts/${data.category}/${data.podcastId}`,
           data.podcast
         )
         .then((res) => res.data),

@@ -8,7 +8,7 @@ export default function useUpdateStatus() {
   const response = useMutation({
     mutationFn: (data: { feedbackId: string; feedbackStatus: string }) =>
       axiosInstance
-        .patch(`/promptFeedbacks/updateStatus/${data.feedbackId}`, {
+        .patch(`/prompt_feedbacks/status/${data.feedbackId}`, {
           feedbackStatus: data.feedbackStatus,
         })
         .then((res) => res.data),

@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 export default function useAddJourneyFeedback() {
   const response = useMutation({
     mutationFn: (data: AddJourneyFeedbackData) =>
-      axiosInstance.post('/journeyFeedbacks/add', data).then((res) => res.data),
+      axiosInstance.post('/journey_feedbacks', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

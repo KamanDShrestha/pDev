@@ -7,7 +7,7 @@ export default function useGetAllNotificationsByRole(userRole: string) {
     queryKey: ['notifications', userRole],
     queryFn: () =>
       axiosInstance
-        .get(`/notifications/getByRole/${userRole}`, {
+        .get(`/notifications/roles/${userRole}`, {
           withCredentials: true,
         })
         .then((response) => response.data.data),

@@ -10,7 +10,7 @@ export function useUpdateJourneyFeedbackStatus() {
   const response = useMutation({
     mutationFn: (data: UpdateJourneyFeedbackStatusData) =>
       axiosInstance
-        .patch('/journeyFeedbacks/updateStatus', data)
+        .patch('/journey_feedbacks/status', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);

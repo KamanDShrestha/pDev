@@ -8,7 +8,7 @@ export default function useAddGratitudeJournalEntry() {
   const response = useMutation({
     mutationFn: (data: AddGratitudeJournalData) =>
       axiosInstance
-        .post('/gratitudeJournals/add', data)
+        .post('/gratitude_journals', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

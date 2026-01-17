@@ -7,7 +7,7 @@ export default function useGetSavedContents(userId: string) {
     queryKey: ['savedContents', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/savedContent/get/${userId}`)
+        .get(`/saved_contents/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

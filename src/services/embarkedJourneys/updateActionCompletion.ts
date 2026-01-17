@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 export default function useUpdateActionCompletion() {
   const response = useMutation({
     mutationFn: (data: UpdateActionCompletionData) =>
-      axiosInstance.patch('/progress/updateActionStepCompletion', data),
+      axiosInstance.patch('/embarked_journeys/action_steps/status', data),
     onSuccess: () => {
       toast.success(
         "You have successfully completed your today's action step. 🎉"

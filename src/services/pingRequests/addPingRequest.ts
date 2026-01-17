@@ -14,7 +14,7 @@ export default function useAddPingRequest() {
       recipientId: string;
     }) =>
       axiosInstance
-        .post('/pingRequest/add', { senderId, recipientId })
+        .post('/ping_requests', { senderId, recipientId })
         .then((response) => response.data),
     onSuccess: (response) => {
       toast.success(response.message);

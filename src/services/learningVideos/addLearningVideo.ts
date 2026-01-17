@@ -8,7 +8,7 @@ export default function useAddLearningVideo() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: AddLearningVideoData) =>
-      axiosInstance.post('/learningVideos/add', data).then((res) => res.data),
+      axiosInstance.post('/learning_videos', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

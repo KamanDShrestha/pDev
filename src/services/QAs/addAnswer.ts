@@ -9,7 +9,7 @@ export default function useAddAnswer() {
 
   const response = useMutation({
     mutationFn: (data: AddAnswerData) =>
-      axiosInstance.post('/QAs/add/answer', data).then((res) => res.data),
+      axiosInstance.post('/questions/answer', data).then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
       console.log(response);

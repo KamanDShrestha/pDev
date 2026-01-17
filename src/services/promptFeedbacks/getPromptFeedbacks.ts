@@ -6,7 +6,7 @@ export default function useGetPromptFeedbacks() {
   const response = useQuery<PromptFeedback[]>({
     queryKey: ['promptFeedbacks'],
     queryFn: () =>
-      axiosInstance.get('/promptFeedbacks/get').then((res) => res.data.data),
+      axiosInstance.get('/prompt_feedbacks').then((res) => res.data.data),
   });
   return response;
 }

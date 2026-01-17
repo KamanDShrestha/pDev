@@ -9,7 +9,7 @@ export default function useUpdateSubscriptionPlanStatus() {
   const response = useMutation({
     mutationFn: (data: { planId: string; activeStatus: boolean }) =>
       axiosInstance
-        .patch('/subscriptions/update/activeStatus', data)
+        .patch('/subscriptions/status', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

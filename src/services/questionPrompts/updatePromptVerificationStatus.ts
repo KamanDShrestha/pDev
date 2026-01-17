@@ -9,7 +9,7 @@ export default function useUpdatePromptVerificationStatus() {
   const response = useMutation({
     mutationFn: (data: UpdateQuestionPromptStatusData) =>
       axiosInstance
-        .put('/questionPrompts/updateStatus', data)
+        .put('/question_prompts/status', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);

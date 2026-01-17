@@ -7,7 +7,7 @@ export default function useGetAllConversations(userId: string) {
     queryKey: ['allConversations', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/chat/getAll/${userId}`)
+        .get(`/chats/${userId}`)
         .then((response) => response.data.data),
   });
   return response;

@@ -10,7 +10,7 @@ export default function useGetJourneyCompletionStatus(
     enabled: !!userId && !!journeyId && journeyId !== 'newJourney',
     queryFn: () =>
       axiosInstance
-        .get(`/progress/getCompletionStatus/${userId}/${journeyId}`)
+        .get(`/embarked_journeys/completion_status/${userId}/${journeyId}`)
         .then((res) => res.data.data),
   });
   return response;

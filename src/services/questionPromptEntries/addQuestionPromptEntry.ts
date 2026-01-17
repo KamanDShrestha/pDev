@@ -8,7 +8,7 @@ export default function useAddQuestionPromptEntry() {
   const response = useMutation({
     mutationFn: (data: AddQuestionPromptEntryData) =>
       axiosInstance
-        .post('/questionPromptEntries/add', data)
+        .post('/question_prompt_entries', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

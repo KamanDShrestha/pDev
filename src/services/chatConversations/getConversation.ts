@@ -15,7 +15,7 @@ export default function useGetConversations({
     queryKey: ['conversations', senderId, recipientId, limit],
     queryFn: () =>
       axiosInstance
-        .get(`/chat/get/${senderId}/${recipientId}/${limit}`)
+        .get(`/chats/specific/${senderId}/${recipientId}/${limit}`)
         .then((response) => response.data.data),
     enabled: !!senderId && !!recipientId,
   });

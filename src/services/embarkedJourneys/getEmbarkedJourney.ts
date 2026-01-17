@@ -12,7 +12,7 @@ export default function useGetEmbarkedJourney(
     enabled: !!userId && !!journeyId && journeyId !== 'newJourney',
     queryFn: () =>
       axiosInstance
-        .get(`/progress/get/${userId}/${journeyId}`)
+        .get(`/embarked_journeys/specific/${userId}/${journeyId}`)
         .then((res) => res.data.embarkedJourney),
   });
 

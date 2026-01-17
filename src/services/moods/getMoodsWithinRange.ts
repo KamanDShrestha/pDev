@@ -11,7 +11,7 @@ export default function useGetMoodsWithinRange(
     queryKey: ['moodsWithinRange', userId, startDate, endDate],
     queryFn: () =>
       axiosInstance
-        .get(`/moods/getWithinRange/${userId}/${startDate}/${endDate}`)
+        .get(`/moods/sort/range/${userId}/${startDate}/${endDate}`)
         .then((res) => res.data.data),
   });
   return response;

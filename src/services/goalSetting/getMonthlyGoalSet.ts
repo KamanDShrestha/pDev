@@ -7,7 +7,7 @@ export default function useGetMonthlyGoalSet(userId: string) {
     queryKey: ['monthlyGoalSet', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/goalSetting/getMonthlyGoalSet/${userId}`)
+        .get(`/goals/monthly/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

@@ -5,7 +5,7 @@ export default function useGetJourneyNames() {
   const response = useQuery<string[]>({
     queryKey: ['journeyNames'],
     queryFn: () =>
-      axiosInstance.get('/journeys/getNames').then((res) => res.data.data),
+      axiosInstance.get('/journeys/names').then((res) => res.data.data),
   });
   return response;
 }

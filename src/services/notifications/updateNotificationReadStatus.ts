@@ -9,7 +9,7 @@ export default function useUpdateNotificationReadStatus() {
     mutationFn: ({ notificationId }: { notificationId: string }) =>
       axiosInstance
         .patch(
-          `/notifications/updateReadStatus`,
+          `/notifications/status`,
           {
             notificationId,
           },

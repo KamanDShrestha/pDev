@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 export default function useAddSavedContent() {
   const response = useMutation({
     mutationFn: (data: AddSavedContentData) =>
-      axiosInstance.post('/savedContent/add', data).then((res) => res.data),
+      axiosInstance.post('/saved_contents', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

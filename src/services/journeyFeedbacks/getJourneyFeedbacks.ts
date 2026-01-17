@@ -6,7 +6,7 @@ export default function useGetJourneyFeedbacks() {
   const response = useQuery<JourneyFeedbacks[]>({
     queryKey: ['journeyFeedbacks'],
     queryFn: () =>
-      axiosInstance.get('/journeyFeedbacks/get').then((res) => res.data.data),
+      axiosInstance.get('/journey_feedbacks').then((res) => res.data.data),
   });
   return response;
 }

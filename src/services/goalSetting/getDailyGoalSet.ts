@@ -7,7 +7,7 @@ export default function useGetDailyGoalSet(userId: string) {
     queryKey: ['goalSet', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/goalSetting/getDailyGoalSet/${userId}`)
+        .get(`/goals/daily/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

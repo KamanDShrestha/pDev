@@ -7,7 +7,7 @@ export default function useGetVideosByCategory(category: string) {
     queryKey: ['learningVideos', category],
     queryFn: () =>
       axiosInstance
-        .get(`/learningVideos/get/${category}`)
+        .get(`/learning_videos/${category}`)
         .then((res) => res.data.data),
   });
   return response;

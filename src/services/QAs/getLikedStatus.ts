@@ -6,7 +6,7 @@ export default function useGetLikedStatus(QAId: string, userId: string) {
     queryKey: ['likedStatus', QAId, userId],
     queryFn: () =>
       axiosInstance
-        .get(`/QAs/hasLiked/${QAId}/${userId}`)
+        .get(`/questions/liked_status/${QAId}/${userId}`)
         .then((res) => res.data.status),
   });
   return response;

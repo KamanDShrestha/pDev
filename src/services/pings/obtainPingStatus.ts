@@ -12,7 +12,7 @@ export default function useObtainPingStatus({
     queryKey: ['pingStatus', statusForId, statusOfId],
     queryFn: () =>
       axiosInstance
-        .get(`/ping/obtainStatus/${statusForId}/${statusOfId}`)
+        .get(`/pings/status/${statusForId}/${statusOfId}`)
         .then((response) => response.data.data),
   });
   return response;

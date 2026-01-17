@@ -7,7 +7,7 @@ export default function useAddPreferredJourney() {
   const response = useMutation({
     mutationFn: (data: string) =>
       axiosInstance
-        .patch('/journeys/addPreferredJourney', { preferredJourney: data })
+        .patch('/users/preferred-journey', { preferredJourney: data })
         .then((response) => response.data),
     onSuccess: (response) => {
       console.log(response);

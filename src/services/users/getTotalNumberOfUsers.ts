@@ -5,7 +5,7 @@ export default function useGetTotalNumberOfUsers() {
   const response = useQuery<number>({
     queryKey: ['totalNumberOfUsers'],
     queryFn: () =>
-      axiosInstance.get('/users/getTotalUsers').then((res) => res.data.data),
+      axiosInstance.get('/users/total').then((res) => res.data.data),
   });
   return response;
 }

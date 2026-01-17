@@ -17,7 +17,7 @@ export default function useAddPing() {
       acceptedUser: string;
     }) =>
       axiosInstance
-        .post('/ping/add', { acceptedUser, acceptingUser })
+        .post('/pings', { acceptedUser, acceptingUser })
         .then((response) => response.data),
     onSuccess: (response) => {
       toast.success(response.message);

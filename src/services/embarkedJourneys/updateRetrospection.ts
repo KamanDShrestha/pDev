@@ -11,7 +11,7 @@ export default function useUpdateRetrospection() {
       updatedFields: { reflection?: string; keyLearning?: string };
     }) =>
       axiosInstance
-        .patch('/progress/updateRetrospection', data)
+        .patch('/embarked_journeys/retrospection', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);

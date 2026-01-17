@@ -6,7 +6,7 @@ export default function useGetPodcastCategories() {
     queryKey: ['learningPodcastCategories'],
     queryFn: () =>
       axiosInstance
-        .get('/learningPodcasts/categories')
+        .get('/learning_podcasts/categories')
         .then((res) => res.data.data),
   });
   return response;

@@ -10,7 +10,7 @@ export function useProfileCompletion() {
   const { user, setUser } = useAuthContext();
   const response = useMutation({
     mutationFn: (data: ProfileCompletionData) =>
-      axiosInstance.post('/newUser', data).then((response) => response.data),
+      axiosInstance.post('/new_users', data).then((response) => response.data),
     onSuccess: (response) => {
       console.log(response);
       if (setUser) {

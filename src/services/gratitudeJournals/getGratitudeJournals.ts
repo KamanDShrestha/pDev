@@ -7,7 +7,7 @@ export default function useGetGratitudeJournals(userId: string) {
     queryKey: ['gratitudeJournals', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/gratitudeJournals/get/${userId}`)
+        .get(`/gratitude_journals/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

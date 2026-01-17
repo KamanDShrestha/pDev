@@ -25,7 +25,7 @@ function useGetAllUsers(
     ],
     queryFn: () =>
       axiosInstance
-        .get('/users/getAll', {
+        .get('/users/', {
           params: {
             name,
             role,

@@ -6,7 +6,7 @@ export default function useGetAllVideos() {
   const response = useQuery<LearningVideoDocument[]>({
     queryKey: ['learningVideos'],
     queryFn: () =>
-      axiosInstance.get('/learningVideos/get').then((res) => res.data.data),
+      axiosInstance.get('/learning_videos').then((res) => res.data.data),
   });
   return response;
 }

@@ -10,7 +10,7 @@ export default function useGetQAsByUserInCommunity(
     queryKey: ['QAs', communityId, userId],
     queryFn: () =>
       axiosInstance
-        .get(`/QAs/get/${communityId}/${userId}`)
+        .get(`/questions/communities/${communityId}/users/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

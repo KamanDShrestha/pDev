@@ -9,7 +9,7 @@ export default function useAddQA() {
   const response = useMutation({
     mutationFn: (data: AddQAData) =>
       axiosInstance
-        .post('/QAs/add/question', { QAField: data })
+        .post('/questions/question', { QAField: data })
         .then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);

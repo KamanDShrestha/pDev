@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 export default function useAddJournalEntry() {
   const response = useMutation({
     mutationFn: (data: AddJournalEntryData) =>
-      axiosInstance.post('/journals/add', data).then((res) => res.data),
+      axiosInstance.post('/journals', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

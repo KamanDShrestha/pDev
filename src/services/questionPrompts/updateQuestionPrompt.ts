@@ -11,7 +11,7 @@ export default function useUpdateQuestionPrompt() {
       questionPrompt: AddQuestionPromptData;
     }) =>
       axiosInstance
-        .patch(`/questionPrompts/update/${data.promptId}`, data.questionPrompt)
+        .patch(`/question_prompts/${data.promptId}`, data.questionPrompt)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log('response', response);

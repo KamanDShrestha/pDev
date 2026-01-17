@@ -8,7 +8,7 @@ export default function useUpdateSubscriptionPlan() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: UpdateSubscriptionPlanData) =>
-      axiosInstance.put('/subscriptions/update', data).then((res) => res.data),
+      axiosInstance.put('/subscriptions', data).then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);
       toast.success(response.message);

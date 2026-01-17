@@ -7,7 +7,7 @@ export default function useGetSpecificQuestionPrompt(promptId: string) {
     queryKey: ['questionPrompt', promptId],
     queryFn: () =>
       axiosInstance
-        .get(`/questionPrompts/get/${promptId}`)
+        .get(`/question_prompts/${promptId}`)
         .then((res) => res.data.data),
   });
   return response;

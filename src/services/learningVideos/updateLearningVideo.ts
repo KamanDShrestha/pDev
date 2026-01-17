@@ -10,7 +10,7 @@ export default function useUpdateLearningVideo() {
     mutationFn: (data: UpdateLearningVideoData) =>
       axiosInstance
         .patch(
-          `/learningVideos/update/${data.category}/${data.videoId}`,
+          `/learning_videos/${data.category}/${data.videoId}`,
           data.video
         )
         .then((res) => res.data),

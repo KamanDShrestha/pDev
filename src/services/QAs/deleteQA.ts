@@ -8,7 +8,7 @@ export default function useDeleteQA(communityId: string) {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (QAId: string) =>
-      axiosInstance.delete(`/QAs/delete/${QAId}`).then((res) => res.data),
+      axiosInstance.delete(`/questions/${QAId}`).then((res) => res.data),
     onMutate: async (QAId: string) => {
       await queryClient.cancelQueries(['QAs', communityId]);
       const previousQAs = queryClient.getQueryData(['QAs', communityId]);

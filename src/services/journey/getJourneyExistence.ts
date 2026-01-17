@@ -6,7 +6,7 @@ export default function useGetJourneyExistence(journeyId: string) {
     queryKey: ['journeyExistence', journeyId],
     queryFn: () =>
       axiosInstance
-        .get(`/journeys/checkExistence/${journeyId}`)
+        .get(`/journeys/existence/${journeyId}`)
         .then((res) => res.data.data),
   });
   return response;

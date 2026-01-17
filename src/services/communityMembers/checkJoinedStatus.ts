@@ -9,7 +9,7 @@ export default function useCheckJoinedStatus(
     queryKey: ['joinedStatus', communityId, userId],
     queryFn: () =>
       axiosInstance
-        .get(`/communityMembers/hasJoined/${communityId}/${userId}`)
+        .get(`/community_members/status/${communityId}/${userId}`)
         .then((res) => res.data.status),
   });
   return response;

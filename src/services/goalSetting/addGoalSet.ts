@@ -8,7 +8,7 @@ export default function useAddGoalSet() {
   const response = useMutation({
     mutationFn: (data: AddGoalSetData) =>
       axiosInstance
-        .post('/goalSetting/addGoalSet', data)
+        .post('/goals', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

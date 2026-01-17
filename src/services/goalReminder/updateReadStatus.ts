@@ -8,7 +8,7 @@ export default function useUpdateReadStatus() {
   const response = useMutation({
     mutationFn: (data: { reminderId: string }) =>
       axiosInstance
-        .patch('/goalReminders/updateReadStatus', data)
+        .patch('/goal_reminders', data)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

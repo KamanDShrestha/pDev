@@ -9,7 +9,7 @@ export default function useUpdateQuote() {
   const response = useMutation({
     mutationFn: (data: UpdateQuoteData) =>
       axiosInstance
-        .patch(`/quotes/update/${data.category}/${data.quoteId}`, data.quote)
+        .patch(`/quotes/${data.category}/${data.quoteId}`, data.quote)
         .then((res) => res.data),
     onSuccess: (response) => {
       console.log(response);

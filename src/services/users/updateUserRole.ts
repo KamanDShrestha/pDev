@@ -8,7 +8,7 @@ function useUpdateUserRole() {
   const queryClient = useQueryClient();
   const response = useMutation({
     mutationFn: (data: UpdateUserRoleData) =>
-      axiosInstance.patch('/users/updateRole', data).then((res) => res.data),
+      axiosInstance.patch('/users/role', data).then((res) => res.data),
     onSuccess: (response) => {
       toast.success(response.message);
       console.log(response);

@@ -6,7 +6,7 @@ export default function useGetAllQuotes() {
   const response = useQuery<QuotesByCategory[]>({
     queryKey: ['quotes'],
     queryFn: () =>
-      axiosInstance.get('/quotes/get').then((res) => res.data.data),
+      axiosInstance.get('/quotes').then((res) => res.data.data),
   });
   return response;
 }

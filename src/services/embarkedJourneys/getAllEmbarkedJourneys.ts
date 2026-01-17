@@ -7,7 +7,7 @@ export default function useGetAllEmbarkedJourneys(userId: string) {
     queryKey: ['embarkedJourney', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/progress/get/${userId}`)
+        .get(`/embarked_journeys/${userId}`)
         .then((res) => res.data.embarkedJourneys),
   });
   return response;

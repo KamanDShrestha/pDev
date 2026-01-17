@@ -6,7 +6,7 @@ export default function useGetSubscriptionPlans() {
   const response = useQuery<SubscriptionPlan[]>({
     queryKey: ['subscriptionPlans'],
     queryFn: () =>
-      axiosInstance.get('/subscriptions/get').then((res) => res.data.data),
+      axiosInstance.get('/subscriptions').then((res) => res.data.data),
   });
   return response;
 }

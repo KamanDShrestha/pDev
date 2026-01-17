@@ -7,7 +7,7 @@ export default function useGetOngoingGoalSets(userId: string) {
     queryKey: ['ongoingGoalSets', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/goalSetting/get/ongoingGoalSets/${userId}`)
+        .get(`/goals/ongoing/${userId}`)
         .then((res) => res.data.data),
   });
   return response;

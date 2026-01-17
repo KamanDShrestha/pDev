@@ -7,7 +7,7 @@ export default function useGetGoalReminder(userId: string) {
     queryKey: ['goalReminders', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/goalReminders/get/${userId}`)
+        .get(`/goal_reminders/${userId}`)
         .then((res) => res.data.data),
   });
   return response;
