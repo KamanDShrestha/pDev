@@ -21,8 +21,10 @@ import useLogoutUser from "../../services/userAuth/logoutUser"
 import Turnstile, { useTurnstile } from "react-turnstile"
 import { useState } from "react"
 import toast from "react-hot-toast"
+import { useTheme } from "../../components/ThemeProvider"
 
 const Login = () => {
+  const { theme } = useTheme()
   const [captchaToken, setCaptchaToken] = useState("")
   const { user } = useAuthContext()
   const {
@@ -65,7 +67,7 @@ const Login = () => {
             reset()
             setCaptchaToken("")
           },
-        }
+        },
       )
       turnstile.reset()
     }
@@ -81,6 +83,16 @@ const Login = () => {
     } else {
       window.open(`${BACKEND_URL}/api/auth/google/callback`, "_self")
     }
+  }
+
+  function handleCaptchaTheme(): "dark" | "light" {
+    if (theme === "dark") {
+      return "dark"
+    } else if (theme === "light") {
+      return "light"
+    }
+
+    return theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
   }
 
   return (
@@ -142,7 +154,7 @@ const Login = () => {
                 Forget Password?
               </NavLink>
               <div>
-                <Turnstile sitekey={`${import.meta.env.VITE_CAPTCHA_SITE_KEY}`} onVerify={(token) => setCaptchaToken(token)} className="bg-transparent w-full rounded-lg" style={{ borderRadius: "8px" }} theme="light" size="flexible" />
+                <Turnstile sitekey={`${import.meta.env.VITE_CAPTCHA_SITE_KEY}`} onVerify={(token) => setCaptchaToken(token)} className="bg-transparent w-full rounded-lg" style={{ borderRadius: "8px" }} theme={handleCaptchaTheme()} size="flexible" />
               </div>
 
               <Button disabled={isLoggingIn}>{isLoggingIn ? <LoadingSpinner /> : "Login"}</Button>
