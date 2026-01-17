@@ -1,194 +1,152 @@
-import { NavLink } from 'react-router-dom';
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  navigationMenuTriggerStyle,
-} from './ui/navigation-menu';
-import { cn } from '../lib/utils';
-import { DropdownMenu } from '@radix-ui/react-dropdown-menu';
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from './ui/sheet';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import Logo from './Logo';
-import { useAuthContext } from '../context/AuthProvider';
-import { Button, buttonVariants } from './ui/button';
-import useLogoutUser from '../services/userAuth/logoutUser';
+import { NavLink } from "react-router-dom"
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, navigationMenuTriggerStyle } from "./ui/navigation-menu"
+import { cn } from "../lib/utils"
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu"
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet"
+import { GiHamburgerMenu } from "react-icons/gi"
+import Logo from "./Logo"
+import { useAuthContext } from "../context/AuthProvider"
+import { Button, buttonVariants } from "./ui/button"
+import useLogoutUser from "../services/userAuth/logoutUser"
 
-import GoalReminderDialog from './GoalReminderDialog';
-import NotificationDialog from './NotificationDialog';
+import GoalReminderDialog from "./GoalReminderDialog"
+import NotificationDialog from "./NotificationDialog"
 
 const NavBar = () => {
-  const { user } = useAuthContext();
-  const { mutate } = useLogoutUser();
+  const { user } = useAuthContext()
+  const { mutate } = useLogoutUser()
 
   const userNavigationMenu = [
-    { to: '/home', option: 'Home' },
-    { to: '/dashboard', option: 'Dashboard' },
-    { to: '/wellbeing', option: 'Wellbeing' },
-    { to: '/journeys', option: 'Journeys' },
-    { to: '/community', option: 'Community' },
-    { to: '/chat', option: 'Chat' },
-    { to: '/learn', option: 'Learn' },
-  ];
+    { to: "/home", option: "Home" },
+    { to: "/dashboard", option: "Dashboard" },
+    { to: "/wellbeing", option: "Wellbeing" },
+    { to: "/journeys", option: "Journeys" },
+    { to: "/community", option: "Community" },
+  ]
   const userActionOptions = [
-    { to: '/profile', option: 'Profile' },
-    { to: '/goalSetting', option: 'Goal Setting' },
-    { to: '/apply', option: 'Apply for QHP' },
-    { to: '/subscribe', option: 'Subscribe' },
-  ];
+    { to: "/profile", option: "Profile" },
+    { to: "/goalSetting", option: "Goal Setting" },
+    { to: "/apply", option: "Apply for QHP" },
+    { to: "/subscribe", option: "Subscribe" },
+    { to: "/chat", option: "Chat" },
+    { to: "/learn", option: "Learn" },
+  ]
 
   const adminNavigationMenu = [
-    { to: '/home', option: 'Home' },
-    { to: '/users', option: 'Users' },
-    { to: '/journeys', option: 'Journeys' },
-    { to: '/admin/dashboard', option: 'Dashboard' },
-    { to: '/community', option: 'Community' },
-    { to: '/chat', option: 'Chat' },
-    { to: '/wellbeingForAdmin', option: 'Wellbeing' },
-  ];
+    { to: "/home", option: "Home" },
+    { to: "/users", option: "Users" },
+    { to: "/journeys", option: "Journeys" },
+    { to: "/admin/dashboard", option: "Dashboard" },
+    { to: "/community", option: "Community" },
+    { to: "/chat", option: "Chat" },
+    { to: "/wellbeingForAdmin", option: "Wellbeing" },
+  ]
   const adminActionOptions = [
-    { to: '/profile', option: 'Profile' },
-    { to: '/addJourney', option: 'Add Journey' },
-    { to: '/feedbacks', option: 'Feedbacks' },
-    { to: '/reviewApplications', option: 'Review Applications' },
-    { to: '/subscribeForAdmin', option: 'Configure Subscriptions' },
-    { to: '/configureResources', option: 'Configure Resources' },
-    { to: '/configureQuotes', option: 'Configure Quotes' },
-  ];
+    { to: "/profile", option: "Profile" },
+    { to: "/addJourney", option: "Add Journey" },
+    { to: "/feedbacks", option: "Feedbacks" },
+    { to: "/reviewApplications", option: "Review Applications" },
+    { to: "/subscribeForAdmin", option: "Configure Subscriptions" },
+    { to: "/configureResources", option: "Configure Resources" },
+    { to: "/configureQuotes", option: "Configure Quotes" },
+  ]
 
   const qhpNavigationMenu = [
-    { to: '/home', option: 'Home' },
-    { to: '/journeys', option: 'Journeys' },
-    { to: '/qas', option: 'QAs' },
-    { to: '/community', option: 'Community' },
-    { to: '/chat', option: 'Chat' },
-  ];
+    { to: "/home", option: "Home" },
+    { to: "/journeys", option: "Journeys" },
+    { to: "/qas", option: "QAs" },
+    { to: "/community", option: "Community" },
+    { to: "/chat", option: "Chat" },
+  ]
 
   const qhpActionOptions = [
-    { to: '/profile', option: 'Profile' },
-    { to: '/wellbeing', option: 'Wellbeing' },
-    { to: '/verifyJourneys', option: 'Verify Journeys' },
-    { to: '/verifyQuestionPrompts', option: 'Verify Question Prompts' },
-  ];
+    { to: "/profile", option: "Profile" },
+    { to: "/wellbeing", option: "Wellbeing" },
+    { to: "/verifyJourneys", option: "Verify Journeys" },
+    { to: "/verifyQuestionPrompts", option: "Verify Question Prompts" },
+  ]
 
   function handleLogout() {
-    mutate(user?.accessToken as string);
+    mutate(user?.accessToken as string)
   }
 
   return (
     <>
       <Sheet>
-        <SheetTrigger className='block lg:hidden'>
+        <SheetTrigger className="block lg:hidden">
           <GiHamburgerMenu />
         </SheetTrigger>
-        <SheetContent className='flex flex-col' side={'left'}>
+        <SheetContent className="flex flex-col" side={"left"}>
           <SheetHeader>
-            <span className='m-auto'>
+            <span className="m-auto">
               <Logo />
             </span>
           </SheetHeader>
-          <div className='flex flex-col'>
-            {user?.role === 'user' &&
+          <div className="flex flex-col">
+            {user?.role === "user" &&
               userNavigationMenu.map((menu) => (
-                <NavLink
-                  to={menu.to}
-                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
-                  key={menu.to}
-                >
+                <NavLink to={menu.to} className={cn(navigationMenuTriggerStyle(), "text-base")} key={menu.to}>
                   {menu.option}
                 </NavLink>
               ))}
 
-            {user?.role === 'user' &&
+            {user?.role === "user" &&
               userActionOptions.map((menu) => (
-                <NavLink
-                  to={menu.to}
-                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
-                  key={menu.to}
-                >
+                <NavLink to={menu.to} className={cn(navigationMenuTriggerStyle(), "text-base")} key={menu.to}>
                   {menu.option}
                 </NavLink>
               ))}
 
-            {user?.role === 'admin' &&
+            {user?.role === "admin" &&
               adminNavigationMenu.map((menu) => (
-                <NavLink
-                  to={menu.to}
-                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
-                  key={menu.to}
-                >
+                <NavLink to={menu.to} className={cn(navigationMenuTriggerStyle(), "text-base")} key={menu.to}>
                   {menu.option}
                 </NavLink>
               ))}
 
-            {user?.role === 'admin' &&
+            {user?.role === "admin" &&
               adminActionOptions.map((menu) => (
-                <NavLink
-                  to={menu.to}
-                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
-                  key={menu.to}
-                >
+                <NavLink to={menu.to} className={cn(navigationMenuTriggerStyle(), "text-base")} key={menu.to}>
                   {menu.option}
                 </NavLink>
               ))}
 
-            {user?.role === 'qhp' &&
+            {user?.role === "qhp" &&
               qhpNavigationMenu.map((menu) => (
-                <NavLink
-                  to={menu.to}
-                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
-                  key={menu.to}
-                >
+                <NavLink to={menu.to} className={cn(navigationMenuTriggerStyle(), "text-base")} key={menu.to}>
                   {menu.option}
                 </NavLink>
               ))}
 
-            {user?.role === 'qhp' &&
+            {user?.role === "qhp" &&
               qhpActionOptions.map((menu) => (
-                <NavLink
-                  to={menu.to}
-                  className={cn(navigationMenuTriggerStyle(), 'text-base')}
-                  key={menu.to}
-                >
+                <NavLink to={menu.to} className={cn(navigationMenuTriggerStyle(), "text-base")} key={menu.to}>
                   {menu.option}
                 </NavLink>
               ))}
-            <Button
-              className={cn(navigationMenuTriggerStyle(), 'text-base')}
-              onClick={handleLogout}
-            >
+            <Button className={cn(navigationMenuTriggerStyle(), "text-base")} onClick={handleLogout}>
               Log out
             </Button>
           </div>
         </SheetContent>
       </Sheet>
 
-      <NavigationMenu className='hidden lg:block'>
+      <NavigationMenu className="hidden lg:block">
         <NavigationMenuList>
-          {user?.role === 'user' && (
+          {user?.role === "user" && (
             <>
               {userNavigationMenu.map((menu) => (
                 <NavigationMenuItem key={menu.to}>
-                  {menu.to === 'chat' ? (
-                    menu.to === 'chat' &&
+                  {menu.to === "chat" ? (
+                    menu.to === "chat" &&
                     user.hasSubscribed && (
-                      <NavLink
-                        to={menu.to}
-                        className={navigationMenuTriggerStyle()}
-                      >
+                      <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
                         {menu.option}
                       </NavLink>
                     )
                   ) : (
-                    <NavLink
-                      to={menu.to}
-                      className={navigationMenuTriggerStyle()}
-                    >
+                    <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
                       {menu.option}
                     </NavLink>
                   )}
@@ -204,14 +162,11 @@ const NavBar = () => {
             </>
           )}
 
-          {user?.role === 'admin' && (
+          {user?.role === "admin" && (
             <>
               {adminNavigationMenu.map((menu) => (
                 <NavigationMenuItem key={menu.to}>
-                  <NavLink
-                    to={menu.to}
-                    className={navigationMenuTriggerStyle()}
-                  >
+                  <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
                     {menu.option}
                   </NavLink>
                 </NavigationMenuItem>
@@ -222,14 +177,11 @@ const NavBar = () => {
             </>
           )}
 
-          {user?.role === 'qhp' && (
+          {user?.role === "qhp" && (
             <>
               {qhpNavigationMenu.map((menu) => (
                 <NavigationMenuItem key={menu.to}>
-                  <NavLink
-                    to={menu.to}
-                    className={navigationMenuTriggerStyle()}
-                  >
+                  <NavLink to={menu.to} className={navigationMenuTriggerStyle()}>
                     {menu.option}
                   </NavLink>
                 </NavigationMenuItem>
@@ -239,95 +191,66 @@ const NavBar = () => {
               </NavigationMenuItem>
             </>
           )}
-
-          <NavigationMenuItem>
-            <NavLink
-              to='/profile'
-              className={cn(navigationMenuTriggerStyle(), 'flex gap-3')}
-            >
-              <div
-                style={{
-                  backgroundImage: `url('${user?.image}')`,
-                  height: '40px',
-                  width: '40px',
-                }}
-                className='bg-cover rounded-full'
-              ></div>
-              {user?.firstName}
-              {user?.role === 'admin' && (
-                <span className='font-semibold'>- Admin</span>
-              )}
-              {user?.role === 'qhp' && (
-                <span className='font-semibold'>- QHP</span>
-              )}
-            </NavLink>
-          </NavigationMenuItem>
-
           <NavigationMenuItem>
             <DropdownMenu>
-              <DropdownMenuTrigger className='border-none'>
-                <p
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    'bg-transparent hover:bg-inherit',
-                    buttonVariants({ variant: 'secondary' })
-                  )}
-                >
-                  Actions
-                </p>
+              <DropdownMenuTrigger className="border-none">
+                <p className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-inherit", buttonVariants({ variant: "secondary" }))}>Actions</p>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                {user?.role === 'user' &&
+                {user?.role === "user" &&
                   userActionOptions.map((option) => (
                     <DropdownMenuItem key={option.to}>
-                      <NavLink
-                        to={option.to}
-                        className={navigationMenuTriggerStyle()}
-                      >
+                      <NavLink to={option.to} className={navigationMenuTriggerStyle()}>
                         {option.option}
                       </NavLink>
                     </DropdownMenuItem>
                   ))}
 
-                {user?.role === 'admin' &&
+                {user?.role === "admin" &&
                   adminActionOptions.map((option) => (
                     <DropdownMenuItem key={option.to}>
-                      <NavLink
-                        to={option.to}
-                        className={navigationMenuTriggerStyle()}
-                      >
+                      <NavLink to={option.to} className={navigationMenuTriggerStyle()}>
                         {option.option}
                       </NavLink>
                     </DropdownMenuItem>
                   ))}
 
-                {user?.role === 'qhp' &&
+                {user?.role === "qhp" &&
                   qhpActionOptions.map((option) => (
                     <DropdownMenuItem key={option.to}>
-                      <NavLink
-                        to={option.to}
-                        className={navigationMenuTriggerStyle()}
-                      >
+                      <NavLink to={option.to} className={navigationMenuTriggerStyle()}>
                         {option.option}
                       </NavLink>
                     </DropdownMenuItem>
                   ))}
 
                 <DropdownMenuItem>
-                  <Button
-                    className={cn(navigationMenuTriggerStyle(), 'text-black')}
-                    onClick={handleLogout}
-                  >
+                  <Button className={cn(navigationMenuTriggerStyle(), "text-black")} onClick={handleLogout}>
                     Log out
                   </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </NavigationMenuItem>
+          <div>
+            <NavLink to="/profile" className={cn(" mx-5 flex gap-3")}>
+              <div
+                style={{
+                  backgroundImage: `url('${user?.image}')`,
+                  height: "40px",
+                  width: "40px",
+                }}
+                className="bg-cover rounded-full"
+              ></div>
+              {/* {user?.firstName}
+              {user?.role === "admin" && <span className="font-semibold">- Admin</span>}
+              {user?.role === "qhp" && <span className="font-semibold">- QHP</span>} */}
+            </NavLink>
+          </div>
         </NavigationMenuList>
       </NavigationMenu>
     </>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

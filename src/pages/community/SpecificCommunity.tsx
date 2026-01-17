@@ -1,159 +1,102 @@
-import { useQueryClient } from '@tanstack/react-query';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/src/components/ui/pagination';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import AddPostCard from '@/src/components/AddPostCard';
-import ExpandableText from '@/src/components/ExpandableText';
-import LoadingSpinner from '@/src/components/LoadingSpinner';
-import PostCard from '@/src/components/PostCard';
-import QuestionAnswerCard from '@/src/components/QuestionAnswerCard';
-import { Card, CardContent } from '@/src/components/ui/card';
-import { Input } from '@/src/components/ui/input';
-import { useAuthContext } from '@/src/context/AuthProvider';
-import useGetSpecificCommunity from '@/src/services/community/getSpecificCommunity';
-import useCheckJoinedStatus from '@/src/services/communityMembers/checkJoinedStatus';
-import useGetCommunityMembers from '@/src/services/communityMembers/getCommunityMembers';
-import useDocumentTitle from '@/src/services/getTitle';
-import useDeletePost from '@/src/services/posts/deletePost';
-import { useGetPosts } from '@/src/services/posts/getPosts';
-import useGetRandomQuote from '@/src/services/quotes/getRandomQuote';
-import { QAsData, PostData } from '@/src/types';
+import { useQueryClient } from "@tanstack/react-query"
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/src/components/ui/pagination"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import AddPostCard from "@/src/components/AddPostCard"
+import ExpandableText from "@/src/components/ExpandableText"
+import LoadingSpinner from "@/src/components/LoadingSpinner"
+import PostCard from "@/src/components/PostCard"
+import QuestionAnswerCard from "@/src/components/QuestionAnswerCard"
+import { Card, CardContent } from "@/src/components/ui/card"
+import { Input } from "@/src/components/ui/input"
+import { useAuthContext } from "@/src/context/AuthProvider"
+import useGetSpecificCommunity from "@/src/services/community/getSpecificCommunity"
+import useCheckJoinedStatus from "@/src/services/communityMembers/checkJoinedStatus"
+import useGetCommunityMembers from "@/src/services/communityMembers/getCommunityMembers"
+import useDocumentTitle from "@/src/services/getTitle"
+import useDeletePost from "@/src/services/posts/deletePost"
+import { useGetPosts } from "@/src/services/posts/getPosts"
+import { QAsData, PostData } from "@/src/types"
 
-import { BsSignpostSplit } from 'react-icons/bs';
-import Heading from '@/src/components/Heading';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/src/components/ui/select';
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@/src/components/ui/dialog';
-import { Separator } from '@/src/components/ui/separator';
+import { BsSignpostSplit } from "react-icons/bs"
+import Heading from "@/src/components/Heading"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/src/components/ui/select"
+import { Dialog, DialogContent, DialogTrigger } from "@/src/components/ui/dialog"
+import { Separator } from "@/src/components/ui/separator"
 
 const SpecificCommunity = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState<string | undefined>();
-  const [sortDirection, setSortDirection] = useState<string | undefined>();
-  const [limit, setLimit] = useState<number>(5);
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [sortBy, setSortBy] = useState<string | undefined>()
+  const [sortDirection, setSortDirection] = useState<string | undefined>()
+  const [limit, setLimit] = useState<number>(5)
+  const [pageNumber, setPageNumber] = useState<number>(1)
 
-  const skip = (pageNumber - 1) * limit;
+  const skip = (pageNumber - 1) * limit
 
-  const { communityId } = useParams<{ communityId: string }>();
-  const { user } = useAuthContext();
-  const { data: communityMembers } = useGetCommunityMembers(
-    communityId as string
-  );
-  const { data: membershipStatus, isLoading: isFetchingMembershipStatus } =
-    useCheckJoinedStatus(communityId as string, user?.id as string);
-  console.log(communityMembers);
+  const { communityId } = useParams<{ communityId: string }>()
+  const { user } = useAuthContext()
+  const { data: communityMembers } = useGetCommunityMembers(communityId as string)
+  const { data: membershipStatus, isLoading: isFetchingMembershipStatus } = useCheckJoinedStatus(communityId as string, user?.id as string)
+  console.log(communityMembers)
 
-  const { data: community } = useGetSpecificCommunity(communityId as string);
-  const { data: randomQuote, isLoading: isFetchingRandomQuote } =
-    useGetRandomQuote(community?.communityName as string);
+  const { data: community } = useGetSpecificCommunity(communityId as string)
+  const { mutate: deletePost } = useDeletePost(communityId as string, selectedCategory)
 
-  const { mutate: deletePost } = useDeletePost(
-    communityId as string,
-    selectedCategory
-  );
-
-  const { data, isLoading: isFetchingPosts } = useGetPosts(
-    communityId as string,
-    {
-      category: selectedCategory,
-      sortBy: sortBy,
-      sortDirection: sortDirection,
-      limit: limit,
-      skip: skip,
-    }
-  );
+  const { data, isLoading: isFetchingPosts } = useGetPosts(communityId as string, {
+    category: selectedCategory,
+    sortBy: sortBy,
+    sortDirection: sortDirection,
+    limit: limit,
+    skip: skip,
+  })
 
   useEffect(() => {
-    setPageNumber(1);
-  }, [selectedCategory, sortBy, sortDirection, limit]);
+    setPageNumber(1)
+  }, [selectedCategory, sortBy, sortDirection, limit])
 
-  const { posts, total } = data || {};
+  const { posts, total } = data || {}
 
-  console.log(posts, total);
+  console.log(posts, total)
 
-  const numberOfPages = Math.ceil((total && total / limit) || 1);
-  useDocumentTitle(`${community?.communityName} - Community - SelfSync`);
+  const numberOfPages = Math.ceil((total && total / limit) || 1)
+  useDocumentTitle(`${community?.communityName} - Community - SelfSync`)
 
-  console.log(posts);
-  console.log(community);
+  console.log(posts)
+  console.log(community)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const categories = [
-    { label: 'Reflection', value: 'reflection' },
-    { label: 'Learning', value: 'learning' },
-    { label: 'Question', value: 'question' },
-  ];
+    { label: "Reflection", value: "reflection" },
+    { label: "Learning", value: "learning" },
+    { label: "Question", value: "question" },
+  ]
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   function handleDeletePost(postId: string) {
     deletePost(postId, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['posts', communityId]);
+        queryClient.invalidateQueries(["posts", communityId])
       },
-    });
-    console.log(postId);
-    console.log(posts);
+    })
+    console.log(postId)
+    console.log(posts)
   }
 
   return (
     <>
-      <div
-        style={{
-          backgroundImage: `url('/src/assets/coverImages/communityCover.png')`,
-        }}
-        className='w-full h-[80vh] flex items-center justify-center bg-cover rounded-lg'
-      >
-        <div className='flex items-center justify-center w-full h-full p-3 border bg-opacity-40'>
-          {isFetchingRandomQuote && <LoadingSpinner />}
-          {randomQuote && (
-            <div className='p-3 space-y-5 whitespace-pre-wrap shadow-lg bg-[#00b4d8] bg-opacity-60 backdrop-blur-xl rounded-lg'>
-              <p className='text-2xl'>{randomQuote.quote}</p>
-              <p className='text-lg text-right'> - {randomQuote.author}</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className=' grid xl:grid-cols-[300px_minmax(440px,_1fr)_100px] gap-5 mt-8 grid-cols-1 '>
-        <div className='flex items-center justify-center'>
-          <div className='flex flex-col items-center justify-center p-4 border-4 rounded-xl border-slate-300'>
-            <div
-              style={{ backgroundImage: `url('${user?.image}')` }}
-              className='w-20 h-20 bg-cover rounded-full'
-            ></div>
-            <Heading className='text-xl'>
+      <div className=" grid xl:grid-cols-[300px_minmax(440px,_1fr)_100px] gap-5 mt-8 grid-cols-1 ">
+        <div className="flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center p-4 border-4 rounded-xl border-slate-300">
+            <div style={{ backgroundImage: `url('${user?.image}')` }} className="w-20 h-20 bg-cover rounded-full"></div>
+            <Heading className="text-xl">
               {user?.firstName} {user?.lastName}
             </Heading>
-            <div className='flex items-center gap-2 font-medium hover:underline hover:cursor-pointer'>
-              <span style={{ fontSize: '20px' }}>
+            <div className="flex items-center gap-2 font-medium hover:underline hover:cursor-pointer">
+              <span style={{ fontSize: "20px" }}>
                 <BsSignpostSplit />
               </span>
-              <span
-                className='hover:underline hover:cursor-pointer'
-                onClick={() =>
-                  navigate(`/community/${communityId}/posts/${user?.id}`)
-                }
-              >
+              <span className="hover:underline hover:cursor-pointer" onClick={() => navigate(`/community/${communityId}/posts/${user?.id}`)}>
                 My posts
               </span>
             </div>
@@ -162,28 +105,17 @@ const SpecificCommunity = () => {
         <div>
           <Heading>{community?.communityName}</Heading>
 
-          <div className='flex items-center justify-center gap-5'>
-            <img
-              src={community?.communityIcon.light}
-              className='w-32'
-              alt='community icon'
-            />
+          <div className="flex items-center justify-center gap-5">
+            <img src={community?.communityIcon.light} className="w-32" alt="community icon" />
 
-            <ExpandableText
-              content={community?.communityDescription as string}
-              className='text-lg'
-              length={110}
-            />
+            <ExpandableText content={community?.communityDescription as string} className="text-lg" length={110} />
           </div>
           {isFetchingMembershipStatus && <LoadingSpinner />}
           {membershipStatus && (
-            <div className='flex justify-center'>
+            <div className="flex justify-center">
               <Dialog>
-                <DialogTrigger className='w-[40vw]'>
-                  <Input
-                    className='py-6 border-2 rounded-full'
-                    placeholder="What's on your mind?"
-                  />
+                <DialogTrigger className="w-[40vw]">
+                  <Input className="py-6 border-2 rounded-full" placeholder="What's on your mind?" />
                 </DialogTrigger>
                 <DialogContent>
                   <AddPostCard />
@@ -191,22 +123,19 @@ const SpecificCommunity = () => {
               </Dialog>
             </div>
           )}
-          <Separator className='my-10' />
-          <div className=''>
+          <Separator className="my-10" />
+          <div className="">
             <Heading>Our posts</Heading>
-            <Card className='my-10'>
-              <CardContent className='flex flex-wrap justify-around p-3'>
-                <Select
-                  defaultValue={selectedCategory}
-                  onValueChange={(value) => setSelectedCategory(value)}
-                >
-                  <SelectTrigger className='max-w-[300px] my-5'>
-                    <SelectValue placeholder='Categorized by' />
+            <Card className="my-10">
+              <CardContent className="flex flex-wrap justify-around p-3">
+                <Select defaultValue={selectedCategory} onValueChange={(value) => setSelectedCategory(value)}>
+                  <SelectTrigger className="max-w-[300px] my-5">
+                    <SelectValue placeholder="Categorized by" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Sort by</SelectLabel>
-                      <SelectItem value='all'>All posts</SelectItem>
+                      <SelectItem value="all">All posts</SelectItem>
                       {categories.map((category, index) => (
                         <>
                           <SelectItem key={index} value={category.value}>
@@ -218,37 +147,35 @@ const SpecificCommunity = () => {
                   </SelectContent>
                 </Select>
                 <Select onValueChange={(value) => setSortBy(value)}>
-                  <SelectTrigger className='max-w-[300px] my-5'>
-                    <SelectValue placeholder='Sort by' />
+                  <SelectTrigger className="max-w-[300px] my-5">
+                    <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Sort by</SelectLabel>
-                      <SelectItem value='createdAt'>Sort by Date</SelectItem>
-                      <SelectItem value='likeCount'>Sort by Likes</SelectItem>
-                      <SelectItem value='commentCount'>
-                        Sort by Comments
-                      </SelectItem>
+                      <SelectItem value="createdAt">Sort by Date</SelectItem>
+                      <SelectItem value="likeCount">Sort by Likes</SelectItem>
+                      <SelectItem value="commentCount">Sort by Comments</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
                 <Select onValueChange={(value) => setSortDirection(value)}>
-                  <SelectTrigger className='max-w-[300px] my-5'>
-                    <SelectValue placeholder='Sort Direction' />
+                  <SelectTrigger className="max-w-[300px] my-5">
+                    <SelectValue placeholder="Sort Direction" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Sort Direction</SelectLabel>
-                      <SelectItem value='asc'>Ascending Order</SelectItem>
-                      <SelectItem value='desc'>Descending Order</SelectItem>
+                      <SelectItem value="asc">Ascending Order</SelectItem>
+                      <SelectItem value="desc">Descending Order</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </CardContent>
-              <CardContent className='flex flex-col items-center justify-center p-3'>
+              <CardContent className="flex flex-col items-center justify-center p-3">
                 <Select onValueChange={(value) => setLimit(parseInt(value))}>
-                  <SelectTrigger className='max-w-[300px] my-5'>
-                    <SelectValue placeholder='Number of posts' />
+                  <SelectTrigger className="max-w-[300px] my-5">
+                    <SelectValue placeholder="Number of posts" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
@@ -263,55 +190,28 @@ const SpecificCommunity = () => {
                 </Select>
               </CardContent>
             </Card>
-            <div className='flex flex-col gap-5'>
-              <div className='flex items-center justify-center'>
-                {isFetchingPosts && <LoadingSpinner />}
-              </div>
-              <div className='flex flex-col items-center justify-center gap-5'>
-                {posts &&
-                  posts.map((post, index) =>
-                    selectedCategory === 'question' ? (
-                      <QuestionAnswerCard
-                        question={post as QAsData}
-                        key={index}
-                      />
-                    ) : (
-                      <PostCard
-                        post={post as PostData}
-                        key={index}
-                        onDeletePost={handleDeletePost}
-                      />
-                    )
-                  )}
-              </div>
+            <div className="flex flex-col gap-5">
+              <div className="flex items-center justify-center">{isFetchingPosts && <LoadingSpinner />}</div>
+              <div className="flex flex-col items-center justify-center gap-5">{posts && posts.map((post, index) => (selectedCategory === "question" ? <QuestionAnswerCard question={post as QAsData} key={index} /> : <PostCard post={post as PostData} key={index} onDeletePost={handleDeletePost} />))}</div>
 
-              {posts && (posts === null || posts.length === 0) && (
-                <p>No posts found</p>
-              )}
+              {posts && (posts === null || posts.length === 0) && <p>No posts found</p>}
             </div>
           </div>
 
-          <Pagination className='flex flex-col items-center justify-center gap-3 my-10'>
+          <Pagination className="flex flex-col items-center justify-center gap-3 my-10">
             <p>
-              Showing {1 + skip} to {skip + ((posts && posts.length) || 0)} of{' '}
-              {total && total} posts
+              Showing {1 + skip} to {skip + ((posts && posts.length) || 0)} of {total && total} posts
             </p>
             <PaginationContent>
               {pageNumber > 1 && (
                 <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() => setPageNumber(pageNumber - 1)}
-                  />
+                  <PaginationPrevious onClick={() => setPageNumber(pageNumber - 1)} />
                 </PaginationItem>
               )}
 
               {Array.from({ length: numberOfPages }, (_, index) => (
                 <PaginationItem key={index}>
-                  <PaginationLink
-                    key={index}
-                    isActive={index + 1 === pageNumber}
-                    onClick={() => setPageNumber(index + 1)}
-                  >
+                  <PaginationLink key={index} isActive={index + 1 === pageNumber} onClick={() => setPageNumber(index + 1)}>
                     {index + 1}
                   </PaginationLink>
                 </PaginationItem>
@@ -319,9 +219,7 @@ const SpecificCommunity = () => {
 
               {pageNumber !== numberOfPages && (
                 <PaginationItem>
-                  <PaginationNext
-                    onClick={() => setPageNumber(pageNumber + 1)}
-                  />
+                  <PaginationNext onClick={() => setPageNumber(pageNumber + 1)} />
                 </PaginationItem>
               )}
             </PaginationContent>
@@ -329,7 +227,7 @@ const SpecificCommunity = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SpecificCommunity;
+export default SpecificCommunity

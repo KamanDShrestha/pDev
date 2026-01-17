@@ -9,7 +9,7 @@ import useGetEmbarkedJourney from "../../services/embarkedJourneys/getEmbarkedJo
 import { Dialog, DialogContent, DialogTrigger } from "../../components/ui/dialog"
 import JourneyFeedback from "../../components/JourneyFeedback"
 import useDocumentTitle from "../../services/getTitle"
-import useGetRandomQuote from "../../services/quotes/getRandomQuote"
+
 import LoadingSpinner from "../../components/LoadingSpinner"
 import useGetJourneyExistence from "../../services/journey/getJourneyExistence"
 import useContinueJourney from "../../services/embarkedJourneys/continueJourney"
@@ -39,8 +39,6 @@ const SpecificJourney = () => {
   const { data: embarkedJourney } = useGetEmbarkedJourney(user?.id as string, journey?._id as string)
   const { data: completionStatus } = useGetJourneyCompletionStatus(user?.id as string, journey?._id as string)
   console.log(params.name)
-
-  const { data: randomQuote, isLoading: isGettingRandomQuote } = useGetRandomQuote(journey?.name as string)
   const { data: journeyExistence, isLoading: isJourneyExistenceLoading } = useGetJourneyExistence(params.id as string)
 
   const { mutate: continueJourney, isLoading: isContinuing } = useContinueJourney()
@@ -48,8 +46,6 @@ const SpecificJourney = () => {
   const queryClient = useQueryClient()
 
   useDocumentTitle(`${journey?.name} - SelfSync`)
-
-  console.log(randomQuote)
 
   useEffect(() => {
     //to check if the user have the particular journey as preferred or user's subscribed
@@ -74,7 +70,7 @@ const SpecificJourney = () => {
         onError: () => {
           navigate("/unauthorized")
         },
-      }
+      },
     )
   }
 
@@ -88,27 +84,11 @@ const SpecificJourney = () => {
         onSuccess: () => {
           queryClient.invalidateQueries(["embarkedJourney", user?.id as string, journey?._id as string])
         },
-      }
+      },
     )
   }
   return (
     <div className="space-y-16">
-      <div
-        style={{
-          backgroundImage: `url('/src/assets/coverImages/journeyCover.png')`,
-        }}
-        className="w-full h-[80vh] flex items-center justify-center bg-cover rounded-lg"
-      >
-        <div className="flex items-center justify-center w-full h-full p-3 border bg-opacity-40">
-          {isGettingRandomQuote && <LoadingSpinner />}
-          {randomQuote && (
-            <div className="p-3 space-y-5 whitespace-pre-wrap shadow-lg bg-[#ffaa00] bg-opacity-60 backdrop-blur-xl rounded-lg">
-              <p className="text-2xl">{randomQuote.quote}</p>
-              <p className="text-lg text-right"> - {randomQuote.author}</p>
-            </div>
-          )}
-        </div>
-      </div>
       <div className="p-3">
         <div className="flex flex-wrap items-center justify-between">
           <h2 className="mt-2 mb-5 text-4xl font-semibold">Action Steps for {journey?.name}</h2>

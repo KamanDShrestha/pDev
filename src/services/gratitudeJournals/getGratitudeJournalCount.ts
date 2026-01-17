@@ -6,7 +6,7 @@ export default function useGetGratitudeJournalCount(userId: string) {
     queryKey: ['gratitudeJournalCount', userId],
     queryFn: () =>
       axiosInstance
-        .get(`/gratitudeJournals/count/${userId}`)
+        .get(`/gratitude_journals/count/${userId}`)
         .then((res) => res.data.data),
   });
   return response;
